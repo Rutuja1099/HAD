@@ -8,6 +8,7 @@ import SecurityPrivacy from './screens/SecurityPrivacy'
 import EditProfile from './screens/EditProfile'
 import PasswordManager from './screens/PasswordManager'
 import PrivacyNotice from './screens/PrivacyNotice'
+import Chat from "./screens/Chat";
 
 NativeWindStyleSheet.setOutput({
   default: "native",
@@ -17,6 +18,7 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
+    
     <NavigationContainer>
     <Stack.Navigator>
       <Stack.Screen name="Settings" component={Settings} />
@@ -26,7 +28,9 @@ export default function App() {
       <Stack.Screen name="Edit Profile" component={EditProfile} />
       <Stack.Screen name="Password Manager" component={PasswordManager} />
       <Stack.Screen name="Privacy Notice" component={PrivacyNotice} />
+      <Stack.Screen name="Chat" component={Chat} />
     </Stack.Navigator>
     </NavigationContainer>
+  
   );
 }

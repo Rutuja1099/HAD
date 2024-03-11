@@ -10,22 +10,27 @@ const NavigationBar = () => {
             <NavigationMenuItems 
                 menuItemImage={homeImage} // home widget
                 classProp="w-[62px] h-[52px] object-contain m-2 ml-1" 
+                navigateto = "Home"
             />
             <NavigationMenuItems 
                 menuItemImage={progressImage} // progress widget
                 classProp="w-[41px] h-[32px] object-contain m-2" 
+                navigateto = "Progress"
             />
             <NavigationMenuItems 
                 menuItemImage={moodliftImage} // moodlift widget
                 classProp="w-[42px] h-[37px] object-contain m-2" 
+                navigateto = "moodlift"
             />
             <NavigationMenuItems 
                 menuItemImage={messageImage} // message widget
                 classProp="w-[62px] h-[52px] object-contain m-2" 
+                navigateto = "Chat"
             />  
             <NavigationMenuItems 
                 menuItemImage={settingsImage} // settings widget
                 classProp="w-[41px] h-[34px] object-contain" 
+                navigateto = "Settings"
             />             
         </View>
     </View>
