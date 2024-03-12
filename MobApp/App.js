@@ -9,6 +9,7 @@ import EditProfile from './screens/EditProfile'
 import PasswordManager from './screens/PasswordManager'
 import PrivacyNotice from './screens/PrivacyNotice'
 import Chat from "./screens/Chat";
+import ChatList from "./screens/ChatList";
 
 NativeWindStyleSheet.setOutput({
   default: "native",
@@ -20,16 +21,22 @@ export default function App() {
   return (
     
     <NavigationContainer>
-    <Stack.Navigator>
-      <Stack.Screen name="Settings" component={Settings} />
-      <Stack.Screen name="Profile" component={Profile} />
-      <Stack.Screen name="Notifications" component={Notifications} />
-      <Stack.Screen name="Security and Privacy" component={SecurityPrivacy} />
-      <Stack.Screen name="Edit Profile" component={EditProfile} />
-      <Stack.Screen name="Password Manager" component={PasswordManager} />
-      <Stack.Screen name="Privacy Notice" component={PrivacyNotice} />
-      <Stack.Screen name="Chat" component={Chat} />
-    </Stack.Navigator>
+      <Stack.Navigator>
+        <Stack.Screen name="ChatList" component={ChatList} />
+        <Stack.Screen name="Settings" component={Settings} />
+        <Stack.Screen name="Profile" component={Profile} />
+        <Stack.Screen name="Notifications" component={Notifications} />
+        <Stack.Screen name="Security and Privacy" component={SecurityPrivacy} />
+        <Stack.Screen name="Password Manager" component={PasswordManager} />
+        <Stack.Screen name="Edit Profile" component={EditProfile} />
+        <Stack.Screen name="Privacy Notice" component={PrivacyNotice} />
+        <Stack.Screen 
+          name="Chat" 
+          component={Chat} 
+          // initialParams={{ doctorName: 'Dr. John', doctorId: 123 }}  
+        />
+        
+      </Stack.Navigator>
     </NavigationContainer>
   
   );

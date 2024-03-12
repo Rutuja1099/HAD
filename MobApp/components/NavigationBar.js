@@ -5,7 +5,7 @@ import { homeImage, progressImage, moodliftImage, messageImage, settingsImage} f
 
 const NavigationBar = () => {
   return (
-    <View className="flex-initial basis-20 relative rounded-2xl ml-2 mr-10 mt-5 p-3 w-345 h-52 bg-white">
+    <View className="flex-initial basis-20 relative p-3 bg-white">           {/*removed "rounded-2xl w-345 h-52 mt-5 ml-2 mr-10" by saurabh*/}
         <View className="flex-row gap-1 mr-4">
             <NavigationMenuItems 
                 menuItemImage={homeImage} // home widget
@@ -25,7 +25,7 @@ const NavigationBar = () => {
             <NavigationMenuItems 
                 menuItemImage={messageImage} // message widget
                 classProp="w-[62px] h-[52px] object-contain m-2" 
-                navigateto = "Chat"
+                navigateto = "ChatList"
             />  
             <NavigationMenuItems 
                 menuItemImage={settingsImage} // settings widget

@@ -1,10 +1,17 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { View, Text, TextInput, ScrollView} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { useNavigation } from '@react-navigation/native'
+
 import tw from 'tailwind-react-native-classnames';
 
-const Chat = () => {
-    const docterName = "Dr. Saurabh";
+const Chat = ({route}) => {
+    
+    // console.log("11111", doctorName);
+    console.log("1111", route.params);
+    const {doctorName, doctorId} = route.params;
+
+    // const docterName = "Dr. Saurabh";
     const scrollViewRef = useRef();
 
     const [messages, setMessages] = useState([
@@ -18,7 +25,15 @@ const Chat = () => {
         { text: 'Hi thereeeeeeeeeeeeeeeeeeeeweeeeeeeeeeeeeee!', time: '10:05 AM', sender: 'patient' },
       ]);
 
+    useLayoutEffect(() => {
+        navigation.setOptions({
+        headerShown: false,
+        })  
+    },[])
+
     const [newMessage, setNewMessage] = useState('');
+
+    const navigation=useNavigation();
 
     const handleSend = () => {
         if (newMessage.trim() === '') return;
@@ -30,6 +45,10 @@ const Chat = () => {
         setNewMessage('');
     };
 
+    const navigateback = () => {
+        navigation.navigate("ChatList");
+    }
+
     useEffect(() => {
         // Scroll to the bottom when messages change
         scrollViewRef.current.scrollToEnd({ animated: false });
@@ -37,18 +56,18 @@ const Chat = () => {
 
 
     return (
-        <View style={tw`flex-1 bg-white`}>
+        <View className = "flex-1 bg-white">
                 
-                <View style={tw`p-4 flex-row items-center border-b border-gray-300`}>
+                <View className = "p-4 flex-row items-center border-b border-gray-300">
                 
-                    <Icon name="angle-left" size={25} style={tw`mr-2 pr-3`} />
+                    <Icon name="angle-left" size={25} onPress={navigateback}/>
                 
-                    <Text style={tw`font-bold text-lg`} >{docterName}</Text>
+                    <Text className = "font-bold text-lg ml-4" >{doctorName}</Text>
                 
                 </View>
 
                 <ScrollView 
-                    style={tw`flex-1 p-4 pb-20`}
+                    className = "flex-1 p-4 pb-20"
                     ref={scrollViewRef}
                     contentOffset={{ y: 1000000 }}
                     onContentSizeChange={() => scrollViewRef.current.scrollToEnd({ animated: false })}
@@ -63,9 +82,9 @@ const Chat = () => {
                         
                         return (
                         
-                            <View key={index} style={[tw`p-4 mb-3 flex row justify-between rounded-lg`, { maxWidth: width } , message.sender === 'patient' ? tw`bg-gray-200 self-end` : tw`bg-blue-200 self-start`]}>
+                            <View key={index} className={`p-4 mb-3 rounded-lg ${message.sender === 'patient' ? 'bg-gray-200 self-end' : 'bg-blue-200 self-start'}`} style={{ maxWidth: width }}>
                                 <Text>{message.text}</Text>
-                                <Text style={tw`mt-2 text-xs text-gray-500`}>{message.time}</Text>
+                                <Text className = "mt-2 text-xs text-gray-500 self-end">{message.time}</Text>
                             </View>
                             
                         );
@@ -75,10 +94,10 @@ const Chat = () => {
 
                 </ScrollView>
             
-                <View style={tw`absolute bottom-0 left-0 right-0 flex-row items-center border-t border-gray-300 p-4 bg-white`}>
+                <View className = "absolute bottom-0 left-0 right-0 flex-row items-center border-t border-gray-300 p-4 bg-white">
                     
                     <TextInput
-                        style={tw`flex-1 border border-gray-300 rounded-full px-4 py-2 mr-4`}
+                        className = "flex-1 border border-gray-300 rounded-full px-4 py-2 mr-4"
                         placeholder="Type a message..."
                         value={newMessage}
                         onChangeText={text => setNewMessage(text)}
