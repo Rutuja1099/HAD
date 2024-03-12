@@ -7,11 +7,8 @@ import tw from 'tailwind-react-native-classnames';
 
 const Chat = ({route}) => {
     
-    // console.log("11111", doctorName);
-    console.log("1111", route.params);
     const {doctorName, doctorId} = route.params;
 
-    // const docterName = "Dr. Saurabh";
     const scrollViewRef = useRef();
 
     const [messages, setMessages] = useState([
