@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 
 
-const NavigationMenu = () => {
+const SideNavigationMenu = ({open, setOpen}) => {
 
-    const [open, setOpen] = useState(true);
 
     const Menus = [
         {title: "Dashboard", src: ""},
@@ -22,11 +21,12 @@ const NavigationMenu = () => {
     return (
         <>
 
-            <div className={`bg-cyan-400 h-screen relative ${open ? "w-72" : "w-20"} `} >
+            <div className={`bg-white relative ${open ? "w-96" : "w-20"} h-full rounded-3xl`} >
 
-            </div>        
+            </div>
+        
         </>
     );
 }
 
-export default NavigationMenu;
+export default SideNavigationMenu;

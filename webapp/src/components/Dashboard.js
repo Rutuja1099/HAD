@@ -2,7 +2,7 @@ import React from 'react';
 
 
 
-const ChatPage = () => {
+const Dashboard = () => {
 
     return (
         <>
@@ -16,5 +16,5 @@ const ChatPage = () => {
 }
 
 
-export default ChatPage;
+export default Dashboard;
  
