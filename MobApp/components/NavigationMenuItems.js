@@ -9,7 +9,6 @@ const NavigationMenuItems = ({ menuItemImage, classProp, navigateto }) => {
   
   const handlePress = () => {
 
-      console.log("1", navigateto);
       navigation.navigate(navigateto); // Navigate to the specified screen
     
   };
