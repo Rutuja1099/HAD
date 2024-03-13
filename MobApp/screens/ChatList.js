@@ -67,8 +67,8 @@ const ChatList = () => {
 
             {/* top view box with all conversations name*/}
             <View className = "justify-center items-center m-2">
-                <Text className="text-lg">
-                    All conversations
+                <Text className="text-2xl">
+                    Chats
                 </Text>
             </View>
             
@@ -117,7 +117,7 @@ const ChatList = () => {
                                 
                                 return (
                                     <TouchableOpacity 
-                                        className={`flex-row item-centered p-4 hover:bg-sky-700 active:bg-slate-500`} 
+                                        className="flex-row item-centered p-4 hover:bg-sky-700 active:bg-slate-500" 
                                         onPress={() => enterChat(item.name, item.id)}
                                     >
 
@@ -142,7 +142,7 @@ const ChatList = () => {
                                 
                                 return (
                                     <TouchableOpacity 
-                                        className={`flex-row item-centered p-4 hover:bg-sky-700 active:bg-slate-500`} 
+                                        className="flex-row item-centered p-4 hover:bg-sky-700 active:bg-slate-500"
                                         onPress={() => enterChat(item.name, item.id)}
                                     >
 
