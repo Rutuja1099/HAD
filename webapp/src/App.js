@@ -31,8 +31,10 @@ function App() {
 
             <Routes>
               
-              <Route path='ChatPage' element={< ChatPage/>} />
+              {/* enter the path in small caps. refer to the sidenavigationmenu component, see what src i have written. write that or change them according to your choice. make corresponding changes below as well */}
+              <Route path='chatpage' element={< ChatPage/>} />
               <Route path='/' element={<Dashboard/>} />
+
 
             </Routes>
 
