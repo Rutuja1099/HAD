@@ -7,7 +7,6 @@ import { Icon } from "react-native-vector-icons/FontAwesome";
 
 const ChatList = () => {
     const [searchText, setSearchText] = useState('');
-    const [modalVisible, setModalVisible] = useState(false);
     const [searchResults, setSearchResults] = useState([]);
 
 

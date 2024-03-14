@@ -3,7 +3,6 @@ import { View, Text, TextInput, ScrollView} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native'
 
-import tw from 'tailwind-react-native-classnames';
 
 const Chat = ({route}) => {
     
