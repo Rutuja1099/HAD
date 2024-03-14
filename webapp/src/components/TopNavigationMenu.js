@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { IoNotificationsOutline } from "react-icons/io5";
 import { RxDividerVertical } from "react-icons/rx";
 
-import logoImage from "../assests/favicon.png";
+import logoImage from "../assets/favicon.png";
 
 const TopNavigationMenu = ({open, setOpen}) => {
 

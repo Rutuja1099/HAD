@@ -9,7 +9,7 @@ import Dashboard from './components/Dashboard';
 
 function App() {
 
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
 
   return (
     <div className="bg-cyan-200 p-5 h-screen">
@@ -32,7 +32,10 @@ function App() {
             <Routes>
               
               {/* enter the path in small caps. refer to the sidenavigationmenu component, see what src i have written. write that or change them according to your choice. make corresponding changes below as well */}
-              <Route path='chatpage' element={< ChatPage/>} />
+              <Route path='chatpage' element={< ChatPage/>
+            
+            
+            } />
               <Route path='/' element={<Dashboard/>} />
 
 

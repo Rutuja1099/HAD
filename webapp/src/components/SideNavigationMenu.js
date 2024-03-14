@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import logoImage from "../assests/favicon.png";
+import logoImage from "../assets/favicon.png";
 import { IoIosMenu, IoIosHome, IoIosLogOut } from "react-icons/io";
 import { FaRegUser } from "react-icons/fa";
 import { AiOutlineSchedule, AiOutlineQuestionCircle } from "react-icons/ai";
