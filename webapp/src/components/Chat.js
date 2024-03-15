@@ -73,29 +73,32 @@ const Chat = ({selectedChat, selectedPatientId}) => {
 
                 </div>
             
-                <form onSubmit={(e) => {
-                    e.preventDefault();
-                    handleSend();
-                }}>
+                <form 
+                    onSubmit={(e) => {
+                        e.preventDefault();
+                        handleSend();
+                    }}
+                    className="flex items-center border-t border-gray-300 bg-white rounded-br-3xl"
+                >
 
 
-                <div className = "flex items-center border-t border-gray-300 bg-white rounded-br-3xl">
-                    
-                    <input
-                        className = "flex-1 p-2 pl-8"
-                        placeholder="Type a message..."
-                        value={newMessage}
-                        onChange={(e) => setNewMessage(e.target.value)}
-                        onSubmit={() => handleSend()}
-                    />
+                    {/* <div className = "flex items-center border-t border-gray-300 bg-white rounded-br-3xl"> */}
+                        
+                        <input
+                            className = "flex-1 p-2 pl-8"
+                            placeholder="Type a message..."
+                            value={newMessage}
+                            onChange={(e) => setNewMessage(e.target.value)}
+                            onSubmit={() => handleSend()}
+                        />
 
-                    <IoMdSend 
-                        className="mx-4 rounded-br-3xl cursor-pointer" 
-                        size={25}
-                        onClick={() => handleSend()}    
-                    />
+                        <IoMdSend 
+                            className="mx-4 rounded-br-3xl cursor-pointer" 
+                            size={25}
+                            onClick={() => handleSend()}    
+                        />
 
-                </div>
+                    {/* </div> */}
 
                 </form>
 

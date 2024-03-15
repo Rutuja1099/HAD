@@ -1,32 +1,38 @@
-import logo from './logo.svg';
 import './App.css';
 import SideNavigationMenu from './components/SideNavigationMenu';
 import { useState } from 'react';
 import TopNavigationMenu from './components/TopNavigationMenu';
 import ChatPage from './components/ChatPage';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import Dashboard from './components/Dashboard';
+import Login from './components/Login';
 
 function App() {
 
   const [open, setOpen] = useState(false);
+  const location = useLocation();
+
 
   return (
-    <div className="bg-cyan-200 p-5 h-screen">
+    <div className="bg-cyan-100 p-5 h-screen">
 
-        <div className="flex h-full">
+        <div className={`${location.pathname !== '/login' ? "ml-5 flex h-full" : "h-full"} `}>
           
+        {location.pathname !== '/login' && (
           <SideNavigationMenu
             open = {open}
             setOpen = {setOpen}
           />
+        )}
 
-          <div className='flex flex-col ml-5 w-full h-full'>
+          <div className={` ${location.pathname !== '/login' ? "ml-5 flex flex-col w-full h-full" : "h-full"} `}>
             
+          {location.pathname !== '/login' && (
             <TopNavigationMenu
               open={open}
               setOpen={setOpen}
             />
+          )}
 
 
             <Routes>
@@ -37,6 +43,7 @@ function App() {
             
             } />
               <Route path='/' element={<Dashboard/>} />
+              <Route path='login' element={<Login/>} />
 
 
             </Routes>
