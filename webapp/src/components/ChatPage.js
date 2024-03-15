@@ -140,7 +140,7 @@ const ChatPage = () => {
                 {/* chat */}
                 
                 {selectedPatientName &&
-                <div className="h-full flex-grow rounded-r-3xl">
+                <div className="h-full flex-grow rounded-r-3xl relative">
                     
                     <div className="flex h-16 items-center border-b-2 border-stone-950/75">
                         

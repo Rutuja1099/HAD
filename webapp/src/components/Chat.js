@@ -32,7 +32,8 @@ const Chat = ({selectedChat, selectedPatientId}) => {
 
     return (
         
-        // messages and search box div
+        <>
+        {/* messages and search box div */}
         <div className = "flex-col">
 
                 <div className="flex-col p-4 pb-15 max-h-[calc(100vh-14rem)] overflow-y-auto scrollbar">
@@ -73,6 +74,12 @@ const Chat = ({selectedChat, selectedPatientId}) => {
 
                 </div>
             
+
+
+        </div>
+
+
+        <div className="place-self-end absolute bottom-0 left-0 w-full">
                 <form 
                     onSubmit={(e) => {
                         e.preventDefault();
@@ -101,9 +108,8 @@ const Chat = ({selectedChat, selectedPatientId}) => {
                     {/* </div> */}
 
                 </form>
-
-
-        </div>
+                </div>
+        </>
     )
 }
 
