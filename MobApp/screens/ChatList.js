@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { View, Text, TextInput, ScrollView, TouchableOpacity, FlatList, Image, Modal} from 'react-native';
+import { View, Text, TextInput, ScrollView, TouchableOpacity, FlatList, Image, Modal, Pressable} from 'react-native';
 import { useNavigation } from '@react-navigation/native'
 
 import NavigationBar from "../components/NavigationBar";
@@ -83,9 +83,9 @@ const ChatList = () => {
                             {searchText.trim() != '' ?
 
                                 (
-                                    <TouchableOpacity onPress={navigateBack}>
+                                    <Pressable onPress={navigateBack}>
                                         <Text style={{ marginRight: 10 }} className="self-center text-2xl">←</Text>
-                                    </TouchableOpacity>
+                                    </Pressable>
                                 )
 
                                 :
@@ -115,7 +115,7 @@ const ChatList = () => {
                             renderItem={({ item }) => {
                                 
                                 return (
-                                    <TouchableOpacity 
+                                    <Pressable 
                                         className="flex-row item-centered p-4 hover:bg-sky-700 active:bg-slate-500" 
                                         onPress={() => enterChat(item.name, item.id)}
                                     >
@@ -125,7 +125,7 @@ const ChatList = () => {
                                             <Text className = "text-lg" >{item.name}</Text>
                                         </View>
                                         
-                                    </TouchableOpacity>
+                                    </Pressable>
                                 )}
                             }
                         />
@@ -140,7 +140,7 @@ const ChatList = () => {
                             renderItem={({ item }) => {
                                 
                                 return (
-                                    <TouchableOpacity 
+                                    <Pressable 
                                         className="flex-row item-centered p-4 hover:bg-sky-700 active:bg-slate-500"
                                         onPress={() => enterChat(item.name, item.id)}
                                     >
@@ -150,7 +150,7 @@ const ChatList = () => {
                                             <Text className = "text-lg" >{item.name}</Text>
                                         </View>
                                         
-                                    </TouchableOpacity>
+                                    </Pressable>
                                 )}
                             }
                         />
