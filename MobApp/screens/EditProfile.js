@@ -1,4 +1,4 @@
-import { SafeAreaView, View, Image, Pressable, TextInput, Text} from 'react-native'
+import { SafeAreaView, View, Image, Pressable, TextInput, Text, ScrollView} from 'react-native'
 import React, { useState } from 'react';
 import { contactImage} from '../assets'
 import NavigationBar from '../components/NavigationBar'
@@ -8,8 +8,8 @@ const EditProfile = () => {
     const [name, onChangeName] = useState('Rutuja');
     const [email, onChangeEmail] = useState('rutuja@iiitb.ac.in');
     const [address, onChangeAddress] = useState('IIIT Bangalore');
-    const [age, onChangeAge] = useState(24);
-    const [phone, onChangePhone] = useState(6778788);
+    const [age, onChangeAge] = useState('24');
+    const [phone, onChangePhone] = useState('6778788');
     const [dob, setDob] = useState(null); // Date of Birth
 
     return (
@@ -23,15 +23,16 @@ const EditProfile = () => {
         </View>
         {/**User Information */}{/**Add validations for age and other fields */}
             <View className="flex-1 bg-white relative mt-10 ml-4">
+            <ScrollView>
             {/**Name */}
                 <View>
                     <Text style={{ fontFamily: 'System' }} className="font-bold text-lg text-black ml-5">
                         Name
                     </Text>
-                    <View  className="mt-2 ml-5 mb-5 p-4 justify-center border-2 w-[258px] h-[44px] border-[#544C4C] border-opacity-10 rounded-lg">
+                    <View  className="mt-2 ml-5 mb-5 justify-center border-2 w-[258px] h-[44px] border-[#544C4C] border-opacity-10 rounded-lg">
                         <TextInput 
                             style={{ fontFamily: 'System' }} 
-                            className="text-lg text-[#544C4C] "
+                            className="ml-2 text-lg text-[#544C4C] "
                             onChangeText={onChangeName}
                             value={name}                   
                         />
@@ -42,10 +43,10 @@ const EditProfile = () => {
                     <Text style={{ fontFamily: 'System' }} className="font-bold text-lg text-black ml-5">
                         Email
                     </Text>
-                    <View  className="mt-2 ml-5 mb-5 p-4 justify-center border-2 w-[258px] h-[44px] border-[#544C4C] border-opacity-10 rounded-lg">
+                    <View  className="mt-2 ml-5 mb-5 justify-center border-2 w-[258px] h-[44px] border-[#544C4C] border-opacity-10 rounded-lg">
                         <TextInput 
                             style={{ fontFamily: 'System' }} 
-                            className="text-lg text-[#544C4C] "
+                            className="ml-2 text-lg text-[#544C4C] "
                             onChangeText={onChangeEmail}
                             value={email}   
                             inputMode="email-address"                
@@ -57,10 +58,10 @@ const EditProfile = () => {
                     <Text style={{ fontFamily: 'System' }} className="font-bold text-lg text-black ml-5">
                         Address
                     </Text>
-                    <View  className="mt-2 ml-5 mb-5 p-4 justify-center border-2 w-[258px] h-[44px] border-[#544C4C] border-opacity-10 rounded-lg">
+                    <View  className="mt-2 ml-5 mb-5 justify-center border-2 w-[258px] h-[44px] border-[#544C4C] border-opacity-10 rounded-lg">
                         <TextInput 
                             style={{ fontFamily: 'System' }} 
-                            className="text-lg text-[#544C4C] "
+                            className="ml-2 text-lg text-[#544C4C] "
                             onChangeText={onChangeAddress}
                             value={address}                  
                         />
@@ -72,10 +73,10 @@ const EditProfile = () => {
                     <Text style={{ fontFamily: 'System' }} className="font-bold text-lg text-black ml-5">
                         Age
                     </Text>
-                    <View  className="mt-2 ml-5 mb-5 p-4 justify-center border-2 w-[258px] h-[44px] border-[#544C4C] border-opacity-10 rounded-lg">
+                    <View  className="mt-2 ml-5 mb-5 justify-center border-2 w-[258px] h-[44px] border-[#544C4C] border-opacity-10 rounded-lg">
                         <TextInput 
                             style={{ fontFamily: 'System' }} 
-                            className="text-lg text-[#544C4C] "
+                            className="ml-2 text-lg text-[#544C4C] "
                             onChangeText={onChangeAge}
                             value={age}  
                             inputMode="numeric"                
@@ -88,10 +89,10 @@ const EditProfile = () => {
                     <Text style={{ fontFamily: 'System' }} className="font-bold text-lg text-black ml-5">
                         Phone Number
                     </Text>
-                    <View  className="mt-2 ml-5 mb-5 p-4 justify-center border-2 w-[258px] h-[44px] border-[#544C4C] border-opacity-10 rounded-lg">
+                    <View  className="mt-2 ml-5 mb-5 justify-center border-2 w-[258px] h-[44px] border-[#544C4C] border-opacity-10 rounded-lg">
                         <TextInput 
                             style={{ fontFamily: 'System' }} 
-                            className="text-lg text-[#544C4C] "
+                            className="ml-2 text-lg text-[#544C4C] "
                             onChangeText={onChangePhone}
                             value={phone}  
                             inputMode="numeric"                
@@ -117,10 +118,11 @@ const EditProfile = () => {
                         />
                     </View>
                 </View> */}
+            </ScrollView>
             </View>
         {/**Save Button */}
         <Pressable onPress={() => console.log('Simple Button pressed')}>
-            <View className="mb-4 ml-16 w-[221px] h-[41px] items-center justify-center rounded-lg bg-[#4DD8CF]">
+            <View className="mt-2 mb-4 ml-16 w-[221px] h-[41px] items-center justify-center rounded-lg bg-[#4DD8CF]">
                 <Text className=" text-white font-bold text-xl">Save Changes</Text>
             </View>
         </Pressable>       

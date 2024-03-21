@@ -1,4 +1,4 @@
-import { SafeAreaView, View, Image, Pressable} from 'react-native'
+import { SafeAreaView, View, Image, Pressable, ScrollView} from 'react-native'
 import React from 'react'
 import { contactImage} from '../assets'
 import ProfileMenuItems from '../components/ProfileMenuItems'
@@ -24,6 +24,7 @@ const Profile = () => {
 
       {/*user profile details */}
       <View className="flex-1 bg-white relative mt-10 ml-4">
+        <ScrollView>
         {/*Name */}
           <ProfileMenuItems 
             menuItemLabel="Name"
@@ -53,15 +54,14 @@ const Profile = () => {
             menuItemLabel="Phone Number"
             menuItemContent="6778788"
           />
+      </ScrollView>
       </View>
-      <View className="ml-52 mr-4">
-        <Pressable onPress={handleEditProfile}>
+        <Pressable onPress={handleEditProfile} className="absolute bottom-20 right-5">
           <Image
               source={pencilImage}
               className="w-[75px] h-[75px]" // Adjust size as needed
           />
         </Pressable>
-      </View>
       <NavigationBar />
     </SafeAreaView>
   )

@@ -10,6 +10,7 @@ import PasswordManager from './screens/PasswordManager'
 import PrivacyNotice from './screens/PrivacyNotice'
 import Chat from "./screens/Chat";
 import ChatList from "./screens/ChatList";
+import WellnessHub from "./screens/WellnessHub";
 
 NativeWindStyleSheet.setOutput({
   default: "native",
@@ -22,6 +23,7 @@ export default function App() {
     
     <NavigationContainer>
       <Stack.Navigator>
+        <Stack.Screen name="Wellness Hub 😊" component={WellnessHub} />
         <Stack.Screen name="ChatList" component={ChatList} />
         <Stack.Screen name="Settings" component={Settings} />
         <Stack.Screen name="Profile" component={Profile} />

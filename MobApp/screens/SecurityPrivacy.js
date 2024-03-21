@@ -13,13 +13,13 @@ const SecurityPrivacy = () => {
     <SafeAreaView className="bg-white flex-1 relative">
       <View className="flex-1">
         <Pressable onPress={() => handleSecurityPrivacy('Password Manager')}>
-          <View className="mt-10 ml-5 mb-5 p-10 justify-center w-[348px] h-[44px] shadow-lg bg-[#DDD4D4] rounded-lg">
-                <Text style={{ fontFamily: 'System' }} className="text-xl text-black ">Password Manager</Text>
+          <View className="mt-10 ml-5 mb-5 justify-center w-[348px] h-[100px] shadow-lg bg-[#DDD4D4] rounded-lg">
+                <Text style={{ fontFamily: 'System' }} className="ml-10 text-xl text-black ">Password Manager</Text>
           </View>
         </Pressable>
         <Pressable onPress={() => handleSecurityPrivacy('Privacy Notice')}>
-          <View className="mt-4 ml-5 mb-5 p-10 justify-center w-[348px] h-[44px] shadow-lg bg-[#DDD4D4] rounded-lg">
-                <Text style={{ fontFamily: 'System' }} className="text-xl text-black ">Privacy Notice</Text>
+          <View className="mt-4 ml-5 mb-5 justify-center w-[348px] h-[100px] shadow-lg bg-[#DDD4D4] rounded-lg">
+                <Text style={{ fontFamily: 'System' }} className="ml-10 text-xl text-black ">Privacy Notice</Text>
           </View>
         </Pressable>
       </View>
@@ -29,3 +29,4 @@ const SecurityPrivacy = () => {
 }
 
 export default SecurityPrivacy
+

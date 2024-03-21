@@ -1,0 +1,28 @@
+package com.example.had_backend_jwt.Entities;
+
+import jakarta.persistence.*;
+import lombok.*;
+
+@Setter
+@Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Table(name="doctorLogin")
+public class DoctorLogin {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "drLoginId")
+    private Integer drLoginId;
+
+    @OneToOne
+    @JoinColumn(name = "drRegNo", referencedColumnName = "drRegNo")
+    private DoctorInfo drInfo;
+
+    @Column(name = "drUsername",nullable = false,unique = true)
+    private String drUsername;
+
+    @Column(name = "drPassword",nullable = false)
+    private String drPassword;
+}
