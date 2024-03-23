@@ -6,6 +6,8 @@ import ChatPage from './components/ChatPage';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import Dashboard from './components/Dashboard';
 import Login from './components/Login';
+import Patients from './components/Patients';
+import Appointments from './components/Appointments';
 
 function App() {
 
@@ -42,7 +44,12 @@ function App() {
             
             
             } />
-              <Route path='/' element={<Dashboard/>} />
+
+            <Route path='patients' element={<Patients/>} />
+
+            <Route path='appointments' element={<Appointments/>} />
+
+            <Route path='/' element={<Dashboard/>} />
               <Route path='login' element={<Login/>} />
 
 

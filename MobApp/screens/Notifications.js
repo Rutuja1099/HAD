@@ -16,7 +16,7 @@ const Notifications = () => {
           menuItemContent="Time for exercise"
         />
       </View>
-      <NavigationBar />
+      {/* <NavigationBar /> */}
     </SafeAreaView>
   )
 }

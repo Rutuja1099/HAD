@@ -62,7 +62,7 @@ const Profile = () => {
               className="w-[75px] h-[75px]" // Adjust size as needed
           />
         </Pressable>
-      <NavigationBar />
+      {/* <NavigationBar /> */}
     </SafeAreaView>
   )
 }

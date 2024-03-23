@@ -63,7 +63,7 @@ const PasswordManager = () => {
             </Pressable> 
         </ScrollView>    
         {/**Navigation bar */}
-        <NavigationBar />
+        {/* <NavigationBar /> */}
     </SafeAreaView>
   )
 }

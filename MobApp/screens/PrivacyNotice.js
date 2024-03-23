@@ -5,7 +5,7 @@ import NavigationBar from '../components/NavigationBar'
 const PrivacyNotice = () => {
   return (
     <SafeAreaView className="bg-white flex-1 relative">
-      <View className="flex-1 text-black pt-2 p-4 mt-4 ml-5 mr-5 shadow-lg bg-[#DDD4D4] rounded-lg">
+      <View className="flex-1 text-black pt-2 p-4 mt-4 ml-5 mr-5 mb-4 shadow-lg bg-[#DDD4D4] rounded-lg">
         <ScrollView>
           <Text style={{ fontFamily: 'System'}} className="text-lg">
             Your privacy matters. Here's a summary of how we handle your data:
@@ -41,7 +41,7 @@ const PrivacyNotice = () => {
           </Text>
         </ScrollView>
       </View>
-      <NavigationBar />
+      {/* <NavigationBar /> */}
     </SafeAreaView>
   )
 }

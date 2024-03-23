@@ -127,7 +127,7 @@ const EditProfile = () => {
             </View>
         </Pressable>       
         {/**Navigation bar */}
-        <NavigationBar />
+        {/* <NavigationBar /> */}
         </SafeAreaView>
     )
 }

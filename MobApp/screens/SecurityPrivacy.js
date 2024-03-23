@@ -23,7 +23,7 @@ const SecurityPrivacy = () => {
           </View>
         </Pressable>
       </View>
-      <NavigationBar />
+      {/* <NavigationBar /> */}
     </SafeAreaView>  
   )
 }
