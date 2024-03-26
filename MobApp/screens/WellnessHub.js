@@ -1,10 +1,11 @@
 import { View, SafeAreaView, Text, Pressable, ScrollView, TextInput } from 'react-native';
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const WellnessHub = () => {
   const [selectedFilter, setSelectedFilter] = useState("All");
   const filters = ["All", "My Queries"];
+  const [newMessage, setNewMessage] = useState('');
 
   //content for all filter : This should be populated from DB result
   const [allFilterContent,setAllFilterContent] = useState([
@@ -18,48 +19,51 @@ const WellnessHub = () => {
     {questionId:3,question:"How to lead a healthy lifestyle", answers:'2 replies',questionTimestamp:'2024-03-21T12:47:00.000+05:30'}
   ]);
 
+  const scrollViewRef = useRef(null);
+
+  useEffect(() => {
+    // Scroll to the bottom when messages change
+    scrollViewRef.current.scrollToEnd({ animated: false });
+}, [newMessage]);
+
   // Function to render questions based on selected filter
   const renderQuestions = () =>{
-    if(selectedFilter === "All"){
-      return allFilterContent.map((item, index) =>(
+    let filteredContent = selectedFilter === "All" ? allFilterContent : myQueriesContent;
+    
+    if (newMessage.trim() !== '') {
+      // If search query is not empty, filter the content based on the search query
+      filteredContent = filteredContent.filter(item =>
+        item.question.toLowerCase().includes(newMessage.toLowerCase())
+      );
+    }
+
+    //if search result is empty
+    if (filteredContent.length === 0) {
+      return (
+        <View className='flex-row bg-white border-b-2 border-[#F4F2F1] border-opacity-5 m-5 h-auto'style={{ maxWidth: '80%' }}>
+          <Text className='mb-2 justify-center text-sm font-semibold text-[#573926]'>No matching queries found</Text>
+        </View>
+      );
+    }
+
+    return filteredContent.map((item, index) =>(
         // Enter <Pressable> element here=> provide the navigate to function for next page
         <View key={index} className='flex-row bg-white border-b-2 border-[#F4F2F1] border-opacity-5 m-5 h-auto 'style={{ maxWidth: '80%' }}>
           <Icon
             name='user-circle'
             size={50}
-            color='#F57C6E'
+            color='#4DD8CF'
           />
           <View className='flex-col ml-4' style={{ marginLeft: 10, maxWidth: '70%'}}>
-            <Text className="mt-2 mb-2 justify-center text-sm text-[#573926] self-start">{item.question}</Text>
+            <Text className="mt-2 mb-2 justify-center text-sm font-semibold text-[#573926] self-start">{item.question}</Text>
             <View className='flex-row mb-2 mt-1'>
                 <Icon name='envelope-o' color='gray' size={20} />
-                <Text className="ml-1 mt-1">{item.answers}</Text>
+                <Text className="ml-1">{item.answers}</Text>
                 <Text className="ml-10 mt-1 mr-1 text-xs text-gray-500 self-start text-right">{calculateTimeDifference(item.questionTimestamp)}</Text>
             </View>
           </View>
         </View>
       ));
-    }
-    else if(selectedFilter === "My Queries"){
-      return myQueriesContent.map((item,index)=>(
-        <View key={index} className='flex-row bg-white border-b-2 border-[#F4F2F1] border-opacity-5 m-5 h-auto 'style={{ maxWidth: '80%' }}>
-          <Icon
-            name='user-circle'
-            size={50}
-            color='#F57C6E'
-          />
-          <View className='flex-col ml-4' style={{ marginLeft: 10, maxWidth: '70%'}}>
-            <Text className="mt-2 mb-2 justify-center text-sm text-[#573926] self-start">{item.question}</Text>
-            <View className='flex-row mb-2 mt-1'>
-                <Icon name='envelope-o' color='gray' size={20} />
-                <Text className="ml-1 mt-1">{item.answers}</Text>
-                <Text className="ml-10 mt-1 mr-1 text-xs text-gray-500 self-start text-right">{calculateTimeDifference(item.questionTimestamp)}</Text>
-            </View>
-          </View>
-        </View>
-      ));
-    }
-    return null;
   } 
 
   //handle filter click
@@ -67,8 +71,7 @@ const WellnessHub = () => {
     setSelectedFilter(filter);
   }
 
-  // sending queries => Modify this code
-  const [newMessage, setNewMessage] = useState('');
+  // sending queries
   const [messages, setMessages] = useState([
     { text: 'Hello!', time: '10:00 AM'},
     { text: 'Hi there!', time: '10:05 AM'},
@@ -112,7 +115,7 @@ const WellnessHub = () => {
     const newQuestion = {
       questionId: allFilterContent.length + 1, // Increment questionId for each new question
       question: newMessage,
-      answers: '0 replies', // Assuming initially there are no replies
+      answers: '0 replies', // initially there are no replies
       questionTimestamp: currentTime,
     };
 
@@ -137,7 +140,12 @@ const WellnessHub = () => {
         ))}
       </View>
       {/* Rendering Content based on selected filter */}
-      <ScrollView>
+      <ScrollView
+        className = "flex-1 p-4 pb-20"
+        ref={scrollViewRef}
+        contentOffset={{ y: 1000000 }}
+        onContentSizeChange={() => scrollViewRef.current.scrollToEnd({ animated: false })}
+      >
         <View className="flex-1 bg-white">
           {renderQuestions()}
         </View>
