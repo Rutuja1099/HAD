@@ -2,6 +2,9 @@
 import '../styles/App.css';
 import React from 'react';
 import {useState} from 'react'; 
+import SideNavigationMenu from 'SideNavigationMenu';
+import { useState } from 'react';
+import TopNavigationMenu from 'TopNavigationMenu';
 
 const PasswordErrorMessage = () => { 
   return ( 
@@ -58,6 +61,14 @@ const PasswordErrorMessage = () => {
   }; 
   
   return ( 
+    <SideNavigationMenu
+            open = {open}
+            setOpen = {setOpen}
+    />
+    <TopNavigationMenu
+              open={open}
+              setOpen={setOpen}
+    />
     <div className="DoctorOnboarding"> 
       <form onSubmit={handleSubmit}> 
         <fieldset> 
