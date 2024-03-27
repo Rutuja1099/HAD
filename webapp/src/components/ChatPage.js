@@ -41,10 +41,10 @@ const ChatPage = () => {
         
         text = text.toString();
 
-        if (searchText.trim() === '') {
-            setSearchResults([]);
-            return;
-        }
+        // if (searchText.trim() === '') {
+        //     setSearchResults([]);
+        //     return;
+        // }
         
         const filteredResults = allDoctorInfo.filter(doctor => doctor.name.toLowerCase().includes(searchText.toLowerCase()));
         setSearchResults(filteredResults);

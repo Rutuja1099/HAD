@@ -1,16 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
 import SideNavigationMenu from "./SideNavigationMenu";
 import { Link, useNavigate } from "react-router-dom";
 import loginbackground from "../assets/loginbackground.jpg";
+import { useDispatch, useSelector } from "react-redux";
+import doctorInfoSlice, { updateDoctorInfo } from "../redux/features/doctorInfo/doctorInfoSlice";
 
 
 const Login = () => {
 
+    const [selectedOption, setSelectedOption] = useState(null);
+
+    const count = useSelector((state) => state.doctorInfo);             //count will contain the whole object
+    const dispatch = useDispatch();
+
     const navigate = useNavigate();
 
     const handleSubmit = (event) => {
+        dispatch(updateDoctorInfo({username: "saurabh", id:2}))
         navigate('/');
       };
+
+    const handleOptionChange = (option) => {
+        if(selectedOption === option){
+            setSelectedOption(null);
+        }
+        else{
+            setSelectedOption(option);
+        }
+    
+    };
 
     return (
         <div className="flex flex-col h-full">
@@ -29,9 +47,35 @@ const Login = () => {
                 <div className="h-full w-1/2 flex flex-col justify-center items-center content-center">
                     
                     <h2 className="text-4xl font-bold text-gray-800 mb-4">Welcome to Suhrud!</h2>
-                    <p className="text-gray-600 mb-4">Don't have an account?</p>
-                    <Link to="/signup" className=" underline hover:underline hover:text-cyan-500">Create an account</Link>
-                
+                    <p className="text-gray-600 mb-4">LOGIN AS</p>
+                    <div className="flex-col items-center">
+                        
+                        <div className={`flex items-center border-2 border-cyan-500 rounded-md py-4 px-10 mb-3 cursor-pointer hover:bg-cyan-300 hover:border-cyan-900 ${selectedOption === 'doctor' ? 'bg-cyan-300' : ''}`} onClick={() => handleOptionChange('doctor')}>
+                            <input
+                                type="checkbox"
+                                id="doctor"
+                                name="doctor"
+                                value="doctor"
+                                checked={selectedOption === 'doctor'}
+                                onChange={() => handleOptionChange('doctor')}
+                                className="mr-2 cursor-pointer size-5"
+                            />
+                                <label htmlFor="doctor" className="cursor-pointer text-xl">Doctor</label>
+                        </div>
+
+                        <div className={`flex items-center border-2 border-cyan-500 rounded-md py-4 px-10 cursor-pointer hover:bg-cyan-300 hover:border-cyan-900 ${selectedOption === 'admin' ? 'bg-cyan-300' : ''}`} onClick={() => handleOptionChange('admin')}>
+                            <input
+                                type="checkbox"
+                                id="admin"
+                                name="admin"
+                                value="admin"
+                                checked={selectedOption === 'admin'}
+                                onChange={() => handleOptionChange('admin')}
+                                className="mr-2 cursor-pointer size-5"
+                            />
+                            <label htmlFor="admin" className="cursor-pointer text-xl" >Admin</label>
+                        </div>
+                    </div>                
                 </div>
 
 
