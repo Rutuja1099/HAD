@@ -11,6 +11,11 @@ import PrivacyNotice from './screens/PrivacyNotice'
 import Chat from "./screens/Chat";
 import ChatList from "./screens/ChatList";
 import WellnessHub from "./screens/WellnessHub";
+import Login from "./screens/Login";
+import SignUp from "./screens/SignUp";
+import ForgotPassword from "./screens/ForgotPassword";
+import Week from "./screens/Week";
+import Day from "./screens/Day";
 
 NativeWindStyleSheet.setOutput({
   default: "native",
@@ -23,6 +28,11 @@ export default function App() {
     
     <NavigationContainer>
       <Stack.Navigator>
+        <Stack.Screen name="Login" component={Login}/>
+        <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
+        <Stack.Screen name="SignUp" component={SignUp}/>
+        <Stack.Screen name="Week" component={Week}/>
+        <Stack.Screen name="Day" component={Day}/>
         <Stack.Screen name="ChatList" component={ChatList} />
         <Stack.Screen name="Settings" component={Settings} />
         <Stack.Screen name="Profile" component={Profile} />

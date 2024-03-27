@@ -17,7 +17,7 @@ public class PatientRegisterRequest {
     private String ptPhone;
     private String ptAddr;
     private String ptEmail;
-    private Date ptDOB;
+    private String ptDOB;
     private String ptGender;
     private String ptUsername;
     private String ptPassword;

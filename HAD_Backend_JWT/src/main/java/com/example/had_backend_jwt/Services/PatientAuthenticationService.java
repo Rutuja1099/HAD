@@ -34,7 +34,6 @@ public class PatientAuthenticationService {
                 .ptFullname(request.getPtFullname())
                 .ptPhone(request.getPtPhone())
                 .ptAddr(request.getPtAddr())
-                .ptEmail(request.getPtEmail())
                 .ptDOB(request.getPtDOB())
                 .ptGender(request.getPtGender())
                 .build();
@@ -46,6 +45,7 @@ public class PatientAuthenticationService {
         PatientLogin patientLogin = PatientLogin.builder()
                 .ptUsername(request.getPtUsername())  // Assuming you have a username field in PatientRegisterRequest
                 .ptPassword(passwordEncoder.encode(request.getPtPassword()))  // Encode password
+                .ptEmail(request.getPtEmail())
                 .build();
         patientLogin.setPtInfo(patientInfo);
         // Save PatientLogin
@@ -71,9 +71,7 @@ public class PatientAuthenticationService {
             PatientLogin patientLogin = patientLoginRepository.findByPtUsername(request.getUsername())
                     .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-            // Get ptRegNo
             PatientInfo patientInfo = patientLogin.getPtInfo();
-
             var jwtToken=jwtService.generateToken(patientLogin);
 
             return PatientAuthenticationResponse.builder()

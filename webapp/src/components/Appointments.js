@@ -81,7 +81,7 @@ const Appointments = () => {
               className="focus:outline-none text-xl"
               onClick={() => toggleAccordion(index)} 
             >
-              {expandedIndex === index ? <BsChevronCompactDown size={25} className='mr-10'/> : <BsChevronUp size={25} className='mr-10'/>}
+              {expandedIndex === index ? <BsChevronUp size={25} className='mr-10'/> : <BsChevronCompactDown size={25} className='mr-10'/>}
             </button>
           </div>
           {expandedIndex === index && (

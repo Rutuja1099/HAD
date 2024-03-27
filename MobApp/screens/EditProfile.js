@@ -1,7 +1,7 @@
 import { SafeAreaView, View, Image, Pressable, TextInput, Text, ScrollView} from 'react-native'
 import React, { useState } from 'react';
 import { contactImage} from '../assets'
-import NavigationBar from '../components/NavigationBar'
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 const EditProfile = () => {
 
@@ -10,7 +10,21 @@ const EditProfile = () => {
     const [address, onChangeAddress] = useState('IIIT Bangalore');
     const [age, onChangeAge] = useState('24');
     const [phone, onChangePhone] = useState('6778788');
-    const [dob, setDob] = useState(null); // Date of Birth
+    const [dob, setDob] = useState(new Date()); // Date of Birth
+    const [show, setShow] = useState(false);
+    const [mode, setMode] = useState('date');
+
+    const onChange = (event, selectedDate) => {
+        setShow(false);
+        if (selectedDate) {
+            setDob(selectedDate);
+        }
+    }
+
+    const showMode = (modeToShow) => {
+        setShow(true);
+        setMode(modeToShow);
+    }
 
     return (
         <SafeAreaView className="bg-white flex-1 relative">
@@ -49,7 +63,7 @@ const EditProfile = () => {
                             className="ml-2 text-lg text-[#544C4C] "
                             onChangeText={onChangeEmail}
                             value={email}   
-                            inputMode="email-address"                
+                            inputMode="email"                
                         />
                     </View>
                 </View>
@@ -64,22 +78,6 @@ const EditProfile = () => {
                             className="ml-2 text-lg text-[#544C4C] "
                             onChangeText={onChangeAddress}
                             value={address}                  
-                        />
-                    </View>
-                </View>
-
-            {/**Age */}
-                <View>
-                    <Text style={{ fontFamily: 'System' }} className="font-bold text-lg text-black ml-5">
-                        Age
-                    </Text>
-                    <View  className="mt-2 ml-5 mb-5 justify-center border-2 w-[258px] h-[44px] border-[#544C4C] border-opacity-10 rounded-lg">
-                        <TextInput 
-                            style={{ fontFamily: 'System' }} 
-                            className="ml-2 text-lg text-[#544C4C] "
-                            onChangeText={onChangeAge}
-                            value={age}  
-                            inputMode="numeric"                
                         />
                     </View>
                 </View>
@@ -101,23 +99,29 @@ const EditProfile = () => {
                 </View>
             
             {/**DOB */}
-                {/* <View>
+                <View>
                     <Text style={{ fontFamily: 'System' }} className="font-bold text-lg text-black ml-5">
                         Date of Birth
                     </Text>
-                    <View >
-                        <DatePicker
-                            className="mt-2 ml-5 mb-5 p-4 justify-center border-2 w-[258px] h-[44px] border-[#544C4C] border-opacity-10 rounded-lg"
-                            date={dob}
-                            mode="date"
-                            placeholder="Select date"
-                            format="YYYY-MM-DD"
-                            confirmBtnText="Confirm"
-                            cancelBtnText="Cancel"
-                            onDateChange={(date) => setDob(date)}
-                        />
+                    <View className="mt-2 ml-5 mb-5 justify-center border-2 w-[258px] h-[44px] border-[#544C4C] border-opacity-10 rounded-lg" >
+                        <Pressable onPress={() => showMode("date")}>
+                            <TextInput
+                                className="text-lg text-[#544C4C] "
+                                value={dob.toDateString()} // Display selected date in the input field
+                                editable={false} // Make the input field non-editable
+                            />
+                        </Pressable>
+                            {show && (
+                                <DateTimePicker
+                                    value={dob}
+                                    mode={mode}
+                                    is24Hour={true}
+                                    display="default"
+                                    onChange={onChange}
+                                />
+                            )}
                     </View>
-                </View> */}
+                </View>
             </ScrollView>
             </View>
         {/**Save Button */}

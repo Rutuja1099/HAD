@@ -9,3 +9,5 @@ export {default as moodliftImage} from "./Moodlift.png";
 export {default as messageImage} from "./Message.png";
 export {default as settingsImage} from "./Settings.png";
 export {default as pencilImage} from "./Pencil.png";
+export {default as smileysImage} from "./smileys.png";
+export {default as progImage} from './img.jpg';
