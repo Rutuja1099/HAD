@@ -8,7 +8,7 @@ import doctorInfoSlice, { updateDoctorInfo } from "../redux/features/doctorInfo/
 
 const Login = () => {
 
-    const [selectedOption, setSelectedOption] = useState(null);
+    const [selectedOption, setSelectedOption] = useState('doctor');
 
     const count = useSelector((state) => state.doctorInfo);             //count will contain the whole object
     const dispatch = useDispatch();
@@ -22,7 +22,7 @@ const Login = () => {
 
     const handleOptionChange = (option) => {
         if(selectedOption === option){
-            setSelectedOption(null);
+            setSelectedOption('doctor');
         }
         else{
             setSelectedOption(option);
@@ -47,8 +47,8 @@ const Login = () => {
                 <div className="h-full w-1/2 flex flex-col justify-center items-center content-center">
                     
                     <h2 className="text-4xl font-bold text-gray-800 mb-4">Welcome to Suhrud!</h2>
-                    <p className="text-gray-600 mb-4">LOGIN AS</p>
-                    <div className="flex-col items-center">
+                    <p className="text-gray-600 mb-4">NAMASKAR</p>
+                    {/* <div className="flex-col items-center">
                         
                         <div className={`flex items-center border-2 border-cyan-500 rounded-md py-4 px-10 mb-3 cursor-pointer hover:bg-cyan-300 hover:border-cyan-900 ${selectedOption === 'doctor' ? 'bg-cyan-300' : ''}`} onClick={() => handleOptionChange('doctor')}>
                             <input
@@ -75,7 +75,7 @@ const Login = () => {
                             />
                             <label htmlFor="admin" className="cursor-pointer text-xl" >Admin</label>
                         </div>
-                    </div>                
+                    </div>                 */}
                 </div>
 
 
@@ -103,8 +103,24 @@ const Login = () => {
                                     <input type="password" placeholder="Password" id="password" name="password" className="w-full p-2 py-3 pl-10 rounded-3xl bg-cyan-200" />
                                 </div>
 
-                                <div className="mb-4 rounded-3xl flex justify-end text-gray-500 hover:text-black hover:underline">
-                                    <Link to="/forgotPassword" className="text-xs">Forgot your password?</Link>
+                                <div className="mb-4 flex justify-between">
+                                    <div className="flex justify-center items-center ml-2">
+                                        <input
+                                        type="checkbox"
+                                        id="admin"
+                                        name="admin"
+                                        value="admin"
+                                        checked={selectedOption === 'admin'}
+                                        onChange={() => handleOptionChange('admin')}
+                                        className="cursor-pointer mr-1"
+                                        />
+                                        <label htmlFor="admin" className="cursor-pointer text-xs text-gray-500 hover:text-black hover:underline" >Admin</label>
+                                    </div>
+                                    
+                                    <div>
+                                        <Link to="/forgotPassword" className="text-xs text-gray-500 hover:text-black hover:underline">Forgot your password?</Link>
+                                    </div>
+                                
                                 </div>
                                 
                                 <button type="submit" className="bg-blue-500 text-white px-4 py-3 w-full rounded-3xl hover:bg-blue-600">Submit</button>
