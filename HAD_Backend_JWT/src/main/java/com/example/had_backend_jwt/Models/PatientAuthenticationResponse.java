@@ -13,4 +13,5 @@ import lombok.NoArgsConstructor;
 public class PatientAuthenticationResponse {
     private String token;
     private PatientInfo patientInfo;
+    private String message;
 }

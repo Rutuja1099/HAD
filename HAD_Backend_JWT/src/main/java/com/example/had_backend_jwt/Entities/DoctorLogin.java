@@ -13,12 +13,15 @@ import lombok.*;
 public class DoctorLogin {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "drLoginId")
-    private Integer drLoginId;
+    @Column(name = "drId")
+    private Integer drId;
 
-    @OneToOne
-    @JoinColumn(name = "drRegNo", referencedColumnName = "drRegNo")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "drId", referencedColumnName = "drId")
     private DoctorInfo drInfo;
+
+    @Column(name="drEmail",nullable = false,unique = true)
+    private String drEmail;
 
     @Column(name = "drUsername",nullable = false,unique = true)
     private String drUsername;

@@ -22,7 +22,7 @@ import java.security.Principal;
 import java.util.List;
 
 @RestController
-@RequestMapping("/suhrid/hello")
+@RequestMapping("/suhrud/hello")
 public class DemoController {
     @Autowired
     private pService pService;

@@ -1,5 +1,6 @@
 package com.example.had_backend_jwt.JWT;
 
+import com.example.had_backend_jwt.Entities.AdminLogin;
 import com.example.had_backend_jwt.Entities.DoctorLogin;
 import com.example.had_backend_jwt.Entities.PatientLogin;
 import io.jsonwebtoken.Claims;
@@ -22,7 +23,9 @@ import java.util.function.Function;
 public class JwtService {
     @Value("${application.security.jwt.secret-key}")
     private String secretKey;
-    private long jwtExpiration=86400000;
+
+    @Value("${application.security.jwt.expiration}")
+    private long jwtExpiration;
     public String extractUserName(String token) {
 
         return extractClaim(token,Claims::getSubject);
@@ -78,6 +81,23 @@ public class JwtService {
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
+
+    public String generateToken(AdminLogin adminLogin){
+
+        return generateToken(new HashMap<>(), adminLogin);
+    }
+
+    public String generateToken(Map<String,Object> extraClaims, AdminLogin adminLogin){
+        return Jwts
+                .builder()
+                .setClaims(extraClaims)
+                .setSubject(adminLogin.getAdminUsername())
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + jwtExpiration)) // Use jwtExpiration variable
+                .signWith(getSignInKey(), SignatureAlgorithm.HS256)
+                .compact();
+    }
+
     public boolean isTokenValid(String token, UserDetails userDetails){
         final String username=extractUserName(token);
         return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);

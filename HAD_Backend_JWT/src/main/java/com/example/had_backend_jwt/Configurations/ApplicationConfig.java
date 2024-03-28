@@ -1,7 +1,9 @@
 package com.example.had_backend_jwt.Configurations;
 
+import com.example.had_backend_jwt.Entities.AdminLogin;
 import com.example.had_backend_jwt.Entities.DoctorLogin;
 import com.example.had_backend_jwt.Entities.PatientLogin;
+import com.example.had_backend_jwt.Repositories.AdminLoginRepository;
 import com.example.had_backend_jwt.Repositories.DoctorLoginRepository;
 import com.example.had_backend_jwt.Repositories.PatientLoginRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,11 +30,13 @@ import java.util.Set;
 public class ApplicationConfig implements UserDetailsService{
     private final PatientLoginRepository patientLoginRepository;
     private final DoctorLoginRepository doctorLoginRepository;
+    private final AdminLoginRepository adminRepository;
 
     @Autowired
-    public ApplicationConfig(PatientLoginRepository patientLoginRepository, DoctorLoginRepository doctorLoginRepository) {
+    public ApplicationConfig(PatientLoginRepository patientLoginRepository, DoctorLoginRepository doctorLoginRepository, AdminLoginRepository adminRepository) {
         this.patientLoginRepository = patientLoginRepository;
         this.doctorLoginRepository = doctorLoginRepository;
+        this.adminRepository=adminRepository;
     }
 
     @Bean
@@ -93,6 +97,13 @@ public class ApplicationConfig implements UserDetailsService{
             return new User(doctorLogin.getDrUsername(), doctorLogin.getDrPassword(), true, true, true, true, authorities);
         }
 
+        Optional<AdminLogin> adminLoginOptional= adminRepository.findByAdminUsername(username);
+        if(adminLoginOptional.isPresent()){
+            AdminLogin adminLogin=adminLoginOptional.get();
+            Set<GrantedAuthority> authorities=new HashSet<>();
+            authorities.add(new SimpleGrantedAuthority("Admin"));
+            return new User(adminLogin.getAdminUsername(), adminLogin.getAdminPassword(), true, true, true, true, authorities);
+        }
         throw new UsernameNotFoundException("User not found with username: " + username);
     }
 }
