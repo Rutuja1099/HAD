@@ -13,6 +13,12 @@ const ChatPage = () => {
     const [selectedPatientName, setSelectedPatientName] = useState("");
     const [selectedPatientId, setSelectedPatientId] = useState("");
 
+    // const [isAuth, setIsAuth] = useState(cookies.get("auth-token"));
+    const [room, setRoom] = useState(null);
+
+    //logged in user information
+    const [user, setUser] = useState("Saurabh");
+
 
     const [chats, setChats] = useState([
         { id: 1, name: 'Saurabh', profilePhoto:  profilePhoto},
@@ -54,7 +60,8 @@ const ChatPage = () => {
     const enterChat = (patientName, patientId) => {
 
         setSearchText("");
-        setSelectedPatientName(patientName)
+        setSelectedPatientName(patientName);
+        setRoom(patientName+user);
     }
 
     const navigateBack = () => {
@@ -152,6 +159,8 @@ const ChatPage = () => {
                     <Chat 
                         selectedPatientName = {selectedPatientName}
                         selectedPatientId = {selectedPatientId}
+                        room = {room}
+                        user = {user}
                     />
                 </div>
                 }

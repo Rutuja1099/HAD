@@ -6,23 +6,38 @@ import NavigationBar from "../components/NavigationBar";
 import { Icon } from "react-native-vector-icons/FontAwesome";
 
 const ChatList = () => {
+
+    //the text in the search bar
     const [searchText, setSearchText] = useState('');
+
+    //results accroding to the search text will be saved here
     const [searchResults, setSearchResults] = useState([]);
 
+    //selected chat
+    const [selectedDoctorName, setSelectedDoctorName] = useState("");
+    const [selectedDoctorId, setSelectedDoctorId] = useState("");
 
+    //room for chat which is required by firebase
+    const [room, setRoom] = useState("");
+
+    //logged in user information
+    const [user, setUser] = useState("Asmita");
+
+    //all the people with whom the user had a chat with
     const [chats, setChats] = useState([
-        { id: 1, name: 'Dr. Saurabh', profilePhoto: 'assets/boy.png' },
-        { id: 2, name: 'Dr. Asmita', profilePhoto: 'assets/boy.png' },
-        { id: 3, name: 'Dr. Vikram', profilePhoto: 'assets/boy.png' },
-        { id: 4, name: 'Dr. Ifrah', profilePhoto: 'assets/boy.png' },
-        { id: 5, name: 'Dr. Rutuja', profilePhoto: 'assets/boy.png' },
+        { id: 1, name: 'Saurabh', profilePhoto: 'assets/boy.png' },
+        { id: 2, name: 'Asmita', profilePhoto: 'assets/boy.png' },
+        { id: 3, name: 'Vikram', profilePhoto: 'assets/boy.png' },
+        { id: 4, name: 'Ifrah', profilePhoto: 'assets/boy.png' },
+        { id: 5, name: 'Rutuja', profilePhoto: 'assets/boy.png' },
     ]);
 
+    //all doctors present in the database for search functionality
     const [allDoctorInfo, setAllDoctorInfo] = useState([
-        { id: 1, name: 'Dr. Saurabh', profilePhoto: 'assets/boy.png' },
-        { id: 2, name: 'Dr. Sauvay', profilePhoto: 'assets/boy.png' },
-        { id: 3, name: 'Dr. Asmita', profilePhoto: 'assets/boy.png' },
-        { id: 4, name: 'Dr. Asthitha', profilePhoto: 'assets/boy.png' },
+        { id: 1, name: 'Saurabh', profilePhoto: 'assets/boy.png' },
+        { id: 2, name: 'Sauvay', profilePhoto: 'assets/boy.png' },
+        { id: 3, name: 'Asmita', profilePhoto: 'assets/boy.png' },
+        { id: 4, name: 'Asthitha', profilePhoto: 'assets/boy.png' },
     ]);
 
 
@@ -50,10 +65,15 @@ const ChatList = () => {
 
     }
 
-    const enterChat = (doctorName, doctorId) => {
+    const enterChat = (doctorName, doctorId, user) => {
 
         setSearchText("");
-        navigation.navigate("Chat", { doctorName, doctorId });
+        setSelectedDoctorName(doctorName);
+
+        const room = user+doctorName; 
+        setRoom(room);
+
+        navigation.navigate("Chat", { doctorName, doctorId, room, user});
     }
 
     const navigateBack = () => {
@@ -117,7 +137,7 @@ const ChatList = () => {
                                 return (
                                     <Pressable 
                                         className="flex-row item-centered p-4 hover:bg-sky-700 active:bg-slate-500" 
-                                        onPress={() => enterChat(item.name, item.id)}
+                                        onPress={() => enterChat(item.name, item.id, user)}
                                     >
 
                                         <Image source={{ uri: item.profilePhoto }} className = "w-12 h-12 rounded-full mr-4" />
@@ -142,7 +162,7 @@ const ChatList = () => {
                                 return (
                                     <Pressable 
                                         className="flex-row item-centered p-4 hover:bg-sky-700 active:bg-slate-500"
-                                        onPress={() => enterChat(item.name, item.id)}
+                                        onPress={() => enterChat(item.name, item.id, user)}
                                     >
 
                                         <Image source={{ uri: item.profilePhoto }} className = "w-12 h-12 rounded-full mr-4" />

@@ -3,23 +3,35 @@ import { View, Text, TextInput, ScrollView} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native'
 
+import {addDoc, collection, onSnapshot, orderBy, query, serverTimestamp, where} from 'firebase/firestore';
+import { db } from "../configurations/firebase-config";
+
 
 const Chat = ({route}) => {
     
-    const {doctorName, doctorId} = route.params;
+    const {doctorName, doctorId, room, user} = route.params;
 
     const scrollViewRef = useRef();
 
-    const [messages, setMessages] = useState([
-        { text: 'Hello!', time: '10:00 AM', sender: 'doctor' },
-        { text: 'Hi thereeeeeeeeeeeeeeeeeeeeweeeeeeeeeeeeeee!', time: '10:05 AM', sender: 'patient' },
-        { text: 'Hello!', time: '10:00 AM', sender: 'doctor' },
-        { text: 'Hi thereeeeeeeeeeeeeeeeeeeeweeeeeeeeeeeeeee!', time: '10:05 AM', sender: 'patient' },
-        { text: 'Hello!', time: '10:00 AM', sender: 'doctor' },
-        { text: 'Hi thereeeeeeeeeeeeeeeeeeeeweeeeeeeeeeeeeee!', time: '10:05 AM', sender: 'patient' },
-        { text: 'Hello!', time: '10:00 AM', sender: 'doctor' },
-        { text: 'Hi thereeeeeeeeeeeeeeeeeeeeweeeeeeeeeeeeeee!', time: '10:05 AM', sender: 'patient' },
-      ]);
+    // const [messages, setMessages] = useState([
+    //     { text: 'Hello!', time: '10:00 AM', sender: 'doctor' },
+    //     { text: 'Hi thereeeeeeeeeeeeeeeeeeeeweeeeeeeeeeeeeee!', time: '10:05 AM', sender: 'patient' },
+    //     { text: 'Hello!', time: '10:00 AM', sender: 'doctor' },
+    //     { text: 'Hi thereeeeeeeeeeeeeeeeeeeeweeeeeeeeeeeeeee!', time: '10:05 AM', sender: 'patient' },
+    //     { text: 'Hello!', time: '10:00 AM', sender: 'doctor' },
+    //     { text: 'Hi thereeeeeeeeeeeeeeeeeeeeweeeeeeeeeeeeeee!', time: '10:05 AM', sender: 'patient' },
+    //     { text: 'Hello!', time: '10:00 AM', sender: 'doctor' },
+    //     { text: 'Hi thereeeeeeeeeeeeeeeeeeeeweeeeeeeeeeeeeee!', time: '10:05 AM', sender: 'patient' },
+    //   ]);
+
+    //all the messages present in the firebase database according to the query will be saved here
+    const [messages, setMessages] = useState([]);
+
+    //the message which is sent by the user will be saved here
+    const [newMessage, setNewMessage] = useState('');
+
+    //connection to the firebase collection named "chatApplication"
+    const messageRef = collection(db, "chatApplication");
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -27,23 +39,56 @@ const Chat = ({route}) => {
         })  
     },[])
 
-    const [newMessage, setNewMessage] = useState('');
 
     const navigation=useNavigation();
 
-    const handleSend = () => {
+    const handleSend = async () => {
         if (newMessage.trim() === '') return;
 
-        const currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        const updatedMessages = [...messages, { text: newMessage, time: currentTime, sender: 'patient' }];
+        // const currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        // const updatedMessages = [...messages, { text: newMessage, time: currentTime, sender: 'patient' }];
         
-        setMessages(updatedMessages);
+        //add the message sent by the user to the firebase database
+        await addDoc(messageRef, {
+            text: newMessage,
+            createdAt: new Date(),
+            user: user,
+            room: room
+        });
+
+        // setMessages(updatedMessages);
         setNewMessage('');
     };
 
     const navigateback = () => {
         navigation.navigate("ChatList");
     }
+
+    useEffect(() => {
+
+        //applying the query to the firebase database as per need
+        const queryMessages = query(
+            messageRef, 
+            where("room", "==", room), 
+            orderBy("createdAt")
+        );
+
+        //onSnapshot function allows us to listen to the changes in the database. 
+        const unsubscribe = onSnapshot(queryMessages, (snapshot) => {
+            let messages = [];
+            snapshot.forEach((doc) => {
+                messages.push({...doc.data(), id: doc.id});
+            });
+
+            setMessages(messages);
+            setNewMessage('');
+            
+        });
+
+        //cleaning the useeffect which is important
+        return () => unsubscribe();
+
+    },[]);
 
     useEffect(() => {
         // Scroll to the bottom when messages change
@@ -71,16 +116,21 @@ const Chat = ({route}) => {
 
                     {messages.map((message, index) => {
 
+                        //code to calculate the length of the message text box
                         const messageLength = message.text.length;
-                        const timeLength = message.time.length;
+                        
+                        const createdAtDate = new Date(message.createdAt.seconds * 1000); // Convert seconds to milliseconds
+                        const timeString = createdAtDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                        const timeLength = timeString.length;
+
                         const totalLength = messageLength + timeLength;
                         const width = Math.min(totalLength * 8, 300);
                         
                         return (
                         
-                            <View key={index} className={`p-4 mb-3 rounded-lg ${message.sender === 'patient' ? 'bg-gray-200 self-end' : 'bg-blue-200 self-start'}`} style={{ maxWidth: width }}>
+                            <View key={index} className={`p-4 mb-3 rounded-lg ${message.user === user ? 'bg-gray-200 self-end' : 'bg-blue-200 self-start'}`} style={{ maxWidth: width }}>
                                 <Text>{message.text}</Text>
-                                <Text className = "mt-2 text-xs text-gray-500 self-end">{message.time}</Text>
+                                <Text className = "mt-2 text-xs text-gray-500 self-end">{timeString}</Text>
                             </View>
                             
                         );
