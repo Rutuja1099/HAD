@@ -9,6 +9,7 @@ import com.example.had_backend_jwt.Models.PatientRegisterRequest;
 import com.example.had_backend_jwt.Repositories.PatientInfoRepository;
 import com.example.had_backend_jwt.Repositories.PatientLoginRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -28,7 +29,8 @@ public class PatientAuthenticationService {
     private final PatientLoginRepository patientLoginRepository;
     private final PatientInfoRepository patientInfoRepository;
     private final AuthenticationManager authenticationManager;
-
+    @Autowired
+    private EmailService emailService;
     public PatientAuthenticationResponse registerPatient(PatientRegisterRequest request){
         PatientInfo patientInfo = PatientInfo.builder()
                 .ptFullname(request.getPtFullname())
@@ -82,5 +84,15 @@ public class PatientAuthenticationService {
             // Authentication failed, handle the exception
             throw new BadCredentialsException("Invalid username or password", e);
         }
+    }
+
+    public boolean sendMail(String mail) {
+        PatientLogin user=patientLoginRepository.findByPtEmail(mail);
+        if(user!=null)
+        {
+            emailService.sendSimpleMessage(user.getPtEmail(), "Dear User your Username and password is","Username : "+user.getPtUsername()+" \nPassword : "+user.getPtPassword());
+            return true;
+        }
+        return false;
     }
 }

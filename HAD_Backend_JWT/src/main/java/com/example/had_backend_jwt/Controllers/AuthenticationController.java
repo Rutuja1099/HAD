@@ -37,4 +37,14 @@ public class AuthenticationController {
         return ResponseEntity.ok(doctorAuthService.authenticateDoctor(request));
     }
 
+    @PostMapping("/email/patient")
+    public ResponseEntity<?> sendEmail(@RequestParam String mail)
+    {
+        boolean sent=patientAuthService.sendMail(mail);
+        if(sent){
+            return ResponseEntity.ok("Mail Sent Successfully");
+        }
+        return ResponseEntity.badRequest().body("Email not in Database");
+//        return ResponseEntity.ok().body("Hello");
+    }
 }
