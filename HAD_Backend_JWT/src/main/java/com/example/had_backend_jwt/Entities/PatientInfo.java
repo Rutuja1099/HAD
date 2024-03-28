@@ -4,8 +4,10 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Cascade;
 
 import java.sql.Date;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -62,4 +64,11 @@ private int ptRegNo;
     @OneToOne(mappedBy = "ptInfo",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonBackReference //@JsonManagedReference
     private PatientLogin ptLogin;
+
+//    @JsonIgnore
+//    @OneToMany(mappedBy = "patientProgressId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    private Set<PatientProgress> patientProgress;
+
+    @OneToMany(mappedBy = "patientInfo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<PatientProgress> patientProgress;
 }

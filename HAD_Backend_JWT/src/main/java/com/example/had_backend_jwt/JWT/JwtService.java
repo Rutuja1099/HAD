@@ -7,6 +7,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -27,17 +28,31 @@ public class JwtService {
         return extractClaim(token,Claims::getSubject);
     }
 
+    public int extractId(String token){
+        if(token!=null){
+            Claims claims=extractAllClaims(token);
+            return (int)claims.get("patientId");
+        }
+        return -1;
+    }
+
     public <T> T extractClaim(String token, Function<Claims,T> claimsResolver){
         final Claims claims=extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
 
-    public String generateToken(PatientLogin patientLogin){
+//    public String generateToken(PatientLogin patientLogin){
+//
+//        return generateToken(new HashMap<>(), patientLogin);
+//    }
 
-        return generateToken(new HashMap<>(), patientLogin);
+    public String generateToken(PatientLogin patientLogin){
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("patientId", patientLogin.getPtRegNo()); // Assuming getId() returns the ID of the patient
+        return generateToken(claims, patientLogin);
     }
 
-    public String generateToken(Map<String,Object> extraClaims, PatientLogin patientLogin){
+    public String generateToken(Map<String,Object> extraClaims,PatientLogin patientLogin){
         return Jwts
                 .builder()
                 .setClaims(extraClaims)
@@ -90,5 +105,24 @@ public class JwtService {
     private Key getSignInKey() {
         byte[] keyBytes= Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
+    }
+
+    //Resolve token from HttpServletRequest
+    private String resolveToken(HttpServletRequest req){
+        String btoken=req.getHeader("Authorization");
+        if(btoken!=null && btoken.startsWith("Bearer ")){
+            return btoken.substring(7);
+        }
+        return null;
+    }
+
+    //Extract patient info from token
+    public String extractPatientInfo(HttpServletRequest req){
+        String token = resolveToken(req);
+        if(token!=null){
+            Claims claims=extractAllClaims(token);
+            return (String) claims.get("patientLogin");
+        }
+        return null;
     }
 }
