@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import logoImage from "../assets/favicon.png";
 import { IoIosMenu, IoIosHome, IoIosLogOut } from "react-icons/io";
 import { FaRegUser } from "react-icons/fa";
@@ -20,7 +20,7 @@ const SideNavigationMenu = ({open, setOpen}) => {
         {title: "Patients", icon: <FaRegUser size={25}/>, src: "/patients"},
         {title: "Appointments", icon: <AiOutlineSchedule size={25}/>, src: "/appointments"},        
         {title: "Chats", icon: <PiChats size={25}/>, src: "/chatpage"},
-        {title: "Q/A", icon: <AiOutlineQuestionCircle size={25}/>, src: "/qna"},
+        {title: "Q/A", icon: <AiOutlineQuestionCircle size={25}/>, src: "/qnaForum"},
     ]
 
     const AccountMenus = [
@@ -41,7 +41,7 @@ const SideNavigationMenu = ({open, setOpen}) => {
 
             <div className={`bg-white relative ${open ? "w-96" : "w-16"} h-full rounded-3xl duration-500`} >
                 <div className={`flex border-b border-neutral-600 h-14 justify-between items-center`}>
-                    {open && <img src={logoImage} className = "w-10 h-10 rounded-full ml-8"/> }
+                    {open && <img src={logoImage} alt="logo" className = "w-10 h-10 rounded-full ml-8"/> }
                     <IoIosMenu 
                         size={45} 
                         className="mr-5 ml-5 cursor-pointer"

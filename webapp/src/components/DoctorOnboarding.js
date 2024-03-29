@@ -74,15 +74,18 @@ const PasswordErrorMessage = () => {
   
 
     <Container>
-    <form onSubmit={handleSubmit} className='d-inline-flex'> 
-    <Row>
-    <Col>
-    <p class="text-center fs-1 fw-bold fst-italic font-family">Register Doctor</p>
-      <img src="https://reachhealth.in/public/images/patient/online-doctor.png" alt="" ></img>
-    </Col>
-    <Col>
-    
+
+    <div className='flex'>
+
+      <div>
+        <p class="text-center fs-1 fw-bold fst-italic font-family">Register Doctor</p>
+        <img src="https://reachhealth.in/public/images/patient/online-doctor.png" alt="" ></img>
+      </div>
+    <div>
+      <form onSubmit={handleSubmit} className='d-inline-flex'>
     <div className="p-10">
+ 
+
       
     <Carousel activeIndex={index} variant="dark" onSelect={handleSelect} autoPlay={false}>
       <CarouselItem><div class="new_html_code">
@@ -199,13 +202,12 @@ const PasswordErrorMessage = () => {
       
     </Carousel>
     </div>
-    </Col>
     
   
-    </Row>
     </form>
+    </div>
 
-   
+    </div>
     </Container>
       ); 
  } 

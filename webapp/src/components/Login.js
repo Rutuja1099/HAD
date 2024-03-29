@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import SideNavigationMenu from "./SideNavigationMenu";
 import { Link, useNavigate } from "react-router-dom";
 import loginbackground from "../assets/loginbackground.jpg";
 import { useDispatch, useSelector } from "react-redux";
-import doctorInfoSlice, { updateDoctorInfo } from "../redux/features/doctorInfo/doctorInfoSlice";
+import { updateDoctorInfo } from "../redux/features/doctorInfo/doctorInfoSlice";
 
 
 const Login = () => {
