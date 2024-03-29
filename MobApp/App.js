@@ -18,6 +18,10 @@ import Week from "./screens/Week";
 import Day from "./screens/Day";
 import ChangePassword from "./screens/ChangePassword";
 import Harmony from "./screens/Harmony";
+import Questionnaire from "./screens/Questionnaire";
+import Appointment from "./screens/Appointment";
+import DoctorAppointmentDetail from "./screens/DoctorAppointmentDetail";
+
 
 NativeWindStyleSheet.setOutput({
   default: "native",
@@ -29,14 +33,21 @@ export default function App() {
   return (
     
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
+        <Stack.Navigator initialRouteName="Login">
         <Stack.Screen name="Login" component={Login}/>
         <Stack.Screen name="SignUp" component={SignUp}/>
         <Stack.Screen name="ChangePassword" component={ChangePassword}/>
         <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
         <Stack.Screen name="Week" component={Week}/>
         <Stack.Screen name="Day" component={Day}/>
+
+      
+      <Stack.Screen name="Appointment" component={Appointment} />
+
         <Stack.Screen name="ChatList" component={ChatList} />
+        <Stack.Screen name="Questionnaire" component={Questionnaire} />
+        
+        <Stack.Screen name="DoctorAppointmentDetail" component={DoctorAppointmentDetail} />
         <Stack.Screen name="Settings" component={Settings} />
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="Notifications" component={Notifications} />
