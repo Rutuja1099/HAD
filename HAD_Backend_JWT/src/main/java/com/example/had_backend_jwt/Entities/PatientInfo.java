@@ -4,8 +4,10 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Cascade;
 
 import java.sql.Date;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -37,9 +39,9 @@ public class PatientInfo {
 //    @OneToOne(mappedBy = "ptInfo")
 //    private PatientLogin ptLogin;
 @Id
-@GeneratedValue(strategy = GenerationType.AUTO)
+@GeneratedValue(strategy = GenerationType.IDENTITY)
 @Column(name = "ptRegNo")
-private int ptRegNo;
+    private Integer ptRegNo;
 
     @Column(name = "ptFullname", nullable = false, length = 50)
     private String ptFullname;
@@ -53,13 +55,14 @@ private int ptRegNo;
     @Column(name = "ptDOB", nullable = false, length = 255)
     private String ptDOB;
 
-//    @Column(name = "ptEmail", nullable = false, unique = true,length = 30)
-//    private String ptEmail;
-
     @Column(name = "ptGender", nullable = false)
     private String ptGender;
 
     @OneToOne(mappedBy = "ptInfo",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonBackReference //@JsonManagedReference
+    @JsonBackReference
     private PatientLogin ptLogin;
+
+    @OneToMany(mappedBy = "patientInfo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Set<PatientProgress> patientProgress;
 }

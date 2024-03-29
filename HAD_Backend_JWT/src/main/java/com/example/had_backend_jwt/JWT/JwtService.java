@@ -1,5 +1,6 @@
 package com.example.had_backend_jwt.JWT;
 
+import com.example.had_backend_jwt.Entities.AdminLogin;
 import com.example.had_backend_jwt.Entities.DoctorLogin;
 import com.example.had_backend_jwt.Entities.PatientLogin;
 import io.jsonwebtoken.Claims;
@@ -7,6 +8,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -21,10 +23,20 @@ import java.util.function.Function;
 public class JwtService {
     @Value("${application.security.jwt.secret-key}")
     private String secretKey;
-    private long jwtExpiration=86400000;
+
+    @Value("${application.security.jwt.expiration}")
+    private long jwtExpiration;
     public String extractUserName(String token) {
 
         return extractClaim(token,Claims::getSubject);
+    }
+
+    public int extractId(String token){
+        if(token!=null){
+            Claims claims=extractAllClaims(token);
+            return (int)claims.get("patientId");
+        }
+        return -1;
     }
 
     public <T> T extractClaim(String token, Function<Claims,T> claimsResolver){
@@ -32,12 +44,18 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
 
-    public String generateToken(PatientLogin patientLogin){
+//    public String generateToken(PatientLogin patientLogin){
+//
+//        return generateToken(new HashMap<>(), patientLogin);
+//    }
 
-        return generateToken(new HashMap<>(), patientLogin);
+    public String generateToken(PatientLogin patientLogin){
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("patientId", patientLogin.getPtRegNo()); // Assuming getId() returns the ID of the patient
+        return generateToken(claims, patientLogin);
     }
 
-    public String generateToken(Map<String,Object> extraClaims, PatientLogin patientLogin){
+    public String generateToken(Map<String,Object> extraClaims,PatientLogin patientLogin){
         return Jwts
                 .builder()
                 .setClaims(extraClaims)
@@ -63,6 +81,23 @@ public class JwtService {
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
+
+    public String generateToken(AdminLogin adminLogin){
+
+        return generateToken(new HashMap<>(), adminLogin);
+    }
+
+    public String generateToken(Map<String,Object> extraClaims, AdminLogin adminLogin){
+        return Jwts
+                .builder()
+                .setClaims(extraClaims)
+                .setSubject(adminLogin.getAdminUsername())
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + jwtExpiration)) // Use jwtExpiration variable
+                .signWith(getSignInKey(), SignatureAlgorithm.HS256)
+                .compact();
+    }
+
     public boolean isTokenValid(String token, UserDetails userDetails){
         final String username=extractUserName(token);
         return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
@@ -90,5 +125,24 @@ public class JwtService {
     private Key getSignInKey() {
         byte[] keyBytes= Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
+    }
+
+    //Resolve token from HttpServletRequest
+    private String resolveToken(HttpServletRequest req){
+        String btoken=req.getHeader("Authorization");
+        if(btoken!=null && btoken.startsWith("Bearer ")){
+            return btoken.substring(7);
+        }
+        return null;
+    }
+
+    //Extract patient info from token
+    public String extractPatientInfo(HttpServletRequest req){
+        String token = resolveToken(req);
+        if(token!=null){
+            Claims claims=extractAllClaims(token);
+            return (String) claims.get("patientLogin");
+        }
+        return null;
     }
 }

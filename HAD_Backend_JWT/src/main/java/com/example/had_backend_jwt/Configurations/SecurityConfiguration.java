@@ -31,7 +31,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests()
                 .requestMatchers("/auth/**")
                 .permitAll()
-                .requestMatchers("/suhrid/**")
+                .requestMatchers("/suhrud/**")
                 .authenticated()
                 .anyRequest()
                 .authenticated()

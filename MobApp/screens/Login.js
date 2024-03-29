@@ -4,6 +4,9 @@ import { StatusBar } from 'expo-status-bar';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import axios from "axios";
 import webServerUrl from '../configurations/WebServer';
+import {LoginInputValidation} from '../services/InputValidation';
+import HttpService from '../services/HttpService';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Login(props) {
     
@@ -16,43 +19,46 @@ export default function Login(props) {
     };
 
     const onPressLogin = async () => {
-        if(!userName.trim() && !password.trim()){
-            alert('Please Enter Username and password');
+        const isValid=LoginInputValidation({userName,password})
+        if(!isValid)
             return;
+
+        const loginURL = webServerUrl+"/auth/login/patient";
+        const method='POST';
+        const data={
+            username:userName,
+            password:password
         }
-        if(!userName.trim()){
-            alert('Please Enter Username');
-            return;
-        }
-        if(!password.trim()){
-            alert('Please Enter Password');
-            return;
-        }
-        // alert('Success');
-        console.log(userName);
-        console.log(password);
+        
         try{
-            const login=webServerUrl+"/auth/login/patient";
-            const response = await axios.post(login,{
-                username:userName,
-                password:password
-            });
-            console.log(response.data);
-            props.navigation.navigate("Week");
-        }
-        catch(error){
-            if (error.response) {
-                console.log(error.response.status);
-                console.log(error.response.data);
-            } else {
-                console.log(error.message);
+            const response=await HttpService(method,loginURL,data);
+            console.log(response.status)
+            if(response.status===200){
+                console.log("Successful");
+                console.log(response.data);
+                try{
+                    await AsyncStorage.setItem('patientData',JSON.stringify(response.data));
+
+                    console.log("from storage");
+                    console.log(await AsyncStorage.getItem('patientData'));
+
+                }catch(error){
+                    console.log("error while saving data");
+                    console.log(error);
+                }
+                props.navigation.navigate("Week");
             }
+            else{
+                alert(response.data.message);
+                setUserName('');
+                setPassword('');
+            }
+        }catch(error){
+            alert(error.data.message);
+            console.log(error);
+            setUserName('');
+            setPassword('');
         }
-        // {
-        //     "username":"Aditi",
-        //     "password":"Abc@12"
-        // }
-        props.navigation.navigate("Week");
     }
 
     const onPressForgotPassword = () => {
@@ -166,7 +172,7 @@ const styles = StyleSheet.create({
     },
     inputView:{
         width:"80%",
-        backgroundColor:"#3AB4BA",
+        backgroundColor:"#F1E9E9",
         borderRadius:20,
         borderColor:'blue',
         borderWidth:2,
