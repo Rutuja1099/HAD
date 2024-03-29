@@ -8,6 +8,7 @@ import Dashboard from './components/Dashboard';
 import Login from './components/Login';
 import Patients from './components/Patients';
 import Appointments from './components/Appointments';
+import DoctorOnboarding from './components/DoctorOnboarding';
 
 function App() {
 
@@ -49,7 +50,8 @@ function App() {
 
             <Route path='appointments' element={<Appointments/>} />
 
-            <Route path='/' element={<Dashboard/>} />
+            <Route path='/doctor' element={<DoctorOnboarding/>} />
+            {/* <Route path='/' element={<Dashboard/>} /> */}
               <Route path='login' element={<Login/>} />
 
 

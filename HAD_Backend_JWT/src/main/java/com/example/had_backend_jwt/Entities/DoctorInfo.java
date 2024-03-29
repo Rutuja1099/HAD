@@ -1,5 +1,6 @@
 package com.example.had_backend_jwt.Entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
@@ -14,22 +15,25 @@ import lombok.*;
 public class DoctorInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="drRegno")
-    private Integer drRegno;
+    @Column(name="drId")
+    private Integer drId;
 
-    @Column(name="drFullName",nullable = false)
+    @Column(name = "drRegNo",nullable = false,unique = true)
+    private Integer drRegNo;
+
+    @Column(name="drFullName",nullable = false, length = 50)
     private String drFullName;
 
     @Column(name="drPhone",nullable = false,unique = true,length = 10)
     private String drPhone;
 
-    @Column(name = "drAddr",nullable = false)
+    @Column(name = "drAddr",nullable = false, length = 100)
     private String drAddr;
 
-    @Column(name="drEmail",nullable = false,unique = true)
-    private String drEmail;
+    @Column(name="drSpecialization",nullable = false)
+    private String drSpecialization;
 
-    @Column(name="drExperience")
+    @Column(name="drExperience",nullable = false)
     private Integer drExperience;
 
     @Column(name = "drPatientLimit",nullable = false)
@@ -45,6 +49,7 @@ public class DoctorInfo {
     private String drGender;
 
     @JsonIgnore
-    @OneToOne(mappedBy = "drInfo")
+    @OneToOne(mappedBy = "drInfo", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @JsonBackReference
     private DoctorLogin drLogin;
 }

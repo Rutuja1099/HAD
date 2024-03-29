@@ -6,6 +6,9 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import RNPickerSelect from 'react-native-picker-select';
 import axios from "axios";
 import webServerUrl from '../configurations/WebServer';
+import { SignupInputValidation } from '../services/InputValidation';
+import HttpService from '../services/HttpService';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function SignUp(props) {
 
@@ -16,10 +19,24 @@ export default function SignUp(props) {
   };
 
   const onPressSignUp = async () =>{
-    if(!name.trim()){
-      alert('Please Enter your Name');
+    const isValid=SignupInputValidation({ name, email, address, phoneNo, userName, gender, password, confirmPassword })
+
+    if(!isValid)
       return;
+
+    const signUpURL = webServerUrl+"/auth/register/patient";
+    const method='POST';
+    const data={
+      ptUsername:userName,
+      ptPassword:password,
+      ptFullname:name,
+      ptPhone:phoneNo,
+      ptAddr: address,
+      ptDOB: date.toLocaleDateString(),
+      ptEmail: email,
+      ptGender:gender
     }
+<<<<<<< HEAD
     if(!email.trim()){
       alert('Please Enter your email');
       return;
@@ -76,43 +93,42 @@ export default function SignUp(props) {
     console.log(password);
     console.log(gender);
     console.log("Sign Up");
+=======
+      
+>>>>>>> e676068994354ff40a0bbbf095bfeb238b418125
     try{
-      const  register=webServerUrl+"/auth/register/patient";
-      const response = await axios.post(register,{
-        ptUsername:userName,
-        ptPassword:password,
-        ptFullname:name,
-        ptPhone:phoneNo,
-        ptAddr: address,
-        ptDOB: date.toLocaleDateString(),
-        ptEmail: email,
-        ptGender:gender
-      });
-      console.log(response.data);
-      props.navigation.navigate("Week");
-    }
-    catch(error){
-        if (error.response) {
-            console.log(error.response.status);
-            console.log(error.response.data);
-        } else {
-            console.log(error.message);
-        }
-    }
-    // props.navigation.navigate("Week");
+      const response=await HttpService(method,signUpURL,data);
+      console.log(response.status)
+      if(response.status===200){
+        console.log("Successful");
+        console.log(response.data);
+        props.navigation.navigate("Week");
+      }
+      else{
+        alert(response.data.message);
+        console.log(response.data.message);
+      }
+    }catch(error){
+        alert(error.data.message);
+        console.log(error);
+      }
   }
+
+  const maxDate = new Date();
+  maxDate.setFullYear(maxDate.getFullYear() - 18);
+
   const [email,setEmail]=useState('');
   const [name,setName]=useState('');
   const [address,setAddress]=useState('');
   const [phoneNo,setPhoneNo]=useState('');
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(maxDate);
   const [userName, setUserName]=useState('');
   const [password, setPassword]=useState('');
   const [confirmPassword, setConfirmPassword]=useState('');
   const[mode,setMode]=useState("date");
   const[show,setShow] =useState(false);
   const [gender,setGender] =useState('Male');
-
+  
   const onChangeDate = (e,selectedDate) => {
     setDate(selectedDate);
     setShow(false);
@@ -182,7 +198,7 @@ export default function SignUp(props) {
                 is24Hour={true}
                 display="spinner"
                 onChange={onChangeDate}
-                maximumDate={new Date()}
+                maximumDate={maxDate}
                 minimumDate={new Date(1950, 0, 1)}
                 />
             )}

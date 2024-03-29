@@ -18,8 +18,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -32,34 +31,58 @@ public class PatientAuthenticationService {
     @Autowired
     private EmailService emailService;
     public PatientAuthenticationResponse registerPatient(PatientRegisterRequest request){
-        PatientInfo patientInfo = PatientInfo.builder()
-                .ptFullname(request.getPtFullname())
-                .ptPhone(request.getPtPhone())
-                .ptAddr(request.getPtAddr())
-                .ptDOB(request.getPtDOB())
-                .ptGender(request.getPtGender())
-                .build();
 
-        // Save PatientInfo
-        patientInfoRepository.save(patientInfo);
+        try{
+            Optional<PatientLogin> patientLoginOptionalUsername=patientLoginRepository.findByPtUsername(request.getPtUsername());
+            if(patientLoginOptionalUsername.isPresent()){
+                PatientAuthenticationResponse response = new PatientAuthenticationResponse();
+                response.setMessage("Username already exists");
+                return response;
+            }
 
-        // Create PatientLogin
-        PatientLogin patientLogin = PatientLogin.builder()
-                .ptUsername(request.getPtUsername())  // Assuming you have a username field in PatientRegisterRequest
-                .ptPassword(passwordEncoder.encode(request.getPtPassword()))  // Encode password
-                .ptEmail(request.getPtEmail())
-                .build();
-        patientLogin.setPtInfo(patientInfo);
-        // Save PatientLogin
-        patientLoginRepository.save(patientLogin);
+            Optional<PatientLogin> patientLoginOptionalEmail=patientLoginRepository.findByPtEmail(request.getPtEmail());
+            if(patientLoginOptionalEmail.isPresent()){
+                PatientAuthenticationResponse response = new PatientAuthenticationResponse();
+                response.setMessage("Email already exists");
+                return response;
+            }
 
-         //Generate JWT token
-        String jwtToken = jwtService.generateToken(patientLogin);
+            PatientInfo patientInfo = PatientInfo.builder()
+                    .ptFullname(request.getPtFullname())
+                    .ptPhone(request.getPtPhone())
+                    .ptAddr(request.getPtAddr())
+                    .ptDOB(request.getPtDOB())
+                    .ptGender(request.getPtGender())
+                    .build();
 
-        return PatientAuthenticationResponse.builder()
-                .token(jwtToken)
-                .patientInfo(patientInfo)
-                .build();
+            // Save PatientInfo
+            patientInfoRepository.save(patientInfo);
+
+            // Create PatientLogin
+            PatientLogin patientLogin = PatientLogin.builder()
+                    .ptUsername(request.getPtUsername())
+                    .ptPassword(passwordEncoder.encode(request.getPtPassword()))  // Encode password
+                    .ptEmail(request.getPtEmail())
+                    .build();
+            patientLogin.setPtInfo(patientInfo);
+            // Save PatientLogin
+            patientLoginRepository.save(patientLogin);
+
+            //Generate JWT token
+            String jwtToken = jwtService.generateToken(patientLogin);
+
+            return PatientAuthenticationResponse.builder()
+                    .token(jwtToken)
+                    .patientInfo(patientInfo)
+                    .message("Success")
+                    .build();
+
+        }catch(Exception e){
+            PatientAuthenticationResponse response = new PatientAuthenticationResponse();
+            response.setMessage(e.getMessage());
+            return response;
+        }
+
     }
 
     public PatientAuthenticationResponse authenticatePatient(AuthenticationRequest request) {
@@ -79,19 +102,26 @@ public class PatientAuthenticationService {
             return PatientAuthenticationResponse.builder()
                     .token(jwtToken)
                     .patientInfo(patientInfo)
+                    .message("Success")
                     .build();
         }catch (AuthenticationException e) {
             // Authentication failed, handle the exception
-            throw new BadCredentialsException("Invalid username or password", e);
+            PatientAuthenticationResponse response=new PatientAuthenticationResponse();
+            response.setMessage("Invalid username or password");
+            return response;
+            //throw new BadCredentialsException("Invalid username or password", e);
         }
     }
 
     public boolean sendMail(String mail) {
-        PatientLogin user=patientLoginRepository.findByPtEmail(mail);
-        if(user!=null)
-        {
-            emailService.sendSimpleMessage(user.getPtEmail(), "Dear User your Username and password is","Username : "+user.getPtUsername()+" \nPassword : "+user.getPtPassword());
-            return true;
+        Optional<PatientLogin> patientLoginOptional=patientLoginRepository.findByPtEmail(mail);
+        if(patientLoginOptional.isPresent()){
+            PatientLogin user=patientLoginOptional.get();
+            if(user!=null)
+            {
+                emailService.sendSimpleMessage(user.getPtEmail(), "Dear User your Username and password is","Username : "+user.getPtUsername()+" \nPassword : "+user.getPtPassword());
+                return true;
+            }
         }
         return false;
     }

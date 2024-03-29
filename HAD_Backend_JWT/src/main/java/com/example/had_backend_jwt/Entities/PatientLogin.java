@@ -62,33 +62,4 @@ public class PatientLogin {
         this.ptEmail = ptEmail;
     }
 
-//    public Patient getPatient() {
-//        return patient;
-//    }
-//
-//    public void setPatient(com.example.naya.Entity.patient patient) {
-//        this.patient = patient;
-//    }
-
-//    public patientlogin(int ptRegNo, String ptUsername, String ptPassword, String ptEmail, patient patient) {
-//        this.ptRegNo = ptRegNo;
-//        this.ptUsername = ptUsername;
-//        this.ptPassword = ptPassword;
-//        this.ptEmail = ptEmail;
-//        this.patient = patient;
-//    }
-
-//    public patientlogin() {
-//    }
-
-//    @Override
-//    public String toString() {
-//        return "patientlogin{" +
-//                "ptRegNo=" + ptRegNo +
-//                ", ptUsername='" + ptUsername + '\'' +
-//                ", ptPassword='" + ptPassword + '\'' +
-//                ", ptEmail='" + ptEmail + '\'' +
-//                ", patient=" + patient +
-//                '}';
-//    }
 }

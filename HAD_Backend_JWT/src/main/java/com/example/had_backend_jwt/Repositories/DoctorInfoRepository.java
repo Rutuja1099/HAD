@@ -7,5 +7,5 @@ import org.springframework.data.repository.query.Param;
 import java.util.Optional;
 
 public interface DoctorInfoRepository extends JpaRepository<DoctorInfo,Integer> {
-    Optional<DoctorInfo> findByDrRegno(@Param("drRegno") Integer drRegno);
+    Optional<DoctorInfo> findByDrId(@Param("drId") Integer drId);
 }
