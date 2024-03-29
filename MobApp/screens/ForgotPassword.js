@@ -16,7 +16,7 @@ export default function ForgotPassword(props) {
       return;
     }
     alert(`Please check Email ${email} for id and password`);
-    props.navigation.navigate("Login");
+    props.navigation.navigate("ChangePassword");
   }
   return (
     <ScrollView contentContainerStyle={styles.containerContent}

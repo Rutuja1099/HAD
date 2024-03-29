@@ -62,10 +62,7 @@ public class PatientInfo {
     @JsonBackReference
     private PatientLogin ptLogin;
 
-//    @JsonIgnore
-//    @OneToMany(mappedBy = "patientProgressId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    private Set<PatientProgress> patientProgress;
-
     @OneToMany(mappedBy = "patientInfo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<PatientProgress> patientProgress;
 }

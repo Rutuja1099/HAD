@@ -312,10 +312,10 @@ const styles = StyleSheet.create({
     height: 50,
     marginBottom: 15,
     padding: 20,
-    flex: 1, // Takes up the full width of its parent minus padding/margin/borders
+    flex: 1, 
   },
   dateText: {
-    color: 'white', // Makes the text color white
-    marginLeft: 10, // Adds some space between the icon and the text
+    color: 'white',
+    marginLeft: 10, 
   },
 })
