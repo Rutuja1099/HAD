@@ -45,6 +45,5 @@ public class AuthenticationController {
             return ResponseEntity.ok("Mail Sent Successfully");
         }
         return ResponseEntity.badRequest().body("Email not in Database");
-//        return ResponseEntity.ok().body("Hello");
     }
 }
