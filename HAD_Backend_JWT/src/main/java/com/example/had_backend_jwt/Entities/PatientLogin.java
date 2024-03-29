@@ -25,6 +25,9 @@ public class PatientLogin {
     @Column(name = "ptEmail", nullable = false, unique = true,length = 30)
     private String ptEmail;
 
+    @Column(name="ptFirstTimeLogin",nullable = false)
+    private Boolean ptFirstTimeLogin;
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ptRegNo", referencedColumnName = "ptRegNo")
 //    @JsonIgnore

@@ -43,6 +43,16 @@ export default function SignUp(props) {
       if(response.status===200){
         console.log("Successful");
         console.log(response.data);
+        try{
+          await AsyncStorage.setItem('patientData',JSON.stringify(response.data));
+
+          console.log("from storage");
+          console.log(await AsyncStorage.getItem('patientData'));
+
+        }catch(error){
+            console.log("error while saving data");
+            console.log(error);
+        }
         props.navigation.navigate("Week");
       }
       else{

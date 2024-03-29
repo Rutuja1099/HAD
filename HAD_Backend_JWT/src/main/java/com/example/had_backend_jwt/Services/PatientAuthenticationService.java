@@ -3,9 +3,7 @@ package com.example.had_backend_jwt.Services;
 import com.example.had_backend_jwt.Entities.PatientInfo;
 import com.example.had_backend_jwt.Entities.PatientLogin;
 import com.example.had_backend_jwt.JWT.JwtService;
-import com.example.had_backend_jwt.Models.AuthenticationRequest;
-import com.example.had_backend_jwt.Models.PatientAuthenticationResponse;
-import com.example.had_backend_jwt.Models.PatientRegisterRequest;
+import com.example.had_backend_jwt.Models.*;
 import com.example.had_backend_jwt.Repositories.PatientInfoRepository;
 import com.example.had_backend_jwt.Repositories.PatientLoginRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +26,10 @@ public class PatientAuthenticationService {
     private final PatientLoginRepository patientLoginRepository;
     private final PatientInfoRepository patientInfoRepository;
     private final AuthenticationManager authenticationManager;
+
+    @Autowired
+    private final RandomPasswordGenerationService randomPasswordGenerationService;
+
     @Autowired
     private EmailService emailService;
     public PatientAuthenticationResponse registerPatient(PatientRegisterRequest request){
@@ -63,6 +65,7 @@ public class PatientAuthenticationService {
                     .ptUsername(request.getPtUsername())
                     .ptPassword(passwordEncoder.encode(request.getPtPassword()))  // Encode password
                     .ptEmail(request.getPtEmail())
+                    .ptFirstTimeLogin(true)
                     .build();
             patientLogin.setPtInfo(patientInfo);
             // Save PatientLogin
@@ -73,7 +76,9 @@ public class PatientAuthenticationService {
 
             return PatientAuthenticationResponse.builder()
                     .token(jwtToken)
-                    .patientInfo(patientInfo)
+                    .ptRegNo(patientLogin.getPtRegNo())
+                    .ptUsername(patientLogin.getPtUsername())
+                    .ptFirstTimeLogin(patientLogin.getPtFirstTimeLogin())
                     .message("Success")
                     .build();
 
@@ -96,12 +101,13 @@ public class PatientAuthenticationService {
             PatientLogin patientLogin = patientLoginRepository.findByPtUsername(request.getUsername())
                     .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-            PatientInfo patientInfo = patientLogin.getPtInfo();
             var jwtToken=jwtService.generateToken(patientLogin);
 
             return PatientAuthenticationResponse.builder()
                     .token(jwtToken)
-                    .patientInfo(patientInfo)
+                    .ptRegNo(patientLogin.getPtRegNo())
+                    .ptUsername(patientLogin.getPtUsername())
+                    .ptFirstTimeLogin(patientLogin.getPtFirstTimeLogin())
                     .message("Success")
                     .build();
         }catch (AuthenticationException e) {
@@ -119,10 +125,50 @@ public class PatientAuthenticationService {
             PatientLogin user=patientLoginOptional.get();
             if(user!=null)
             {
-                emailService.sendSimpleMessage(user.getPtEmail(), "Dear User your Username and password is","Username : "+user.getPtUsername()+" \nPassword : "+user.getPtPassword());
+                String password = randomPasswordGenerationService.randomPasswordGeneration();
+                user.setPtPassword(password);
+                patientLoginRepository.save(user);
+                emailService.sendSimpleMessage(user.getPtEmail(), "Dear User your Username and password is","Username : "+user.getPtUsername()+" \nPassword : "+password);
                 return true;
             }
         }
         return false;
     }
+
+    public PatientAuthenticationResponse patientForgotPasswordUpdation(PasswordUpdateRequest request){
+        try{
+            Optional<PatientLogin> patientLoginOptional=patientLoginRepository.findByPtUsername(request.getUsername());
+            if(patientLoginOptional.isPresent()){
+                PatientLogin patientLogin=patientLoginOptional.get();
+                if(patientLogin.getPtPassword().equals(request.getCurrentPassword())){
+                    patientLogin.setPtPassword(passwordEncoder.encode(request.getNewPassword()));
+                    patientLoginRepository.save(patientLogin);
+
+                    var jwtToken=jwtService.generateToken(patientLogin);
+
+                    return PatientAuthenticationResponse.builder()
+                            .token(jwtToken)
+                            .ptRegNo(patientLogin.getPtRegNo())
+                            .ptUsername(patientLogin.getPtUsername())
+                            .ptFirstTimeLogin(patientLogin.getPtFirstTimeLogin())
+                            .message("Success")
+                            .build();
+
+                }
+                else
+                    return PatientAuthenticationResponse.builder()
+                            .message("Invalid Password")
+                            .build();
+            } else{
+                return PatientAuthenticationResponse.builder()
+                        .message("Invalid Username")
+                        .build();
+            }
+        }catch (Exception e){
+            return PatientAuthenticationResponse.builder()
+                    .message("Invalid Username and password")
+                    .build();
+        }
+    }
+
 }

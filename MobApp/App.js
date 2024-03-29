@@ -28,7 +28,7 @@ export default function App() {
     
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="ChatList" component={ChatList} />
+        {/* <Stack.Screen name="ChatList" component={ChatList} /> */}
         <Stack.Screen name="Login" component={Login}/>
         <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
         <Stack.Screen name="SignUp" component={SignUp}/>
