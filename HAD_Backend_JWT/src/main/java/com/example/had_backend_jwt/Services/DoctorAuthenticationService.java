@@ -2,6 +2,7 @@ package com.example.had_backend_jwt.Services;
 
 import com.example.had_backend_jwt.Entities.DoctorInfo;
 import com.example.had_backend_jwt.Entities.DoctorLogin;
+import com.example.had_backend_jwt.Entities.PatientLogin;
 import com.example.had_backend_jwt.JWT.JwtService;
 import com.example.had_backend_jwt.Models.AuthenticationRequest;
 import com.example.had_backend_jwt.Models.DoctorAuthenticationResponse;
@@ -10,6 +11,7 @@ import com.example.had_backend_jwt.Models.PasswordUpdateRequest;
 import com.example.had_backend_jwt.Repositories.DoctorInfoRepository;
 import com.example.had_backend_jwt.Repositories.DoctorLoginRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -30,6 +32,12 @@ public class DoctorAuthenticationService {
     private final DoctorInfoRepository doctorInfoRepository;
     private final DoctorLoginRepository doctorLoginRepository;
     private final AuthenticationManager authenticationManager;
+
+    @Autowired
+    private final RandomPasswordGenerationService randomPasswordGenerationService;
+
+    @Autowired
+    private EmailService emailService;
 
     public DoctorAuthenticationResponse registerDoctor(DoctorRegisterRequest request){
         try{
@@ -63,12 +71,15 @@ public class DoctorAuthenticationService {
             doctorInfoRepository.save(doctorInfo);
             DoctorLogin doctorLogin=DoctorLogin.builder()
                     .drUsername(request.getDrUsername())
-                    .drPassword(randomPasswordGeneration())
+                    .drPassword(randomPasswordGenerationService.randomPasswordGeneration())
                     .drEmail(request.getDrEmail())
+                    .drFirstTimeLogin(true)
                     .build();
             doctorLogin.setDrInfo(doctorInfo);
 
             doctorLoginRepository.save(doctorLogin);
+
+            emailService.sendSimpleMessage(doctorLogin.getDrEmail(), "Dear User your Username and password is","Username : "+doctorLogin.getDrUsername()+" \nPassword : "+doctorLogin.getDrPassword());
 
             return DoctorAuthenticationResponse.builder()
                     .drId(doctorLogin.getDrId())
@@ -84,42 +95,15 @@ public class DoctorAuthenticationService {
 
     }
 
-    public static String randomPasswordGeneration(){
-        final String charLower = "abcdefghijklmnopqrstuvwxyz";
-        final String charUpper = charLower.toUpperCase();
-        final String number = "0123456789";
-        final String otherChar = "!@#$%&*()_+-=[]?";
-
-        final String passwordBase = charLower+ charUpper + number + otherChar;
-        final SecureRandom random = new SecureRandom();
-
-        StringBuilder password = new StringBuilder(12);
-        password.append(randomChar(charLower));
-        password.append(randomChar(charUpper));
-        password.append(randomChar(number));
-        password.append(randomChar(otherChar));
-
-        for (int i = 4; i < 12; i++) {
-            password.append(randomChar(passwordBase));
-        }
-
-        return password.toString();
-    }
-
-    private static char randomChar(String inputString) {
-        Random random=new Random();
-        int randomIndex = random.nextInt(inputString.length());
-        return inputString.charAt(randomIndex);
-    }
-
-
-    public DoctorAuthenticationResponse doctorPasswordUpdationFirstTime(PasswordUpdateRequest request){
+    public DoctorAuthenticationResponse doctorForgotPasswordUpdation(PasswordUpdateRequest request){
         try{
             Optional<DoctorLogin> doctorLoginOptional=doctorLoginRepository.findByDrUsername(request.getUsername());
             if(doctorLoginOptional.isPresent()){
                 DoctorLogin doctorLogin=doctorLoginOptional.get();
                 if(doctorLogin.getDrPassword().equals(request.getCurrentPassword())){
                     doctorLogin.setDrPassword(passwordEncoder.encode(request.getNewPassword()));
+                    if(doctorLogin.getDrFirstTimeLogin())
+                        doctorLogin.setDrFirstTimeLogin(false);
                     doctorLoginRepository.save(doctorLogin);
 
                     var jwtToken=jwtService.generateToken(doctorLogin);
@@ -160,15 +144,20 @@ public class DoctorAuthenticationService {
                     .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
             // Get ptRegNo
+            if(!doctorLogin.getDrFirstTimeLogin()){
+                var jwtToken=jwtService.generateToken(doctorLogin);
 
-            var jwtToken=jwtService.generateToken(doctorLogin);
-
-            return DoctorAuthenticationResponse.builder()
-                    .token(jwtToken)
-                    .drId(doctorLogin.getDrId())
-                    .drUsername(doctorLogin.getDrUsername())
-                    .message("Success")
-                    .build();
+                return DoctorAuthenticationResponse.builder()
+                        .token(jwtToken)
+                        .drId(doctorLogin.getDrId())
+                        .drUsername(doctorLogin.getDrUsername())
+                        .message("Success")
+                        .build();
+            }
+            else
+                return DoctorAuthenticationResponse.builder()
+                        .message("Please click on the link provided in email and set your password on first login")
+                        .build();
         }catch (AuthenticationException e) {
             // Authentication failed, handle the exception
             return DoctorAuthenticationResponse.builder()
@@ -177,4 +166,21 @@ public class DoctorAuthenticationService {
             //throw new BadCredentialsException("Invalid username or password", e);
         }
     }
+
+    public boolean drForgotPasswordSendMail(String mail) {
+        Optional<DoctorLogin> doctorLoginOptional=doctorLoginRepository.findByDrEmail(mail);
+        if(doctorLoginOptional.isPresent()){
+            DoctorLogin user=doctorLoginOptional.get();
+            if(user!=null)
+            {
+                String password = randomPasswordGenerationService.randomPasswordGeneration();
+                user.setDrPassword(password);
+                doctorLoginRepository.save(user);
+                emailService.sendSimpleMessage(user.getDrEmail(), "Dear User your Username and password is","Username : "+user.getDrUsername()+" \nPassword : "+user.getDrPassword());
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

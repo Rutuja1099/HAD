@@ -37,6 +37,7 @@ export default function SignUp(props) {
       ptEmail: email,
       ptGender:gender
     }
+<<<<<<< HEAD
     
     if(!email.trim()){
       alert('Please Enter your email');
@@ -94,12 +95,25 @@ export default function SignUp(props) {
     console.log(password);
     console.log(gender);
     console.log("Sign Up");
+=======
+      
+>>>>>>> 8ea4bb35b5e32af3135687653adb4ab027254b8e
     try{
       const response=await HttpService(method,signUpURL,data);
       console.log(response.status)
       if(response.status===200){
         console.log("Successful");
         console.log(response.data);
+        try{
+          await AsyncStorage.setItem('patientData',JSON.stringify(response.data));
+
+          console.log("from storage");
+          console.log(await AsyncStorage.getItem('patientData'));
+
+        }catch(error){
+            console.log("error while saving data");
+            console.log(error);
+        }
         props.navigation.navigate("Week");
       }
       else{

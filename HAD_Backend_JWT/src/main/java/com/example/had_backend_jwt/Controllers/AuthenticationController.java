@@ -1,5 +1,6 @@
 package com.example.had_backend_jwt.Controllers;
 
+import com.example.had_backend_jwt.Entities.AdminLogin;
 import com.example.had_backend_jwt.Models.*;
 import com.example.had_backend_jwt.Services.AdminAuthenticationService;
 import com.example.had_backend_jwt.Services.DoctorAuthenticationService;
@@ -67,9 +68,28 @@ public class AuthenticationController {
             return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/doctor/passwordUpdation/firstTime")
-    public ResponseEntity<DoctorAuthenticationResponse> doctorPasswordUpdationFirstTime(@RequestBody PasswordUpdateRequest request){
-        DoctorAuthenticationResponse response=doctorAuthService.doctorPasswordUpdationFirstTime(request);
+    @PostMapping("/forgotPassword/doctor")
+    public ResponseEntity<DoctorAuthenticationResponse> doctorForgotPassword(@RequestBody PasswordUpdateRequest request){
+        DoctorAuthenticationResponse response=doctorAuthService.doctorForgotPasswordUpdation(request);
+        if(response.getMessage()!=null && !response.getMessage().equals("Success"))
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+        else
+            return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/email/doctor")
+    public ResponseEntity<?> doctorSendMail(@RequestParam String mail)
+    {
+        boolean sent=doctorAuthService.drForgotPasswordSendMail(mail);
+        if(sent){
+            return ResponseEntity.ok("Mail Sent Successfully");
+        }
+        return ResponseEntity.badRequest().body("Email not in Database");
+    }
+
+    @PostMapping("/forgotPassword/patient")
+    public ResponseEntity<PatientAuthenticationResponse> patientForgotPassword(@RequestBody PasswordUpdateRequest request){
+        PatientAuthenticationResponse response=patientAuthService.patientForgotPasswordUpdation(request);
         if(response.getMessage()!=null && !response.getMessage().equals("Success"))
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
         else

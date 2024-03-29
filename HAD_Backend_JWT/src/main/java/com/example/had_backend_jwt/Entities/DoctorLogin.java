@@ -28,4 +28,7 @@ public class DoctorLogin {
 
     @Column(name = "drPassword",nullable = false)
     private String drPassword;
+
+    @Column(name="drFirstTimeLogin",nullable = false)
+    private Boolean drFirstTimeLogin;
 }
