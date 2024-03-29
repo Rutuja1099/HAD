@@ -22,7 +22,7 @@ function App() {
 
         <div className={`${location.pathname !== '/login' ? "ml-5 flex h-full" : "h-full"} `}>
           
-        {location.pathname !== '/login' && (
+        {location.pathname !== '/login' && location.pathname !== '/setPassword' && (
           <SideNavigationMenu
             open = {open}
             setOpen = {setOpen}
@@ -31,7 +31,7 @@ function App() {
 
           <div className={` ${location.pathname !== '/login' ? "ml-5 flex flex-col w-full h-full" : "h-full"} `}>
             
-          {location.pathname !== '/login' && (
+          {location.pathname !== '/login' && location.pathname !== '/setPassword' && (
             <TopNavigationMenu
               open={open}
               setOpen={setOpen}
