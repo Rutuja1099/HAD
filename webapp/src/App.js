@@ -1,4 +1,5 @@
 import './App.css';
+//components import
 import SideNavigationMenu from './components/SideNavigationMenu';
 import { useState, useEffect } from 'react';
 import TopNavigationMenu from './components/TopNavigationMenu';
@@ -8,6 +9,7 @@ import Dashboard from './components/Dashboard';
 import Login from './components/Login';
 import Patients from './components/Patients';
 import Appointments from './components/Appointments';
+import QnaForum from './components/QnaForum';
 import DoctorOnboarding from './components/DoctorOnboarding';
 import SetPassword from './components/SetPassword';
 import ForgotPasswordMail from './components/ForgotPasswordMail';
@@ -28,10 +30,10 @@ function App() {
     setLoading(false); // Set loading to false after initial render
   },);
 
-  // If loading, show loading indicator
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  // // If loading, show loading indicator
+  // if (loading) {
+  //   return <div>Loading...</div>;
+  // }
 
   // If not authenticated and not on the login page, redirect to login
   if (!authenticated && location.pathname !== '/login'&& location.pathname !== '/setPassword' && location.pathname !== '/forgotPasswordMail') {

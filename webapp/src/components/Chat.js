@@ -41,7 +41,6 @@ const Chat = ({selectedChat, selectedPatientId, room, user}) => {
             });
 
             setMessages(messages);
-            console.log("2222222", messages);
             setNewMessage('');
             
 
@@ -49,9 +48,7 @@ const Chat = ({selectedChat, selectedPatientId, room, user}) => {
         //cleaning the useeffect which is important
         return () => unsubscribe();
 
-    },[])
-
-
+    },[room])
 
     const handleSend = async (e) => {
         e.preventDefault();

@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 //   ); 
 //  }; 
 
- function DoctorOnboarding() { 
+function DoctorOnboarding() { 
   const [FullName, setFullName] = useState(""); 
   const [gender, setGender] = useState("gender"); 
   const [email, setEmail] = useState(""); 
@@ -163,7 +163,7 @@ import { useNavigate } from "react-router-dom";
             <div className="w-1/2 p-2">
               <div className="relative flex flex-col"> 
               <input 
-                className="rounded-xl w-30 h-10 bg-white text-black placeholder-black p-5 border-2 border-indigo-500/75 border-2 border-indigo-500/75"
+                className="rounded-xl w-30 h-10 bg-white text-black placeholder-black p-5 border-2 border-indigo-500/75"
                 value={FullName} 
                 onChange={(e) => { 
                   setFullName(e.target.value); 

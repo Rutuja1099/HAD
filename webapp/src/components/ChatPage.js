@@ -52,7 +52,9 @@ const ChatPage = () => {
         //     return;
         // }
         
-        const filteredResults = allDoctorInfo.filter(doctor => doctor.name.toLowerCase().includes(searchText.toLowerCase()));
+        const regex = new RegExp(text, 'i'); // i means Case-insensitive regular expression
+        const filteredResults = allDoctorInfo.filter(doctor => regex.test(doctor.name));
+        // const filteredResults = allDoctorInfo.filter(doctor => doctor.name.toLowerCase().includes(searchText.toLowerCase()));
         setSearchResults(filteredResults);
 
     }
@@ -62,6 +64,7 @@ const ChatPage = () => {
         setSearchText("");
         setSelectedPatientName(patientName);
         setRoom(patientName+user);
+        console.log(room);
     }
 
     const navigateBack = () => {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import logoImage from "../assets/favicon.png";
 import { IoIosMenu, IoIosHome, IoIosLogOut } from "react-icons/io";
 import { FaRegUser } from "react-icons/fa";

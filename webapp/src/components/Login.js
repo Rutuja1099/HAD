@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import SideNavigationMenu from "./SideNavigationMenu";
 import { Link, useNavigate } from "react-router-dom";
 import loginbackground from "../assets/loginbackground.jpg";
 import { useDispatch, useSelector } from "react-redux";
+import { updateDoctorInfo } from "../redux/features/doctorInfo/doctorInfoSlice";
 import { LoginInputValidation } from "../services/InputValidation";
 import webServerUrl from "../configurations/WebServer";
 import HttpService from "../services/HttpService.js";

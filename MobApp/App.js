@@ -17,6 +17,7 @@ import ForgotPassword from "./screens/ForgotPassword";
 import Week from "./screens/Week";
 import Day from "./screens/Day";
 import ChangePassword from "./screens/ChangePassword";
+import Harmony from "./screens/Harmony";
 
 NativeWindStyleSheet.setOutput({
   default: "native",
@@ -48,7 +49,8 @@ export default function App() {
           component={Chat} 
           // initialParams={{ doctorName: 'Dr. John', doctorId: 123 }}  
         />
-        <Stack.Screen name="Wellness Hub 😊" component={WellnessHub} />        
+        <Stack.Screen name="Wellness Hub 😊" component={WellnessHub} />   
+        <Stack.Screen name="Harmony" component={Harmony}/>     
       </Stack.Navigator>
     </NavigationContainer>
   

@@ -1,7 +1,10 @@
 /* ChatPage.css */
-/* Remove the default scrollbar */
-.scrollbar::-webkit-scrollbar {
-    width: 12px; /* Width of the scrollbar */
+/* Apply the scrollbar styles to the Ask & Answer section only */
+.scrollbar {
+    height: 100%; /* Match the height of the parent div */
+    overflow-y: auto; /* Ensure scrollbar visibility even when not needed */
+    scrollbar-width: thin; /* Width of the scrollbar */
+    scrollbar-color: hsl(231, 100%, 80%) transparent; /* Color of the scrollbar thumb and track */
 }
 
 /* Track */
@@ -28,11 +31,4 @@
 /* Remove the scrollbar corner */
 .scrollbar-corner {
     display: none;
-}
-
-/* Ensure scrollbar visibility */
-.scrollbar {
-    scrollbar-width: thin; /* Width of the scrollbar */
-    scrollbar-color: hsl(231, 100%, 80%) transparent; /* Color of the scrollbar thumb and track */
-    overflow-y: auto; /* Ensure scrollbar visibility even when not needed */
 }
