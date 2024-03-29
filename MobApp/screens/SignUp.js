@@ -5,6 +5,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import RNPickerSelect from 'react-native-picker-select';
 import axios from "axios";
+import { Picker } from '@react-native-picker/picker';
 import webServerUrl from '../configurations/WebServer';
 import { SignupInputValidation } from '../services/InputValidation';
 import HttpService from '../services/HttpService';
@@ -36,7 +37,67 @@ export default function SignUp(props) {
       ptEmail: email,
       ptGender:gender
     }
+<<<<<<< HEAD
+    
+    if(!email.trim()){
+      alert('Please Enter your email');
+      return;
+    }
+    if(!/\S+@\S+\.\S+/.test(email.trim())){
+      alert('Email is Invalid');
+      return;
+    }
+    if(!address.trim()){
+      alert('Please Enter your address');
+      return;
+    }
+    if(!phoneNo.trim()){
+      alert('Please Enter Phone Number');
+      return;
+    }
+    if(!userName.trim()){
+      alert('Please Enter Username');
+      return;
+    }
+    if(!gender.trim())
+    {
+      alert('Please Select Gender');
+      return;
+    }
+    if(userName.trim().length<4)
+    {
+      alert('Username Length is less than 4');
+      return;
+    }
+    if(!password.trim()){
+      alert('Please Enter Password');
+      return;
+    }
+    if(password.length<6){
+      alert('Password Length is less than 6');
+      return;
+    }
+    if(!confirmPassword.trim()){
+      alert('Please Enter Confirm Password');
+      return;
+    }
+    if(password!==confirmPassword){
+      alert('Passwords do not match');
+      return
+    }
+    // alert('Success');
+    console.log(name);
+    console.log(email);
+    console.log(address);
+    console.log(phoneNo);
+    console.log(date.toLocaleDateString());
+    console.log(userName);
+    console.log(password);
+    console.log(gender);
+    console.log("Sign Up");
+=======
       
+>>>>>>> 8ea4bb35b5e32af3135687653adb4ab027254b8e
     try{
       const response=await HttpService(method,signUpURL,data);
       console.log(response.status)
@@ -155,18 +216,57 @@ export default function SignUp(props) {
             )}
             </View>
         {/* ========== */}
-        <View style={styles.inputView}>
+        {/* <View style={styles.inputView}>
           <RNPickerSelect
-            onValueChange={(value) => setGender(value)} // Replace with your setGender function
+            onValueChange={(value) => setGender(value)}
             items={[
-                { label: 'Male', value: 'male' },
-                { label: 'Female', value: 'female' },
-                { label: 'Other', value: 'other' },
+              { label: 'Male', value: 'male' },
+              { label: 'Female', value: 'female' },
+              { label: 'Other', value: 'other' },
             ]}
-            style={styles.inputText}
+            style={{
+              inputIOS: {
+                backgroundColor: '#3AB4BA',
+                borderRadius: 20,
+                borderColor: 'blue',
+                borderWidth: 2,
+                height: 50,
+                color: 'white',
+                paddingHorizontal: 10,
+                justifyContent: 'center',
+                alignItems: 'center', // Adjust as needed
+              },
+              inputAndroid: {
+                backgroundColor: '#3AB4BA',
+                borderRadius: 20,
+                borderColor: 'blue',
+                borderWidth: 2,
+                height: 50,
+                color: 'white',
+                paddingHorizontal: 10,
+                justifyContent: 'center',
+                alignItems: 'center', // Adjust as needed
+              },
+              iconContainer: { // Adjust icon position
+                top: '25%',
+                right: 15,
+              },
+            }}
             placeholder={{ label: "Select your gender", value: "Male" }}
-            Icon={() => <MaterialCommunityIcons name="gender-male-female" size={24} color="gray" />}
+            // Icon={() => <MaterialCommunityIcons name="gender-male-female" size={24} color="white" />} // Adjust color
           />
+        </View> */}
+        <View style={styles.inputView}>
+          <Picker
+            selectedValue={gender}
+            onValueChange={(itemValue) => setGender(itemValue)}
+            style={styles.picker}
+          >
+            <Picker.Item label="Select your gender" value="" />
+            <Picker.Item label="Male" value="male" />
+            <Picker.Item label="Female" value="female" />
+            <Picker.Item label="Other" value="other" />
+          </Picker>
         </View>
         {/* ======= */}
         <View style={styles.inputView}>
@@ -225,7 +325,7 @@ const styles = StyleSheet.create({
     flex:1,
     backgroundColor:'#fff',
     paddingTop:'10%',
-    // position:'absolute',
+    position:'relative',
   },
   containerContent:{
     alignItems:'center',
@@ -235,7 +335,7 @@ const styles = StyleSheet.create({
     flex:1,
     backgroundColor:'#F1E9E9',
     flexDirection:"column",
-    paddingTop:25,
+    paddingTop:10,
     paddingBottom:10,
     borderRadius:30,
     position:'relative',
@@ -261,8 +361,8 @@ const styles = StyleSheet.create({
     fontWeight:'bold',
     fontFamily:'System',
     fontSize:50,
-    marginTop:20,
-    marginBottom:20,
+    // marginTop:5,
+    // marginBottom:20,
   },
   inputView:{
     width:'80%',
@@ -276,7 +376,6 @@ const styles = StyleSheet.create({
     flexDirection:'row',
     alignItems:'center',
     padding:20,
-    // flex:1,
   },
   inputText:{
     flex:1,
@@ -284,13 +383,25 @@ const styles = StyleSheet.create({
     color:'white',
     flexDirection:'row',
   },
+  picker: {
+    width:'100%',
+    flex: 1,
+    height: 40,
+    backgroundColor: '#3AB4BA',
+    borderRadius: 20,
+    borderColor: '#3AB4BA',
+    borderWidth: 2,
+    justifyContent: 'center',
+    // paddingLeft: 10,
+    // paddingRight: 30, // Adjust as needed
+  },
   signUpBtn:{
     width:'40%',
     backgroundColor:'#3AB4BA',
     height:'5%',
     alignItems:'center',
     justifyContent:'center',
-    marginTop:'5%',
+    // marginTop:'5%',
     marginBottom:'5%',
     borderColor:'blue',
     borderWidth:2,
