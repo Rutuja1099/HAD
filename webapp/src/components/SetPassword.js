@@ -1,27 +1,31 @@
 import React, { useState } from "react";
-
+import webServerUrl from "../configurations/WebServer";
+import { useNavigate } from "react-router-dom";
+import HttpService from "../services/HttpService";
 
 
 const SetPassword = () => {
-    const [email, setEmail] = useState(""); 
+    const [username, setusername] = useState(""); 
     const [pass_wd, setPass_WD] = useState(""); 
     const [password1, setPassword1] = useState(""); 
     const [password2, setPassword2] = useState(""); 
 
+    const navigate = useNavigate();
+
     const getIsFormValid = () => { 
         return ( 
-          email && pass_wd && password1 && password2
+          username && pass_wd && password1 && password2
         ); 
     }; 
 
     const clearForm = () => { 
-        setEmail("");
+        setusername("");
         setPass_WD("");
         setPassword1("");
         setPassword2("");
     }; 
 
-    const handleSubmit = (e) => { 
+    const handleSubmit = async(e) => { 
         let password_pattern =  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@.#$!%*?&^])[A-Za-z\d@.#$!%*?&]{8,15}$/;
         if(getIsFormValid())
         {
@@ -30,8 +34,33 @@ const SetPassword = () => {
                 if(password1 === password2)
                 {
                     e.preventDefault(); 
-                    alert("Passsword changed successfully!"); 
-                    clearForm();
+                    const forgotPasswordURL=webServerUrl+"/auth/forgotPassword/doctor";
+                    const method='POST';
+                    const data={
+                        username:username,
+                        currentPassword:pass_wd,
+                        newPassword:password1
+                    };
+                    try{
+                        const response=await HttpService(method,forgotPasswordURL,data);
+                        console.log(response.status)
+                        if(response.status===200){
+                            console.log("Successful");
+                            console.log(response.data);
+                            alert("Passsword changed successfully!"); 
+                            navigate('/login');
+                        }
+                        else{
+                            console.log("else part error:");
+                            alert(response.data.message);
+                            clearForm();
+                        }
+                    }catch(error){
+                        console.log("catch block of error");
+                        alert(error.data.message);
+                        clearForm();                   
+                    }
+                    
                 }
                 else{
                     document.getElementById('error-password-not-matching').innerHTML = " Passwords not matching ! ";
@@ -67,7 +96,7 @@ const SetPassword = () => {
                         <form className="w-full" onSubmit={handleSubmit}>
                             <span id="error-password-not-matching"></span>
                             <div className="flex justify-center mb-5 w-full rounded-3xl overflow-hidden">
-                                <input type="text" value={email} placeholder="Email Id" id="email" name="email" className="w-1/2 p-2 rounded-3xl bg-slate-400 bg-opacity-50 border-2 border-gray-500" onChange= {(e) => { setEmail(e.target.value); }} />
+                                <input type="text" value={username} placeholder="username" id="username" name="username" className="w-1/2 p-2 rounded-3xl bg-slate-400 bg-opacity-50 border-2 border-gray-500" onChange= {(e) => { setusername(e.target.value); }} />
                             </div>
                             
                             <div className="flex justify-center mb-5 w-full rounded-3xl overflow-hidden">

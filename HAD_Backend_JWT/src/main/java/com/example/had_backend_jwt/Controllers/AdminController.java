@@ -6,6 +6,7 @@ import com.example.had_backend_jwt.Models.DoctorRegisterRequest;
 import com.example.had_backend_jwt.Services.AdminAuthenticationService;
 import com.example.had_backend_jwt.Services.DoctorAuthenticationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,6 +25,10 @@ public class AdminController {
     @PostMapping("/register/doctor")
     @PreAuthorize("hasAuthority('Admin')")
     public ResponseEntity<DoctorAuthenticationResponse> registerDoctor(@RequestBody DoctorRegisterRequest request){
-        return ResponseEntity.ok(doctorAuthService.registerDoctor(request));
+        DoctorAuthenticationResponse response=doctorAuthService.registerDoctor(request);
+        if(response.getMessage()!=null && !response.getMessage().equals("Success"))
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+        else
+            return ResponseEntity.ok(response);
     }
 }

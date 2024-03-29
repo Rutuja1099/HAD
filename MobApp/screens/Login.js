@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
     inputText:{
         flex:1,
         height:50,
-        color:"white"
+        color:"black"
     },
     LoginBtn:{
         width:"40%",

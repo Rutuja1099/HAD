@@ -1,11 +1,14 @@
 import { Pressable, ScrollView, TextInput, StyleSheet, Text, View } from 'react-native'
 import React, {useState} from 'react'
 import { StatusBar } from 'expo-status-bar';
+import webServerUrl from '../configurations/WebServer';
+import HttpService from '../services/HttpService';
 
 export default function ForgotPassword(props) {
 
   const [email, setEmail] = useState('');
-  const onPressLogin = () => {
+
+  const onPressLogin = async() => {
     console.log(email);
     if(!email.trim()){
       alert('Please Enter Email');
@@ -15,9 +18,27 @@ export default function ForgotPassword(props) {
       alert('Email is Invalid');
       return;
     }
-    alert(`Please check Email ${email} for id and password`);
-    props.navigation.navigate("ChangePassword");
+
+    const forgotPasswordURL = webServerUrl+"/auth/email/patient?mail="+email;
+    const method='POST';
+    try{
+      const response=await HttpService(method,forgotPasswordURL);
+      console.log(response.status)
+      if(response.status===200){
+        console.log("Successful");
+        alert(`Please check Email ${email} for id and password`);
+        props.navigation.navigate("ChangePassword");
+      }else{
+        alert(response.data);
+        setEmail("");
+      }
+    }catch(error){
+        alert(error.data);
+        console.log(error);
+        setEmail("");
+    }  
   }
+
   return (
     <ScrollView contentContainerStyle={styles.containerContent}
       style={styles.container}>

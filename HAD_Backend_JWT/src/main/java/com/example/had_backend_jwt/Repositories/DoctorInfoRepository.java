@@ -8,4 +8,6 @@ import java.util.Optional;
 
 public interface DoctorInfoRepository extends JpaRepository<DoctorInfo,Integer> {
     Optional<DoctorInfo> findByDrId(@Param("drId") Integer drId);
+
+    Optional<DoctorInfo> findByDrRegNo(@Param("drRegNo") Integer drRegNo);
 }

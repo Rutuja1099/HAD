@@ -55,6 +55,13 @@ public class DoctorAuthenticationService {
                         .build();
             }
 
+            Optional<DoctorInfo> doctorInfoOptional=doctorInfoRepository.findByDrRegNo(request.getDrRegNo());
+            if(doctorInfoOptional.isPresent()){
+                return DoctorAuthenticationResponse.builder()
+                        .message("This Registration Number already exists. Registration Number is unique. Please check!!")
+                        .build();
+            }
+
             DoctorInfo doctorInfo=DoctorInfo.builder()
                     .drRegNo(request.getDrRegNo())
                     .drFullName(request.getDrFullName())
@@ -106,12 +113,9 @@ public class DoctorAuthenticationService {
                         doctorLogin.setDrFirstTimeLogin(false);
                     doctorLoginRepository.save(doctorLogin);
 
-                    var jwtToken=jwtService.generateToken(doctorLogin);
+                    //var jwtToken=jwtService.generateToken(doctorLogin);
 
                     return DoctorAuthenticationResponse.builder()
-                            .token(jwtToken)
-                            .drId(doctorLogin.getDrId())
-                            .drUsername(doctorLogin.getDrUsername())
                             .message("Success")
                             .build();
 
@@ -169,6 +173,7 @@ public class DoctorAuthenticationService {
 
     public boolean drForgotPasswordSendMail(String mail) {
         Optional<DoctorLogin> doctorLoginOptional=doctorLoginRepository.findByDrEmail(mail);
+        String setPasswordURL="http://localhost:3000/setPassword";
         if(doctorLoginOptional.isPresent()){
             DoctorLogin user=doctorLoginOptional.get();
             if(user!=null)
@@ -176,7 +181,7 @@ public class DoctorAuthenticationService {
                 String password = randomPasswordGenerationService.randomPasswordGeneration();
                 user.setDrPassword(password);
                 doctorLoginRepository.save(user);
-                emailService.sendSimpleMessage(user.getDrEmail(), "Dear User your Username and password is","Username : "+user.getDrUsername()+" \nPassword : "+user.getDrPassword());
+                emailService.sendSimpleMessage(user.getDrEmail(), "Dear User your Username and password is","Username : "+user.getDrUsername()+" \nPassword : "+user.getDrPassword()+"\nURL : "+setPasswordURL);
                 return true;
             }
         }
