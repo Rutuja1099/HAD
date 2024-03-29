@@ -9,6 +9,7 @@ import Login from './components/Login';
 import Patients from './components/Patients';
 import Appointments from './components/Appointments';
 import DoctorOnboarding from './components/DoctorOnboarding';
+import SetPassword from './components/SetPassword';
 
 function App() {
 
@@ -53,7 +54,7 @@ function App() {
             <Route path='/doctorOnboarding' element={<DoctorOnboarding/>} />
             {/* <Route path='/' element={<Dashboard/>} /> */}
               <Route path='login' element={<Login/>} />
-
+              <Route path='setPassword' element={<SetPassword/>} />
 
             </Routes>
 
