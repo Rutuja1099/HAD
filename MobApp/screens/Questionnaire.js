@@ -8,7 +8,6 @@ const Questionnaire = ({route}) => {
     
     const[count,setCount]= useState(0);
     const[question,setQuestion]= useState({
-
     });
 
     const {day, response} = route.params;
@@ -17,6 +16,8 @@ const Questionnaire = ({route}) => {
         
     }, []);
 
+    const [selectedOption, setSelectedOption] = useState(null);
+    const [hoveredOption, setHoveredOption] = useState(null);
     const [questions, setQuestions] = useState([
         {   questionId: "1",
             question: "Feeling down, depressed or hopeless",
@@ -50,6 +51,7 @@ const Questionnaire = ({route}) => {
     const nextQuestion = () => {
         if (count < questions.length - 1) {
             setCount(count + 1);
+            setSelectedOption(null);
 
         } else {
             navigation.navigate("Appointment");
@@ -63,7 +65,13 @@ const Questionnaire = ({route}) => {
     const handleOptionSelect = (option) => {
         setSelectedOption(option);
     };
+    const handleOptionHover = (option) => {
+        setHoveredOption(option);
+    };
 
+    const handleOptionLeave = () => {
+        setHoveredOption(null);
+    };
     return (
         <SafeAreaView className = "flex-1 bg-white p-2 py-0 relative">
             <SafeAreaView className = "justify-center items-left m-2 border-b border-spacing-8 border-dashed pb-2">
@@ -85,22 +93,38 @@ const Questionnaire = ({route}) => {
                         {/* Render options here */}
                         {/* For example, you can map through options and display them */}
                         {/* Replace this with your code */}
-                        <View className="bg-gray-200 p-2 my-1 rounded-md">
-                            <TouchableOpacity><Text className="text-base font-bold text-gray-800">{question.option1}</Text></TouchableOpacity>
+                        <View className={`bg-gray-200 p-2 my-1 rounded-md ${selectedOption === question.option1 ? 'bg-gray-400' : ''} ${hoveredOption === question.option1  ? 'hover:bg-gray-300' : ''}`}
+                            onMouseEnter={() => handleOptionHover(question.option1 )}
+                            onMouseLeave={() => handleOptionLeave()}>
+                            <TouchableOpacity onPress={() => handleOptionSelect(question.option1 )}>
+                                <Text className="text-base font-bold text-gray-800">{question.option1 }</Text>
+                            </TouchableOpacity>
                         </View>
-                        <View className="bg-gray-200 p-2 my-1 rounded-md">
-                            <TouchableOpacity><Text className="text-base font-bold text-gray-800">{question.option2}</Text></TouchableOpacity>
+                        <View className={`bg-gray-200 p-2 my-1 rounded-md ${selectedOption === question.option2 ? 'bg-gray-400' : ''} ${hoveredOption === question.option2  ? 'hover:bg-gray-300' : ''}`}
+                            onMouseEnter={() => handleOptionHover(question.option2 )}
+                            onMouseLeave={() => handleOptionLeave()}>
+                            <TouchableOpacity onPress={() => handleOptionSelect(question.option2 )}>
+                                <Text className="text-base font-bold text-gray-800">{question.option2 }</Text>
+                            </TouchableOpacity>
                         </View>
-                        <View className="bg-gray-200 p-2 my-1 rounded-md">
-                            <TouchableOpacity><Text className="text-base font-bold text-gray-800">{question.option3}</Text></TouchableOpacity>
+                        <View className={`bg-gray-200 p-2 my-1 rounded-md ${selectedOption === question.option3 ? 'bg-gray-400' : ''} ${hoveredOption === question.option3  ? 'hover:bg-gray-300' : ''}`}
+                            onMouseEnter={() => handleOptionHover(question.option3 )}
+                            onMouseLeave={() => handleOptionLeave()}>
+                            <TouchableOpacity onPress={() => handleOptionSelect(question.option3 )}>
+                                <Text className="text-base font-bold text-gray-800">{question.option3 }</Text>
+                            </TouchableOpacity>
                         </View>
-                        <View className="bg-gray-200 p-2 my-1 rounded-md">
-                            <TouchableOpacity><Text className="text-base font-bold text-gray-800">{question.option4}</Text></TouchableOpacity>
+                        <View className={`bg-gray-200 p-2 my-1 rounded-md ${selectedOption === question.option4 ? 'bg-gray-400' : ''} ${hoveredOption === question.option4  ? 'hover:bg-gray-300' : ''}`}
+                            onMouseEnter={() => handleOptionHover(question.option4 )}
+                            onMouseLeave={() => handleOptionLeave()}>
+                            <TouchableOpacity onPress={() => handleOptionSelect(question.option4 )}>
+                                <Text className="text-base font-bold text-gray-800">{question.option4 }</Text>
+                            </TouchableOpacity>
                         </View>
                        
                     </View>
                     <View className="absolute bottom-10 left-0 right-0 p-4"> 
-                    <TouchableOpacity onPress={nextQuestion} className="bg-blue-500 px-0 py-4 rounded-md w-full">
+                    <TouchableOpacity onPress={nextQuestion} className={`bg-blue-500 px-0 py-4 rounded-md w-full ${selectedOption === null ? 'opacity-50' : ''}`} disabled={selectedOption === null}>
                         <Text className="text-white text-center font-bold">{count === questions.length - 1 ? 'Next' : 'Continue'}
                         </Text>
                     </TouchableOpacity>
