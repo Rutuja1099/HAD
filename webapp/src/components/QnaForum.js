@@ -33,6 +33,12 @@ const QnaForum = () => {
         "Question9":["answer1", "answer2"],       
     })
 
+    const toggleAnswerVisibility = (question) => {
+        const updatedQuestions = { ...questions };
+        updatedQuestions[question].showFullAnswer = !updatedQuestions[question].showFullAnswer;
+        setQuestions(updatedQuestions);
+    };
+
     return (
         <>
             <div className="flex h-screen">
@@ -85,7 +91,18 @@ const QnaForum = () => {
                                                 </div>
                                             </div>
 
-                                            <p key={index}>{answer}</p>
+                                            <p key={index}>
+                                                {answer.slice(0, 100)}...<Link to={{pathname: `/qnaForumQuestion`, state: {question, answers}}}>read more</Link>
+                                            
+                                            </p>
+
+                                            {/* <p>{questions[question].showFullAnswer ? answer : `${answer.slice(0, 100)}...`}
+                                                {answer.length > 100 && (
+                                                    <button onClick={() => toggleAnswerVisibility(question)}>
+                                                        {questions[question].showFullAnswer ? 'Read Less' : 'Read More'}
+                                                    </button>
+                                                )}
+                                            </p> */}
                                 
                                 
                                         </div>

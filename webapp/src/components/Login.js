@@ -27,6 +27,7 @@ const Login = () => {
         if(!isValid)
             return;
         if(selectedOption==='doctor'){
+            console.log("hihi", username, password);
             loginURL = webServerUrl+"/auth/login/doctor";
         }
         else{
