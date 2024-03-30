@@ -30,6 +30,7 @@ export default function App() {
     
     <NavigationContainer>
       <Stack.Navigator>
+
         <Stack.Screen name="Login" component={Login}/>
         <Stack.Screen name="SignUp" component={SignUp}/>
         <Stack.Screen name="ChangePassword" component={ChangePassword}/>
@@ -49,7 +50,8 @@ export default function App() {
           component={Chat} 
           // initialParams={{ doctorName: 'Dr. John', doctorId: 123 }}  
         />
-        <Stack.Screen name="Wellness Hub 😊" component={WellnessHub} />        
+        <Stack.Screen name="Wellness Hub 😊" component={WellnessHub} />   
+        <Stack.Screen name="Harmony" component={Harmony}/>     
       </Stack.Navigator>
     </NavigationContainer>
   

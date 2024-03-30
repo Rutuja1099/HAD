@@ -144,13 +144,9 @@ public class PatientAuthenticationService {
                     patientLogin.setPtPassword(passwordEncoder.encode(request.getNewPassword()));
                     patientLoginRepository.save(patientLogin);
 
-                    var jwtToken=jwtService.generateToken(patientLogin);
+//                    var jwtToken=jwtService.generateToken(patientLogin);
 
                     return PatientAuthenticationResponse.builder()
-                            .token(jwtToken)
-                            .ptRegNo(patientLogin.getPtRegNo())
-                            .ptUsername(patientLogin.getPtUsername())
-                            .ptFirstTimeLogin(patientLogin.getPtFirstTimeLogin())
                             .message("Success")
                             .build();
 

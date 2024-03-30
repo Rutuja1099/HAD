@@ -1,3 +1,3 @@
-const webServerUrl = "https://localhost:8081";
+const webServerUrl = "https://localhost:8082";
 
 export default webServerUrl;

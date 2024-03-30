@@ -2,7 +2,7 @@ import axios from 'axios'
 
 import React from 'react'
 
-const HttpService = async(method,url,data,headers={}) => {
+const HttpService = async(method,url,data=null,headers={}) => {
     try{
         const response=await axios(
             {
