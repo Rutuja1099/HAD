@@ -96,9 +96,9 @@ public class AuthenticationController {
             return ResponseEntity.ok(response);
     }
 
-//    @PostMapping("/register/admin")
-//    public ResponseEntity<AdminLogin> registerAdmin(@RequestBody AdminLogin request){
-//        return ResponseEntity.ok(adminAuthService.registerAdmin(request));
-//    }
+    @PostMapping("/register/admin")
+    public ResponseEntity<AdminLogin> registerAdmin(@RequestBody AdminLogin request){
+        return ResponseEntity.ok(adminAuthService.registerAdmin(request));
+    }
 
 }

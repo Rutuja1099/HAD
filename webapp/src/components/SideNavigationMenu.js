@@ -16,7 +16,7 @@ const SideNavigationMenu = ({ open, setOpen }) => {
         { title: "Patients", icon: <FaRegUser size={25} />, src: "/patients" },
         { title: "Appointments", icon: <AiOutlineSchedule size={25} />, src: "/appointments" },
         { title: "Chats", icon: <PiChats size={25} />, src: "/chatpage" },
-        { title: "Q/A", icon: <AiOutlineQuestionCircle size={25} />, src: "/qna" },
+        { title: "QnaForum", icon: <AiOutlineQuestionCircle size={25} />, src: "/qnaForum" },
     ];
 
     const AccountMenus = [

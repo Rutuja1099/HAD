@@ -13,6 +13,7 @@ import QnaForum from './components/QnaForum';
 import DoctorOnboarding from './components/DoctorOnboarding';
 import SetPassword from './components/SetPassword';
 import ForgotPasswordMail from './components/ForgotPasswordMail';
+import QnaForumQuestion from './components/QnaForumQuestion';
 
 function App() {
   const [open, setOpen] = useState(false);
@@ -66,6 +67,8 @@ function App() {
             <Route path='forgotPasswordMail' element={<ForgotPasswordMail />} />
             <Route path='setPassword' element={<SetPassword />} />
             <Route path='/doctorOnboarding' element={<DoctorOnboarding />} />
+            <Route path='/qnaForum' element={<QnaForumQuestion />} />
+            <Route path='/qnaForumQuestion' element={<QnaForum />} />
           </Routes>
         </div>
       </div>
