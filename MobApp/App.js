@@ -33,19 +33,21 @@ export default function App() {
   return (
     
     <NavigationContainer>
+      {/* <Stack.Navigator>
+        <Stack.Screen name="ChatList" component={ChatList} /> */}
 
-        <Stack.Navigator initialRouteName="Login">
+      <Stack.Navigator initialRouteName="Login">
+      
         <Stack.Screen name="Login" component={Login}/>
         <Stack.Screen name="SignUp" component={SignUp}/>
         <Stack.Screen name="ChangePassword" component={ChangePassword}/>
         <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
         <Stack.Screen name="Week" component={Week}/>
         <Stack.Screen name="Day" component={Day}/>
-
-      
-      <Stack.Screen name="Appointment" component={Appointment} />
-
         <Stack.Screen name="ChatList" component={ChatList} />
+      
+        <Stack.Screen name="Appointment" component={Appointment} />
+
         <Stack.Screen name="Questionnaire" component={Questionnaire} />
         
         <Stack.Screen name="DoctorAppointmentDetail" component={DoctorAppointmentDetail} />
@@ -63,6 +65,7 @@ export default function App() {
         />
         <Stack.Screen name="Wellness Hub 😊" component={WellnessHub} />   
         <Stack.Screen name="Harmony" component={Harmony}/>     
+      
       </Stack.Navigator>
     </NavigationContainer>
   

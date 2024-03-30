@@ -67,8 +67,8 @@ function App() {
             <Route path='forgotPasswordMail' element={<ForgotPasswordMail />} />
             <Route path='setPassword' element={<SetPassword />} />
             <Route path='/doctorOnboarding' element={<DoctorOnboarding />} />
-            <Route path='/qnaForum' element={<QnaForumQuestion />} />
-            <Route path='/qnaForumQuestion' element={<QnaForum />} />
+            <Route path='/qnaForum' element={<QnaForum />} />
+            <Route path='/qnaForumQuestion' element={<QnaForumQuestion />} />
           </Routes>
         </div>
       </div>

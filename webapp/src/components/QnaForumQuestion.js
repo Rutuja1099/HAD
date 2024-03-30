@@ -10,10 +10,10 @@ import { BsThreeDots } from "react-icons/bs";
 
 
 
-const QnaForumQuestion = ({route}) => {
+const QnaForumQuestion = ({question, answers}) => {
 
-    const {question,answers} = route.params;
-     
+    console.log(question, answers);
+
     const [relatedQuestions, setRelatedQuestions] = useState([
         "I'm depressed almost every day and have been for years. My life feels empty and meaningless and almost nothing makes me truly happy. What could I do to fix it? I am on antidepressants, they help but don't do enough.",
         "I am deeply unhappy. I am always depressed about my life, and I feel like every year my life gets worse and worse. I feel like a failure. What can do?",

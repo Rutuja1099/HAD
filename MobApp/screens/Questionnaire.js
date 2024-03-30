@@ -7,15 +7,11 @@ import { useNavigation } from '@react-navigation/native'
 const Questionnaire = ({route}) => {
     
     const[count,setCount]= useState(0);
-    const[question,setQuestion]= useState({
-
-    });
+    const[question,setQuestion]= useState([]);
 
     const {day, response} = route.params;
-
-    useEffect( () => {
-        
-    }, []);
+    console.log("response: ", response);
+    setQuestion(response.data);
 
     const [questions, setQuestions] = useState([
         {   questionId: "1",

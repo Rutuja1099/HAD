@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../styles/ChatPage.css';
 import boy from '../assets/boy.png';
 
@@ -11,6 +11,8 @@ import { BsThreeDots } from "react-icons/bs";
 
 
 const QnaForum = () => {
+
+    const navigate = useNavigate();
 
     const [relatedQuestions, setRelatedQuestions] = useState([
         "I'm depressed almost every day and have been for years. My life feels empty and meaningless and almost nothing makes me truly happy. What could I do to fix it? I am on antidepressants, they help but don't do enough.",
@@ -38,6 +40,10 @@ const QnaForum = () => {
         updatedQuestions[question].showFullAnswer = !updatedQuestions[question].showFullAnswer;
         setQuestions(updatedQuestions);
     };
+
+    const navigateToQuestion = (question, answers) => {
+        navigate("/qnaForumQuestion", { question, answers})
+    }
 
     return (
         <>
@@ -92,10 +98,10 @@ const QnaForum = () => {
                                             </div>
 
                                             <p key={index}>
-                                                {answer.slice(0, 100)}...<Link to={{pathname: `/qnaForumQuestion`, state: {question, answers}}}>read more</Link>
+                                                {answer.slice(0, 100)}...<p onClick={(question, anwsers) => navigateToQuestion(question, anwsers)}>read more</p>
                                             
                                             </p>
-
+                                            {/* <Link to={{pathname: `/qnaForumQuestion`, state: {question, answers}}}>read more</Link> */}
                                             {/* <p>{questions[question].showFullAnswer ? answer : `${answer.slice(0, 100)}...`}
                                                 {answer.length > 100 && (
                                                     <button onClick={() => toggleAnswerVisibility(question)}>
