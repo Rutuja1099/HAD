@@ -85,8 +85,8 @@ public class DoctorAuthenticationService {
             doctorLogin.setDrInfo(doctorInfo);
 
             doctorLoginRepository.save(doctorLogin);
-
-            emailService.sendSimpleMessage(doctorLogin.getDrEmail(), "Dear User your Username and password is","Username : "+doctorLogin.getDrUsername()+" \nPassword : "+doctorLogin.getDrPassword());
+            String setPasswordURL="http://localhost:3000/setPassword";
+            emailService.sendSimpleMessage(doctorLogin.getDrEmail(),  "Dear User your Username and password is","Username : "+doctorLogin.getDrUsername()+" \nPassword : "+doctorLogin.getDrPassword()+"\nURL : "+setPasswordURL);
 
             return DoctorAuthenticationResponse.builder()
                     .drId(doctorLogin.getDrId())
@@ -108,6 +108,7 @@ public class DoctorAuthenticationService {
             if(doctorLoginOptional.isPresent()){
                 DoctorLogin doctorLogin=doctorLoginOptional.get();
                 if(doctorLogin.getDrPassword().equals(request.getCurrentPassword())){
+                    System.out.println("new password:"+request.getNewPassword());
                     doctorLogin.setDrPassword(passwordEncoder.encode(request.getNewPassword()));
                     if(doctorLogin.getDrFirstTimeLogin())
                         doctorLogin.setDrFirstTimeLogin(false);
@@ -138,14 +139,20 @@ public class DoctorAuthenticationService {
 
     public DoctorAuthenticationResponse authenticateDoctor(AuthenticationRequest request) {
         try{
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            request.getUsername(),
-                            request.getPassword()
-                    )
-            );
+//            authenticationManager.authenticate(
+//                    new UsernamePasswordAuthenticationToken(
+//                            request.getUsername(),
+//                            request.getPassword()
+//                    )
+//            );
             DoctorLogin doctorLogin = doctorLoginRepository.findByDrUsername(request.getUsername())
                     .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+            if(!passwordEncoder.matches(request.getPassword(), doctorLogin.getDrPassword())){
+                return DoctorAuthenticationResponse.builder()
+                        .message("Invalid username or password")
+                        .build();
+            }
 
             // Get ptRegNo
             if(!doctorLogin.getDrFirstTimeLogin()){
@@ -164,6 +171,8 @@ public class DoctorAuthenticationService {
                         .build();
         }catch (AuthenticationException e) {
             // Authentication failed, handle the exception
+            System.out.println("Inside doctor");
+            System.out.println(e.getMessage());
             return DoctorAuthenticationResponse.builder()
                     .message("Invalid username or password")
                     .build();
