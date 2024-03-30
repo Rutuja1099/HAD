@@ -37,64 +37,7 @@ export default function SignUp(props) {
       ptEmail: email,
       ptGender:gender
     }
-    
-    if(!email.trim()){
-      alert('Please Enter your email');
-      return;
-    }
-    if(!/\S+@\S+\.\S+/.test(email.trim())){
-      alert('Email is Invalid');
-      return;
-    }
-    if(!address.trim()){
-      alert('Please Enter your address');
-      return;
-    }
-    if(!phoneNo.trim()){
-      alert('Please Enter Phone Number');
-      return;
-    }
-    if(!userName.trim()){
-      alert('Please Enter Username');
-      return;
-    }
-    if(!gender.trim())
-    {
-      alert('Please Select Gender');
-      return;
-    }
-    if(userName.trim().length<4)
-    {
-      alert('Username Length is less than 4');
-      return;
-    }
-    if(!password.trim()){
-      alert('Please Enter Password');
-      return;
-    }
-    if(password.length<6){
-      alert('Password Length is less than 6');
-      return;
-    }
-    if(!confirmPassword.trim()){
-      alert('Please Enter Confirm Password');
-      return;
-    }
-    if(password!==confirmPassword){
-      alert('Passwords do not match');
-      return
-    }
-    // alert('Success');
-    console.log(name);
-    console.log(email);
-    console.log(address);
-    console.log(phoneNo);
-    console.log(date.toLocaleDateString());
-    console.log(userName);
-    console.log(password);
-    console.log(gender);
-    console.log("Sign Up");
-
+      
     try{
       const response=await HttpService(method,signUpURL,data);
       console.log(response.status)

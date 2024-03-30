@@ -30,7 +30,7 @@ export default function Day(props) {
 
       const loginURL = webServerUrl+"/suhrud/hello/getquestionnaire";
       const method='GET';
-
+      
       try{
           const response=await HttpService(method,loginURL);
           console.log(response.status)
