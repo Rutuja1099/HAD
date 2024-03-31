@@ -1,6 +1,8 @@
 import { NativeWindStyleSheet } from "nativewind";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+//components
 import Settings from './screens/Settings';
 import Profile from './screens/Profile'
 import Notifications from './screens/Notifications'
@@ -21,6 +23,7 @@ import Harmony from "./screens/Harmony";
 import Questionnaire from "./screens/Questionnaire";
 import Appointment from "./screens/Appointment";
 import DoctorAppointmentDetail from "./screens/DoctorAppointmentDetail";
+import Dashboard from "./screens/Dashboard";
 
 
 NativeWindStyleSheet.setOutput({
@@ -33,10 +36,11 @@ export default function App() {
   return (
     
     <NavigationContainer>
-      {/* <Stack.Navigator>
-        <Stack.Screen name="ChatList" component={ChatList} /> */}
+      <Stack.Navigator>
+      <Stack.Screen name="Questionnaire" component={Questionnaire} />
+        
 
-      <Stack.Navigator initialRouteName="Login">
+      {/* <Stack.Navigator initialRouteName="Login"> */}
       
         <Stack.Screen name="Login" component={Login}/>
         <Stack.Screen name="SignUp" component={SignUp}/>
@@ -47,8 +51,9 @@ export default function App() {
         <Stack.Screen name="ChatList" component={ChatList} />
       
         <Stack.Screen name="Appointment" component={Appointment} />
+        <Stack.Screen name="Dashboard" component={Dashboard} />
 
-        <Stack.Screen name="Questionnaire" component={Questionnaire} />
+        {/* <Stack.Screen name="Questionnaire" component={Questionnaire} /> */}
         
         <Stack.Screen name="DoctorAppointmentDetail" component={DoctorAppointmentDetail} />
         <Stack.Screen name="Settings" component={Settings} />

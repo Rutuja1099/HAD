@@ -48,6 +48,10 @@ const Appointment = ({route}) => {
 
     }
 
+    const navigateDashboard = () => {
+        navigation.navigate("Dashboard");
+    }
+
     const scrollViewRef = useRef(); 
 
     return(    
@@ -62,7 +66,7 @@ const Appointment = ({route}) => {
                 </Text>
             </View>
             <SafeAreaView className="mr-0">
-                <Text className="text-center rounded-xl bg-white w-full h-full p-1">Skip</Text>
+                <Text onPress={() => navigateDashboard()} className="text-center rounded-xl bg-white w-full h-full p-1">Skip</Text>
             </SafeAreaView>
            
         </SafeAreaView>

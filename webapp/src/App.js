@@ -62,7 +62,7 @@ function App() {
             <Route path='chatpage' element={< ChatPage />} />
             <Route path='patients' element={<Patients />} />
             <Route path='appointments' element={<Appointments />} />
-            <Route path='/' element={<Dashboard />} />
+            <Route path='/main' element={<Dashboard />} />
             <Route path='login' element={<Login />} />
             <Route path='forgotPasswordMail' element={<ForgotPasswordMail />} />
             <Route path='setPassword' element={<SetPassword />} />

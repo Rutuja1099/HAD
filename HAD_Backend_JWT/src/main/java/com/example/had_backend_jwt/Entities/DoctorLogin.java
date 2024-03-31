@@ -16,7 +16,7 @@ public class DoctorLogin {
     @Column(name = "drId")
     private Integer drId;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "drId", referencedColumnName = "drId")
     private DoctorInfo drInfo;
 

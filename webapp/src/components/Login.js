@@ -63,7 +63,7 @@ const Login = () => {
                     console.log(error);
                 }
                 if(selectedOption==='doctor')
-                    navigate('/');
+                    navigate('/main');
                 else{
                     console.log("Welcome Admin");
                     navigate('/doctorOnboarding');

@@ -26,7 +26,6 @@ export default function Day(props) {
 
 
     const onPressDay = async (item) => {
-      console.log("heheh",item);
 
       const loginURL = webServerUrl+"/suhrud/hello/getquestionnaire";
       const method='GET';
@@ -35,7 +34,7 @@ export default function Day(props) {
       const data=JSON.parse(sessionData);
       const bearerToken = data.token;
 
-      console.log("hihihihi", bearerToken);
+      console.log("bearer token: ", bearerToken);
 
       const headers = {
         'Authorization': `Bearer ${bearerToken}`, // Include your token here
