@@ -42,7 +42,8 @@ const QnaForum = () => {
     };
 
     const navigateToQuestion = (question, answers) => {
-        navigate("/qnaForumQuestion", { question, answers})
+        console.log("hehehehehe", question, answers)
+        navigate("/qnaForumQuestion", { state: {question: question, answers: answers}});
     }
 
     return (
@@ -98,9 +99,17 @@ const QnaForum = () => {
                                             </div>
 
                                             <p key={index}>
-                                                {answer.slice(0, 100)}...<p onClick={(question, anwsers) => navigateToQuestion(question, anwsers)}>read more</p>
-                                            
+                                                
+                                                {answer.slice(0, 100)}...            
                                             </p>
+
+                                            <p 
+                                                    className="cursor-pointer text-blue-600 hover:underline underline-offset-2" 
+                                                    onClick={() => navigateToQuestion(question , answers)}
+                                                >
+                                                    read more
+                                                    
+                                                </p>
                                             {/* <Link to={{pathname: `/qnaForumQuestion`, state: {question, answers}}}>read more</Link> */}
                                             {/* <p>{questions[question].showFullAnswer ? answer : `${answer.slice(0, 100)}...`}
                                                 {answer.length > 100 && (

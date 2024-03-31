@@ -22,25 +22,29 @@ function App() {
   const [loading, setLoading] = useState(true); // Track initial loading
 
   const navigate = useNavigate();
+
   // Check if there is any localStorage entry on initial render and page refresh
   useEffect(() => {
+    let isAuthenticated = false;
     const data = window.localStorage.getItem('Data');
     if (data) {
-      setAuthenticated(true);
+      isAuthenticated = true;
+      setAuthenticated(isAuthenticated);
     }
     setLoading(false); // Set loading to false after initial render
-  },);
+
+    // If not authenticated and not on the login page, redirect to login
+    if (!isAuthenticated && location.pathname !== '/login' && location.pathname !== '/setPassword' && location.pathname !== '/forgotPasswordMail') {
+      
+      navigate("/login");
+
+    }
+  },[]);
 
   // // If loading, show loading indicator
   // if (loading) {
   //   return <div>Loading...</div>;
   // }
-
-  // If not authenticated and not on the login page, redirect to login
-  if (!authenticated && location.pathname !== '/login'&& location.pathname !== '/setPassword' && location.pathname !== '/forgotPasswordMail') {
-    return <Navigate to="/login" />;
-
-  }
 
   return (
     <div className="bg-cyan-100 p-5 h-screen">
@@ -63,7 +67,7 @@ function App() {
             <Route path='patients' element={<Patients />} />
             <Route path='appointments' element={<Appointments />} />
             <Route path='/main' element={<Dashboard />} />
-            <Route path='login' element={<Login />} />
+            <Route path='login' element={<Login setAuthenticated = {setAuthenticated}/>} />
             <Route path='forgotPasswordMail' element={<ForgotPasswordMail />} />
             <Route path='setPassword' element={<SetPassword />} />
             <Route path='/doctorOnboarding' element={<DoctorOnboarding />} />
