@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import loginbackground from "../assets/loginbackground.jpg";
 import { useDispatch, useSelector } from "react-redux";
@@ -27,6 +27,13 @@ const Login = ({setAuthenticated}) => {
         setDark(!dark);
         document.body.classList.toggle("dark");
     }
+
+    // useEffect(() => {
+    //     const data = window.localStorage.getItem('Data');
+    //     if(data){
+    //         navigate("main");
+    //     }
+    // }, []);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
