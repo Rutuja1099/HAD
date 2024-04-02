@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../styles/ChatPage.css';
 import boy from '../assets/boy.png';
 
@@ -11,6 +11,8 @@ import { BsThreeDots } from "react-icons/bs";
 
 
 const QnaForum = () => {
+
+    const navigate = useNavigate();
 
     const [relatedQuestions, setRelatedQuestions] = useState([
         "I'm depressed almost every day and have been for years. My life feels empty and meaningless and almost nothing makes me truly happy. What could I do to fix it? I am on antidepressants, they help but don't do enough.",
@@ -32,6 +34,17 @@ const QnaForum = () => {
         "Question8":["answer1", "answer2"],   
         "Question9":["answer1", "answer2"],       
     })
+
+    const toggleAnswerVisibility = (question) => {
+        const updatedQuestions = { ...questions };
+        updatedQuestions[question].showFullAnswer = !updatedQuestions[question].showFullAnswer;
+        setQuestions(updatedQuestions);
+    };
+
+    const navigateToQuestion = (question, answers) => {
+        console.log("hehehehehe", question, answers)
+        navigate("/qnaForumQuestion", { state: {question: question, answers: answers}});
+    }
 
     return (
         <>
@@ -85,7 +98,26 @@ const QnaForum = () => {
                                                 </div>
                                             </div>
 
-                                            <p key={index}>{answer}</p>
+                                            <p key={index}>
+                                                
+                                                {answer.slice(0, 100)}...            
+                                            </p>
+
+                                            <p 
+                                                    className="cursor-pointer text-blue-600 hover:underline underline-offset-2" 
+                                                    onClick={() => navigateToQuestion(question , answers)}
+                                                >
+                                                    read more
+                                                    
+                                                </p>
+                                            {/* <Link to={{pathname: `/qnaForumQuestion`, state: {question, answers}}}>read more</Link> */}
+                                            {/* <p>{questions[question].showFullAnswer ? answer : `${answer.slice(0, 100)}...`}
+                                                {answer.length > 100 && (
+                                                    <button onClick={() => toggleAnswerVisibility(question)}>
+                                                        {questions[question].showFullAnswer ? 'Read Less' : 'Read More'}
+                                                    </button>
+                                                )}
+                                            </p> */}
                                 
                                 
                                         </div>

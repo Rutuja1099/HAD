@@ -120,5 +120,8 @@ public class DemoController {
         int severity=pService.calcSeverity(answersDTO);
         return  ResponseEntity.ok("Severity : "+severity);
     }
+
+
+
 }
 

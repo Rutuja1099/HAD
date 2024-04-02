@@ -1,9 +1,15 @@
 import React, { useState, useRef } from 'react';
 import { Pressable, Animated, Text, View, StyleSheet, Image, ScrollView, Dimensions } from 'react-native';
 import {progImage,smileysImage} from '../assets';
+import { useNavigation } from '@react-navigation/native'
+import webServerUrl from '../configurations/WebServer';
+import HttpService from '../services/HttpService';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 const { width } = Dimensions.get('window').width;
 const height = 320;
+
 export default function Day(props) {
     const [items, setItems] = useState([
       { item: "Sunday" },
@@ -14,9 +20,53 @@ export default function Day(props) {
       { item: "Friday" },
       { item: "Saturday" },
     ]);
-    
-    const onPressDay = (item) => {
-      console.log(item);
+
+    const navigation = useNavigation();
+
+
+
+    const onPressDay = async (item) => {
+
+      const loginURL = webServerUrl+"/suhrud/hello/getquestionnaire";
+      const method='GET';
+      
+      const sessionData = await AsyncStorage.getItem('patientData')
+      const data=JSON.parse(sessionData);
+      const bearerToken = data.token;
+
+      console.log("bearer token: ", bearerToken);
+
+      const headers = {
+        'Authorization': `Bearer ${bearerToken}`, // Include your token here
+        'Content-Type': 'application/json', // Specify the content type if needed
+      };
+
+      let response;
+      try{
+          response=await HttpService(method,loginURL, null, headers);
+          console.log(response.status)
+          if(response.status===200){
+              console.log("Successful");
+              console.log(response.data);
+              try{
+                  console.log("from storage");
+
+              }catch(error){
+                  console.log("error while saving data");
+                  console.log(error);
+              }
+          }
+          else{
+              alert(response.data);
+
+          }
+      }catch(error){
+          alert(error.data);
+          console.log(error);
+      }
+
+
+      navigation.navigate("Questionnaire", { item, response });
     };
   
     const scrollY = useRef(new Animated.Value(0)).current;
