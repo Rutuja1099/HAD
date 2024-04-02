@@ -121,7 +121,12 @@ public class DemoController {
         return  ResponseEntity.ok("Severity : "+severity);
     }
 
-
+    @GetMapping("/getallpatient")
+    @PreAuthorize("hasAuthority('Doctor')")
+    public ResponseEntity<List<PatientInfo>> getAllPatients(){
+        List<PatientInfo> patientInfos = pService.getAllPatient();
+        return ResponseEntity.ok(patientInfos);
+    }
 
 }
 

@@ -39,7 +39,7 @@ function App() {
       navigate("/login");
 
     }
-  },[]);
+  },[authenticated]);
 
   // // If loading, show loading indicator
   // if (loading) {

@@ -91,5 +91,11 @@ public class pService {
         return sum;
     }
 
+    public List<PatientInfo> getAllPatient() {
+        List<PatientInfo> patientInfos = new ArrayList<>();
+
+        return patientInfos;
+    }
+
 
 }
