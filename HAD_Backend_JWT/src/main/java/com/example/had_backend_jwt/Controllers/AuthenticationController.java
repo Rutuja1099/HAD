@@ -41,8 +41,8 @@ public class AuthenticationController {
 
 
     @PostMapping("/login/doctor")
-    public ResponseEntity<DoctorAuthenticationResponse> authenticateDoctor( @RequestBody AuthenticationRequest request){
-        DoctorAuthenticationResponse response=doctorAuthService.authenticateDoctor(request);
+    public ResponseEntity<AuthenticationResponse> authenticateDoctor( @RequestBody AuthenticationRequest request){
+        AuthenticationResponse response=doctorAuthService.authenticateDoctor(request);
         if(response.getMessage()!=null && !response.getMessage().equals("Success"))
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
         else
@@ -60,8 +60,8 @@ public class AuthenticationController {
     }
 
    @PostMapping("/login/admin")
-    public ResponseEntity<AdminAuthenticationResponse> authenticateAdmin( @RequestBody AuthenticationRequest request){
-        AdminAuthenticationResponse response=adminAuthService.authenticateAdmin(request);
+    public ResponseEntity<AuthenticationResponse> authenticateAdmin( @RequestBody AuthenticationRequest request){
+        AuthenticationResponse response=adminAuthService.authenticateAdmin(request);
         if(response.getMessage()!=null && !response.getMessage().equals("Success"))
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
         else
@@ -69,8 +69,8 @@ public class AuthenticationController {
     }
 
     @PostMapping("/forgotPassword/doctor")
-    public ResponseEntity<DoctorAuthenticationResponse> doctorForgotPassword(@RequestBody PasswordUpdateRequest request){
-        DoctorAuthenticationResponse response=doctorAuthService.doctorForgotPasswordUpdation(request);
+    public ResponseEntity<AuthenticationResponse> doctorForgotPassword(@RequestBody PasswordUpdateRequest request){
+        AuthenticationResponse response=doctorAuthService.doctorForgotPasswordUpdation(request);
         if(response.getMessage()!=null && !response.getMessage().equals("Success"))
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
         else

@@ -65,4 +65,8 @@ public class PatientInfo {
     @OneToMany(mappedBy = "patientInfo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<PatientProgress> patientProgress;
+
+    @OneToMany(mappedBy = "ptInfo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Set<Appointments> appointments;
 }

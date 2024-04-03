@@ -11,8 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PatientAuthenticationResponse {
     private String token;
-    private Integer ptRegNo;
-    private String ptUsername;
     private boolean ptFirstTimeLogin;
     private String message;
 }

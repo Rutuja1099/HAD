@@ -7,11 +7,9 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class DoctorAuthenticationResponse {
+@NoArgsConstructor
+public class AuthenticationResponse {
     private String token;
-    private Integer drId;
-    private String drUsername;
     private String message;
 }

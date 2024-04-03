@@ -5,11 +5,9 @@ import com.example.had_backend_jwt.Entities.PatientLogin;
 import com.example.had_backend_jwt.Entities.Questionnaire;
 import com.example.had_backend_jwt.JWT.JwtService;
 import com.example.had_backend_jwt.Models.AnswersDTO;
-import com.example.had_backend_jwt.Models.PatientAuthenticationResponse;
 import com.example.had_backend_jwt.Repositories.PatientInfoRepository;
 import com.example.had_backend_jwt.Repositories.PatientLoginRepository;
 import com.example.had_backend_jwt.Repositories.QuestionnaireRepository;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,7 +21,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class pService {
+public class PatientService {
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
     private final PatientLoginRepository patientLoginRepository;

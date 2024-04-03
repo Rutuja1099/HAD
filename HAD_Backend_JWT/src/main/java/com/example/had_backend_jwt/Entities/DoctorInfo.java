@@ -5,6 +5,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+import java.util.Set;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -52,4 +55,13 @@ public class DoctorInfo {
     @OneToOne(mappedBy = "drInfo", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JsonBackReference
     private DoctorLogin drLogin;
+
+    @OneToMany(mappedBy = "drInfo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Set<Appointments> appointments;
+
+    @ManyToMany(mappedBy = "drInfo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    @JsonBackReference
+    private Set<doctorPatientMapping> userInfo;
 }
