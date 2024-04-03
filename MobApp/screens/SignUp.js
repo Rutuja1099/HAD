@@ -37,7 +37,6 @@ export default function SignUp(props) {
       ptEmail: email,
       ptGender:gender
     }
-<<<<<<< HEAD
     
     if(!email.trim()){
       alert('Please Enter your email');
@@ -95,9 +94,7 @@ export default function SignUp(props) {
     console.log(password);
     console.log(gender);
     console.log("Sign Up");
-=======
-      
->>>>>>> 8ea4bb35b5e32af3135687653adb4ab027254b8e
+
     try{
       const response=await HttpService(method,signUpURL,data);
       console.log(response.status)

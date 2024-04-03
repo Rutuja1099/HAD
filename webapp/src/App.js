@@ -1,4 +1,5 @@
 import './App.css';
+//components import
 import SideNavigationMenu from './components/SideNavigationMenu';
 import { useState, useEffect } from 'react';
 import TopNavigationMenu from './components/TopNavigationMenu';
@@ -8,8 +9,11 @@ import Dashboard from './components/Dashboard';
 import Login from './components/Login';
 import Patients from './components/Patients';
 import Appointments from './components/Appointments';
+import QnaForum from './components/QnaForum';
 import DoctorOnboarding from './components/DoctorOnboarding';
 import SetPassword from './components/SetPassword';
+import ForgotPasswordMail from './components/ForgotPasswordMail';
+import QnaForumQuestion from './components/QnaForumQuestion';
 
 function App() {
   const [open, setOpen] = useState(false);
@@ -18,78 +22,62 @@ function App() {
   const [loading, setLoading] = useState(true); // Track initial loading
 
   const navigate = useNavigate();
+
   // Check if there is any localStorage entry on initial render and page refresh
   useEffect(() => {
+    let isAuthenticated = false;
     const data = window.localStorage.getItem('Data');
     if (data) {
-      setAuthenticated(true);
-      navigate('/');
+      isAuthenticated = true;
+      setAuthenticated(isAuthenticated);
     }
     setLoading(false); // Set loading to false after initial render
-  }, [navigate]);
 
-  // If loading, show loading indicator
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+    // If not authenticated and not on the login page, redirect to login
+    if (!isAuthenticated && location.pathname !== '/login' && location.pathname !== '/setPassword' && location.pathname !== '/forgotPasswordMail') {
+      
+      navigate("/login");
 
-  // If not authenticated and not on the login page, redirect to login
-  if (!authenticated && location.pathname !== '/login') {
-    return <Navigate to="/login" />;
-  }
+    }
+  },[]);
+
+  // // If loading, show loading indicator
+  // if (loading) {
+  //   return <div>Loading...</div>;
+  // }
 
   return (
     <div className="bg-cyan-100 p-5 h-screen">
-
-        <div className={`${location.pathname !== '/login' ? "ml-5 flex h-full" : "h-full"} `}>
-          
-        {location.pathname !== '/login' && location.pathname !== '/setPassword' && (
+      <div className={`${location.pathname !== '/login' ? "ml-5 flex h-full" : "h-full"} `}>
+        {(location.pathname !== '/login' && location.pathname !== '/setPassword' && location.pathname !== '/forgotPasswordMail') && (
           <SideNavigationMenu
             open={open}
             setOpen={setOpen}
           />
         )}
-
         <div className={` ${location.pathname !== '/login' ? "ml-5 flex flex-col w-full h-full" : "h-full"} `}>
-            
-          {location.pathname !== '/login' && location.pathname !== '/setPassword' && (
+          {(location.pathname !== '/login' && location.pathname !== '/setPassword' && location.pathname !== '/forgotPasswordMail') && (
             <TopNavigationMenu
               open={open}
               setOpen={setOpen}
             />
           )}
           <Routes>
-            <Route path='chatpage' element={<ChatPage />} />
+            <Route path='chatpage' element={< ChatPage />} />
             <Route path='patients' element={<Patients />} />
             <Route path='appointments' element={<Appointments />} />
-            {/* <Route path='/doctor' element={<DoctorOnboarding/>} /> */}
-            <Route path='/' element={<Dashboard />} />
-            <Route path='login' element={<Login />} />
+            <Route path='/main' element={<Dashboard />} />
+            <Route path='login' element={<Login setAuthenticated = {setAuthenticated}/>} />
+            <Route path='forgotPasswordMail' element={<ForgotPasswordMail />} />
+            <Route path='setPassword' element={<SetPassword />} />
+            <Route path='/doctorOnboarding' element={<DoctorOnboarding />} />
+            <Route path='/qnaForum' element={<QnaForum />} />
+            <Route path='/qnaForumQuestion' element={<QnaForumQuestion />} />
           </Routes>
-
-
-            <Routes>
-              
-              {/* enter the path in small caps. refer to the sidenavigationmenu component, see what src i have written. write that or change them according to your choice. make corresponding changes below as well */}
-              <Route path='chatpage' element={< ChatPage/>
-            
-            
-            } />
-
-            <Route path='patients' element={<Patients/>} />
-
-            <Route path='appointments' element={<Appointments/>} />
-
-            <Route path='/doctorOnboarding' element={<DoctorOnboarding/>} />
-            {/* <Route path='/' element={<Dashboard/>} /> */}
-              <Route path='login' element={<Login/>} />
-              <Route path='setPassword' element={<SetPassword/>} />
-
-            </Routes>
-
         </div>
       </div>
-    </div>
+  </div>
+
   );
 }
 

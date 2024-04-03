@@ -13,11 +13,11 @@ public class PatientProgress {
     @Column(name="patientProgressId")
     private int patientProgressId;
 
-//    @Column(name="ptRegNo")
-//    private String ptRegNo;
-
     @Column(name="currentWeek")
     private int currentWeek;
+
+    @Column(name="currentDay")
+    private int currentDay;
 
     @Column(name="severity")
     private int severity;

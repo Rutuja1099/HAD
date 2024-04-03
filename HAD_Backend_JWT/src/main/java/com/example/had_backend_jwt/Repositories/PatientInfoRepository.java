@@ -4,6 +4,7 @@ import com.example.had_backend_jwt.Entities.PatientInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface PatientInfoRepository extends JpaRepository<PatientInfo,Integer> {

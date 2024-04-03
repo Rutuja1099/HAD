@@ -6,3 +6,15 @@ import NavigationBar from "../components/NavigationBar";
 import { Icon } from "react-native-vector-icons/FontAwesome";
 
 
+const Harmony = () => {
+    
+    const navigation = useNavigation();
+    useLayoutEffect(() => {
+        navigation.setOptions({
+        headerShown: false,
+    })
+    },[])
+
+}
+
+export default Harmony;

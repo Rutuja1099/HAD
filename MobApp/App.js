@@ -1,6 +1,8 @@
 import { NativeWindStyleSheet } from "nativewind";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+//components
 import Settings from './screens/Settings';
 import Profile from './screens/Profile'
 import Notifications from './screens/Notifications'
@@ -17,6 +19,12 @@ import ForgotPassword from "./screens/ForgotPassword";
 import Week from "./screens/Week";
 import Day from "./screens/Day";
 import ChangePassword from "./screens/ChangePassword";
+import Harmony from "./screens/Harmony";
+import Questionnaire from "./screens/Questionnaire";
+import Appointment from "./screens/Appointment";
+import DoctorAppointmentDetail from "./screens/DoctorAppointmentDetail";
+import Dashboard from "./screens/Dashboard";
+
 
 NativeWindStyleSheet.setOutput({
   default: "native",
@@ -29,6 +37,11 @@ export default function App() {
     
     <NavigationContainer>
       <Stack.Navigator>
+      <Stack.Screen name="Questionnaire" component={Questionnaire} />
+        
+
+      {/* <Stack.Navigator initialRouteName="Login"> */}
+      
         <Stack.Screen name="Login" component={Login}/>
         <Stack.Screen name="SignUp" component={SignUp}/>
         <Stack.Screen name="ChangePassword" component={ChangePassword}/>
@@ -36,6 +49,13 @@ export default function App() {
         <Stack.Screen name="Week" component={Week}/>
         <Stack.Screen name="Day" component={Day}/>
         <Stack.Screen name="ChatList" component={ChatList} />
+      
+        <Stack.Screen name="Appointment" component={Appointment} />
+        <Stack.Screen name="Dashboard" component={Dashboard} />
+
+        {/* <Stack.Screen name="Questionnaire" component={Questionnaire} /> */}
+        
+        <Stack.Screen name="DoctorAppointmentDetail" component={DoctorAppointmentDetail} />
         <Stack.Screen name="Settings" component={Settings} />
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="Notifications" component={Notifications} />
@@ -48,7 +68,9 @@ export default function App() {
           component={Chat} 
           // initialParams={{ doctorName: 'Dr. John', doctorId: 123 }}  
         />
-        <Stack.Screen name="Wellness Hub 😊" component={WellnessHub} />        
+        <Stack.Screen name="Wellness Hub 😊" component={WellnessHub} />   
+        <Stack.Screen name="Harmony" component={Harmony}/>     
+      
       </Stack.Navigator>
     </NavigationContainer>
   

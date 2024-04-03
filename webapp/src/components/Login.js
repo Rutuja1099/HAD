@@ -1,28 +1,24 @@
 import React, { useState } from "react";
-import SideNavigationMenu from "./SideNavigationMenu";
 import { Link, useNavigate } from "react-router-dom";
 import loginbackground from "../assets/loginbackground.jpg";
 import { useDispatch, useSelector } from "react-redux";
+import { updateDoctorInfo } from "../redux/features/doctorInfo/doctorInfoSlice";
 import { LoginInputValidation } from "../services/InputValidation";
 import webServerUrl from "../configurations/WebServer";
 import HttpService from "../services/HttpService.js";
 
-import axios from 'axios'
-
-
-const Login = () => {
+const Login = ({setAuthenticated}) => {
 
     const [selectedOption, setSelectedOption] = useState('doctor');
     const [username,setUsername]=useState('');
     const [password, setPassword]=useState('');
 
-    const count = useSelector((state) => state.doctorInfo);             //count will contain the whole object
-
     const navigate = useNavigate();
 
     let loginURL;
 
-    const handleSubmit = async(event) => {
+
+    const handleSubmit = async (event) => {
         event.preventDefault();
         console.log(username);
         console.log(password);
@@ -31,6 +27,7 @@ const Login = () => {
         if(!isValid)
             return;
         if(selectedOption==='doctor'){
+            console.log("hihi", username, password);
             loginURL = webServerUrl+"/auth/login/doctor";
         }
         else{
@@ -42,6 +39,8 @@ const Login = () => {
             username:username,
             password:password
         };
+
+
             
         try{
             const response=await HttpService(method,loginURL,data);
@@ -50,7 +49,12 @@ const Login = () => {
                 console.log("Successful");
                 console.log(response.data);
                 try{
-                    await window.localStorage.setItem('Data',JSON.stringify(response.data));
+                    const userData = {
+                        ...response.data,
+                        role: selectedOption
+                    };
+                    await window.localStorage.setItem('Data',JSON.stringify(userData));
+                    setAuthenticated(true);
     
                     console.log("from storage");
                     console.log(await window.localStorage.getItem('Data'));
@@ -59,17 +63,27 @@ const Login = () => {
                     console.log("error while saving data");
                     console.log(error);
                 }
-                    navigate('/');
+                if(selectedOption==='doctor'){
+                    console.log("hello doctor");
+                    navigate('/main');
+                }
+                else{
+                    console.log("Welcome Admin");
+                    navigate('/doctorOnboarding');
+                }
             }
             else{
                 console.log("else part error:");
                 alert(response.data.message);
-                window.location.reload();
+                setPassword("");
+                setUsername("");
             }
         }catch(error){
             console.log("catch block of error");
             alert(error.data.message);
-            window.location.reload();                     
+            setPassword("");
+            setUsername("");  
+            // window.location.reload();                  
         }
         
       };
@@ -176,7 +190,7 @@ const Login = () => {
                                     </div>
                                     
                                     <div>
-                                        <Link to="/forgotPassword" className="text-xs text-gray-500 hover:text-black hover:underline">Forgot your password?</Link>
+                                        <Link to="/forgotPasswordMail" className="text-xs text-gray-500 hover:text-black hover:underline">Forgot your password?</Link>
                                     </div>
                                 
                                 </div>

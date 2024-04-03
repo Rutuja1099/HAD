@@ -46,7 +46,7 @@ export default function Login(props) {
                     console.log("error while saving data");
                     console.log(error);
                 }
-                props.navigation.navigate("Week");
+                props.navigation.navigate("Questionnaire");
             }
             else{
                 alert(response.data.message);
@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
     inputText:{
         flex:1,
         height:50,
-        color:"white"
+        color:"black"
     },
     LoginBtn:{
         width:"40%",

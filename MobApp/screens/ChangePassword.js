@@ -2,12 +2,15 @@ import { Pressable, ScrollView, TextInput, StyleSheet, Text, View } from 'react-
 import React, {useState} from 'react'
 import { StatusBar } from 'expo-status-bar';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-
+import { useRoute } from '@react-navigation/native';
+import webServerUrl from '../configurations/WebServer';
+import {LoginInputValidation} from '../services/InputValidation';
+import HttpService from '../services/HttpService';
 
 export default function ChangePassword(props) {
-
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
+    const [generatedPassword,setGeneratedPassword]=useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [isSecure, setIsSecure] = useState(true);
     const toggleShowPassword = () => {
@@ -15,25 +18,17 @@ export default function ChangePassword(props) {
     };
 
     const onPressLogin = async() => {
-        if(!userName.trim() && !password.trim() && !confirmPassword.trim()){
-            alert('Please Enter Username, Password and Confirm Password');
-            return;
-        }
-        if(!userName.trim()){
-            alert('Please Enter Username');
-            return;
-        }
-        if(!password.trim()){
-            alert('Please Enter Password');
-            return;
-        }
-        if(password.length<6)
-        {
-            alert('Password Length is less than 6');
-            return;
-        }
+      const isValid=LoginInputValidation({userName,password})
+      if(!isValid)
+          return;
+
+      if(!generatedPassword.trim()){
+        alert('Please enter the password sent in mail');
+        return;
+      }
+
         if(!confirmPassword.trim()){
-            alert('Please Enter Confirm Password')
+            alert('Please Enter Confirm Password');
             return;
         }
         if(password!==confirmPassword){
@@ -42,7 +37,36 @@ export default function ChangePassword(props) {
         }
         console.log(userName);
         console.log(password);
-        props.navigation.navigate("Login");
+
+        const changePasswordURL = webServerUrl+"/auth/forgotPassword/patient";
+        const method='POST';
+        const data={
+          username:userName,
+          currentPassword:generatedPassword,
+          newPassword:password
+        }
+
+        try{
+          const response=await HttpService(method,changePasswordURL,data);
+          console.log(response.status)
+          if(response.status===200){
+            console.log("Successful");
+            console.log(response.data);
+            props.navigation.navigate("Login");
+          }
+          else{
+              alert(response.data.message);
+              setUserName("");
+              setPassword("");
+          }
+        }catch(error){
+          alert(error.data.message);
+          console.log(error);
+          setUserName("");
+          setPassword("");
+          props.navigation.navigate("Login");
+      }
+
     }
     return (
       <ScrollView contentContainerStyle={styles.containerContent}
@@ -60,6 +84,15 @@ export default function ChangePassword(props) {
                     onChangeText={(text) => setUserName(text)}
                 />
             </View>
+            <View style={styles.inputView}>
+            <TextInput
+                style={styles.inputText}
+                secureTextEntry
+                placeholder='Password (sent on mail)'
+                placeholderTextColor="#003f5c"
+                onChangeText={(text) => setGeneratedPassword(text)}
+            />
+          </View>
             <View style={styles.inputView}>
             <TextInput
                 style={styles.inputText}

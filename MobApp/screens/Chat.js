@@ -3,8 +3,8 @@ import { View, Text, TextInput, ScrollView} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native'
 
-// import {addDoc, collection, onSnapshot, orderBy, query, serverTimestamp, where} from 'firebase/firestore';
-// import { db } from "../configurations/firebase-config";
+import {addDoc, collection, onSnapshot, orderBy, query, serverTimestamp, where} from 'firebase/firestore';
+import { db } from "../configurations/firebase-config";
 
 
 const Chat = ({route}) => {
