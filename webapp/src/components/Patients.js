@@ -10,7 +10,7 @@ const Patients = () => {
   
   //CurrentSession not part of table
   const patientDetails=[
-    {patientName:"Viki", currentSeverity:7, Gender:"Male", Contact:8990000598,Address:"Bangalore", Email:"viki@gmail.com", currentWeek:2, currentSession:1},
+    {patientName:"Vikram", currentSeverity:7, Gender:"Male", Contact:8990000598,Address:"Bangalore", Email:"viki@gmail.com", currentWeek:2, currentSession:1},
     {patientName:"Rutuja", currentSeverity:5, Gender:"Female", Contact:8990000598,Address:"Bangalore", Email:"rutuja@gmail.com", currentWeek:3, currentSession:6},
     {patientName:"Asmita", currentSeverity:7, Gender:"Female", Contact:8990000598,Address:"Bangalore", Email:"asmita@gmail.com", currentWeek:1, currentSession:3}
   ];
