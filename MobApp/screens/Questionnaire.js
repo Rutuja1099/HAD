@@ -12,7 +12,7 @@ const Questionnaire = () => {
     
     const[questions,setQuestions]= useState([]);
     const[question, setQuestion] = useState({});
-
+    const[userName,setUserName]= useState(null);
     const [selectedOption, setSelectedOption] = useState(null);
     const [hoveredOption, setHoveredOption] = useState(null);
 
@@ -58,7 +58,7 @@ const Questionnaire = () => {
             const sessionData = await AsyncStorage.getItem('patientData')
             const data=JSON.parse(sessionData);
             const bearerToken = data.token;
-      
+            setUserName(data.ptUsername);
             console.log("bearer Token: ", bearerToken);
       
             const headers = {
@@ -246,7 +246,7 @@ const Questionnaire = () => {
                 <View className="flex-row px-2 space-x-4 mt-2">
                     <Icon onPress={() => navigateBack()} name="angle-left" size={25}/>
                     <Text className="text-xl font-semibold">
-                    hey Rutuja
+                    hey {userName}
                     </Text>
                 </View>
                 
