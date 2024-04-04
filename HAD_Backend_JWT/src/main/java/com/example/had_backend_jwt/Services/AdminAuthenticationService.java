@@ -24,14 +24,20 @@ public class AdminAuthenticationService {
     private final AdminLoginRepository adminRepository;
     public AdminAuthenticationResponse authenticateAdmin(AuthenticationRequest request) {
         try{
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            request.getUsername(),
-                            request.getPassword()
-                    )
-            );
+//            authenticationManager.authenticate(
+//                    new UsernamePasswordAuthenticationToken(
+//                            request.getUsername(),
+//                            request.getPassword()
+//                    )
+//            );
             AdminLogin adminLogin=adminRepository.findByAdminUsername(request.getUsername())
                     .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+            if(!passwordEncoder.matches(request.getPassword(), adminLogin.getAdminPassword())) {
+                return AdminAuthenticationResponse.builder()
+                        .message("Invalid username or password")
+                        .build();
+            }
 
             var jwtToken=jwtService.generateToken(adminLogin);
 

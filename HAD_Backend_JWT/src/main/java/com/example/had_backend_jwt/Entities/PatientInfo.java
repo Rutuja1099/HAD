@@ -40,7 +40,7 @@ public class PatientInfo {
 //    @OneToOne(mappedBy = "ptInfo")
 //    private PatientLogin ptLogin;
 @Id
-@GeneratedValue(strategy = GenerationType.IDENTITY)
+@GeneratedValue(strategy = GenerationType.AUTO)
 @Column(name = "ptRegNo")
     private Integer ptRegNo;
 

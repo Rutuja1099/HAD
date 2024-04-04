@@ -1,14 +1,12 @@
 package com.example.had_backend_jwt.Services;
 
-import com.example.had_backend_jwt.Entities.PatientInfo;
-import com.example.had_backend_jwt.Entities.PatientLogin;
-import com.example.had_backend_jwt.Entities.Questionnaire;
+import com.example.had_backend_jwt.Entities.*;
 import com.example.had_backend_jwt.JWT.JwtService;
 import com.example.had_backend_jwt.Models.AnswersDTO;
 import com.example.had_backend_jwt.Models.PatientAuthenticationResponse;
-import com.example.had_backend_jwt.Repositories.PatientInfoRepository;
-import com.example.had_backend_jwt.Repositories.PatientLoginRepository;
-import com.example.had_backend_jwt.Repositories.QuestionnaireRepository;
+import com.example.had_backend_jwt.Models.QandAnswerDTO;
+import com.example.had_backend_jwt.Models.QandAnswerDoctorDTO;
+import com.example.had_backend_jwt.Repositories.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -17,9 +15,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +26,10 @@ public class pService {
     private final PatientInfoRepository patientInfoRepository;
     private final AuthenticationManager authenticationManager;
     private final QuestionnaireRepository qrepo;
+    private final QuestionRepository questionRepository;
+    private final AnswerRepository answerRepository;
+    private final DoctorLoginRepository doctorLoginRepository;
+    private final DoctorInfoRepository doctorInfoRepository;
 
     public PatientInfo getPatientInfo(String username){
         PatientLogin plogin=patientLoginRepository.findByPtUsername(username)
@@ -92,4 +92,79 @@ public class pService {
     }
 
 
+    public boolean postQuestion(int id, String question) {
+        try{
+            PatientInfo pInfo = patientInfoRepository.findById(id).orElse(null);
+            if (pInfo == null)
+                return false;
+            Questions q = new Questions();
+            q.setQueryContent(question);
+            q.setPatientInfo(pInfo);
+            questionRepository.save(q);
+            return true;
+        }
+        catch(Exception e){
+            return false;
+        }
+    }
+
+    public List<Questions> getMyQuestions(int id) {
+        PatientInfo pInfo=patientInfoRepository.findById(id).orElse(null);
+        if(pInfo==null)
+            return new ArrayList<>();
+        return questionRepository.findQuestionsByPatientInfo(pInfo);
+    }
+
+    public List<QandAnswerDTO> getAnswerPatient(Questions question) {
+        if(question==null)
+            return Collections.emptyList();
+        List<Answers> ans=answerRepository.findAnswersByQuery(question);
+        List<QandAnswerDTO> answer=new ArrayList<>();
+        for(int i=0;i<ans.size();i++)
+        {
+            QandAnswerDTO qna=new QandAnswerDTO();
+            qna.setAnswerId(ans.get(i).getAnswerId());
+            qna.setAnswerContent(ans.get(i).getAnswerContent());
+            qna.setDoctorName(ans.get(i).getDrInfo().getDrFullName());
+            qna.setUpVote(ans.get(i).getUpVote());
+            answer.add(qna);
+        }
+        return answer;
+    }
+
+    public List<QandAnswerDoctorDTO> getAnswerDoctor(Questions question) {
+        if(question==null)
+            return Collections.emptyList();
+        List<Answers> ans=answerRepository.findAnswersByQuery(question);
+        List<QandAnswerDoctorDTO> answer=new ArrayList<>();
+        for(int i=0;i<ans.size();i++)
+        {
+            QandAnswerDoctorDTO qna=new QandAnswerDoctorDTO();
+            qna.setAnswerId(ans.get(i).getAnswerId());
+            qna.setAnswerContent(ans.get(i).getAnswerContent());
+            qna.setDoctorName(ans.get(i).getDrInfo().getDrFullName());
+            qna.setUpVote(ans.get(i).getUpVote());
+            qna.setIsEdited(ans.get(i).getIsEdited());
+            answer.add(qna);
+        }
+        return answer;
+    }
+
+    public List<QandAnswerDoctorDTO> getAnswerDoctorrr(String username) {
+        DoctorLogin doctorLogin=doctorLoginRepository.findByDrUsername(username).orElse(null);
+        DoctorInfo drInfo=doctorInfoRepository.findDoctorInfoByDrLogin(doctorLogin);
+        List<Answers> ans=answerRepository.findAnswersByDrInfo(drInfo);
+        List<QandAnswerDoctorDTO> answer=new ArrayList<>();
+        for(int i=0;i<ans.size();i++)
+        {
+            QandAnswerDoctorDTO qna=new QandAnswerDoctorDTO();
+            qna.setAnswerId(ans.get(i).getAnswerId());
+            qna.setAnswerContent(ans.get(i).getAnswerContent());
+            qna.setDoctorName(ans.get(i).getDrInfo().getDrFullName());
+            qna.setUpVote(ans.get(i).getUpVote());
+            qna.setIsEdited(ans.get(i).getIsEdited());
+            answer.add(qna);
+        }
+        return answer;
+    }
 }
