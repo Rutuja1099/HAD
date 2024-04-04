@@ -7,6 +7,7 @@ import lombok.*;
 import org.hibernate.annotations.Cascade;
 
 import java.sql.Date;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -66,7 +67,21 @@ public class PatientInfo {
     @JsonIgnore
     private Set<PatientProgress> patientProgress;
 
-    @OneToMany(mappedBy = "ptInfo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
-    private Set<Appointments> appointments;
+    @OneToMany(mappedBy="patientInfo", fetch = FetchType.LAZY)
+    @JsonBackReference
+    List<DoctorPatientMapping> user;
+
+    @JsonIgnore
+    @OneToMany(mappedBy="patientInfo", fetch = FetchType.LAZY)
+    @JsonBackReference
+    List<Questions> query;
+
+    @JsonIgnore
+    @OneToMany(mappedBy="patientInfo", fetch = FetchType.LAZY)
+    @JsonBackReference
+    List<Appointments> appointments;
+
+    @Column(name="deletedTimestamp")
+    private String deletedTimestamp;
 }

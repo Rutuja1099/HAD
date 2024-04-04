@@ -56,12 +56,22 @@ public class DoctorInfo {
     @JsonBackReference
     private DoctorLogin drLogin;
 
-    @OneToMany(mappedBy = "drInfo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
-    private Set<Appointments> appointments;
-
-    @ManyToMany(mappedBy = "drInfo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonIgnore
+    @OneToMany(mappedBy="doctorInfo", fetch = FetchType.LAZY)
     @JsonBackReference
-    private Set<doctorPatientMapping> userInfo;
+    List<DoctorPatientMapping> user;
+
+    @JsonIgnore
+    @OneToMany(mappedBy="drInfo", fetch = FetchType.LAZY)
+    @JsonBackReference
+    List<Answers> answers;
+
+    @JsonIgnore
+    @OneToMany(mappedBy="drInfo", fetch = FetchType.LAZY)
+    @JsonBackReference
+    List<Appointments> appointments;
+
+    @Column(name="isDeactivated")
+    private Boolean isDeactivated;
+
 }

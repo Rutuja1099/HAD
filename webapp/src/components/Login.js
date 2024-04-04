@@ -7,7 +7,7 @@ import { LoginInputValidation } from "../services/InputValidation";
 import webServerUrl from "../configurations/WebServer";
 import HttpService from "../services/HttpService.js";
 
-const Login = () => {
+const Login = ({setAuthenticated}) => {
 
     const [selectedOption, setSelectedOption] = useState('doctor');
     const [username,setUsername]=useState('');
@@ -18,7 +18,7 @@ const Login = () => {
     let loginURL;
 
 
-    const handleSubmit = async(event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         console.log(username);
         console.log(password);
@@ -54,6 +54,7 @@ const Login = () => {
                         role: selectedOption
                     };
                     await window.localStorage.setItem('Data',JSON.stringify(userData));
+                    setAuthenticated(true);
     
                     console.log("from storage");
                     console.log(await window.localStorage.getItem('Data'));
@@ -62,8 +63,10 @@ const Login = () => {
                     console.log("error while saving data");
                     console.log(error);
                 }
-                if(selectedOption==='doctor')
-                    navigate('/');
+                if(selectedOption==='doctor'){
+                    console.log("hello doctor");
+                    navigate('/main');
+                }
                 else{
                     console.log("Welcome Admin");
                     navigate('/doctorOnboarding');

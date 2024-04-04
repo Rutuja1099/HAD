@@ -88,7 +88,8 @@ const DoctorAppointmentDetails=({route})=>{
             </View>
             <View className="relative bottom-0 left-0 right-0 p-4 bg-blue-500 px-0 py-4 rounded-3xl w-full"> 
                     {/* <TouchableOpacity onPress={nextQuestion} className={`bg-blue-500 px-0 py-4 rounded-md w-full ${selectedOption === null ? 'opacity-50' : ''}`} disabled={selectedOption === null}> */}
-                        <Text className="text-white text-center font-bold">Schedule Appointment
+                        <Text className="text-white text-center font-bold">
+                            Schedule Appointment
                         </Text>
                     {/* </TouchableOpacity> */}
             </View>

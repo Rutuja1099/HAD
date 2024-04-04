@@ -10,6 +10,4 @@ import java.util.Optional;
 public interface PatientInfoRepository extends JpaRepository<PatientInfo,Integer> {
     Optional<PatientInfo> findByPtRegNo(@Param("ptRegNo") Integer ptRegNo);
     PatientInfo findPatientInfoByPtRegNo(int id);
-
-
 }

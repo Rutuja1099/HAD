@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import '../styles/ChatPage.css';
 import boy from '../assets/boy.png';
+
 
 import { BiUpvote } from "react-icons/bi";
 import { IoFlagOutline } from "react-icons/io5";
@@ -10,10 +11,14 @@ import { BsThreeDots } from "react-icons/bs";
 
 
 
-const QnaForumQuestion = ({route}) => {
+const QnaForumQuestion = () => {
 
-    const {question,answers} = route.params;
-     
+    const location = useLocation();
+    
+    const {question, answers} = location.state;
+
+    console.log("yohoyohoyoho", question, answers);
+
     const [relatedQuestions, setRelatedQuestions] = useState([
         "I'm depressed almost every day and have been for years. My life feels empty and meaningless and almost nothing makes me truly happy. What could I do to fix it? I am on antidepressants, they help but don't do enough.",
         "I am deeply unhappy. I am always depressed about my life, and I feel like every year my life gets worse and worse. I feel like a failure. What can do?",
@@ -22,17 +27,6 @@ const QnaForumQuestion = ({route}) => {
         "At what age does life seem to get better?"
     ])
 
-    const [questions, setQuestions] = useState({
-        "Question1":["answer1", "answer2"],
-        "Question2":["answer1", "answer2"],
-        "Question3":["answer1", "answer2"],
-        "Question4":["answer1", "answer2"],
-        "Question5":["answer1", "answer2"],
-        "Question6":["answer1", "answer2"],
-        "Question7":["answer1", "answer2"],   
-        "Question8":["answer1", "answer2"],   
-        "Question9":["answer1", "answer2"],       
-    })
 
     return (
         <>
@@ -40,9 +34,8 @@ const QnaForumQuestion = ({route}) => {
                 
                     {/* Ask & Answer Section */}
                     <div className="flex-1 mr-4 rounded-3xl max-h-[calc(100vh-7.5rem)] overflow-y-auto scrollbar">
-                        {Object.entries(questions).map(([question, answers]) => (
-                        
-                            // wraps both questions and answers for a single item
+
+                            {/* wraps both questions and answers for a single item */}
                             <div key={question} className="bg-white p-4 border border-gray-300 mb-4 rounded-3xl">
                                 
                                 {/* question part */}
@@ -97,7 +90,6 @@ const QnaForumQuestion = ({route}) => {
 
                         
                             </div>
-                        ))}
                     </div>
                     
                     {/* Related Questions Section */}

@@ -1,33 +1,39 @@
 package com.example.had_backend_jwt.Entities;
 
+import jakarta.persistence.Entity;
+import lombok.*;
 import jakarta.persistence.*;
-import lombok.Data;
 
-@Data
 @Entity
-@Table(name = "appointment")
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name="appointments")
 public class Appointments {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "appointmentId")
+    @Column(name="appointmentId")
     private Integer appointmentId;
 
-    @ManyToOne(cascade=CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ptRegNo")
-    private PatientInfo ptInfo;
+    private PatientInfo patientInfo;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "drId")
     private DoctorInfo drInfo;
 
-    @Column(name = "appointmentDate")
-    private String appointmentDate;
+    @Column(name="date")
+    private String date;
 
-    @Column(name = "slot")
-    private int slot;
+    @Column(name="timestamp")
+    private String timestamp;
 
-    @Column(name = "timeStamp")
-    private String timeStamp;
+    @Column(name="slot")
+    private Integer slot;
 
 
 }

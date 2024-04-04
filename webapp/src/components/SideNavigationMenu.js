@@ -12,7 +12,7 @@ const SideNavigationMenu = ({ open, setOpen }) => {
     const navigate = useNavigate();
 
     const Menus = [
-        { title: "Dashboard", icon: <IoIosHome size={25} />, src: "/" },
+        { title: "Dashboard", icon: <IoIosHome size={25} />, src: "/main" },
         { title: "Patients", icon: <FaRegUser size={25} />, src: "/patients" },
         { title: "Appointments", icon: <AiOutlineSchedule size={25} />, src: "/appointments" },
         { title: "Chats", icon: <PiChats size={25} />, src: "/chatpage" },

@@ -26,13 +26,24 @@ export default function Day(props) {
 
 
     const onPressDay = async (item) => {
-      console.log(item);
 
       const loginURL = webServerUrl+"/suhrud/hello/getquestionnaire";
       const method='GET';
       
+      const sessionData = await AsyncStorage.getItem('patientData')
+      const data=JSON.parse(sessionData);
+      const bearerToken = data.token;
+
+      console.log("bearer token: ", bearerToken);
+
+      const headers = {
+        'Authorization': `Bearer ${bearerToken}`, // Include your token here
+        'Content-Type': 'application/json', // Specify the content type if needed
+      };
+
+      let response;
       try{
-          const response=await HttpService(method,loginURL);
+          response=await HttpService(method,loginURL, null, headers);
           console.log(response.status)
           if(response.status===200){
               console.log("Successful");
