@@ -11,15 +11,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.example.had_backend_jwt.Services.Utilities;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 
 @RestController
-@RequestMapping("/suhrud/forum")
+@RequestMapping("suhrud/forum")
 public class ForumController {
 
     @Autowired
@@ -111,5 +113,56 @@ public class ForumController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Unidentified Token");
         }
     }
+
+
+
+    @GetMapping("/getAllQuestion")
+    @PreAuthorize("hasAuthority('Patient, Doctor, Moderator')")
+    public ResponseEntity<List<Questions>> getQuestionss(){
+
+        try {
+            List<Questions> questions = questionsRepository.findAll();
+            System.out.println("Retrieved " + questions.size() + " questions");
+            for (Questions question : questions) {
+                System.out.println("Question ID: " + question.getQueryId() + ", Content: " + question.getQueryContent());
+            }
+            return ResponseEntity.ok(questions);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+
+    }
+
+    @DeleteMapping("/deleteQuestion/{queryId}")
+//    @PreAuthorize("hasAuthority('Moderator')")
+    ResponseEntity<Map<String, Boolean>> deleteQuestion(@PathVariable Integer queryId){
+        System.out.println("hihiihhiihihihi");
+        questionsRepository.deleteById(queryId);
+
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("deleted", Boolean.TRUE);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/deleteAnswer/{answerId}")
+//    @PreAuthorize("hasAuthority('Moderator')")
+    ResponseEntity<Map<String, Boolean>> deleteAnswer(@PathVariable Integer answerId){
+        System.out.println("hohohohohoohho");
+        answersRepository.deleteById(answerId);
+
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("deleted", Boolean.TRUE);
+
+        return ResponseEntity.ok(response);
+    }
+
+
+//    @PutMapping("/updateAnswer/{answerId}")
+//    ResponseEntity<Map<String, Boolean>> updateAnswer( @PathVariable Integer answerId){
+//
+//        Answers answer = answersRepository.findById(answerId);
+//
+//    }
 
 }

@@ -25,6 +25,7 @@ public class Questions {
     private String queryContent;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     @JoinColumn(name = "ptRegNo", referencedColumnName = "ptRegNo")
     private PatientInfo patientInfo;
 

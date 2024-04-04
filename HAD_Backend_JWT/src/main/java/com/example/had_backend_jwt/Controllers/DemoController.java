@@ -1,12 +1,15 @@
 package com.example.had_backend_jwt.Controllers;
 
+import com.example.had_backend_jwt.Entities.Answers;
 import com.example.had_backend_jwt.Entities.PatientInfo;
 import com.example.had_backend_jwt.Entities.Questionnaire;
+import com.example.had_backend_jwt.Entities.Questions;
 import com.example.had_backend_jwt.JWT.JwtAuthenticationFilter;
 import com.example.had_backend_jwt.Models.*;
 import com.example.had_backend_jwt.Models.PatientAuthenticationResponse;
 import com.example.had_backend_jwt.Repositories.PatientInfoRepository;
 import com.example.had_backend_jwt.Repositories.QuestionnaireRepository;
+import com.example.had_backend_jwt.Repositories.QuestionsRepository;
 import com.example.had_backend_jwt.Services.*;
 import com.example.had_backend_jwt.JWT.*;
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,6 +34,8 @@ public class DemoController {
     private JwtService jwtService;
     @Autowired
     private PatientInfoRepository patientInfoRepository;
+    @Autowired
+    private QuestionsRepository questionsRepository;
 
     @Autowired
     private QuestionnaireRepository qrepo;
@@ -114,8 +119,6 @@ public class DemoController {
         int severity=pService.calcSeverity(answersDTO);
         return  ResponseEntity.ok("Severity : "+severity);
     }
-
-
 
 }
 
