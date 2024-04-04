@@ -41,16 +41,16 @@ public class Answers {
     @Column(name="isEdited")
     private Boolean isEdited;
 
-    public Answers(Integer answerId, Questions query, String answerContent, DoctorInfo drInfo, Integer upVote, Integer aflagCount, Boolean isEdited) {
-        this.answerId = answerId;
-        this.query = query;
-        this.answerContent = answerContent;
-        this.drInfo = drInfo;
-        this.upVote = upVote;
-        this.aflagCount = aflagCount;
-        this.isEdited = isEdited;
-    }
-
-    public Answers() {
-    }
+//    public Answers(Integer answerId, Questions query, String answerContent, DoctorInfo drInfo, Integer upVote, Integer aflagCount, Boolean isEdited) {
+//        this.answerId = answerId;
+//        this.query = query;
+//        this.answerContent = answerContent;
+//        this.drInfo = drInfo;
+//        this.upVote = upVote;
+//        this.aflagCount = aflagCount;
+//        this.isEdited = isEdited;
+//    }
+//
+//    public Answers() {
+//    }
 }

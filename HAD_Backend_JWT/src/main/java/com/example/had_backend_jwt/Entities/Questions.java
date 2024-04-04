@@ -40,15 +40,15 @@ public class Questions {
     @JsonBackReference
     List<Answers> answers;
 
-    public Questions(Integer queryId, String queryContent, PatientInfo patientInfo, Boolean isUrgent, Integer flagCount, List<Answers> answers) {
-        this.queryId = queryId;
-        this.queryContent = queryContent;
-        this.patientInfo = patientInfo;
-        this.isUrgent = isUrgent;
-        this.flagCount = flagCount;
-        this.answers = answers;
-    }
-
-    public Questions() {
-    }
+//    public Questions(Integer queryId, String queryContent, PatientInfo patientInfo, Boolean isUrgent, Integer flagCount, List<Answers> answers) {
+//        this.queryId = queryId;
+//        this.queryContent = queryContent;
+//        this.patientInfo = patientInfo;
+//        this.isUrgent = isUrgent;
+//        this.flagCount = flagCount;
+//        this.answers = answers;
+//    }
+//
+//    public Questions() {
+//    }
 }
