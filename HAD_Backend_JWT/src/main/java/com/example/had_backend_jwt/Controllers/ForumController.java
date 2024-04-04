@@ -16,11 +16,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import com.example.had_backend_jwt.Services.Utilities;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
+import java.util.*;
 
 
 @RestController
@@ -148,8 +144,7 @@ public class ForumController {
 
     @DeleteMapping("/deleteQuestion/{queryId}")
 //    @PreAuthorize("hasAuthority('Moderator')")
-    ResponseEntity<Map<String, Boolean>> deleteQuestion(@PathVariable Integer queryId){
-        System.out.println("hihiihhiihihihi");
+    public ResponseEntity<Map<String, Boolean>> deleteQuestion(@PathVariable Integer queryId){
         questionsRepository.deleteById(queryId);
 
         Map<String, Boolean> response = new HashMap<>();
@@ -160,8 +155,7 @@ public class ForumController {
 
     @DeleteMapping("/deleteAnswer/{answerId}")
 //    @PreAuthorize("hasAuthority('Moderator')")
-    ResponseEntity<Map<String, Boolean>> deleteAnswer(@PathVariable Integer answerId){
-        System.out.println("hohohohohoohho");
+    public ResponseEntity<Map<String, Boolean>> deleteAnswer(@PathVariable Integer answerId){
         answersRepository.deleteById(answerId);
 
         Map<String, Boolean> response = new HashMap<>();
@@ -171,12 +165,25 @@ public class ForumController {
     }
 
 
-//    @PutMapping("/updateAnswer/{answerId}")
-//    ResponseEntity<Map<String, Boolean>> updateAnswer( @PathVariable Integer answerId){
-//
-//        Answers answer = answersRepository.findById(answerId);
-//
-//    }
+    @PutMapping("/updateAnswer/{answerId}")
+//    @PreAuthorize("hasAuthority('Moderator')")
+    public ResponseEntity<Map<String, Boolean>> updateAnswer( @PathVariable Integer answerId, @RequestBody String newAnswerContent){
+
+        Optional<Answers> answer = answersRepository.findById(answerId);
+
+        if (answer.isPresent()) {
+            Answers answer1 = answer.get();
+            answer1.setAnswerContent(newAnswerContent);
+            answersRepository.save(answer1);
+        }
+        else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("success", false));
+        }
+
+        return ResponseEntity.ok(Map.of("success", true));
+    }
+
+
     @PostMapping("/postQuestion")
     @PreAuthorize("hasAuthority('Patient')")
     public ResponseEntity<String> postQuestion(HttpServletRequest request, @RequestParam String question){
