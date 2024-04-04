@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import com.example.had_backend_jwt.Services.Utilities;
 
 import java.security.Principal;
 import java.util.List;
@@ -61,7 +62,7 @@ public class DemoController {
     @PreAuthorize("hasAuthority('Patient')")
     public String deletePatient(HttpServletRequest req)
     {
-        String token=resolveToken(req);
+        String token=Utilities.resolveToken(req);
         if(token != null){
             int id = jwtService.extractId(token);
             boolean userRemoved=pService.deletePatient(id);
@@ -75,7 +76,7 @@ public class DemoController {
     @PutMapping("/updatepatient")
     @PreAuthorize("hasAuthority('Patient')")
     public ResponseEntity<?> updatePatient(HttpServletRequest req, @RequestBody PatientInfo updatedPatient){
-        String token=resolveToken(req);
+        String token=Utilities.resolveToken(req);
         if(token!=null){
             int id = jwtService.extractId(token);
             PatientInfo user=patientInfoRepository.findPatientInfoByPtRegNo(id);
@@ -92,7 +93,7 @@ public class DemoController {
     @GetMapping("/patientinfo")
     @PreAuthorize("hasAuthority('Patient')")
     public ResponseEntity<PatientInfo> getPatientInfo(HttpServletRequest request) {
-        String token = resolveToken(request);
+        String token = Utilities.resolveToken(request);
         if (token != null) {
             String username = jwtService.extractUserName(token);
             PatientInfo patientInfo = pService.getPatientInfo(username);
@@ -101,13 +102,6 @@ public class DemoController {
             }
         }
         return ResponseEntity.notFound().build();
-    }
-    private String resolveToken(HttpServletRequest req) {
-        String bearerToken = req.getHeader("Authorization");
-        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(7);
-        }
-        return null;
     }
 
     @GetMapping("/getquestionnaire")
