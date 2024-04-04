@@ -17,11 +17,11 @@ import java.util.List;
 @Table(name="answers")
 public class Answers {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="answerId")
     private Integer answerId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "queryId", referencedColumnName = "queryId")
     private Questions query;
 
@@ -40,4 +40,17 @@ public class Answers {
 
     @Column(name="isEdited")
     private Boolean isEdited;
+
+//    public Answers(Integer answerId, Questions query, String answerContent, DoctorInfo drInfo, Integer upVote, Integer aflagCount, Boolean isEdited) {
+//        this.answerId = answerId;
+//        this.query = query;
+//        this.answerContent = answerContent;
+//        this.drInfo = drInfo;
+//        this.upVote = upVote;
+//        this.aflagCount = aflagCount;
+//        this.isEdited = isEdited;
+//    }
+//
+//    public Answers() {
+//    }
 }
