@@ -26,7 +26,7 @@ const DoctorAppointmentBox=({item, navigation})=>{
                 <Text className="text-sm">Experience : {drExperience}</Text>
                 
             </View>
-            <View className="flex-row space-x-4 mt-4 ml-2"> 
+            <View className="flex-row space-x-6 mt-4 ml-2"> 
                     <Text className="text-white text-base bg-blue-700 w-32 h-10 text-center rounded-3xl pt-1.5">
                         Choose Doctor
                     </Text>
