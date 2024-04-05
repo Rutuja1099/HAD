@@ -1,7 +1,6 @@
 package com.example.had_backend_jwt.Controllers;
 
-import com.example.had_backend_jwt.Entities.AdminLogin;
-import com.example.had_backend_jwt.Models.DoctorAuthenticationResponse;
+import com.example.had_backend_jwt.Models.AuthenticationResponse;
 import com.example.had_backend_jwt.Models.DoctorRegisterRequest;
 import com.example.had_backend_jwt.Services.AdminAuthenticationService;
 import com.example.had_backend_jwt.Services.DoctorAuthenticationService;
@@ -24,8 +23,8 @@ public class AdminController {
 
     @PostMapping("/register/doctor")
     @PreAuthorize("hasAuthority('Admin')")
-    public ResponseEntity<DoctorAuthenticationResponse> registerDoctor(@RequestBody DoctorRegisterRequest request){
-        DoctorAuthenticationResponse response=doctorAuthService.registerDoctor(request);
+    public ResponseEntity<AuthenticationResponse> registerDoctor(@RequestBody DoctorRegisterRequest request){
+        AuthenticationResponse response=doctorAuthService.registerDoctor(request);
         if(response.getMessage()!=null && !response.getMessage().equals("Success"))
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
         else

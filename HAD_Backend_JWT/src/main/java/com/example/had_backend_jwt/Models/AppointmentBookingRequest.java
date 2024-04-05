@@ -5,13 +5,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class DoctorAuthenticationResponse {
-    private String token;
+public class AppointmentBookingRequest {
+    private String currentDate;
+    private String requestedDate;
+    private List<Integer> requestedSlots;
     private Integer drId;
-    private String drUsername;
-    private String message;
 }

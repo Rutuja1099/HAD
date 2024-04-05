@@ -13,30 +13,30 @@ public class Questionnaire {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "questionId")
-    private int questionId;
+    private Integer questionId;
 
     @Column(name = "question",nullable = false, unique = true)
     private String question;
 
-    @Column(name = "severity",nullable = false)
-    private int severity;
+    @Column(name="weekNum", nullable = false)
+    private Integer weekNum;
 
     @Column(name = "opt1",nullable = false)
-    private int opt1;
+    private Integer opt1;
 
     @Column(name = "opt2",nullable = false)
-    private int opt2;
+    private Integer opt2;
 
     @Column(name = "opt3",nullable = false)
-    private int opt3;
+    private Integer opt3;
 
     @Column(name = "opt4",nullable = false)
-    private int opt4;
+    private Integer opt4;
 
-    public Questionnaire(int questionId, String question, int severity, int opt1, int opt2, int opt3, int opt4) {
+    public Questionnaire(Integer questionId, String question, Integer weekNum, Integer opt1, Integer opt2, Integer opt3, Integer opt4) {
         this.questionId = questionId;
         this.question = question;
-        this.severity = severity;
+        this.weekNum = weekNum;
         this.opt1 = opt1;
         this.opt2 = opt2;
         this.opt3 = opt3;
