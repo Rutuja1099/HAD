@@ -38,6 +38,6 @@ public class DemoController {
     public ResponseEntity<String> sayPatient(){
         return ResponseEntity.ok("Hello Patient");
     }
-    
+
 }
 

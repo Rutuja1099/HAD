@@ -36,7 +36,7 @@ const TopNavigationMenu = ({open, setOpen}) => {
                     </div>
 
                     {role === "admin" ? (
-                        <div className="flex items-center w-full">
+                        <div className="flex flex-row items-center w-full justify-between">
 
                             {/* two buttons */}
                             <div className="rounded-3xl ml-12 self-start">

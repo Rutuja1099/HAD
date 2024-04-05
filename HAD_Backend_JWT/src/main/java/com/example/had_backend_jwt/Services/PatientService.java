@@ -68,17 +68,20 @@ public class PatientService {
     }
 
     public List<Questionnaire> getQuestions() {
-        List<Questionnaire> questions=new ArrayList<>();
-        Questionnaire q1=qrepo.findQuestionnaireBySeverity(1);
-        Questionnaire q2=qrepo.findQuestionnaireBySeverity(2);
-        Questionnaire q3=qrepo.findQuestionnaireBySeverity(3);
-        Questionnaire q4=qrepo.findQuestionnaireBySeverity(4);
-        Questionnaire q5=qrepo.findQuestionnaireBySeverity(5);
-        questions.add(q1);
-        questions.add(q2);
-        questions.add(q3);
-        questions.add(q4);
-        questions.add(q5);
+
+        List<Questionnaire> questions=qrepo.findQuestionnaireBySeverity();
+
+//        List<Questionnaire> questions=new ArrayList<>();
+//        Questionnaire q1=qrepo.findQuestionnaireBySeverity(1);
+//        Questionnaire q2=qrepo.findQuestionnaireBySeverity(2);
+//        Questionnaire q3=qrepo.findQuestionnaireBySeverity(3);
+//        Questionnaire q4=qrepo.findQuestionnaireBySeverity(4);
+//        Questionnaire q5=qrepo.findQuestionnaireBySeverity(5);
+//        questions.add(q1);
+//        questions.add(q2);
+//        questions.add(q3);
+//        questions.add(q4);
+//        questions.add(q5);
         return questions;
     }
 

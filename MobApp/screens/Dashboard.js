@@ -58,8 +58,8 @@ const Dashboard = () => {
                         </View>
 
                         <View className="flex flex-row px-4 py-3 bg-cyan-400 rounded-3xl justify-between">
-                            <TextInput placeholder="Type your question"/>
-                            <MaterialIcons name="send" size={24} color="black" />                        
+                            <TextInput className="w-full" placeholder="Type your question"/>
+                            <MaterialIcons className="ml-2" name="send" size={24} color="black" />                        
                         </View>
                         
                     </View>
@@ -107,18 +107,19 @@ const Dashboard = () => {
                         <ScrollView horizontal className="flex-1">
                             <View className="flex flex-row">
                                 <View className="bg-cyan-300 h-40 w-28 mr-4 text-xl rounded-3xl flex justify-center items-center">
-                                    Book appointment
+                                    <Text>Book appointment</Text>
                                 </View>
 
                                 <View className="bg-red-400 h-40 w-28 mr-4 text-xl rounded-3xl flex justify-center items-center">
-                                    Moodlift
+                                    <Text>Moodlift</Text>
                                 </View>
 
                                 <View className="bg-amber-400 h-40 w-28 mr-4 text-xl rounded-3xl flex justify-center items-center">
-                                    Forum
+                                    <Text>Forum</Text>
                                 </View>
 
                                 <View className="bg-lime-400 h-40 w-28 mr-4 text-xl rounded-3xl flex justify-center items-center">
+                                    <Text></Text>
                                 </View>
 
                             </View>

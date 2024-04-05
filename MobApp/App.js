@@ -57,7 +57,7 @@ export default function App() {
         
         <Stack.Screen name="DoctorAppointmentDetail" component={DoctorAppointmentDetail} />
         <Stack.Screen name="Settings" component={Settings} />
-        <Stack.Screen name="Profile" component={WellnessHub} />
+        <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="Notifications" component={Notifications} />
         <Stack.Screen name="Security and Privacy" component={SecurityPrivacy} />
         <Stack.Screen name="Password Manager" component={PasswordManager} />
@@ -68,7 +68,7 @@ export default function App() {
           component={Chat} 
           // initialParams={{ doctorName: 'Dr. John', doctorId: 123 }}  
         />
-        {/* <Stack.Screen name="Wellness Hub 😊" component={WellnessHub} />    */}
+        <Stack.Screen name="Wellness Hub" component={WellnessHub} />   
         <Stack.Screen name="Harmony" component={Harmony}/>     
       
       </Stack.Navigator>
