@@ -17,11 +17,16 @@ const Meditation = (props) => {
             navigation.setOptions({
             headerShown: false,
         })
-    },[])
+    },[]);
+
+    const onPressMeditation = () => {
+        console.log("Clicked on meditation");
+        props.navigation.navigate("MeditationPage");
+    };
 
     const navigateback = () => {
         navigation.navigate("Moodlift");
-    }
+    };
 
     return (
 
@@ -38,7 +43,7 @@ const Meditation = (props) => {
                         <Text className="text-l ml-5 mt-5 mb-3 text-slate-50 font-extrabold">What do you wish to do?</Text>
                         <View style={styles.innercontainer}>
                             <View style={styles.ImageContainer}>
-                                    <Pressable>
+                                    <Pressable onPress={onPressMeditation}>
                                             <ImageBackground source={image1} resizeMode="cover" style={styles.image}>
                                             <View style={styles.textContainer}><Text style={styles.text}>Meditate</Text></View>
                                             </ImageBackground>
