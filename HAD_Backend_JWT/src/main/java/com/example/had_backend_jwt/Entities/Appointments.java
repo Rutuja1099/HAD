@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import lombok.*;
 import jakarta.persistence.*;
 
+import java.sql.Date;
+
 @Entity
 @Getter
 @Setter
@@ -27,7 +29,7 @@ public class Appointments {
     private DoctorInfo drInfo;
 
     @Column(name="date")
-    private String date;
+    private Date date;
 
     @Column(name="timestamp")
     private String timestamp;

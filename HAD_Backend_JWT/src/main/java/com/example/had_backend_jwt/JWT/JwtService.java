@@ -31,10 +31,11 @@ public class JwtService {
         return extractClaim(token,Claims::getSubject);
     }
 
-    public int extractId(String token, String attribute){
+    public Integer extractId(HttpServletRequest req, String idAttribute){
+        String token= resolveToken(req);
         if(token!=null){
             Claims claims=extractAllClaims(token);
-            return (int)claims.get(attribute);
+            return (int)claims.get(idAttribute);
         }
         return -1;
     }
@@ -137,20 +138,12 @@ public class JwtService {
 
     //Resolve token from HttpServletRequest
     private String resolveToken(HttpServletRequest req){
-        String btoken=req.getHeader("Authorization");
-        if(btoken!=null && btoken.startsWith("Bearer ")){
-            return btoken.substring(7);
+        String token=req.getHeader("Authorization");
+        if(token!=null && token.startsWith("Bearer ")){
+            return token.substring(7);
         }
         return null;
     }
-
     //Extract patient info from token
-    public String extractPatientInfo(HttpServletRequest req){
-        String token = resolveToken(req);
-        if(token!=null){
-            Claims claims=extractAllClaims(token);
-            return (String) claims.get("patientLogin");
-        }
-        return null;
-    }
+
 }

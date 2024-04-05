@@ -4,8 +4,9 @@ import com.example.had_backend_jwt.Entities.PatientInfo;
 import com.example.had_backend_jwt.Entities.Questionnaire;
 import com.example.had_backend_jwt.JWT.JwtService;
 import com.example.had_backend_jwt.Models.AnswersDTO;
+import com.example.had_backend_jwt.Models.AppointmentBookingRequest;
+import com.example.had_backend_jwt.Models.BookedDaysResponse;
 import com.example.had_backend_jwt.Repositories.PatientInfoRepository;
-import com.example.had_backend_jwt.Services.ExtractTokenInfo;
 import com.example.had_backend_jwt.Services.PatientService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,42 +16,33 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/suhrud/patient")
 public class PatientController {
     @Autowired
-    private com.example.had_backend_jwt.Services.PatientService PatientService;
+    private PatientService patientService;
     @Autowired
     private JwtService jwtService;
     @Autowired
     private PatientInfoRepository patientInfoRepository;
-    @Autowired
-    private ExtractTokenInfo extractTokenInfo;
 
-    @Autowired PatientService patientService;
 
     @DeleteMapping("/deletepatient")
     @PreAuthorize("hasAuthority('Patient')")
-    public String deletePatient(HttpServletRequest req)
+    public String deletePatient(HttpServletRequest request)
     {
-        String token=extractTokenInfo.resolveToken(req);
-        if(token != null){
-            int id = jwtService.extractId(token,"patientId");
-            boolean userRemoved= patientService.deletePatient(id);
+        boolean userRemoved= patientService.deletePatient(request);
             if(userRemoved)
                 return "User Deleted";
             return "error";
-        }
-        return "error";
     }
 
     @PutMapping("/updatepatient")
     @PreAuthorize("hasAuthority('Patient')")
-    public ResponseEntity<?> updatePatient(HttpServletRequest req, @RequestBody PatientInfo updatedPatient){
-        String token=extractTokenInfo.resolveToken(req);
-        if(token!=null){
-            int id = jwtService.extractId(token,"patientId");
+    public ResponseEntity<?> updatePatient(HttpServletRequest request, @RequestBody PatientInfo updatedPatient){
+        Integer id = jwtService.extractId(request,"patientId");
             PatientInfo user=patientInfoRepository.findPatientInfoByPtRegNo(id);
             if(user==null)
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User id not found in BD");
@@ -59,19 +51,14 @@ public class PatientController {
                 return ResponseEntity.ok("Updated Successfully");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Some error has occurred.");
         }
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Some error has occurred.");
-    }
 
     @GetMapping("/patientinfo")
     @PreAuthorize("hasAuthority('Patient')")
     public ResponseEntity<PatientInfo> getPatientInfo(HttpServletRequest request) {
-        String token = extractTokenInfo.resolveToken(request);
-        if (token != null) {
-            String username = jwtService.extractUserName(token);
-            PatientInfo patientInfo = patientService.getPatientInfo(username);
+        Integer id= jwtService.extractId(request,"patientId");
+        PatientInfo patientInfo = patientService.getPatientInfo(id);
             if (patientInfo != null) {
                 return ResponseEntity.ok(patientInfo);
-            }
         }
         return ResponseEntity.notFound().build();
     }
@@ -92,6 +79,19 @@ public class PatientController {
         return  ResponseEntity.ok("Severity : "+severity);
     }
 
-//    @GetMapping("/appointment")
-//    public ResponseEntity<?>
+    @GetMapping("/fetchBookedDays")
+    @PreAuthorize("hasAnyAuthority('Patient')")
+    public ResponseEntity<BookedDaysResponse> fetchBookedDays(HttpServletRequest httpServletRequest,@RequestBody AppointmentBookingRequest request){
+        BookedDaysResponse bookedDays=patientService.fetchBookedDays(httpServletRequest,request);
+        return ResponseEntity.ok(bookedDays);
+    }
+
+    @PostMapping("/bookAppointment")
+    @PreAuthorize(("hasAuthority('Patient')"))
+    public ResponseEntity<String> bookAppointment(HttpServletRequest httpServletRequest,@RequestBody AppointmentBookingRequest request){
+        boolean bookingStatus= patientService.bookAppointment(httpServletRequest,request);
+        if (bookingStatus)
+            return ResponseEntity.status(HttpStatus.OK).body("Success");
+        return ResponseEntity.internalServerError().body("Failed to book the appointment");
+    }
 }

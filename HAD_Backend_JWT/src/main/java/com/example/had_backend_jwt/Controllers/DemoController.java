@@ -19,18 +19,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/suhrud/hello")
 public class DemoController {
-    @Autowired
-    private PatientService PatientService;
-    @Autowired
-    private JwtService jwtService;
-    @Autowired
-    private PatientInfoRepository patientInfoRepository;
-    @Autowired
-    private ExtractTokenInfo extractTokenInfo;
-
-    @Autowired
-    private QuestionnaireRepository qrepo;
-
     @GetMapping("/moderator")
     @PreAuthorize("hasAuthority('Moderator')")
     public ResponseEntity<String> sayHello(){
