@@ -24,7 +24,7 @@ const Appointment = ({route}) => {
 
         const getDoctorsList = async () => {
             
-            const loginURL = webServerUrl+"/suhrud/viewSuggestedDoctorsList";
+            const loginURL = webServerUrl+"/suhrud/patient/viewSuggestedDoctorsList";
             const method='GET';
             
             const sessionData = await AsyncStorage.getItem('patientData')

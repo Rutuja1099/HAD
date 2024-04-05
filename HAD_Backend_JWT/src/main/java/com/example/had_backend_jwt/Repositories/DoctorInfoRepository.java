@@ -23,7 +23,7 @@ public interface DoctorInfoRepository extends JpaRepository<DoctorInfo,Integer> 
     DoctorInfo findDoctorInfoByDrLogin(DoctorLogin doctorLogin);
     DoctorInfo findDoctorInfoByDrId(Integer id);
 
-    Optional<DoctorInfo> findByDrRegNo(@Param("drRegNo") Integer drRegNo);
+//    Optional<DoctorInfo> findByDrRegNo(@Param("drRegNo") Integer drRegNo);
 
 
     @Query(value = "SELECT drId,drFullName, drSpecialization, drExperience, drGender FROM doctorInfo;",nativeQuery = true)
