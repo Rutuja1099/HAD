@@ -182,4 +182,14 @@ public class ForumController {
         return ResponseEntity.ok().body(answer);
     }
 
+    //this is optional (implement krr diya kyuki kuch dusra krne ko nhi tha)
+    @GetMapping("/trendingAnswers")
+    @PreAuthorize("hasAuthority('Doctor')")
+    public ResponseEntity<List<QandAnswerDoctorDTO>> trendingAnswers(){
+        List<QandAnswerDoctorDTO> answer=pService.trendingAnswers();
+        return ResponseEntity.ok().body(answer);
+    }
+
+
+
 }
