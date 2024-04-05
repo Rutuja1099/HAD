@@ -19,13 +19,18 @@ import java.util.Optional;
 public class ForumService {
 
 
-    private static DoctorInfoRepository doctorInfoRepository;
-    private static DoctorLoginRepository doctorLoginRepository;
-    private static PatientInfoRepository patientInfoRepository;
-    private static QuestionsRepository questionsRepository;
-    private static AnswersRepository answersRepository;
+    @Autowired
+    private DoctorInfoRepository doctorInfoRepository;
+    @Autowired
+    private DoctorLoginRepository doctorLoginRepository;
+    @Autowired
+    private PatientInfoRepository patientInfoRepository;
+    @Autowired
+    private  QuestionsRepository questionsRepository;
+    @Autowired
+    private AnswersRepository answersRepository;
 
-    public static String postAnswers(Integer id, Integer queryId, String content) {
+    public String postAnswers(Integer id, Integer queryId, String content) {
         try{
 
             DoctorInfo doctorInfo = doctorInfoRepository.findDoctorInfoByDrId(id);

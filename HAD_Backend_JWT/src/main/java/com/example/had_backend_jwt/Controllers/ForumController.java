@@ -23,7 +23,7 @@ import java.util.*;
 
 
 @RestController
-@RequestMapping("suhrud/forum")
+@RequestMapping("/suhrud/forum")
 public class ForumController {
 
     @Autowired
@@ -154,7 +154,7 @@ public class ForumController {
         if (role != null) {
             int id = jwtService.extractId(req,"doctorId" );
             System.out.println("I am here");
-            String isUpdated = ForumService.postAnswers(id, queryId, answerContent);
+            String isUpdated = forumService.postAnswers(id, queryId, answerContent);
             if (isUpdated.equals("Success")) {
                 return ResponseEntity.ok("Updated Successfully");
             }
@@ -184,15 +184,20 @@ public class ForumController {
 
     }
 
-    @DeleteMapping("/deleteQuestion/{queryId}")
+    @DeleteMapping("/deleteQuestion")
     @PreAuthorize("hasAuthority('Moderator')")
-    public ResponseEntity<Map<String, Boolean>> deleteQuestion(@PathVariable Integer queryId){
-        questionsRepository.deleteById(queryId);
+    public ResponseEntity<?> deleteQuestion(@RequestParam Integer queryId){
+        try{
+            questionsRepository.deleteById(queryId);
+            Map<String, Boolean> response = new HashMap<>();
+            response.put("deleted", Boolean.TRUE);
+            System.out.println("deletion here");
+            return ResponseEntity.ok(response);
+        }
+        catch(Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.toString());
+        }
 
-        Map<String, Boolean> response = new HashMap<>();
-        response.put("deleted", Boolean.TRUE);
-        System.out.println("deletion here");
-        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/deleteAnswer/{answerId}")
@@ -231,7 +236,7 @@ public class ForumController {
     public ResponseEntity<String> postQuestion(HttpServletRequest req, @RequestParam String question){
         String token = Utilities.resolveToken(req);
         if(token==null)
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.badRequest().body("Missing or Invalid token");
         int id = jwtService.extractId(req,"patientId");
         boolean postQ=forumService.postQuestion(id,question);
         if(postQ)
@@ -241,11 +246,10 @@ public class ForumController {
 
     @GetMapping("/getMyQuestions")
     @PreAuthorize("hasAuthority('Patient')")
-    public ResponseEntity<List<Questions>> getMyQuestions(HttpServletRequest req){
+    public ResponseEntity<?> getMyQuestions(HttpServletRequest req){
         String token = Utilities.resolveToken(req);
-        String role = jwtService.extractRole(token);
         if(token==null)
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.badRequest().body("Missing or invalid token");
         int id = jwtService.extractId(req,"patientId");
         List<Questions> questions=forumService.getMyQuestions(id);
         return ResponseEntity.ok().body(questions);
@@ -280,7 +284,8 @@ public class ForumController {
         String token=Utilities.resolveToken(req);
         if(token==null)
             return ResponseEntity.notFound().build();
-        Integer id= jwtService.extractId(req,"doctorId");
+        int id= jwtService.extractId(req,"doctorId");
+        System.out.println(id);
         List<QandAnswerDoctorDTO> answer=forumService.getAnswerDoctorrr(id);
         return ResponseEntity.ok().body(answer);
 

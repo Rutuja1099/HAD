@@ -36,8 +36,10 @@ export default function App() {
   return (
     
     <NavigationContainer>
+
       {/* <Stack.Navigator>
-      <Stack.Screen name="Questionnaire" component={Questionnaire} /> */}
+      <Stack.Screen name="Dashboard" component={Dashboard} /> */}
+
         
 
       <Stack.Navigator initialRouteName="Login">
@@ -68,7 +70,7 @@ export default function App() {
           component={Chat} 
           // initialParams={{ doctorName: 'Dr. John', doctorId: 123 }}  
         />
-        <Stack.Screen name="Wellness Hub 😊" component={WellnessHub} />   
+        <Stack.Screen name="Wellness Hub" component={WellnessHub} />   
         <Stack.Screen name="Harmony" component={Harmony}/>     
       
       </Stack.Navigator>

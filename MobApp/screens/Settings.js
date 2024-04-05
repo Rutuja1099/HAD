@@ -46,7 +46,7 @@ const Settings = () => {
             menuItemName: "Log out",
             imageWidth: 23,
             imageHeight: 23,
-            navigateTo: ""
+            navigateTo: "Login"
         }
     ];
 

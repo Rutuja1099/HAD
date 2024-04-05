@@ -14,6 +14,7 @@ import DoctorOnboarding from './components/DoctorOnboarding';
 import SetPassword from './components/SetPassword';
 import ForgotPasswordMail from './components/ForgotPasswordMail';
 import QnaForumQuestion from './components/QnaForumQuestion';
+import DoctorStatus from './components/DoctorStatus';
 
 function App() {
   const [open, setOpen] = useState(false);
@@ -39,7 +40,7 @@ function App() {
       navigate("/login");
 
     }
-  },[]);
+  },[authenticated]);
 
   // // If loading, show loading indicator
   // if (loading) {
@@ -49,7 +50,7 @@ function App() {
   return (
     <div className="bg-cyan-100 p-5 h-screen">
       <div className={`${location.pathname !== '/login' ? "ml-5 flex h-full" : "h-full"} `}>
-        {(location.pathname !== '/login' && location.pathname !== '/setPassword' && location.pathname !== '/forgotPasswordMail') && (
+        {(location.pathname !== '/login' && location.pathname !== '/setPassword' && location.pathname !== '/forgotPasswordMail' && location.pathname !== '/doctorOnboarding' && location.pathname !== '/doctorStatus') && (
           <SideNavigationMenu
             open={open}
             setOpen={setOpen}
@@ -73,6 +74,7 @@ function App() {
             <Route path='/doctorOnboarding' element={<DoctorOnboarding />} />
             <Route path='/qnaForum' element={<QnaForum />} />
             <Route path='/qnaForumQuestion' element={<QnaForumQuestion />} />
+            <Route path='/doctorStatus' element={<DoctorStatus />} />
           </Routes>
         </div>
       </div>

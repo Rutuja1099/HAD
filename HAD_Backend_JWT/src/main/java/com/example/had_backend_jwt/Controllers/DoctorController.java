@@ -8,6 +8,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import com.example.had_backend_jwt.Models.*;
+import com.example.had_backend_jwt.Repositories.DoctorInfoRepository;
+import com.example.had_backend_jwt.Services.*;
+import com.example.had_backend_jwt.JWT.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 import java.util.List;
 
@@ -16,6 +26,9 @@ import java.util.List;
 public class DoctorController {
     @Autowired
     private DoctorService doctorService;
+    
+    @Autowired
+    private pService pService;
 
     @GetMapping("/viewAppointments/current")
     public ResponseEntity<List<DoctorAppointmentsResponse>> viewCurrentAppointments(HttpServletRequest request){
@@ -30,5 +43,19 @@ public class DoctorController {
     @GetMapping("/viewAppointments/previous")
     public ResponseEntity<List<DoctorAppointmentsResponse>> viewPreviousAppointments(HttpServletRequest request){
         return ResponseEntity.ok(doctorService.fetchPreviousAppointments(request));
+    }
+    
+    @GetMapping("/viewSuggestedDoctorsList")
+    @PreAuthorize("hasAuthority('Patient')")
+    public ResponseEntity<List<SuggestedDoctorsListResponse>> getSuggestedDoctorsListForAppointment(){
+        List<SuggestedDoctorsListResponse> DoctorInfos=pService.getSuggestedDoctorsList();
+        return  ResponseEntity.ok(DoctorInfos);
+    }
+
+    @GetMapping("/getAllDoctorsInfo")
+    @PreAuthorize("hasAuthority('Patient')")
+    public ResponseEntity<List<DoctorInfo>> getDoctorsList(){
+        List<DoctorInfo> DoctorInfos=pService.getAllDoctorsList();
+        return  ResponseEntity.ok(DoctorInfos);
     }
 }
