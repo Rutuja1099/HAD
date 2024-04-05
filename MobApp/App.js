@@ -36,8 +36,8 @@ export default function App() {
   return (
     
     <NavigationContainer>
-      {/* <Stack.Navigator> */}
-      {/* <Stack.Screen name="Questionnaire" component={Questionnaire} /> */}
+      {/* <Stack.Navigator>
+      <Stack.Screen name="Dashboard" component={Dashboard} /> */}
         
 
       <Stack.Navigator initialRouteName="Login">
