@@ -50,8 +50,9 @@ public class ForumController {
 
 
     @PutMapping("/upVoteAnswer")
-    @PreAuthorize("hasAuthority('Patient,Doctor')")
-    public ResponseEntity<?> upVoteAnswer(HttpServletRequest req, @RequestBody Integer answerId) {
+    @PreAuthorize("hasAuthority('Patient') or hasAuthority('Doctor')" )
+//    @PreAuthorize("hasAuthority('Doctor')")
+    public ResponseEntity<?> upVoteAnswer(HttpServletRequest req, @RequestParam Integer answerId) {
         String token = Utilities.resolveToken(req);
         if (token != null) {
             int id = jwtService.extractId(token);
@@ -77,8 +78,8 @@ public class ForumController {
 
 
     @PutMapping("/flagAnswer")
-    @PreAuthorize("hasAuthority('Patient,Doctor')")
-    public ResponseEntity<?> flagAnswer(HttpServletRequest req, @RequestBody Integer answerId) {
+    @PreAuthorize("hasAuthority('Patient') or hasAuthority('Doctor')")
+    public ResponseEntity<?> flagAnswer(HttpServletRequest req, @RequestParam Integer answerId) {
         String token = Utilities.resolveToken(req);
         if (token != null) {
             int id = jwtService.extractId(token);
@@ -104,8 +105,8 @@ public class ForumController {
     }
 
     @PutMapping("/flagQuestion")
-    @PreAuthorize("hasAuthority('Patient,Doctor')")
-    public ResponseEntity<?> flagQuestion(HttpServletRequest req, @RequestBody Integer queryId) {
+    @PreAuthorize("hasAuthority('Patient') or hasAuthority('Doctor')")
+    public ResponseEntity<?> flagQuestion(HttpServletRequest req, @RequestParam Integer queryId) {
         String token = Utilities.resolveToken(req);
         if (token != null) {
             int id = jwtService.extractId(token);
@@ -137,7 +138,7 @@ public class ForumController {
     public ResponseEntity<?> postAnswer(HttpServletRequest req, @RequestBody Integer queryId, String answerContent) {
         String token = Utilities.resolveToken(req);
         if (token != null) {
-            int id = jwtService.extractId(token);
+            Integer id = jwtService.extractId(token);
 
             boolean isUpdated = ForumService.postAnswers(id, queryId, answerContent);
             if (isUpdated) {
@@ -150,7 +151,7 @@ public class ForumController {
     }
 
     @GetMapping("/getAllQuestion")
-    @PreAuthorize("hasAuthority('Patient, Doctor, Moderator')")
+    @PreAuthorize("hasAuthority('Patient') or hasAuthority('Doctor') or hasAuthority('Moderator')")
     public ResponseEntity<List<Questions>> getQuestionss(){
 
         try {

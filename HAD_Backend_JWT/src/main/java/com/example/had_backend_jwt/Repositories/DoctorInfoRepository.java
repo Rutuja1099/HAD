@@ -12,6 +12,7 @@ public interface DoctorInfoRepository extends JpaRepository<DoctorInfo,Integer> 
 
     Optional<DoctorInfo> findByDrRegNo(@Param("drRegNo") Integer drRegNo);
 
+
 //    DoctorInfo findByUsername(String username);
     DoctorInfo findDoctorInfoByDrLogin(DoctorLogin doctorLogin);
 }
