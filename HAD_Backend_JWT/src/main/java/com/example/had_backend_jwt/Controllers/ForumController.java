@@ -2,6 +2,7 @@ package com.example.had_backend_jwt.Controllers;
 
 
 import com.example.had_backend_jwt.Entities.Answers;
+import com.example.had_backend_jwt.Entities.PatientInfo;
 import com.example.had_backend_jwt.Entities.Questions;
 import com.example.had_backend_jwt.JWT.JwtService;
 import com.example.had_backend_jwt.Models.QandAnswerDTO;
@@ -15,12 +16,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import com.example.had_backend_jwt.Services.Utilities;
+import com.example.had_backend_jwt.Services.ForumService;
 
-import java.util.List;
+
+import java.util.*;
 
 
 @RestController
-@RequestMapping("/suhrud/forum")
+@RequestMapping("suhrud/forum")
 public class ForumController {
 
     @Autowired
@@ -36,39 +39,42 @@ public class ForumController {
     private com.example.had_backend_jwt.Services.pService pService;
     @Autowired
     private PatientInfoRepository patientInfoRepository;
-    @Autowired
-    private QuestionRepository questionRepository;
+
     @Autowired
     private DoctorInfoRepository doctorInfoRepository;
     @Autowired
     private QuestionnaireRepository qrepo;
 
-//    @PutMapping("/upVoteAnswer")
-//    @PreAuthorize("hasAuthority('Patient,Doctor')")
-//    public ResponseEntity<?> upVoteAnswer(HttpServletRequest req, @RequestBody Integer answerId) {
-//        String token = Utilities.resolveToken(req);
-//        if (token != null) {
-//            int id = jwtService.extractId(token);
-//            Answers answer = answersRepository.findAnswersByAnswerId(answerId);
-//            if (answer == null) {
-//                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Answer not found");
-//            } else {
-//                Integer countVote = answer.getUpVote();
-//                countVote = countVote + 1;
-//                try {
-//                    answer.setUpVote(countVote);
-//                    Answers updated = answersRepository.save(answer);
-//                    return ResponseEntity.ok("Updated Successfully");
-//                } catch (Exception e) {
-//                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e);
-//                }
-//                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Some error occured in updating upvote");
-//            }
-//        }
-//        else{
-//            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Unidentified Token");
-//        }
-//    }
+
+
+
+
+    @PutMapping("/upVoteAnswer")
+    @PreAuthorize("hasAuthority('Patient,Doctor')")
+    public ResponseEntity<?> upVoteAnswer(HttpServletRequest req, @RequestBody Integer answerId) {
+        String token = Utilities.resolveToken(req);
+        if (token != null) {
+            int id = jwtService.extractId(token);
+            Answers answer = answersRepository.findAnswersByAnswerId(answerId);
+            if (answer == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Answer not found");
+            } else {
+                Integer countVote = answer.getUpVote();
+                countVote = countVote + 1;
+                try {
+                    answer.setUpVote(countVote);
+                    Answers updated = answersRepository.save(answer);
+                    return ResponseEntity.ok("Updated Successfully");
+                } catch (Exception e) {
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e);
+                }
+            }
+        }
+        else{
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Unidentified Token");
+        }
+    }
+
 
     @PutMapping("/flagAnswer")
     @PreAuthorize("hasAuthority('Patient,Doctor')")
@@ -124,6 +130,84 @@ public class ForumController {
         }
     }
 
+
+
+    @PostMapping("/postAnswer")
+    @PreAuthorize("hasAuthority('Doctor')")
+    public ResponseEntity<?> postAnswer(HttpServletRequest req, @RequestBody Integer queryId, String answerContent) {
+        String token = Utilities.resolveToken(req);
+        if (token != null) {
+            int id = jwtService.extractId(token);
+
+            boolean isUpdated = ForumService.postAnswers(id, queryId, answerContent);
+            if (isUpdated) {
+                return ResponseEntity.ok("Updated Successfully");
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Unidentified Token");
+        }
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Some error occured");
+    }
+
+    @GetMapping("/getAllQuestion")
+    @PreAuthorize("hasAuthority('Patient, Doctor, Moderator')")
+    public ResponseEntity<List<Questions>> getQuestionss(){
+
+        try {
+            List<Questions> questions = questionsRepository.findAll();
+            System.out.println("Retrieved " + questions.size() + " questions");
+            for (Questions question : questions) {
+                System.out.println("Question ID: " + question.getQueryId() + ", Content: " + question.getQueryContent());
+            }
+            return ResponseEntity.ok(questions);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+
+    }
+
+    @DeleteMapping("/deleteQuestion/{queryId}")
+//    @PreAuthorize("hasAuthority('Moderator')")
+    public ResponseEntity<Map<String, Boolean>> deleteQuestion(@PathVariable Integer queryId){
+        questionsRepository.deleteById(queryId);
+
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("deleted", Boolean.TRUE);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/deleteAnswer/{answerId}")
+//    @PreAuthorize("hasAuthority('Moderator')")
+    public ResponseEntity<Map<String, Boolean>> deleteAnswer(@PathVariable Integer answerId){
+        answersRepository.deleteById(answerId);
+
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("deleted", Boolean.TRUE);
+
+        return ResponseEntity.ok(response);
+    }
+
+
+    @PutMapping("/updateAnswer/{answerId}")
+//    @PreAuthorize("hasAuthority('Moderator')")
+    public ResponseEntity<Map<String, Boolean>> updateAnswer( @PathVariable Integer answerId, @RequestBody String newAnswerContent){
+
+        Optional<Answers> answer = answersRepository.findById(answerId);
+
+        if (answer.isPresent()) {
+            Answers answer1 = answer.get();
+            answer1.setAnswerContent(newAnswerContent);
+            answersRepository.save(answer1);
+        }
+        else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("success", false));
+        }
+
+        return ResponseEntity.ok(Map.of("success", true));
+    }
+
+
     @PostMapping("/postQuestion")
     @PreAuthorize("hasAuthority('Patient')")
     public ResponseEntity<String> postQuestion(HttpServletRequest request, @RequestParam String question){
@@ -151,7 +235,7 @@ public class ForumController {
     @GetMapping("/getAnswerPatient")
     @PreAuthorize("hasAuthority('Patient')")
     public ResponseEntity<List<QandAnswerDTO>> getAnswerPatient(@RequestParam Integer qId){
-        Questions question= questionRepository.findById(qId).orElse(null);
+        Questions question= questionsRepository.findById(qId).orElse(null);
         if(question==null)
             return ResponseEntity.notFound().build();
         List<QandAnswerDTO> answer=pService.getAnswerPatient(question);
@@ -163,7 +247,7 @@ public class ForumController {
     @GetMapping("/getAnswerDoctor")
     @PreAuthorize("hasAuthority('Doctor')")
     public ResponseEntity<List<QandAnswerDoctorDTO>> getAnswerDoctor(@RequestParam Integer qId){
-        Questions question=questionRepository.findById(qId).orElse(null);
+        Questions question=questionsRepository.findById(qId).orElse(null);
         if(question==null)
             return ResponseEntity.notFound().build();
         List<QandAnswerDoctorDTO> answer=pService.getAnswerDoctor(question);
@@ -180,6 +264,7 @@ public class ForumController {
         String username= jwtService.extractUserName(token);
         List<QandAnswerDoctorDTO> answer=pService.getAnswerDoctorrr(username);
         return ResponseEntity.ok().body(answer);
+
     }
 
     //this is optional (implement krr diya kyuki kuch dusra krne ko nhi tha)
