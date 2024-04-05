@@ -17,7 +17,7 @@ import java.util.List;
 public class Questions {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="queryId")
     private Integer queryId;
 
@@ -25,18 +25,30 @@ public class Questions {
     private String queryContent;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     @JoinColumn(name = "ptRegNo", referencedColumnName = "ptRegNo")
     private PatientInfo patientInfo;
 
     @Column(name="isUrgent")
-    private Boolean isUrgent;
+    private Boolean isUrgent=false;
 
     @Column(name="flagCount")
-    private Integer flagCount;
+    private Integer flagCount=0;
 
     @JsonIgnore
     @OneToMany(mappedBy="query", fetch = FetchType.LAZY)
     @JsonBackReference
     List<Answers> answers;
 
+//    public Questions(Integer queryId, String queryContent, PatientInfo patientInfo, Boolean isUrgent, Integer flagCount, List<Answers> answers) {
+//        this.queryId = queryId;
+//        this.queryContent = queryContent;
+//        this.patientInfo = patientInfo;
+//        this.isUrgent = isUrgent;
+//        this.flagCount = flagCount;
+//        this.answers = answers;
+//    }
+//
+//    public Questions() {
+//    }
 }

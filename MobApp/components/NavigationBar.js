@@ -19,7 +19,7 @@ const NavigationBar = () => {
             <NavigationMenuItems 
                 menuItemImage={moodliftImage} // moodlift widget
                 classProp="w-[42px] h-[37px] object-contain m-2" 
-                navigateto = "moodlift"
+                navigateto = "Wellness Hub"
             />
             <NavigationMenuItems 
                 menuItemImage={messageImage} // message widget

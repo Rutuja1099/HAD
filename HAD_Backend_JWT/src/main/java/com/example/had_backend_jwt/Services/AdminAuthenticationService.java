@@ -34,7 +34,7 @@ public class AdminAuthenticationService {
             AdminLogin adminLogin=adminRepository.findByAdminUsername(request.getUsername())
                     .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-            if(!passwordEncoder.matches(request.getPassword(), adminLogin.getAdminPassword())){
+            if(!passwordEncoder.matches(request.getPassword(), adminLogin.getAdminPassword())) {
                 return AuthenticationResponse.builder()
                         .message("Invalid username or password")
                         .build();

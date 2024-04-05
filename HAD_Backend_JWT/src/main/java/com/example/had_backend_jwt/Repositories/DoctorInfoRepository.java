@@ -1,13 +1,17 @@
 package com.example.had_backend_jwt.Repositories;
 
 import com.example.had_backend_jwt.Entities.DoctorInfo;
+import com.example.had_backend_jwt.Entities.DoctorLogin;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 
 public interface DoctorInfoRepository extends JpaRepository<DoctorInfo,Integer> {
-    Optional<DoctorInfo> findByDrId(@Param("drId") Integer drId);
+    Optional<DoctorInfo> findByDrId(Integer drId);
 
-    Optional<DoctorInfo> findByDrRegNo(@Param("drRegNo") Integer drRegNo);
+    Optional<DoctorInfo> findByDrRegNo(Integer drRegNo);
+
+    DoctorInfo findDoctorInfoByDrLogin(DoctorLogin doctorLogin);
+    DoctorInfo findDoctorInfoByDrId(Integer id);
 }
