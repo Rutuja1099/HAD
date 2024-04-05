@@ -74,6 +74,4 @@ public class DoctorInfo {
     @Column(name="isDeactivated")
     private Boolean isDeactivated;
 
-
-
 }

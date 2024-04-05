@@ -31,14 +31,19 @@ public class JwtService {
         return extractClaim(token,Claims::getSubject);
     }
 
-    public int extractId(String token){
+    public Integer extractId(HttpServletRequest req, String idAttribute){
+        String token= resolveToken(req);
         if(token!=null){
             Claims claims=extractAllClaims(token);
-            return (int)claims.get("patientId");
+            return (int)claims.get(idAttribute);
         }
         return -1;
     }
 
+    public String extractRole(String token){
+        Claims claims=extractAllClaims(token);
+        return (String) claims.get("role");
+    }
     public <T> T extractClaim(String token, Function<Claims,T> claimsResolver){
         final Claims claims=extractAllClaims(token);
         return claimsResolver.apply(claims);
@@ -51,7 +56,8 @@ public class JwtService {
 
     public String generateToken(PatientLogin patientLogin){
         Map<String, Object> claims = new HashMap<>();
-        claims.put("patientId", patientLogin.getPtRegNo()); // Assuming getId() returns the ID of the patient
+        claims.put("patientId", patientLogin.getPtRegNo());
+        claims.put("role","Patient");
         return generateToken(claims, patientLogin);
     }
 
@@ -67,8 +73,10 @@ public class JwtService {
     }
 
     public String generateToken(DoctorLogin doctorLogin){
-
-        return generateToken(new HashMap<>(), doctorLogin);
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("doctorId", doctorLogin.getDrId()); // Assuming getId() returns the ID of the patient
+        claims.put("role","Doctor");
+        return generateToken(claims, doctorLogin);
     }
 
     public String generateToken(Map<String,Object> extraClaims, DoctorLogin doctorLogin){
@@ -83,8 +91,9 @@ public class JwtService {
     }
 
     public String generateToken(AdminLogin adminLogin){
-
-        return generateToken(new HashMap<>(), adminLogin);
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("role","Admin");
+        return generateToken(claims, adminLogin);
     }
 
     public String generateToken(Map<String,Object> extraClaims, AdminLogin adminLogin){
@@ -129,20 +138,12 @@ public class JwtService {
 
     //Resolve token from HttpServletRequest
     private String resolveToken(HttpServletRequest req){
-        String btoken=req.getHeader("Authorization");
-        if(btoken!=null && btoken.startsWith("Bearer ")){
-            return btoken.substring(7);
+        String token=req.getHeader("Authorization");
+        if(token!=null && token.startsWith("Bearer ")){
+            return token.substring(7);
         }
         return null;
     }
-
     //Extract patient info from token
-    public String extractPatientInfo(HttpServletRequest req){
-        String token = resolveToken(req);
-        if(token!=null){
-            Claims claims=extractAllClaims(token);
-            return (String) claims.get("patientLogin");
-        }
-        return null;
-    }
+
 }

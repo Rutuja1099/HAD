@@ -9,8 +9,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PatientAuthenticationResponse {
-    private String token;
-    private boolean ptFirstTimeLogin;
-    private String message;
+public class DoctorAppointmentsResponse {
+    private String ptFullName;
+    private String Date;
+    private Integer slot;
+    private String ptPhone;
+    private String ptGender;
+    private String ptEmail;
 }

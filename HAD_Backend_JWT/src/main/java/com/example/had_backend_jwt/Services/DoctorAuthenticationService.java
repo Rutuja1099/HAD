@@ -2,10 +2,9 @@ package com.example.had_backend_jwt.Services;
 
 import com.example.had_backend_jwt.Entities.DoctorInfo;
 import com.example.had_backend_jwt.Entities.DoctorLogin;
-import com.example.had_backend_jwt.Entities.PatientLogin;
 import com.example.had_backend_jwt.JWT.JwtService;
 import com.example.had_backend_jwt.Models.AuthenticationRequest;
-import com.example.had_backend_jwt.Models.DoctorAuthenticationResponse;
+import com.example.had_backend_jwt.Models.AuthenticationResponse;
 import com.example.had_backend_jwt.Models.DoctorRegisterRequest;
 import com.example.had_backend_jwt.Models.PasswordUpdateRequest;
 import com.example.had_backend_jwt.Repositories.DoctorInfoRepository;
@@ -13,16 +12,12 @@ import com.example.had_backend_jwt.Repositories.DoctorLoginRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.security.SecureRandom;
 import java.util.Optional;
-import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -39,25 +34,25 @@ public class DoctorAuthenticationService {
     @Autowired
     private EmailService emailService;
 
-    public DoctorAuthenticationResponse registerDoctor(DoctorRegisterRequest request){
+    public AuthenticationResponse registerDoctor(DoctorRegisterRequest request){
         try{
             Optional<DoctorLogin> doctorLoginOptionalUsername=doctorLoginRepository.findByDrUsername(request.getDrUsername());
             if(doctorLoginOptionalUsername.isPresent()){
-                return DoctorAuthenticationResponse.builder()
+                return AuthenticationResponse.builder()
                         .message("Username already exists")
                         .build();
             }
 
             Optional<DoctorLogin> doctorLoginOptionalEmail=doctorLoginRepository.findByDrEmail(request.getDrEmail());
             if(doctorLoginOptionalEmail.isPresent()){
-                return DoctorAuthenticationResponse.builder()
+                return AuthenticationResponse.builder()
                         .message("Email already exists")
                         .build();
             }
 
             Optional<DoctorInfo> doctorInfoOptional=doctorInfoRepository.findByDrRegNo(request.getDrRegNo());
             if(doctorInfoOptional.isPresent()){
-                return DoctorAuthenticationResponse.builder()
+                return AuthenticationResponse.builder()
                         .message("This Registration Number already exists. Registration Number is unique. Please check!!")
                         .build();
             }
@@ -88,21 +83,19 @@ public class DoctorAuthenticationService {
             String setPasswordURL="http://localhost:3000/setPassword";
             emailService.sendSimpleMessage(doctorLogin.getDrEmail(),  "Dear User your Username and password is","Username : "+doctorLogin.getDrUsername()+" \nPassword : "+doctorLogin.getDrPassword()+"\nURL : "+setPasswordURL);
 
-            return DoctorAuthenticationResponse.builder()
-                    .drId(doctorLogin.getDrId())
-                    .drUsername(doctorLogin.getDrUsername())
+            return AuthenticationResponse.builder()
                     .message("Success")
                     .build();
 
         }catch (Exception e){
-            DoctorAuthenticationResponse response=new DoctorAuthenticationResponse();
+            AuthenticationResponse response=new AuthenticationResponse();
             response.setMessage(e.getMessage());
             return response;
         }
 
     }
 
-    public DoctorAuthenticationResponse doctorForgotPasswordUpdation(PasswordUpdateRequest request){
+    public AuthenticationResponse doctorForgotPasswordUpdation(PasswordUpdateRequest request){
         try{
             Optional<DoctorLogin> doctorLoginOptional=doctorLoginRepository.findByDrUsername(request.getUsername());
             if(doctorLoginOptional.isPresent()){
@@ -116,28 +109,28 @@ public class DoctorAuthenticationService {
 
                     //var jwtToken=jwtService.generateToken(doctorLogin);
 
-                    return DoctorAuthenticationResponse.builder()
+                    return AuthenticationResponse.builder()
                             .message("Success")
                             .build();
 
                 }
                 else
-                    return DoctorAuthenticationResponse.builder()
+                    return AuthenticationResponse.builder()
                             .message("Invalid Password")
                             .build();
             } else{
-                return DoctorAuthenticationResponse.builder()
+                return AuthenticationResponse.builder()
                         .message("Invalid Username")
                         .build();
             }
         }catch (Exception e){
-            return DoctorAuthenticationResponse.builder()
+            return AuthenticationResponse.builder()
                     .message("Invalid Username and password")
                     .build();
         }
     }
 
-    public DoctorAuthenticationResponse authenticateDoctor(AuthenticationRequest request) {
+    public AuthenticationResponse authenticateDoctor(AuthenticationRequest request) {
         try{
 //            authenticationManager.authenticate(
 //                    new UsernamePasswordAuthenticationToken(
@@ -149,7 +142,7 @@ public class DoctorAuthenticationService {
                     .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
             if(!passwordEncoder.matches(request.getPassword(), doctorLogin.getDrPassword())){
-                return DoctorAuthenticationResponse.builder()
+                return AuthenticationResponse.builder()
                         .message("Invalid username or password")
                         .build();
             }
@@ -158,22 +151,20 @@ public class DoctorAuthenticationService {
             if(!doctorLogin.getDrFirstTimeLogin()){
                 var jwtToken=jwtService.generateToken(doctorLogin);
 
-                return DoctorAuthenticationResponse.builder()
+                return AuthenticationResponse.builder()
                         .token(jwtToken)
-                        .drId(doctorLogin.getDrId())
-                        .drUsername(doctorLogin.getDrUsername())
                         .message("Success")
                         .build();
             }
             else
-                return DoctorAuthenticationResponse.builder()
+                return AuthenticationResponse.builder()
                         .message("Please click on the link provided in email and set your password on first login")
                         .build();
         }catch (AuthenticationException e) {
             // Authentication failed, handle the exception
             System.out.println("Inside doctor");
             System.out.println(e.getMessage());
-            return DoctorAuthenticationResponse.builder()
+            return AuthenticationResponse.builder()
                     .message("Invalid username or password")
                     .build();
             //throw new BadCredentialsException("Invalid username or password", e);
