@@ -37,7 +37,7 @@ export default function App() {
     
     <NavigationContainer>
       <Stack.Navigator>
-      <Stack.Screen name="Questionnaire" component={Questionnaire} />
+      <Stack.Screen name="Appointment" component={Appointment} />
         
 
       {/* <Stack.Navigator initialRouteName="Login"> */}
@@ -50,10 +50,10 @@ export default function App() {
         <Stack.Screen name="Day" component={Day}/>
         <Stack.Screen name="ChatList" component={ChatList} />
       
-        <Stack.Screen name="Appointment" component={Appointment} />
+        {/* <Stack.Screen name="Appointment" component={Appointment} /> */}
         <Stack.Screen name="Dashboard" component={Dashboard} />
 
-        {/* <Stack.Screen name="Questionnaire" component={Questionnaire} /> */}
+        <Stack.Screen name="Questionnaire" component={Questionnaire} />
         
         <Stack.Screen name="DoctorAppointmentDetail" component={DoctorAppointmentDetail} />
         <Stack.Screen name="Settings" component={Settings} />

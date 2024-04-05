@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, Image ,useWindowDimensions,style } from 'react-native'
+import { View, Text, SafeAreaView, Image ,useWindowDimensions,style, Button } from 'react-native'
 import React from 'react'
 import { homeImage, progressImage, moodliftImage, messageImage, settingsImage} from '../assets'
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -21,11 +21,20 @@ const DoctorAppointmentBox=({item, navigation})=>{
             <View className="mt-2 ml-6">
                 <Text className="text-lg">Therapist</Text>
             </View>
-            <View className="absolute bottom-2 right-2  rounded-full bg-gray-600 text-center px-4 py-2.5 w-14 h-14 ">
-                       
-                <Icon name="arrow-right" size={30} color="white" className="font-normal" onPress={() => navigateNext()}/>
-                        
+            <View className="flex-row space-x-4 mt-10 ml-2"> 
+                    <Text className="text-white text-lg bg-blue-950 w-40 h-10 text-center rounded-3xl pt-1.5">
+                        Choose Doctor
+                    </Text>
+                    <Text className="text-white text-lg bg-blue-950 w-44 h-10 text-center rounded-3xl pt-1.5" onPress={() => navigateNext()}>
+                        Book Appointment
+                    </Text>
+                
             </View>
+            {/* <View className="absolute bottom-2 right-2  rounded-full bg-gray-600 text-center px-4 py-2.5 w-14 h-14 ">
+                       
+                <Icon name="arrow-right" size={30} color="white" className="font-normal" />
+                        
+            </View> */}
             </View>
             <View className="flex-row justify-between z-10">
                 <View className="mt-2 ml-6">

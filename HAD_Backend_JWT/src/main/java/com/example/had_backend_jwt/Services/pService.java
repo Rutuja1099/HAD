@@ -1,11 +1,13 @@
 package com.example.had_backend_jwt.Services;
 
+import com.example.had_backend_jwt.Entities.DoctorInfo;
 import com.example.had_backend_jwt.Entities.PatientInfo;
 import com.example.had_backend_jwt.Entities.PatientLogin;
 import com.example.had_backend_jwt.Entities.Questionnaire;
 import com.example.had_backend_jwt.JWT.JwtService;
 import com.example.had_backend_jwt.Models.AnswersDTO;
 import com.example.had_backend_jwt.Models.PatientAuthenticationResponse;
+import com.example.had_backend_jwt.Repositories.DoctorInfoRepository;
 import com.example.had_backend_jwt.Repositories.PatientInfoRepository;
 import com.example.had_backend_jwt.Repositories.PatientLoginRepository;
 import com.example.had_backend_jwt.Repositories.QuestionnaireRepository;
@@ -30,7 +32,12 @@ public class pService {
     private final PatientInfoRepository patientInfoRepository;
     private final AuthenticationManager authenticationManager;
     private final QuestionnaireRepository qrepo;
+    private final DoctorInfoRepository doctorInfoRepository;
 
+    public List<DoctorInfo> getSuggestedDoctorsList(){
+        return doctorInfoRepository.findAll();
+
+    }
     public PatientInfo getPatientInfo(String username){
         PatientLogin plogin=patientLoginRepository.findByPtUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User name not found"));

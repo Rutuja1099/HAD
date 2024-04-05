@@ -62,7 +62,7 @@ const Appointment = ({route}) => {
                 <Icon name="angle-left" size={25}/>
          
                 <Text className="flex text-xl font-semibold ml-2">
-                    Choose your doctor
+                    Suggested Doctors
                 </Text>
             </View>
             <SafeAreaView className="mr-0">
