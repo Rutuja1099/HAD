@@ -36,11 +36,11 @@ export default function App() {
   return (
     
     <NavigationContainer>
-      <Stack.Navigator>
-      <Stack.Screen name="Questionnaire" component={Questionnaire} />
+      {/* <Stack.Navigator>
+      <Stack.Screen name="Questionnaire" component={Questionnaire} /> */}
         
 
-      {/* <Stack.Navigator initialRouteName="Login"> */}
+      <Stack.Navigator initialRouteName="Login">
       
         <Stack.Screen name="Login" component={Login}/>
         <Stack.Screen name="SignUp" component={SignUp}/>
@@ -53,7 +53,7 @@ export default function App() {
         <Stack.Screen name="Appointment" component={Appointment} />
         <Stack.Screen name="Dashboard" component={Dashboard} />
 
-        {/* <Stack.Screen name="Questionnaire" component={Questionnaire} /> */}
+        <Stack.Screen name="Questionnaire" component={Questionnaire} />
         
         <Stack.Screen name="DoctorAppointmentDetail" component={DoctorAppointmentDetail} />
         <Stack.Screen name="Settings" component={Settings} />

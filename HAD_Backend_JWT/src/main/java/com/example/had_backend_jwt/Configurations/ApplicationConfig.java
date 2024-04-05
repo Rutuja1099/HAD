@@ -77,6 +77,7 @@ public class ApplicationConfig implements UserDetailsService{
         Optional<PatientLogin> patientOptional = patientLoginRepository.findByPtUsername(username);
         if (patientOptional.isPresent()) {
             PatientLogin patientLogin = patientOptional.get();
+            System.out.println("Patient:"+patientLogin.getPtUsername());
             Set<GrantedAuthority> authorities = new HashSet<>();
             authorities.add(new SimpleGrantedAuthority("Patient"));
             return new User(patientLogin.getPtUsername(), patientLogin.getPtPassword(), true, true, true, true, authorities);
@@ -87,6 +88,7 @@ public class ApplicationConfig implements UserDetailsService{
         if (doctorOptional.isPresent()) {
                 //check isModerator, if it is true then assign Moderator role to it
             DoctorLogin doctorLogin = doctorOptional.get();
+            System.out.println("Doctor:"+doctorLogin.getDrUsername());
             Set<GrantedAuthority> authorities = new HashSet<>();
             authorities.add(new SimpleGrantedAuthority("Doctor"));
             boolean isModerator=doctorLogin.getDrInfo().isDrIsModerator();

@@ -168,18 +168,18 @@ public class ForumController {
     }
 
     @DeleteMapping("/deleteQuestion/{queryId}")
-//    @PreAuthorize("hasAuthority('Moderator')")
+    @PreAuthorize("hasAuthority('Moderator')")
     public ResponseEntity<Map<String, Boolean>> deleteQuestion(@PathVariable Integer queryId){
         questionsRepository.deleteById(queryId);
 
         Map<String, Boolean> response = new HashMap<>();
         response.put("deleted", Boolean.TRUE);
-
+        System.out.println("deletion here");
         return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/deleteAnswer/{answerId}")
-//    @PreAuthorize("hasAuthority('Moderator')")
+    @PreAuthorize("hasAuthority('Moderator')")
     public ResponseEntity<Map<String, Boolean>> deleteAnswer(@PathVariable Integer answerId){
         answersRepository.deleteById(answerId);
 
@@ -191,7 +191,7 @@ public class ForumController {
 
 
     @PutMapping("/updateAnswer/{answerId}")
-//    @PreAuthorize("hasAuthority('Moderator')")
+    @PreAuthorize("hasAuthority('Moderator')")
     public ResponseEntity<Map<String, Boolean>> updateAnswer( @PathVariable Integer answerId, @RequestBody String newAnswerContent){
 
         Optional<Answers> answer = answersRepository.findById(answerId);
