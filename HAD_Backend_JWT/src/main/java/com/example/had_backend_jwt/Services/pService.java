@@ -7,6 +7,7 @@ import com.example.had_backend_jwt.Entities.Questionnaire;
 import com.example.had_backend_jwt.JWT.JwtService;
 import com.example.had_backend_jwt.Models.AnswersDTO;
 import com.example.had_backend_jwt.Models.PatientAuthenticationResponse;
+import com.example.had_backend_jwt.Models.SuggestedDoctorsListResponse;
 import com.example.had_backend_jwt.Repositories.DoctorInfoRepository;
 import com.example.had_backend_jwt.Repositories.PatientInfoRepository;
 import com.example.had_backend_jwt.Repositories.PatientLoginRepository;
@@ -34,10 +35,29 @@ public class pService {
     private final QuestionnaireRepository qrepo;
     private final DoctorInfoRepository doctorInfoRepository;
 
-    public List<DoctorInfo> getSuggestedDoctorsList(){
+    public List<DoctorInfo> getAllDoctorsList(){
         return doctorInfoRepository.findAll();
 
     }
+    public List<SuggestedDoctorsListResponse> getSuggestedDoctorsList(){
+        List<Object[]> queryResult = doctorInfoRepository.SuggestDoctorsList();
+        List<SuggestedDoctorsListResponse> suggestedDoctorsListResponses = new ArrayList<>();
+
+        for (Object[] row : queryResult) {
+            SuggestedDoctorsListResponse response = SuggestedDoctorsListResponse.builder()
+                    .drId((Integer) row[0])
+                    .drFullName((String) row[1])
+                    .drSpecialization((String) row[2])
+                    .drExperience((Integer) row[3])
+                    .drGender((String) row[4])
+                    .build();
+            suggestedDoctorsListResponses.add(response);
+        }
+
+        return suggestedDoctorsListResponses;
+
+    }
+
     public PatientInfo getPatientInfo(String username){
         PatientLogin plogin=patientLoginRepository.findByPtUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User name not found"));

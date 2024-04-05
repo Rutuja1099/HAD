@@ -27,8 +27,15 @@ public class DoctorController {
 
     @GetMapping("/viewSuggestedDoctorsList")
     @PreAuthorize("hasAuthority('Patient')")
+    public ResponseEntity<List<SuggestedDoctorsListResponse>> getSuggestedDoctorsListForAppointment(){
+        List<SuggestedDoctorsListResponse> DoctorInfos=pService.getSuggestedDoctorsList();
+        return  ResponseEntity.ok(DoctorInfos);
+    }
+
+    @GetMapping("/getAllDoctorsInfo")
+    @PreAuthorize("hasAuthority('Patient')")
     public ResponseEntity<List<DoctorInfo>> getDoctorsList(){
-        List<DoctorInfo> DoctorInfos=pService.getSuggestedDoctorsList();
+        List<DoctorInfo> DoctorInfos=pService.getAllDoctorsList();
         return  ResponseEntity.ok(DoctorInfos);
     }
 

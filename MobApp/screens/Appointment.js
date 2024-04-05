@@ -3,18 +3,81 @@ import { View, Text, StyleSheet, TextInput, ScrollView, SafeAreaView, TouchableO
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
 import DoctorAppointmentBox from '../components/DoctorAppointmentBox';
-
+import webServerUrl from '../configurations/WebServer';
+import HttpService from '../services/HttpService';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Appointment = ({route}) => {
     
     const [searchText, setSearchText] = useState('');
     const [searchResults, setSearchResults] = useState([]);
-    const [allDoctorInfo, setAllDoctorInfo] = useState([
-        { id: 1, name: 'Dr. Saurabh', profilePhoto: 'assets/doctor.png', Days:['Mon','Tue','Wed','Thu','Fri','Sat','Sun']},
-        { id: 2, name: 'Dr. Sauvay', profilePhoto: 'assets/doctor.png' , Days:['Mon','Tue','Wed','Thu','Fri']},
-        { id: 3, name: 'Dr. Asmita', profilePhoto: 'assets/doctor.png' , Days:['Mon','Wed','Thu','Fri','Sat']},
-        { id: 4, name: 'Dr. Asthitha', profilePhoto: 'assets/doctor.png' , Days:['Mon','Tue','Sat','Sun']},
-    ]);
+    // const [allDoctorInfo, setAllDoctorInfo] = useState([
+    //     { id: 1, name: 'Dr. Saurabh', profilePhoto: 'assets/doctor.png', Days:['Mon','Tue','Wed','Thu','Fri','Sat','Sun']},
+    //     { id: 2, name: 'Dr. Sauvay', profilePhoto: 'assets/doctor.png' , Days:['Mon','Tue','Wed','Thu','Fri']},
+    //     { id: 3, name: 'Dr. Asmita', profilePhoto: 'assets/doctor.png' , Days:['Mon','Wed','Thu','Fri','Sat']},
+    //     { id: 4, name: 'Dr. Asthitha', profilePhoto: 'assets/doctor.png' , Days:['Mon','Tue','Sat','Sun']},
+    // ]);
+
+    const [allDoctorInfo, setAllDoctorInfo] = useState([]);
+
+    useEffect(() => {
+
+        const getDoctorsList = async () => {
+            
+            const loginURL = webServerUrl+"/suhrud/viewSuggestedDoctorsList";
+            const method='GET';
+            
+            const sessionData = await AsyncStorage.getItem('patientData')
+            const data=JSON.parse(sessionData);
+            const bearerToken = data.token;
+            // setUserName(data.ptUsername);
+            console.log("bearer Token: ", bearerToken);
+      
+            const headers = {
+              'Authorization': `Bearer ${bearerToken}`, // Include your token here
+              'Content-Type': 'application/json', // Specify the content type if needed
+            };
+      
+            let response;
+            try{
+
+                response=await HttpService(method,loginURL, null, headers);
+                console.log(response.status)
+                
+                if(response.status===200){
+                
+                    console.log("Successful");
+                    console.log(response.data);
+                
+                    try{
+                        console.log("from storage");
+      
+                    }catch(error){
+                        console.log("error while saving data");
+                        console.log(error);
+                    }
+                }
+                
+                else{
+                    alert(response.data);
+      
+                }
+            }catch(error){
+                alert(error.data);
+                console.log(error);
+            }
+      
+            setAllDoctorInfo(response.data);
+            // console.log(response.data[0]);
+            //setQuestion(response.data[0]);
+        }
+        
+            console.log()
+            getDoctorsList();
+            // getSelectedOptions();
+
+    },[]);
+
     const navigation=useNavigation();
 
     useLayoutEffect(() => {
@@ -27,10 +90,10 @@ const Appointment = ({route}) => {
         setSearchText("");
     } 
 
-    useEffect(() => {
-        // Scroll to the bottom when messages change
-        // scrollViewRef.current.scrollToEnd({ animated: false });
-    }, [allDoctorInfo]);
+    // useEffect(() => {
+    //     // Scroll to the bottom when messages change
+    //     // scrollViewRef.current.scrollToEnd({ animated: false });
+    // }, [allDoctorInfo]);
 
     const handleSearch = (text) => {
 
@@ -103,7 +166,7 @@ const Appointment = ({route}) => {
                     (
                         <FlatList
                             data={allDoctorInfo}
-                            keyExtractor={(item) => item.id.toString()}
+                            keyExtractor={(item) => item.drId.toString()}
                             renderItem={({ item }) => {
                                 
                                 return (
@@ -125,7 +188,7 @@ const Appointment = ({route}) => {
                     (
                         <FlatList
                             data={searchResults}
-                            keyExtractor={(item) => item.id.toString()}
+                            keyExtractor={(item) => item.drId.toString()}
                             renderItem={({ item }) => {
                                 
                                 return (
