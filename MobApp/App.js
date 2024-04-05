@@ -36,8 +36,10 @@ export default function App() {
   return (
     
     <NavigationContainer>
+
       {/* <Stack.Navigator>
       <Stack.Screen name="Dashboard" component={Dashboard} /> */}
+
         
 
       <Stack.Navigator initialRouteName="Login">
