@@ -167,4 +167,25 @@ public class pService {
         }
         return answer;
     }
+
+//    public List<Answers> trendingQuestions() {
+//        List<Answers> ans= answerRepository.getAllByOrderByUpVoteDesc();
+//        return ans;
+//    }
+
+    public List<QandAnswerDoctorDTO> trendingAnswers() {
+        List<Answers> ans= answerRepository.getAllByOrderByUpVoteDesc();
+        List<QandAnswerDoctorDTO> answer=new ArrayList<>();
+        for(int i=0;i<ans.size();i++)
+        {
+            QandAnswerDoctorDTO qna=new QandAnswerDoctorDTO();
+            qna.setAnswerId(ans.get(i).getAnswerId());
+            qna.setAnswerContent(ans.get(i).getAnswerContent());
+            qna.setDoctorName(ans.get(i).getDrInfo().getDrFullName());
+            qna.setUpVote(ans.get(i).getUpVote());
+            qna.setIsEdited(ans.get(i).getIsEdited());
+            answer.add(qna);
+        }
+        return answer;
+    }
 }
