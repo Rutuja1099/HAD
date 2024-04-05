@@ -2,6 +2,7 @@ package com.example.had_backend_jwt.Controllers;
 
 
 import com.example.had_backend_jwt.Entities.Answers;
+import com.example.had_backend_jwt.Entities.PatientInfo;
 import com.example.had_backend_jwt.Entities.Questions;
 import com.example.had_backend_jwt.JWT.JwtService;
 import com.example.had_backend_jwt.Repositories.AnswersRepository;
@@ -11,11 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.example.had_backend_jwt.Services.Utilities;
+import com.example.had_backend_jwt.Services.ForumService;
+
 
 
 @RestController
@@ -50,7 +50,7 @@ public class ForumController {
                 } catch (Exception e) {
                     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e);
                 }
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Some error occured in updating upvote");
+                //return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Some error occured in updating upvote");
             }
         }
         else{
@@ -110,6 +110,25 @@ public class ForumController {
         else{
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Unidentified Token");
         }
+    }
+
+
+    @PostMapping("/postAnswer")
+    @PreAuthorize("hasAuthority('Doctor')")
+    public ResponseEntity<?> postAnswer(HttpServletRequest req, @RequestBody Integer queryId, String answerContent) {
+        String token = Utilities.resolveToken(req);
+        if (token != null) {
+            int id = jwtService.extractId(token);
+
+            boolean isUpdated = ForumService.postAnswers(id,queryId,answerContent);
+            if (isUpdated) {
+                return ResponseEntity.ok("Updated Successfully");
+            }
+        }
+        else{
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Unidentified Token");
+        }
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Some error occured");
     }
 
 }
