@@ -40,10 +40,20 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
         jwt=authHeader.substring(7);
+        System.out.println("JWT Token"+jwt);
         try {
             username = jwtService.extractUserName(jwt);
+            System.out.println("username:"+username);
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+                UserDetails userDetails = null;
+                try{
+                    userDetails = this.userDetailsService.loadUserByUsername(username);
+                }catch (Exception e){
+                    System.out.println("Exception:"+e.getMessage());
+                }
+//                UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+                System.out.println("Before if statement ");
+                System.out.println(userDetails.getAuthorities());
                 if (jwtService.isTokenValid(jwt, userDetails)) {
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                             userDetails,
@@ -55,6 +65,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     //
                     authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authToken);
+                }else{
+                    System.out.println("not valid");
                 }
             }
         }catch (SignatureException e) {
