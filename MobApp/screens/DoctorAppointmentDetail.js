@@ -111,15 +111,14 @@ const DoctorAppointmentDetails=({route})=>{
                         <ScrollView horizontal>
                             <View className="flex flex-row justify-between p-2 space-x-2">
                         
-                                {DayandDate.map((item, index) => (
-                                    <Pressable key={index} onPress={() => loadSlots(item.day)}>
-                                     <View key={index} className={`flex flex-col items-center m-2 rounded-xl text-center p-2 w-12 h-16 ${pressedDay === item.day ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-500'}`}>
-                                            <Text key={index} className=" text-gray-500 ">{item.day}</Text>
-                                            <Text key={index} className=" text-gray-500 ">{item.date}</Text>
-                                        </View>
-                                    </Pressable>
-                                    
-                                ))}
+                            {DayandDate.map((item, index) => (
+                                <Pressable key={`${item.day}-${index}`}  onPress={() => loadSlots(item.day)}>
+                                    <View key={index} className={`flex flex-col items-center m-2 rounded-xl text-center p-2 w-12 h-16 ${pressedDay === item.day ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-500'}`}>
+                                        <Text  className={`text-gray-500 `} >{item.day}</Text>
+                                        <Text className=" text-gray-500 ">{item.date}</Text>
+                                    </View>
+                                </Pressable>
+                            ))}
                             </View>
                         </ScrollView>
                         
