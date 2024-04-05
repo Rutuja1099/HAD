@@ -12,7 +12,7 @@ import lombok.*;
 @Table(name="doctorLogin")
 public class DoctorLogin {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "drId")
     private Integer drId;
 

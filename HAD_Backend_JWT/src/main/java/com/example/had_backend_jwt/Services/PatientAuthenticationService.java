@@ -25,7 +25,6 @@ public class PatientAuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final PatientLoginRepository patientLoginRepository;
     private final PatientInfoRepository patientInfoRepository;
-    private final AuthenticationManager authenticationManager;
 
     @Autowired
     private final RandomPasswordGenerationService randomPasswordGenerationService;
@@ -76,8 +75,6 @@ public class PatientAuthenticationService {
 
             return PatientAuthenticationResponse.builder()
                     .token(jwtToken)
-                    .ptRegNo(patientLogin.getPtRegNo())
-                    .ptUsername(patientLogin.getPtUsername())
                     .ptFirstTimeLogin(patientLogin.getPtFirstTimeLogin())
                     .message("Success")
                     .build();
@@ -92,21 +89,25 @@ public class PatientAuthenticationService {
 
     public PatientAuthenticationResponse authenticatePatient(AuthenticationRequest request) {
         try{
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            request.getUsername(),
-                            request.getPassword()
-                    )
-            );
+//            authenticationManager.authenticate(
+//                    new UsernamePasswordAuthenticationToken(
+//                            request.getUsername(),
+//                            request.getPassword()
+//                    )
+//            );
             PatientLogin patientLogin = patientLoginRepository.findByPtUsername(request.getUsername())
                     .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+            if(!passwordEncoder.matches(request.getPassword(), patientLogin.getPtPassword())){
+                return PatientAuthenticationResponse.builder()
+                        .message("Invalid username or password")
+                        .build();
+        }
 
             var jwtToken=jwtService.generateToken(patientLogin);
 
             return PatientAuthenticationResponse.builder()
                     .token(jwtToken)
-                    .ptRegNo(patientLogin.getPtRegNo())
-                    .ptUsername(patientLogin.getPtUsername())
                     .ptFirstTimeLogin(patientLogin.getPtFirstTimeLogin())
                     .message("Success")
                     .build();

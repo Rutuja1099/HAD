@@ -36,11 +36,13 @@ export default function App() {
   return (
     
     <NavigationContainer>
-      <Stack.Navigator>
-      <Stack.Screen name="Appointment" component={Appointment} />
+
+      {/* <Stack.Navigator>
+      <Stack.Screen name="Dashboard" component={Dashboard} /> */}
+
         
 
-      {/* <Stack.Navigator initialRouteName="Login"> */}
+      <Stack.Navigator initialRouteName="Login">
       
         <Stack.Screen name="Login" component={Login}/>
         <Stack.Screen name="SignUp" component={SignUp}/>
@@ -50,7 +52,7 @@ export default function App() {
         <Stack.Screen name="Day" component={Day}/>
         <Stack.Screen name="ChatList" component={ChatList} />
       
-        {/* <Stack.Screen name="Appointment" component={Appointment} /> */}
+        <Stack.Screen name="Appointment" component={Appointment} />
         <Stack.Screen name="Dashboard" component={Dashboard} />
 
         <Stack.Screen name="Questionnaire" component={Questionnaire} />
@@ -68,7 +70,7 @@ export default function App() {
           component={Chat} 
           // initialParams={{ doctorName: 'Dr. John', doctorId: 123 }}  
         />
-        <Stack.Screen name="Wellness Hub 😊" component={WellnessHub} />   
+        <Stack.Screen name="Wellness Hub" component={WellnessHub} />   
         <Stack.Screen name="Harmony" component={Harmony}/>     
       
       </Stack.Navigator>

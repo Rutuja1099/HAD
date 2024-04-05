@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import loginbackground from "../assets/loginbackground.jpg";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,6 +6,10 @@ import { updateDoctorInfo } from "../redux/features/doctorInfo/doctorInfoSlice";
 import { LoginInputValidation } from "../services/InputValidation";
 import webServerUrl from "../configurations/WebServer";
 import HttpService from "../services/HttpService.js";
+import { FaArrowLeft } from "react-icons/fa";
+import { MdDarkMode, MdOutlineLightMode } from "react-icons/md";
+
+
 
 const Login = ({setAuthenticated}) => {
 
@@ -17,6 +21,19 @@ const Login = ({setAuthenticated}) => {
 
     let loginURL;
 
+    const [dark, setDark] = useState(false);
+
+    const darkModeHandler = () => {
+        setDark(!dark);
+        document.body.classList.toggle("dark");
+    }
+
+    // useEffect(() => {
+    //     const data = window.localStorage.getItem('Data');
+    //     if(data){
+    //         navigate("main");
+    //     }
+    // }, []);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -39,8 +56,6 @@ const Login = ({setAuthenticated}) => {
             username:username,
             password:password
         };
-
-
             
         try{
             const response=await HttpService(method,loginURL,data);
@@ -99,7 +114,7 @@ const Login = ({setAuthenticated}) => {
     };
 
     return (
-        <div className="flex flex-col h-full">
+        <div className="flex flex-col h-full dark:bg-blue-950">
             
             {/* Navigation Bar */}
             <nav className="bg-white text-black p-4 rounded-3xl mb-8">
@@ -114,8 +129,19 @@ const Login = ({setAuthenticated}) => {
                 {/* Left Side */}
                 <div className="h-full w-1/2 flex flex-col justify-center items-center content-center">
                     
-                    <h2 className="text-4xl font-bold text-gray-800 mb-4">Welcome to Suhrud!</h2>
-                    <p className="text-gray-600 mb-4">NAMASKAR</p>
+                    <h2 className="text-4xl font-bold text-gray-800 mb-4 dark:text-white">Welcome to Suhrud!</h2>
+                    <p className="text-gray-600 mb-4 dark:text-gray-200">NAMASKAR</p>
+                    
+                    <button onClick={()=> darkModeHandler()}>
+                        {
+                            
+                            dark && <MdOutlineLightMode /> // render sunny when dark is true
+                        }
+                        {
+                            !dark && <MdDarkMode /> // render moon when dark is false
+                        }
+                    </button>
+                    
                     {/* <div className="flex-col items-center">
                         
                         <div className={`flex items-center border-2 border-cyan-500 rounded-md py-4 px-10 mb-3 cursor-pointer hover:bg-cyan-300 hover:border-cyan-900 ${selectedOption === 'doctor' ? 'bg-cyan-300' : ''}`} onClick={() => handleOptionChange('doctor')}>
@@ -195,7 +221,7 @@ const Login = ({setAuthenticated}) => {
                                 
                                 </div>
                                 
-                                <button type="submit" className="bg-blue-500 text-white px-4 py-3 w-full rounded-3xl hover:bg-blue-600">Submit</button>
+                                <button type="submit" className="bg-blue-500 dark:bg-blue-900 text-white px-4 py-3 w-full rounded-3xl hover:bg-blue-600">Submit</button>
                             
                             </form>
                         
