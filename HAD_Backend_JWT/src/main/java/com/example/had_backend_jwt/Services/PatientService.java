@@ -5,6 +5,7 @@ import com.example.had_backend_jwt.JWT.JwtService;
 import com.example.had_backend_jwt.Models.AnswersDTO;
 import com.example.had_backend_jwt.Models.AppointmentBookingRequest;
 import com.example.had_backend_jwt.Models.BookedDaysResponse;
+import com.example.had_backend_jwt.Models.SuggestedDoctorsListResponse;
 import com.example.had_backend_jwt.Repositories.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
@@ -13,6 +14,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import com.example.had_backend_jwt.Entities.DoctorInfo;
 
 import java.sql.Date;
 import java.time.LocalDate;
@@ -29,7 +31,30 @@ public class PatientService {
     private final AppointmentsRepository appointmentsRepository;
     private final DoctorService doctorService;
     private final DoctorPatientMappingRepository doctorPatientMappingRepository;
+    private final DoctorInfoRepository doctorInfoRepository;
 
+    public List<DoctorInfo> getAllDoctorsList(){
+        return doctorInfoRepository.findAll();
+
+    }
+    public List<SuggestedDoctorsListResponse> getSuggestedDoctorsList(){
+        List<Object[]> queryResult = doctorInfoRepository.SuggestDoctorsList();
+        List<SuggestedDoctorsListResponse> suggestedDoctorsListResponses = new ArrayList<>();
+
+        for (Object[] row : queryResult) {
+            SuggestedDoctorsListResponse response = SuggestedDoctorsListResponse.builder()
+                    .drId((Integer) row[0])
+                    .drFullName((String) row[1])
+                    .drSpecialization((String) row[2])
+                    .drExperience((Integer) row[3])
+                    .drGender((String) row[4])
+                    .build();
+            suggestedDoctorsListResponses.add(response);
+        }
+
+        return suggestedDoctorsListResponses;
+
+    }
     public PatientInfo getPatientInfo(Integer id){
         Optional<PatientInfo> patientInfoOptional=patientInfoRepository.findByPtRegNo(id);
         return patientInfoOptional.orElse(null);
@@ -68,17 +93,20 @@ public class PatientService {
     }
 
     public List<Questionnaire> getQuestions() {
-        List<Questionnaire> questions=new ArrayList<>();
-        Questionnaire q1=qrepo.findQuestionnaireBySeverity(1);
-        Questionnaire q2=qrepo.findQuestionnaireBySeverity(2);
-        Questionnaire q3=qrepo.findQuestionnaireBySeverity(3);
-        Questionnaire q4=qrepo.findQuestionnaireBySeverity(4);
-        Questionnaire q5=qrepo.findQuestionnaireBySeverity(5);
-        questions.add(q1);
-        questions.add(q2);
-        questions.add(q3);
-        questions.add(q4);
-        questions.add(q5);
+
+        List<Questionnaire> questions=qrepo.findQuestionnaireBySeverity();
+
+//        List<Questionnaire> questions=new ArrayList<>();
+//        Questionnaire q1=qrepo.findQuestionnaireBySeverity(1);
+//        Questionnaire q2=qrepo.findQuestionnaireBySeverity(2);
+//        Questionnaire q3=qrepo.findQuestionnaireBySeverity(3);
+//        Questionnaire q4=qrepo.findQuestionnaireBySeverity(4);
+//        Questionnaire q5=qrepo.findQuestionnaireBySeverity(5);
+//        questions.add(q1);
+//        questions.add(q2);
+//        questions.add(q3);
+//        questions.add(q4);
+//        questions.add(q5);
         return questions;
     }
 

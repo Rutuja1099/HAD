@@ -1,10 +1,11 @@
 package com.example.had_backend_jwt.Controllers;
 
+import com.example.had_backend_jwt.Entities.Answers;
 import com.example.had_backend_jwt.Entities.PatientInfo;
 import com.example.had_backend_jwt.Entities.Questionnaire;
-import com.example.had_backend_jwt.Models.*;
 import com.example.had_backend_jwt.Repositories.PatientInfoRepository;
 import com.example.had_backend_jwt.Repositories.QuestionnaireRepository;
+import com.example.had_backend_jwt.Repositories.QuestionsRepository;
 import com.example.had_backend_jwt.Services.*;
 import com.example.had_backend_jwt.JWT.*;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import com.example.had_backend_jwt.Services.Utilities;
 
 import java.util.List;
 
@@ -36,5 +38,6 @@ public class DemoController {
     public ResponseEntity<String> sayPatient(){
         return ResponseEntity.ok("Hello Patient");
     }
+
 }
 

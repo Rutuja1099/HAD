@@ -1,10 +1,8 @@
 
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { View, Text, SafeAreaView, ImageBackground, ScrollView, Modal,  StyleSheet, Pressable, Dimensions, Button, Animated, useWindowDimensions} from 'react-native';
+import { View, Text, SafeAreaView, ImageBackground, ScrollView, StyleSheet, Pressable, Animated, useWindowDimensions} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import YoutubePlayer from 'react-native-youtube-iframe';
-import {homeImage} from '../assets';
-
 import NavigationBar from "../components/NavigationBar";
 import { Icon } from "react-native-vector-icons/FontAwesome";
 
@@ -13,9 +11,9 @@ const images = new Array(6).fill(
   'https://static.vecteezy.com/system/resources/previews/022/451/024/non_2x/generative-ai-illustration-of-a-dog-and-cat-under-a-colorful-blanket-photo.jpg',
 );
 
-const Moodlift = () => {
+const Moodlift = (props) => {
 
-    const navigation=useNavigation();
+    const navigation = useNavigation();
     
     useLayoutEffect(() => {
             navigation.setOptions({
@@ -43,22 +41,6 @@ const Moodlift = () => {
     };
 
     let [content , setContent] = useState("What do you wanna listen");
-    // const [tasks, setTasks] = useState([
-    //   {title:"Hear a joke !", todo :"Joke"},
-    //   {title:"Motivation Pump !", todo:"Motivation"},
-    // ]);
-    // const onSelectTask = (item) => {
-    //   console.log(item);
-    //   setTasks(item);
-    //   if(item==="Joke")
-    //   {
-    //     ()=>getJokes('Jokes');
-    //   }
-    //   else
-    //   {
-    //     ()=>getMotivation('Motivation');
-    //   }
-    // };
     
 
     const getJokes= (item)=>{
@@ -106,7 +88,14 @@ const Moodlift = () => {
       }
     }
     
+    const onPressMore = () => {
+      console.log("Pressed more");
+      props.navigation.navigate("Meditation");
+    };
   
+    // const navigateback = () => {
+    //   props.navigation.navigate("Profile");
+    // };
   
     useEffect(() => {
       const interval = setInterval(() => {
@@ -116,20 +105,23 @@ const Moodlift = () => {
     }, []);
   
     
-
+   
   return (
 
     
     <SafeAreaView className="  bg-white flex-1 relative">
-      <View className=" bg-orange-100 bg-opacity-10 flex-1 text-black pt-2 p-5 mt-2 ml-2 mr-2 mb-2 shadow-lg rounded-lg">
-                <Text  className="text-xl font-extrabold ">
-                  Your space ! 
-                </Text>
-                <Text  className="text-l">
+      <View className=" bg-sky-950 bg-opacity-10 flex-1 text-white pt-2 p-5 mt-2 ml-2 mr-2 mb-2 shadow-lg rounded-lg">
+                <View className = "p-4 flex-row items-center">
+                    {/* <Icon name="angle-left" color="grey" size={25} onPress={()=>navigateback()}/> */}
+                    <Text className="text-xl ml-5 mt-4 mb-3 text-white font-extrabold ">
+                      Your space ! 
+                    </Text>
+                </View>
+                <Text  className="text-l text-white">
                   Sit back, Calm down and let us help you... 
                 </Text>
    
-                <View className=" bg-slate-50 bg-opacity-60 max-w-sm rounded overflow-hidden shadow-lg text-black pt-2 p-2 mt-2 ml-2 mr-2 mb-2 border-solid border-slate-950">
+                <View className=" bg-slate-50 bg-opacity-60 max-w-m rounded overflow-hidden shadow-lg text-black pt-2 p-2 mt-10 ml-0 mr-0 mb-0 border-solid border-slate-950">
                   <View className='flex flex-row p-3'>
                   {videod.map((item, index) => (
                       <Pressable
@@ -151,47 +143,29 @@ const Moodlift = () => {
                     ))}
                     </View>
                   <YoutubePlayer key={videoUrl} play={playing} videoId={videoUrl}/>
+                  <View className='flex items-end mt-2'>
+                      <Pressable onPress={()=> onPressMore()}>
+                          <Text style={styles.linkText}>See more..</Text>
+                      </Pressable>
+                  </View>
                 </View>
 
-                {/* <View className="max-w-sm rounded overflow-hidden shadow-lg text-black pt-2 p-2 mt-2 ml-2 mr-2 mb-2 border-solid border-slate-950">
-                  <View className='flex flex-row p-3'>
-                  {tasks.map((item, index) => (
-                      <Pressable
-                        onPress={() => onSelectTask(item.todo)}
-                        style={({pressed})=>[
-                          styles.type, 
-                          {
-                            backgroundColor: pressed?'#D3D3D3' : '#E5E4E2',
-                            margin:5,
-                            height:30,
-                            padding:5,
-                            borderRadius:10,
-                          },
-                        ]}
-                        key={index}
-                      >
-                        <Text>{item.title}</Text>
-                      </Pressable>
-                    ))}
-                    </View>
-                    <View className='flex flex-col justify-center items-center max-w-md border-2 border-solid border-black'>
-                          
-                          <Text>{content}</Text>
-                         
-                  </View>
-                </View> */}
 
-                <View className='flex-col'>
-                  <View className='flex flex-row p-3 justify-center items-center m-5'>
-                    <Button style={styles.taskButton}  onPress={()=>getJokes('Jokes')} title="Laugh it out!"/>
-                    <Button color='#8ee0e5' style={styles.button} onPress={()=>getMotivation('Motivation')} title="Motivation pump!"/>         
+                <View className='flex-col mt-10'>
+                  <View className='flex flex-row p-3 justify-evenly'>
+                    <Pressable style={styles.taskButton}  onPress={()=>getJokes('Jokes')}>
+                      <Text style={styles.text}>Have a laugh</Text>
+                    </Pressable>
+                    <Pressable style={styles.taskButton} onPress={()=>getMotivation('Motivation')} >         
+                      <Text style={styles.text}>Motivation Pump</Text>
+                    </Pressable>
                   </View>
-                    <View className='bg-white bg-blend-hue flex flex-row justify-center items-center p-5 max-w-md h-1/2 border-2 border-dotted border-red-400'> 
+                    <View className='bg-white bg-blend-hue flex flex-row justify-center items-center p-5 max-w-md mt-10 h-1/2 border-2 border-dotted border-red-400'> 
                           <Text style={styles.beautyText}>{content}</Text>     
                   </View>
                   </View>      
       </View>
-      <View style={styles.scrollContainer}>
+      {/* <View style={styles.scrollContainer}>
         <ScrollView
           horizontal={true}
           pagingEnabled
@@ -247,8 +221,8 @@ const Moodlift = () => {
             );
           })}
         </View>
-      </View>
-      
+      </View> */}
+      <NavigationBar />
     </SafeAreaView>
   )
 }
@@ -288,6 +262,10 @@ const styles = StyleSheet.create({
     color: 'blue',
     fontSize: 16,
   },
+  linkText: {
+    color: 'blue',
+    fontSize: 14,
+  },
   normalDot: {
     height: 8,
     width: 8,
@@ -308,10 +286,13 @@ const styles = StyleSheet.create({
   },
   taskButton: {
     borderRadius: 20,
-    padding: 10,
-    height:20,
-    width:30,
-    backgroundColor:'#6c6464',
+    padding: 2,
+    height:40,
+    width:115,
+    opacity:0.9,
+    backgroundColor:'white',
+    alignItems:'center',
+    justifyContent:'center'
   },
   buttonOpen: {
     backgroundColor: '#839192',
@@ -338,6 +319,11 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 4,
+  },
+  text: {
+    fontSize: 12,
+    color: 'black',
+    fontWeight:"600",
   },
 });
 

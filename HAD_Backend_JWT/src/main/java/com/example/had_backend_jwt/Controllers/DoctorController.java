@@ -9,6 +9,16 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import com.example.had_backend_jwt.Models.*;
+import com.example.had_backend_jwt.Repositories.DoctorInfoRepository;
+import com.example.had_backend_jwt.Services.*;
+import com.example.had_backend_jwt.JWT.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
+import com.example.had_backend_jwt.Entities.DoctorInfo;
+import java.security.Principal;
 
 import java.util.List;
 
@@ -17,6 +27,8 @@ import java.util.List;
 public class DoctorController {
     @Autowired
     private DoctorService doctorService;
+    
+
 
     @GetMapping("/viewAppointments/current")
     @PreAuthorize("hasAuthority('Doctor')")
@@ -38,4 +50,6 @@ public class DoctorController {
         List<DoctorAppointmentsResponse> responses=doctorService.fetchPreviousAppointments(request);
         return ResponseEntity.ok(responses);
     }
+    
+
 }

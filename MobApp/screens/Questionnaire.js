@@ -52,7 +52,7 @@ const Questionnaire = () => {
 
         const getQuestionnaire = async () => {
             
-            const loginURL = webServerUrl+"/suhrud/hello/getquestionnaire";
+            const loginURL = webServerUrl+"/suhrud/patient/getquestionnaire";
             const method='GET';
             
             const sessionData = await AsyncStorage.getItem('patientData')
@@ -123,7 +123,7 @@ const Questionnaire = () => {
 
         } else {
 
-            const loginURL = webServerUrl+"/suhrud/hello/answerquestionnaire";
+            const loginURL = webServerUrl+"/suhrud/patient/answerquestionnaire";
             const method='POST';
             
             const storedSelectedOptions = await AsyncStorage.getItem('selectedOptions');
