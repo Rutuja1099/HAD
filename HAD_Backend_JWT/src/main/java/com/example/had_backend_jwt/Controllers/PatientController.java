@@ -87,11 +87,13 @@ public class PatientController {
     }
 
     @PostMapping("/bookAppointment")
-    @PreAuthorize(("hasAuthority('Patient')"))
+    @PreAuthorize("hasAuthority('Patient')")
     public ResponseEntity<String> bookAppointment(HttpServletRequest httpServletRequest,@RequestBody AppointmentBookingRequest request){
-        boolean bookingStatus= patientService.bookAppointment(httpServletRequest,request);
-        if (bookingStatus)
+        Integer bookingStatus= patientService.bookAppointment(httpServletRequest,request);
+        if (bookingStatus==1)
             return ResponseEntity.status(HttpStatus.OK).body("Success");
-        return ResponseEntity.internalServerError().body("Failed to book the appointment");
+        else if(bookingStatus==0)
+            return ResponseEntity.internalServerError().body("Cannot book appointment for previous day");
+        return ResponseEntity.internalServerError().body("This appointment is already booked");
     }
 }
