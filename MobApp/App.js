@@ -24,6 +24,9 @@ import Questionnaire from "./screens/Questionnaire";
 import Appointment from "./screens/Appointment";
 import DoctorAppointmentDetail from "./screens/DoctorAppointmentDetail";
 import Dashboard from "./screens/Dashboard";
+import Meditation from "./screens/Meditation";
+import Moodlift from "./screens/Moodlift";
+import MeditationPage from "./screens/MeditationPage";
 
 
 NativeWindStyleSheet.setOutput({
@@ -36,8 +39,10 @@ export default function App() {
   return (
     
     <NavigationContainer>
+
       {/* <Stack.Navigator>
       <Stack.Screen name="Dashboard" component={Dashboard} /> */}
+
         
 
       <Stack.Navigator initialRouteName="Login">
@@ -49,7 +54,9 @@ export default function App() {
         <Stack.Screen name="Week" component={Week}/>
         <Stack.Screen name="Day" component={Day}/>
         <Stack.Screen name="ChatList" component={ChatList} />
-      
+        <Stack.Screen name="Meditation" component={Meditation} />
+        <Stack.Screen name="Moodlift" component={Moodlift} />
+        <Stack.Screen name="MeditationPage" component={MeditationPage} />
         <Stack.Screen name="Appointment" component={Appointment} />
         <Stack.Screen name="Dashboard" component={Dashboard} />
 

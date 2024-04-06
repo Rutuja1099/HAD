@@ -1,11 +1,13 @@
 package com.example.had_backend_jwt.Controllers;
 
+import com.example.had_backend_jwt.Entities.DoctorInfo;
 import com.example.had_backend_jwt.Entities.PatientInfo;
 import com.example.had_backend_jwt.Entities.Questionnaire;
 import com.example.had_backend_jwt.JWT.JwtService;
 import com.example.had_backend_jwt.Models.AnswersDTO;
 import com.example.had_backend_jwt.Models.AppointmentBookingRequest;
 import com.example.had_backend_jwt.Models.BookedDaysResponse;
+import com.example.had_backend_jwt.Models.SuggestedDoctorsListResponse;
 import com.example.had_backend_jwt.Repositories.PatientInfoRepository;
 import com.example.had_backend_jwt.Services.PatientService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -93,5 +95,18 @@ public class PatientController {
         if (bookingStatus)
             return ResponseEntity.status(HttpStatus.OK).body("Success");
         return ResponseEntity.internalServerError().body("Failed to book the appointment");
+    }
+    @GetMapping("/viewSuggestedDoctorsList")
+    @PreAuthorize("hasAuthority('Patient')")
+    public ResponseEntity<List<SuggestedDoctorsListResponse>> getSuggestedDoctorsListForAppointment(){
+        List<SuggestedDoctorsListResponse> DoctorInfos=patientService.getSuggestedDoctorsList();
+        return  ResponseEntity.ok(DoctorInfos);
+    }
+
+    @GetMapping("/getAllDoctorsInfo")
+    @PreAuthorize("hasAuthority('Patient')")
+    public ResponseEntity<List<DoctorInfo>> getDoctorsList(){
+        List<DoctorInfo> DoctorInfos=patientService.getAllDoctorsList();
+        return  ResponseEntity.ok(DoctorInfos);
     }
 }
