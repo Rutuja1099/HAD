@@ -24,7 +24,7 @@ const DoctorAppointmentDetails=({route})=>{
                       {day:'Sun',date: 14}];
 
     const [selectedDay, setSelectedDay] = useState(DayandDate[0].day);
-    const Slots=['10:00 am','11:00 am','12:00 pm','1:00 pm','2:00 pm','3:00 pm','4:00 pm','5:00 pm'];
+    const Slots=['10:00 am','11:00 am','12:00 pm','1:00 pm','2:00 pm','3:00 pm','4:00 pm','5:00 pm','6:00 pm'];
     const [selectedDaySlots, setSelectedDaySlots] = useState([]);
     
     useEffect (()=>{
@@ -74,12 +74,15 @@ const DoctorAppointmentDetails=({route})=>{
         setSelectedDay(day);
         setSelectedDaySlots(Slots);
         setPressedDay(day); // Change color on press
+        setPressedSlot(null);
     }
 
     const navigateback = () => {
         navigation.navigate("Appointment");
     }
-
+    const OpenDashborad=()=>{
+        navigation.navigate("Dashboard");
+    }
     return(   
         
         <View classname="flex bg-blue-500">
@@ -144,7 +147,7 @@ const DoctorAppointmentDetails=({route})=>{
                 
                     <View className="flex-grow relative bottom-0 left-0 right-0 p-4 mt-2 bg-blue-500 px-0 py-4 rounded-3xl w-full"> 
                             {/* <TouchableOpacity onPress={nextQuestion} className={`bg-blue-500 px-0 py-4 rounded-md w-full ${selectedOption === null ? 'opacity-50' : ''}`} disabled={selectedOption === null}> */}
-                            <Pressable>
+                            <Pressable onPress={OpenDashborad}>
                                 <Text className="text-white text-center font-bold">
                                     Schedule Appointment
                                 </Text>
