@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native'
 import NavigationBar from "../components/NavigationBar";
 import { Feather } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
+import BottomTabNavigator from "../components/BottomTabNavigator";
 
 
 
@@ -131,7 +132,8 @@ const Dashboard = () => {
                 </View>
             </ScrollView>
 
-            <NavigationBar />
+            {/* <NavigationBar /> */}
+            <BottomTabNavigator/>
         </>
 
     )

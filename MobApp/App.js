@@ -40,12 +40,12 @@ export default function App() {
     
     <NavigationContainer>
 
-      {/* <Stack.Navigator>
-      <Stack.Screen name="Dashboard" component={Dashboard} /> */}
+      <Stack.Navigator>
+      <Stack.Screen name="Dashboard" component={Dashboard} />
 
         
 
-      <Stack.Navigator initialRouteName="Login">
+      {/* <Stack.Navigator initialRouteName="Login"> */}
       
         <Stack.Screen name="Login" component={Login}/>
         <Stack.Screen name="SignUp" component={SignUp}/>
@@ -58,7 +58,7 @@ export default function App() {
         <Stack.Screen name="Moodlift" component={Moodlift} />
         <Stack.Screen name="MeditationPage" component={MeditationPage} />
         <Stack.Screen name="Appointment" component={Appointment} />
-        <Stack.Screen name="Dashboard" component={Dashboard} />
+        {/* <Stack.Screen name="Dashboard" component={Dashboard} /> */}
 
         <Stack.Screen name="Questionnaire" component={Questionnaire} />
         
