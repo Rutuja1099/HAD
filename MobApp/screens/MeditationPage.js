@@ -11,6 +11,7 @@ const MeditationPage = (props) => {
 
     const navigation = useNavigation();
     const [playing, setPlaying] = useState(false);
+    const [visibleState, setVisibleState] = useState(true);
 
 
     useLayoutEffect(() => {
@@ -48,8 +49,10 @@ const MeditationPage = (props) => {
                                 </View>
                         </View>
                         <View style={styles.innercontainer}>
-                       
-                            <View style={styles.textContainer}>
+                           
+                            <Pressable disabled={!visibleState} onPress={()=>setVisibleState(false)}>
+                                <Text className='m-5 text-l ml-5 mt-5 mb-3 text-slate-50 font-extrabold'>Know the steps</Text></Pressable>
+                            <View disabled={visibleState} style={styles.textContainer}>
                             <Text className="text-l text-slate-50 font-extrabold">
                                 1. Choose a quite spot.</Text>
                             <Text className="text-l text-slate-50 font-extrabold">
@@ -88,7 +91,7 @@ const styles = StyleSheet.create({
     },
     innercontainer: {
         flex: 1,
-        flexDirection:'row',
+        flexDirection:'column',
         alignItems: 'center',
         justifyContent: 'center',
         width:'auto',
