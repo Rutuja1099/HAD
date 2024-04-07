@@ -7,12 +7,17 @@ import webServerUrl from '../configurations/WebServer';
 import {LoginInputValidation} from '../services/InputValidation';
 import HttpService from '../services/HttpService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useFonts, Pangolin_400Regular } from '@expo-google-fonts/pangolin';
 
 export default function Login(props) {
     
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
     const [isSecure, setIsSecure] = useState(true);
+
+    let [fontsLoaded] = useFonts({
+        Pangolin_400Regular,
+      });
 
     const toggleShowPassword = () => {
         setIsSecure(!isSecure);
@@ -75,7 +80,7 @@ export default function Login(props) {
     <ScrollView contentContainerStyle={styles.containerContent}
     style={styles.container}>
         <StatusBar style="auto" />
-      <Text style={styles.title}>LOG IN</Text>
+      <Text style={styles.title}>Log In</Text>
       <ScrollView contentContainerStyle={styles.logContent} style={styles.logbox}>
         <View style={styles.inputView}>
             <TextInput
@@ -165,7 +170,7 @@ const styles = StyleSheet.create({
     },
     title:{
         fontWeight:"bold",
-        fontFamily:'System',
+        fontFamily:'Pangolin_400Regular',
         fontSize:50,
         // color:'#000000',
         marginBottom:40,
@@ -186,7 +191,8 @@ const styles = StyleSheet.create({
     inputText:{
         flex:1,
         height:50,
-        color:"black"
+        color:"black",
+        fontFamily:'Pangolin_400Regular',
     },
     LoginBtn:{
         width:"40%",
@@ -213,6 +219,7 @@ const styles = StyleSheet.create({
         color:"black",
         fontSize:20,
         alignItems:'center',
-        justifyContent:'center'
+        justifyContent:'center',
+        fontFamily:'Pangolin_400Regular',
     },
 })
