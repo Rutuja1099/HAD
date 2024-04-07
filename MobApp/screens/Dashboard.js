@@ -133,7 +133,7 @@ const Dashboard = () => {
             </ScrollView>
 
             {/* <NavigationBar /> */}
-            <BottomTabNavigator/>
+            {/* <BottomTabNavigator/> */}
         </>
 
     )
