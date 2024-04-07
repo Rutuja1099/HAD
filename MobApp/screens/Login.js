@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, TextInput, ScrollView, TouchableOpacity, View } from 'react-native';
+import { Pressable, StyleSheet, Text, TextInput, ScrollView, TouchableOpacity, View, Image} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -8,6 +8,8 @@ import {LoginInputValidation} from '../services/InputValidation';
 import HttpService from '../services/HttpService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFonts, Pangolin_400Regular } from '@expo-google-fonts/pangolin';
+import {icon_suhrud} from '../assets';
+import {LinearGradient} from 'react-native-linear-gradient';
 
 export default function Login(props) {
     
@@ -79,7 +81,9 @@ export default function Login(props) {
     return (
     <ScrollView contentContainerStyle={styles.containerContent}
     style={styles.container}>
+    <LinearGradient>
         <StatusBar style="auto" />
+        <Image  style={styles.tinyLogo} source={icon_suhrud}></Image>
       <Text style={styles.title}>Log In</Text>
       <ScrollView contentContainerStyle={styles.logContent} style={styles.logbox}>
         <View style={styles.inputView}>
@@ -128,6 +132,7 @@ export default function Login(props) {
             <Text style={styles.inputSignUp}>SignUp</Text>
         </Pressable>
       </ScrollView>
+      </LinearGradient>
     </ScrollView>
   )
 }
@@ -153,6 +158,10 @@ const styles = StyleSheet.create({
     },
     icon: { 
         position:'absolute',
+    },
+    tinyLogo: {
+        width: 100,
+        height: 100,
     },
     logbox:{
         flex:1,
