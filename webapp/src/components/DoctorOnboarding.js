@@ -98,7 +98,7 @@ function DoctorOnboarding() {
           drIsModerator:drIsModerator,
           drGender:gender,
           drUsername:drUsername,
-          drSpecialization:drIsModerator
+          drSpecialization:Specialization
         };
 
         

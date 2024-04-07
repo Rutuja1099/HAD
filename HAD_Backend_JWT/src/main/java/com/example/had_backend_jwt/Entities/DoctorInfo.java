@@ -51,6 +51,9 @@ public class DoctorInfo {
     @Column(name="drGender",nullable = false)
     private String drGender;
 
+    @Column(name="isDeactivated")
+    private Boolean isDeactivated;
+
     @JsonIgnore
     @OneToOne(mappedBy = "drInfo", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JsonBackReference
@@ -70,8 +73,5 @@ public class DoctorInfo {
     @OneToMany(mappedBy="drInfo", fetch = FetchType.LAZY)
     @JsonBackReference
     List<Appointments> appointments;
-
-    @Column(name="isDeactivated")
-    private Boolean isDeactivated;
 
 }

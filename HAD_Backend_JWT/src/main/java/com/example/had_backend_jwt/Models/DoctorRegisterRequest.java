@@ -22,5 +22,6 @@ public class DoctorRegisterRequest {
     private boolean drIsModerator;
     private String drGender;
     private String drUsername;
+//    private Integer isDeactivated;
     //private String drPassword;
 }
