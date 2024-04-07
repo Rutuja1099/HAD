@@ -1,15 +1,18 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { View, Text, TextInput, ScrollView} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { View, Text, TextInput, ScrollView, StyleSheet, ImageBackground,Image} from 'react-native';
 import { useNavigation } from '@react-navigation/native'
 import NavigationBar from "../components/NavigationBar";
 import { Feather } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
-
+import { useFonts, Pangolin_400Regular } from '@expo-google-fonts/pangolin';
+import {icon_suhrud, background} from '../assets';
 
 
 const Dashboard = () => {
 
+    let [fontsLoaded] = useFonts({
+        Pangolin_400Regular,
+      });
     const navigation=useNavigation();
 
     useLayoutEffect(() => {
@@ -24,18 +27,20 @@ const Dashboard = () => {
 
     return(
         <>
-            <ScrollView className = "flex-1 bg-gray-100">
-                <View className = "px-4">
-
-                    {/* First Section */}
-                    <View className = "flex flex-row p-4 mb-4 justify-between border-b-2 border-dashed">
-
-                        <View>
-                            <Text className="text-2xl">Hello Rutu</Text>
-                            <Text>Weclome to our safe space</Text>
+            <ImageBackground source={background} style={styles.imagebackground}>
+            
+            <ScrollView contentContainerStyle={styles.containerContent} style={styles.container}>
+                    <View className = "flex flex-row p-2  justify-between">
+                        <View className='flex flex-row justify-items-start'>
+                        <Image  style={styles.tinyLogo} source={icon_suhrud}/>
+                        <View className='flex flex-col ml-2'>
+                            {/* <Image  style={styles.tinyLogo} source={icon_suhrud}/> */}
+                            <Text style={styles.title}>Hello Rutu</Text>
+                            <Text style={styles.inputText}>Weclome to our safe space</Text>
+                        </View>
                         </View>
 
-                        <View className="flex flex-row justify-center items-center">
+                        <View className="flex flex-row w-50 justify-center items-center">
 
                             <View className="mr-4">
                                 <Feather name="phone-call" size={24} color="black" />
@@ -50,10 +55,10 @@ const Dashboard = () => {
                     </View>
                     
                     {/* Second Section */}
-                    <View className = "flex flex-col p-4 mb-2 justify-between border-b-2 border-dashed">
+                    <View className = "flex flex-col p-4 mb-1 justify-between border-b-2 border-dashed">
 
                         <View className = "flex flex-row justify-between mb-2">
-                            <Text className="text-xl font-semibold">Ask our experts</Text>
+                            <Text style={styles.pickerText}>Ask our experts</Text>
                             <Feather name="arrow-right" size={24} color="black" />
                         </View>
 
@@ -69,7 +74,7 @@ const Dashboard = () => {
                     <View className = "flex flex-col p-4 mb-2 border-b-2 border-dashed">
 
                         <View className="mb-4">
-                            <Text className="text-xl font-semibold">Patient Progress</Text>
+                            <Text style={styles.pickerText}>Patient Progress</Text>
                         </View>
 
                         <View className="flex flex-row">
@@ -88,11 +93,11 @@ const Dashboard = () => {
                     <View className = "flex flex-row p-4 mb-2 border-b-2 border-dashed">
 
                         <View className = "flex h-28 w-28 items-center justify-center mr-4">
-                            <Text className="text-xl">Good Morning Rutuja!!</Text>
+                            <Text style={styles.pickerText}>Good Morning Rutuja!!</Text>
                         </View>
         
                         <View className="bg-cyan-500 rounded-3xl p-3 flex-shrink">
-                            <Text className="text-xl">Nothing is impossible, the word itself says I'm possible.</Text>
+                            <Text style={styles.inputText}>Nothing is impossible, the word itself says I'm possible.</Text>
                         </View>
 
                     </View>
@@ -101,7 +106,7 @@ const Dashboard = () => {
                     <View className = "flex flex-col p-4 mb-2">
                         
                         <View className="mb-4">
-                            <Text className="text-xl font-semibold">Shortcuts</Text>
+                            <Text style={styles.pickerText}>Shortcuts</Text>
                         </View>
                         
                         <ScrollView horizontal className="flex-1">
@@ -128,14 +133,79 @@ const Dashboard = () => {
                     </View>
 
 
-                </View>
             </ScrollView>
-
+            </ImageBackground>
             <NavigationBar />
+            
         </>
 
     )
 }
+
+const styles = StyleSheet.create({
+    imagebackground:{
+      flex:1,
+      width:'100%',
+      height:'100%',
+      justifyContent:'center',
+      alignItems:'center',
+      },
+      tinyLogo: {
+        width: 50,
+        height: 50,
+        marginTop:35,
+      },
+    container:{
+      flex:1,
+      position:'relative',
+      width:'100%',
+      height:'100%',
+    },
+    containerContent:{
+      alignItems:'left',
+      justifyContent:'left',
+    },
+    icon:{
+      position:'absolute',
+    },
+    inputText:{
+      height:50,
+      color:'black',
+      fontFamily:'Pangolin_400Regular',
+    },
+    title:{
+        marginTop:20,
+        fontFamily:'Pangolin_400Regular',
+        fontSize:30,
+    },
+    pickerText:{
+    fontFamily:'Pangolin_400Regular',
+    fontSize:20,
+    },
+    contentBox:{
+      color:'white',
+      marginTop:5,
+      fontFamily:'Pangolin_400Regular',
+    },
+    viewBox:{
+        flex:1,
+        flexDirection:"row",
+        width:'100%',
+        height:'100%',
+        justifyContent:'space-evenly',
+        padding:2,
+
+      },
+      everyBoxBox:{
+        flex:1,
+        flexDirection:'row',
+        borderBottomWidth:2,
+        borderColor:'black',
+        borderStyle:'dashed',
+
+      },
+    
+  })
 
 export default Dashboard;
 

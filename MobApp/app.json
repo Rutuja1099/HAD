@@ -26,8 +26,11 @@
     "web": {
       "favicon": "./assets/icon_suhrud.jpeg"
     },
-    "plugins": [
-      "expo-font"
-    ]
+    "plugins": [ [
+      "expo-font",
+      {
+      "fonts": ["./assets/fonts/Pangolin-Regular.ttf","node_modules/@expo-google-fonts/Pangolin/Pangolin_400Regular.ttf"]
+      }
+    ]]
   }
 }

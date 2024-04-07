@@ -1,17 +1,21 @@
-import { Pressable, StyleSheet, Text, TextInput, TouchableOpacity, ScrollView, View } from 'react-native'
+import { Pressable, StyleSheet, Text, TextInput, ScrollView, View, ImageBackground, Image } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { StatusBar } from 'expo-status-bar'
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import RNPickerSelect from 'react-native-picker-select';
-import axios from "axios";
 import { Picker } from '@react-native-picker/picker';
 import webServerUrl from '../configurations/WebServer';
 import { SignupInputValidation } from '../services/InputValidation';
 import HttpService from '../services/HttpService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useFonts, Pangolin_400Regular } from '@expo-google-fonts/pangolin';
+import {icon_suhrud, background} from '../assets';
 
 export default function SignUp(props) {
+
+  let [fontsLoaded] = useFonts({
+    Pangolin_400Regular,
+  });
 
   const [isSecure, setIsSecure] = useState(true);
 
@@ -149,9 +153,9 @@ export default function SignUp(props) {
   }
 
   return (
-    <ScrollView contentContainerStyle={styles.containerContent}
-    style={styles.container}>
-      <StatusBar style='auto'/>
+    <ImageBackground source={background} style={styles.imagebackground}>
+      <Image  style={styles.tinyLogo} source={icon_suhrud}/>
+    <ScrollView contentContainerStyle={styles.containerContent} style={styles.container}>
       <Text style={styles.title}>SIGN UP</Text>
       <Text style={{color:'red'}}>Every field is Required*</Text>
       <ScrollView contentContainerStyle={styles.signContent} style={styles.signBox}>
@@ -212,60 +216,18 @@ export default function SignUp(props) {
                 />
             )}
             </View>
-        {/* ========== */}
-        {/* <View style={styles.inputView}>
-          <RNPickerSelect
-            onValueChange={(value) => setGender(value)}
-            items={[
-              { label: 'Male', value: 'male' },
-              { label: 'Female', value: 'female' },
-              { label: 'Other', value: 'other' },
-            ]}
-            style={{
-              inputIOS: {
-                backgroundColor: '#3AB4BA',
-                borderRadius: 20,
-                borderColor: 'blue',
-                borderWidth: 2,
-                height: 50,
-                color: 'white',
-                paddingHorizontal: 10,
-                justifyContent: 'center',
-                alignItems: 'center', // Adjust as needed
-              },
-              inputAndroid: {
-                backgroundColor: '#3AB4BA',
-                borderRadius: 20,
-                borderColor: 'blue',
-                borderWidth: 2,
-                height: 50,
-                color: 'white',
-                paddingHorizontal: 10,
-                justifyContent: 'center',
-                alignItems: 'center', // Adjust as needed
-              },
-              iconContainer: { // Adjust icon position
-                top: '25%',
-                right: 15,
-              },
-            }}
-            placeholder={{ label: "Select your gender", value: "Male" }}
-            // Icon={() => <MaterialCommunityIcons name="gender-male-female" size={24} color="white" />} // Adjust color
-          />
-        </View> */}
         <View style={styles.inputView}>
           <Picker
             selectedValue={gender}
             onValueChange={(itemValue) => setGender(itemValue)}
             style={styles.picker}
-          >
+            itemStyle={styles.pickerText}>
             <Picker.Item label="Select your gender" value="" />
             <Picker.Item label="Male" value="male" />
             <Picker.Item label="Female" value="female" />
             <Picker.Item label="Other" value="other" />
           </Picker>
         </View>
-        {/* ======= */}
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
@@ -305,7 +267,7 @@ export default function SignUp(props) {
             onPress={onPressSignUp}
             style={({pressed})=>[styles.signUpBtn,
                 {
-                backgroundColor: pressed ? '#2A9396' : '#3AB4BA',
+                backgroundColor: pressed ? '#0619bb' : '#116fdf',
                 transform: [{ scale: pressed ? 0.96 : 1 }],
                 }
             ]}
@@ -314,15 +276,27 @@ export default function SignUp(props) {
         </Pressable>
       </ScrollView>
     </ScrollView>
+    </ImageBackground>
   )
 }
 
 const styles = StyleSheet.create({
+  imagebackground:{
+    flex:1,
+    width:'100%',
+    height:'100%',
+    justifyContent:'center',
+    alignItems:'center',
+    },
+    tinyLogo: {
+      width: 50,
+      height: 50,
+      marginTop:'30%',
+    },
   container:{
     flex:1,
-    backgroundColor:'#fff',
-    paddingTop:'10%',
     position:'relative',
+    width:'100%',
   },
   containerContent:{
     alignItems:'center',
@@ -330,15 +304,13 @@ const styles = StyleSheet.create({
   },
   signBox:{
     flex:1,
-    backgroundColor:'#F1E9E9',
     flexDirection:"column",
     paddingTop:10,
     paddingBottom:10,
     borderRadius:30,
     position:'relative',
-    width:'70%',
+    width:'80%',
     height:'100%',
-    // alignItems: 'center',
   },
   signContent:{
     alignItems: 'center',
@@ -355,53 +327,52 @@ const styles = StyleSheet.create({
     position:'absolute',
   },
   title:{
-    fontWeight:'bold',
-    fontFamily:'System',
-    fontSize:50,
-    // marginTop:5,
-    // marginBottom:20,
+    fontFamily:'Pangolin_400Regular',
+    fontSize:30,
+  },
+  pickerText:{
+    fontFamily:'Pangolin_400Regular',
+    fontSize:30,
   },
   inputView:{
-    width:'80%',
-    backgroundColor:'#3AB4BA',
+    width:'100%',
     borderRadius:20,
-    borderColor:'blue',
-    borderWidth:2,
-    height:50,
+    height:45,
     marginBottom:13,
     justifyContent:'center',
     flexDirection:'row',
     alignItems:'center',
     padding:20,
+    backgroundColor:'rgba(255,255,255,0.5)',
   },
   inputText:{
     flex:1,
     height:50,
-    color:'white',
+    color:'black',
     flexDirection:'row',
+    fontFamily:'Pangolin_400Regular',
+  },
+  signUp:{
+    flex:1,
+    color:'white',
+    marginTop:5,
+    fontFamily:'Pangolin_400Regular',
   },
   picker: {
     width:'100%',
     flex: 1,
     height: 40,
-    backgroundColor: '#3AB4BA',
     borderRadius: 20,
-    borderColor: '#3AB4BA',
     borderWidth: 2,
     justifyContent: 'center',
-    // paddingLeft: 10,
-    // paddingRight: 30, // Adjust as needed
+    fontFamily:'Pangolin_400Regular',
   },
   signUpBtn:{
     width:'40%',
-    backgroundColor:'#3AB4BA',
-    height:'5%',
+    height:'6%',
     alignItems:'center',
     justifyContent:'center',
-    // marginTop:'5%',
     marginBottom:'5%',
-    borderColor:'blue',
-    borderWidth:2,
     borderRadius:15,
   },
   dateView: {
@@ -415,15 +386,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#3AB4BA',
     borderRadius: 10,
-    borderColor: 'blue',
-    borderWidth: 2,
     height: 50,
     marginBottom: 15,
     padding: 20,
     flex: 1, 
   },
   dateText: {
-    color: 'white',
+    color: 'black',
     marginLeft: 10, 
+    fontFamily:'Pangolin_400Regular',
   },
 })
