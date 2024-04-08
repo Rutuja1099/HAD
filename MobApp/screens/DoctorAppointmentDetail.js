@@ -73,12 +73,15 @@ const DoctorAppointmentDetails=({route})=>{
         setSelectedDay(day);
         setSelectedDaySlots(Object.values(Slots));
         setPressedDay(day); // Change color on press
+        setPressedSlot(null);
     }
 
     const navigateback = () => {
         navigation.navigate("Appointment");
     }
-
+    const OpenDashborad=()=>{
+        navigation.navigate("Dashboard");
+    }
     return(   
         
         <View classname="flex bg-blue-500">
@@ -143,7 +146,7 @@ const DoctorAppointmentDetails=({route})=>{
                 
                     <View className="flex-grow relative bottom-0 left-0 right-0 p-4 mt-2 bg-blue-500 px-0 py-4 rounded-3xl w-full"> 
                             {/* <TouchableOpacity onPress={nextQuestion} className={`bg-blue-500 px-0 py-4 rounded-md w-full ${selectedOption === null ? 'opacity-50' : ''}`} disabled={selectedOption === null}> */}
-                            <Pressable>
+                            <Pressable onPress={OpenDashborad}>
                                 <Text className="text-white text-center font-bold">
                                     Schedule Appointment
                                 </Text>
