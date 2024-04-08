@@ -109,4 +109,6 @@ public class PatientController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Invalid Password. Please check your current password");
         return ResponseEntity.internalServerError().body("Failed to update the password");
     }
+
+
 }
