@@ -41,6 +41,7 @@ public class DoctorService {
             doctorAppointmentsResponse.setPtFullName(appointment.getPatientInfo().getPtFullname());
             doctorAppointmentsResponse.setPtPhone(appointment.getPatientInfo().getPtPhone());
             doctorAppointmentsResponse.setPtGender(appointment.getPatientInfo().getPtGender());
+            doctorAppointmentsResponse.setPtAddress(appointment.getPatientInfo().getPtAddr());
             responses.add(doctorAppointmentsResponse);
         }
         return responses;

@@ -12,8 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AppointmentBookingRequest {
-    private String currentDate;
     private String requestedDate;
-    private List<Integer> requestedSlots;
+    private Integer requestedSlots;
     private Integer drId;
 }

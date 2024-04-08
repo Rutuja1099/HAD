@@ -2,17 +2,19 @@ import { Pressable, StyleSheet, Text, TextInput, ScrollView, TouchableOpacity, V
 import React, {useEffect, useState} from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import axios from "axios";
 import webServerUrl from '../configurations/WebServer';
 import {LoginInputValidation} from '../services/InputValidation';
 import HttpService from '../services/HttpService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
 
 export default function Login(props) {
     
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
     const [isSecure, setIsSecure] = useState(true);
+
+    const navigation = useNavigation();
 
     const toggleShowPassword = () => {
         setIsSecure(!isSecure);

@@ -8,9 +8,7 @@ const DoctorAppointmentDetails=({route})=>{
     const {drId, drFullName, drSpecialization, drExperience,drGender,profilePhoto} = route.params;
 
     const navigation=useNavigation();
-    const windowWidth = useWindowDimensions().width;
-
-    
+    const windowWidth = useWindowDimensions().width;  
     
     const [pressedDay, setPressedDay] = useState(null);
     const [pressedSlot, setPressedSlot] = useState(null);
@@ -24,11 +22,12 @@ const DoctorAppointmentDetails=({route})=>{
                       {day:'Sun',date: 14}];
 
     const [selectedDay, setSelectedDay] = useState(DayandDate[0].day);
-    const Slots=['10:00 am','11:00 am','12:00 pm','1:00 pm','2:00 pm','3:00 pm','4:00 pm','5:00 pm'];
-    const [selectedDaySlots, setSelectedDaySlots] = useState([]);
+    //const Slots=['10:00 am','11:00 am','12:00 pm','1:00 pm','2:00 pm','3:00 pm','4:00 pm','5:00 pm'];
+    const Slots={1:'10:00 am',2:'11:00 am',3:'12:00 pm',4:'1:00 pm',5:'2:00 pm',6:'3:00 pm',7:'4:00 pm',8:'5:00 pm'};
+    const [selectedDaySlots, setSelectedDaySlots] = useState({});
     
     useEffect (()=>{
-        setSelectedDaySlots(Slots);
+        setSelectedDaySlots(Object.values(Slots));        
     }, []);
 
      // Set a maximum chunk size based on the available width
@@ -72,7 +71,7 @@ const DoctorAppointmentDetails=({route})=>{
         console.log("Loading slots for", day);
         
         setSelectedDay(day);
-        setSelectedDaySlots(Slots);
+        setSelectedDaySlots(Object.values(Slots));
         setPressedDay(day); // Change color on press
     }
 

@@ -7,14 +7,13 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
-public class DoctorAppointmentsResponse {
-    private String ptFullName;
-    private String Date;
-    private Integer slot;
+@AllArgsConstructor
+public class PatientProfileUpdation {
+    private String ptFullname;
+    private String ptAddr;
+    private String ptDOB;
     private String ptPhone;
-    private String ptGender;
     private String ptEmail;
-    private String ptAddress;
+    private String message=null;
 }

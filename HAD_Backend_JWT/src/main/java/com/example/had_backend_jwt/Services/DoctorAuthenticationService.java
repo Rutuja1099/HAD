@@ -68,6 +68,8 @@ public class DoctorAuthenticationService {
                     .drIsModerator(request.isDrIsModerator())
                     .drGender(request.getDrGender())
                     .drSpecialization(request.getDrSpecialization())
+                    .drDegree(request.getDrDegree())
+                    .isDeactivated(true)
                     .build();
 
             doctorInfoRepository.save(doctorInfo);
@@ -101,10 +103,13 @@ public class DoctorAuthenticationService {
             if(doctorLoginOptional.isPresent()){
                 DoctorLogin doctorLogin=doctorLoginOptional.get();
                 if(doctorLogin.getDrPassword().equals(request.getCurrentPassword())){
-                    System.out.println("new password:"+request.getNewPassword());
                     doctorLogin.setDrPassword(passwordEncoder.encode(request.getNewPassword()));
-                    if(doctorLogin.getDrFirstTimeLogin())
+                    if(doctorLogin.getDrFirstTimeLogin()){
                         doctorLogin.setDrFirstTimeLogin(false);
+                        DoctorInfo doctorInfo=doctorInfoRepository.findDoctorInfoByDrId(doctorLogin.getDrId());
+                        doctorInfo.setIsDeactivated(false);
+                        doctorInfoRepository.save(doctorInfo);
+                    }
                     doctorLoginRepository.save(doctorLogin);
 
                     //var jwtToken=jwtService.generateToken(doctorLogin);
@@ -147,6 +152,12 @@ public class DoctorAuthenticationService {
                         .build();
             }
 
+            DoctorInfo doctorInfo=doctorInfoRepository.findDoctorInfoByDrId(doctorLogin.getDrId());
+            if(doctorInfo.getIsDeactivated())
+                return AuthenticationResponse.builder()
+                        .message("Your account is Deactivated")
+                        .build();
+
             // Get ptRegNo
             if(!doctorLogin.getDrFirstTimeLogin()){
                 var jwtToken=jwtService.generateToken(doctorLogin);
@@ -154,6 +165,7 @@ public class DoctorAuthenticationService {
                 return AuthenticationResponse.builder()
                         .token(jwtToken)
                         .message("Success")
+                        .username(doctorLogin.getDrUsername())
                         .build();
             }
             else
@@ -162,8 +174,6 @@ public class DoctorAuthenticationService {
                         .build();
         }catch (AuthenticationException e) {
             // Authentication failed, handle the exception
-            System.out.println("Inside doctor");
-            System.out.println(e.getMessage());
             return AuthenticationResponse.builder()
                     .message("Invalid username or password")
                     .build();

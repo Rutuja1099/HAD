@@ -40,7 +40,7 @@ public class PatientInfo {
 //    @OneToOne(mappedBy = "ptInfo")
 //    private PatientLogin ptLogin;
 @Id
-@GeneratedValue(strategy = GenerationType.AUTO)
+@GeneratedValue(strategy = GenerationType.IDENTITY)
 @Column(name = "ptRegNo")
     private Integer ptRegNo;
 
@@ -82,6 +82,9 @@ public class PatientInfo {
     @JsonBackReference
     List<Appointments> appointments;
 
-    @Column(name="deletedTimestamp")
-    private String deletedTimestamp;
+    @Column(name="deActivationTimestamp")
+    private String deActivationTimestamp;
+
+    @Column(name="isPatientDeActivated")
+    private Boolean isPatientDeActivated;
 }
