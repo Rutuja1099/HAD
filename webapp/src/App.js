@@ -9,11 +9,11 @@ import Dashboard from './components/Dashboard';
 import Login from './components/Login';
 import Patients from './components/Patients';
 import Appointments from './components/Appointments';
-import QnaForum from './components/QnaForum';
+import QnaForum from './components/QnaForum/QnaForum';
 import DoctorOnboarding from './components/DoctorOnboarding';
 import SetPassword from './components/SetPassword';
 import ForgotPasswordMail from './components/ForgotPasswordMail';
-import QnaForumQuestion from './components/QnaForumQuestion';
+import QnaForumQuestion from './components/QnaForum/QnaForumQuestion';
 import DoctorStatus from './components/DoctorStatus';
 
 function App() {

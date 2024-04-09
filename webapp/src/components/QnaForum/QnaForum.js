@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import '../styles/ChatPage.css';
-import boy from '../assets/boy.png';
+import '../../styles/ChatPage.css';
+import boy from '../../assets/boy.png';
 
 import { BiUpvote } from "react-icons/bi";
 import { IoFlagOutline } from "react-icons/io5";
 import { IoFlagSharp } from "react-icons/io5";
 import { BsThreeDots } from "react-icons/bs";
 
-import webServerUrl from '../configurations/WebServer';
-import HttpService from '../services/HttpService';
+import webServerUrl from '../../configurations/WebServer';
+import HttpService from '../../services/HttpService';
 import QnaForumAnswerModal from './QnaForumAnswerModal';
 
 const QnaForum = () => {
@@ -150,6 +150,9 @@ const QnaForum = () => {
                                         setOpenAnswerBox = {setOpenAnswerBox}
                                         questionContent = {selectedQuestion}
                                         questionId = {selectedQuestionId}
+                                        answerContent=""
+                                        answerId = {0}
+                                        method = "POST"
 
                                     />
 

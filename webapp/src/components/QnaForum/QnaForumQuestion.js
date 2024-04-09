@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import '../styles/ChatPage.css';
-import boy from '../assets/boy.png';
+import '../../styles/ChatPage.css';
+import boy from '../../assets/boy.png';
 
 
 import { BiUpvote, BiSolidUpvote } from "react-icons/bi";
@@ -9,9 +9,11 @@ import { IoFlagOutline } from "react-icons/io5";
 import { IoFlagSharp } from "react-icons/io5";
 import { BsThreeDots } from "react-icons/bs";
 
-import webServerUrl from '../configurations/WebServer';
-import HttpService from '../services/HttpService';
+import webServerUrl from '../../configurations/WebServer';
+import HttpService from '../../services/HttpService';
 import QnaForumAnswerModal from './QnaForumAnswerModal';
+import DeleteModal from './DeleteModal';
+import DeleteModalQuestion from './DeleteModalQuestion';
 
 const DropdownMenu = ({ onEdit, onDelete }) => (
     <div className="absolute right-0 mt-2 w-40 bg-white border rounded shadow-lg">
@@ -22,6 +24,13 @@ const DropdownMenu = ({ onEdit, onDelete }) => (
     </div>
   );
 
+const DropdownMenuQuestion = ({ onDelete }) => (
+    <div className="absolute right-0 mt-2 w-40 bg-white border rounded shadow-lg">
+      <ul>
+        <li className="cursor-pointer px-4 py-2 hover:bg-gray-100" onClick={onDelete}>Delete</li>
+      </ul>
+    </div>
+  );
 
 const QnaForumQuestion = () => {
 
@@ -40,14 +49,21 @@ const QnaForumQuestion = () => {
     ])
 
     const [openAnswerBox, setOpenAnswerBox] = useState(false);
+    const [openDeleteBox, setOpenDeletBox] = useState(false);
+    const [openDeleteBoxQuestion, setOpenDeletBoxQuestion] = useState(false);
+    
+    const [showDropdown, setShowDropdown] = useState(false);
+    const [showDropdownQuestion, setShowDropdownQuestion] = useState(false);
+    
     const [flagSelected, setFlagSelected] = useState(false);
     const [flagSelectedAnswer, setFlagSelectedAnswer] = useState(false);
-    const [showDropdown, setShowDropdown] = useState(false);
-    const [selectedAnswerId, setSelectedAnswerId] = useState();
-
-
     const [upvoteSelected, setUpvoteSelected] = useState(false);
+
     const [allAnswers, setAllAnswers] = useState([]);
+    const [selectedAnswerId, setSelectedAnswerId] = useState();
+    const [selectedAnswer, setSelectedAnswer] = useState("");
+
+    const [role, setRole] = useState("");
 
 
     const toggleDropdown = (answerId) => {
@@ -55,14 +71,29 @@ const QnaForumQuestion = () => {
         setShowDropdown(!showDropdown);
     };
 
-    const handleEdit = () => {
+    const toggleDropdownQuestion = (questionId) => {
+        // setSelectedAnswerId(answerId);
+        setShowDropdownQuestion(!showDropdownQuestion);
+    };
+
+    const handleEdit = (answer) => {
         // Logic for handling edit action
+        setSelectedAnswer(answer);
         setShowDropdown(false); // Hide dropdown after performing action
+        setOpenAnswerBox(true);
+        
       };
     
-      const handleDelete = () => {
+      const handleDelete = (answer) => {
         // Logic for handling delete action
+        setSelectedAnswer(answer);
         setShowDropdown(false); // Hide dropdown after performing action
+        setOpenDeletBox(true);
+      };
+
+      const handleDeleteQuestion = (questionContent) => {
+        setShowDropdownQuestion(false); 
+        setOpenDeletBox(true);
       };
 
 
@@ -189,7 +220,7 @@ const QnaForumQuestion = () => {
                 
             console.log("Successful");
             console.log(response.data);
-            setFlagSelected(true);
+            setFlagSelectedAnswer(true);
             
             try{
                 console.log("from storage");
@@ -260,6 +291,9 @@ const QnaForumQuestion = () => {
 
     useEffect(() => {
         getAllAnswers(questioniD);
+
+        const sessionData = JSON.parse(window.localStorage.getItem('Data'));
+        setRole(sessionData.role);
     }, []);
 
     const openAnswer = (question, questionId) => {
@@ -281,20 +315,43 @@ const QnaForumQuestion = () => {
                                 <div className='flex flex-col border-b-2 mb-3'>
                                     <div className='flex flex-row justify-between items-center'>
                                         <h2 className="text-lg font-semibold mb-2">{questionContent}</h2>
-                                        {!flagSelected 
-                                        
-                                        ? 
-                                        (
-                                            <IoFlagOutline 
-                                            className='mr-4 cursor-pointer'
-                                            onClick={() => flagCountChange(questioniD)}    
-                                        />
-                                        ) 
-                                        :
-                                        (
-                                            <IoFlagSharp className='mr-4'/>
+                                        <div className='flex flex-row'>
+                                            {!flagSelected 
+                                            
+                                            ? 
+                                            (
+                                                <IoFlagOutline 
+                                                className='mr-4 cursor-pointer'
+                                                onClick={() => flagCountChange(questioniD)}    
+                                            />
+                                            ) 
+                                            :
+                                            (
+                                                <IoFlagSharp className='mr-4'/>
 
-                                        )}
+                                            )}
+
+                                            {role === "moderator" && 
+                                            (
+                                            <>
+                                                <div className="relative">
+                                                    <BsThreeDots className="cursor-pointer" onClick={() => toggleDropdownQuestion(questioniD)} />
+                                                    {showDropdownQuestion &&
+                                                    (
+                                                        <DropdownMenuQuestion onDelete={() => handleDeleteQuestion(questionContent)} />
+                                                    )}
+                                                </div>
+
+                                                <DeleteModalQuestion
+                                                    openDeleteBox = {openDeleteBoxQuestion}
+                                                    setOpenDeletBox = {setOpenDeletBoxQuestion}
+                                                    id = {questioniD}
+                                                    content = {questionContent}
+                                                />
+                                            </>
+                                            )
+                                            }
+                                        </div>
                                     </div>
 
                                     <div className='flex flex-row justify-between mb-4'>
@@ -312,7 +369,9 @@ const QnaForumQuestion = () => {
                                         setOpenAnswerBox = {setOpenAnswerBox}
                                         questionContent = {questionContent}
                                         questionId = {questioniD}
-
+                                        answerContent = ""
+                                        answerId = {0}
+                                        method = "POST"
                                     />
                                     
                                 </div>
@@ -365,15 +424,40 @@ const QnaForumQuestion = () => {
 
                                                     )}
                                                     
-                                                    <div className="relative">
-                                                        <BsThreeDots className="cursor-pointer" onClick={() => toggleDropdown(answer.answerId)} />
-                                                        {showDropdown && selectedAnswerId === answer.answerId &&
-                                                        (
-                                                        <DropdownMenu onEdit={handleEdit} onDelete={handleDelete} />
-                                                        )}
-                                                    </div>
+                                                    {role === "moderator" && 
+                                                    (
+                                                    <>
+                                                        <div className="relative">
+                                                            <BsThreeDots className="cursor-pointer" onClick={() => toggleDropdown(answer.answerId)} />
+                                                            {showDropdown && selectedAnswerId === answer.answerId &&
+                                                            (
+                                                            <DropdownMenu onEdit={() => handleEdit(answer.answerContent)} onDelete={() => handleDelete(answer.answerContent)} />
+                                                            )}
+                                                        </div>
 
+                                                        <DeleteModal
+                                                            openDeleteBox = {openDeleteBox}
+                                                            setOpenDeletBox = {setOpenDeletBox}
+                                                            id = {selectedAnswerId}
+                                                            content = {selectedAnswer}
+                                                        />
+                                                    </>
+                                                    )}    
+                                                        
                                                 </div>
+
+                                                <QnaForumAnswerModal
+                                                    openAnswerBox = {openAnswerBox}
+                                                    setOpenAnswerBox = {setOpenAnswerBox}
+                                                    questionContent = {questionContent}
+                                                    questionId = {questioniD}
+                                                    answerContent={selectedAnswer}
+                                                    answerId = {selectedAnswerId}
+                                                    method = "PUT"
+                                                />
+
+                                                
+                                                
                                             </div>
 
                                             <p key={index}>{answer.answerContent}</p>

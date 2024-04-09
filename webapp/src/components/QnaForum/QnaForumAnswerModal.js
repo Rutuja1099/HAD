@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import webServerUrl from '../configurations/WebServer';
-import HttpService from '../services/HttpService';
+import webServerUrl from '../../configurations/WebServer';
+import HttpService from '../../services/HttpService';
 
 
-const QnaForumAnswerModal = ({openAnswerBox, setOpenAnswerBox, questionContent, questionId}) => {
+const QnaForumAnswerModal = ({openAnswerBox, setOpenAnswerBox, questionContent, questionId, answerContent, answerId, method}) => {
     
-    const [answer, setAnswer] = useState();
+    const [answer, setAnswer] = useState("");
 
+    useEffect(() => {
+        setAnswer(answerContent);
+    },[]);
 
     if(!openAnswerBox) return null;
 
@@ -49,7 +52,59 @@ const QnaForumAnswerModal = ({openAnswerBox, setOpenAnswerBox, questionContent, 
         }
         setOpenAnswerBox(false);
     }
+
+    const handleAnswerUpdate = async (answer, answerId, questionId) => {
     
+        console.log("itititiit", answer, answerId);
+        const loginURL = webServerUrl+`/suhrud/forum/updateAnswer/${answerId}`;
+
+        const method='PUT';
+
+        const data = answer;
+            
+        try{
+
+            const sessionData = JSON.parse(window.localStorage.getItem('Data'));
+            const bearerToken = sessionData.token;
+
+            console.log("bearer token: ", bearerToken);
+
+            const headers = {
+                'Authorization': `Bearer ${bearerToken}`, // Include your token here
+                'Content-Type': 'text/plain', // Specify the content type if needed
+            };
+            
+            const response=await HttpService(method, loginURL, data, headers);
+            console.log(response.status)
+            
+            if(response.status===200){
+                    
+                console.log("Successful");
+                console.log(response.data);
+            }
+            
+            else{
+                alert("reponse not 200");
+            }
+        }
+        catch(error){
+            alert(error.data);
+            console.log(error);
+        }
+        setOpenAnswerBox(false);
+    }
+    
+    const handleSubmit = (answer, answerId, questionId) => {
+        if(method === "POST"){
+            handleAnswerSubmit(answer, questionId);
+        }
+        if(method === "PUT"){
+            handleAnswerUpdate(answer, answerId, questionId);
+        }
+    }
+
+
+
     return (
 
             // Deactivate confirmation modal
@@ -67,7 +122,7 @@ const QnaForumAnswerModal = ({openAnswerBox, setOpenAnswerBox, questionContent, 
                 <div className="flex flex-row justify-center mt-4">
                     <button 
                         className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-md mr-2" 
-                        onClick={() => { handleAnswerSubmit(answer, questionId); }}
+                        onClick={() => { handleSubmit(answer, answerId, questionId); }}
                     >
                         Submit
                     </button>
