@@ -14,7 +14,7 @@ import DoctorOnboarding from './components/DoctorOnboarding';
 import SetPassword from './components/SetPassword';
 import ForgotPasswordMail from './components/ForgotPasswordMail';
 import QnaForumQuestion from './components/QnaForum/QnaForumQuestion';
-import DoctorStatus from './components/DoctorStatus';
+import DoctorStatus from './components/DoctorStatus/DoctorStatus';
 
 function App() {
   const [open, setOpen] = useState(false);

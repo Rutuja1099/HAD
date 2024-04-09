@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react';
-import webServerUrl from '../configurations/WebServer';
-import HttpService from '../services/HttpService';
+import webServerUrl from '../../configurations/WebServer';
+import HttpService from '../../services/HttpService';
 
 
 const DoctorStatusModal = ({showDeactivateConfirm, selectedDoctor, setShowDeactivateConfirm, setSelectedDoctor, doctorId}) => {
