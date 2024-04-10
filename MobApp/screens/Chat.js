@@ -93,13 +93,15 @@ const Chat = ({route}) => {
 
     return (
         <ImageBackground source={background} style={styles.imagebackground}>
-        <View className = "flex-1 bg-white">
+        <View className = "flex-1">
                 
-                <View className = "p-4 flex-row items-center border-b border-gray-300">
+                <View className = "p-4 mt-5 flex-row items-center justify-between border-b border-gray-300">
                 
                     <Icon name="angle-left" size={25} onPress={navigateback}/>
                 
                     <Text className = "font-bold text-lg ml-4" >{doctorName}</Text>
+
+                    <Image  style={styles.tinyLogo} source={icon_suhrud}/>
                 
                 </View>
 
@@ -167,9 +169,9 @@ const styles = StyleSheet.create({
       resizeMode:'cover',
       },
       tinyLogo: {
-        width: 50,
-        height: 50,
-        marginTop:35,
+        width: 40,
+        height: 40,
+        marginTop:5,
       },
     inputText:{
       height:50,

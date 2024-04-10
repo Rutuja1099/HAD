@@ -89,18 +89,19 @@ const ChatList = () => {
 
     return (
         <ImageBackground source={background} style={styles.imagebackground}>
-        <View className="flex-1 bg-rose-100 p-2 py-0">
+        <View className="flex-1 p-2 py-0">
 
             {/* top view box with all conversations name*/}
-            <View className = "justify-center items-center m-2">
-                <Text className="text-2xl">
+            <View className = " flex flex-row justify-center items-center ">
+            <Image  style={styles.tinyLogo} source={icon_suhrud}/>
+                <Text style={styles.title}>
                     Chats
                 </Text>
             </View>
             
 
             {/* full block */}
-            <View className="flex-1 bg-white rounded-t-3xl">
+            <View className="flex-1 rounded-t-3xl">
             
                 {/* search bar */}
 
@@ -111,7 +112,7 @@ const ChatList = () => {
 
                                 (
                                     <Pressable onPress={navigateBack}>
-                                        <Text style={{ marginRight: 10 }} className="self-center text-2xl">←</Text>
+                                        <Text style={styles.inputText} className="self-center text-2xl">←</Text>
                                     </Pressable>
                                 )
 
@@ -123,9 +124,10 @@ const ChatList = () => {
                             }
                             
                             <TextInput
-                                className="flex-auto bg-gray-100 p-2 rounded-lg"
+                                className="flex-auto bg-white p-2 rounded-lg"
                                 placeholder="Search"
                                 value={searchText}
+                                style={styles.inputText}
                                 onChangeText={handleSearch}
                                 // onSubmitEditing={showResults}
                             />
@@ -143,13 +145,13 @@ const ChatList = () => {
                                 
                                 return (
                                     <Pressable 
-                                        className="flex-row item-centered p-4 hover:bg-sky-700 active:bg-slate-500" 
+                                        className="flex-row item-centered p-4 hover:bg-white active:bg-gray-300" 
                                         onPress={() => enterChat(item.name, item.id, user)}
                                     >
 
                                         <Image source={{ uri: item.profilePhoto }} className = "w-12 h-12 rounded-full mr-4" />
                                         <View className = "flex-1 self-center"> 
-                                            <Text className = "text-lg" >{item.name}</Text>
+                                            <Text style={styles.inputText} >{item.name}</Text>
                                         </View>
                                         
                                     </Pressable>
@@ -168,13 +170,13 @@ const ChatList = () => {
                                 
                                 return (
                                     <Pressable 
-                                        className="flex-row item-centered p-4 hover:bg-sky-700 active:bg-slate-500"
+                                        className="flex-row item-centered p-4 hover:bg-white active:bg-gray-500"
                                         onPress={() => enterChat(item.name, item.id, user)}
                                     >
 
                                         <Image source={{ uri: item.profilePhoto }} className = "w-12 h-12 rounded-full mr-4" />
                                         <View className = "flex-1 self-center"> 
-                                            <Text className = "text-lg" >{item.name}</Text>
+                                            <Text style={styles.inputText} >{item.name}</Text>
                                         </View>
                                         
                                     </Pressable>
@@ -224,16 +226,22 @@ const ChatList = () => {
 };
 
 const styles = StyleSheet.create({
+    tinyLogo: {
+        width: 30,
+        height: 30,
+      },
     imagebackground:{
         height:'100%',
       resizeMode:'cover',
       },
       tinyLogo: {
-        width: 50,
-        height: 50,
+        width: 40,
+        height: 40,
         marginTop:35,
+        marginRight:10,
       },
     inputText:{
+      marginTop:5,
       height:50,
       color:'black',
       fontFamily:'Pangolin_400Regular',
