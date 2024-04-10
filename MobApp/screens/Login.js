@@ -143,7 +143,7 @@ export default function Login(props) {
 const styles = StyleSheet.create({
     container:{
         flex:1,
-        paddingTop:'40%',
+        paddingTop:'30%',
         position:'relative',
     },
     imagebackground:{
@@ -188,7 +188,6 @@ const styles = StyleSheet.create({
         fontSize:50,
         color:'#116fdf',
         marginBottom:20,
-        marginTop:10,
     },
     inputView:{
         width:"80%",
@@ -206,6 +205,7 @@ const styles = StyleSheet.create({
         flex:1,
         height:50,
         color:"black",
+        marginBottom:2,
         fontFamily:'Pangolin_400Regular',
     },
     LoginBtn:{
@@ -213,7 +213,7 @@ const styles = StyleSheet.create({
         backgroundColor:"#116fdf",
         alignItems:"center",
         justifyContent:"center",
-        padding:10,
+        padding:2,
         borderRadius:20,
         marginBottom:10,
     },
@@ -222,15 +222,18 @@ const styles = StyleSheet.create({
         fontSize:11,
         marginTop:8,
         fontFamily:'Pangolin_400Regular',
+        marginBottom:1,
     },
     forgot:{
         color:"black",
         fontSize:11,
         fontFamily:'Pangolin_400Regular',
+        marginBottom:1,
     },
     loginText:{
         color:"white",
         fontSize:25,
+        marginBottom:5,
         alignItems:'center',
         justifyContent:'center',
         fontFamily:'Pangolin_400Regular',  

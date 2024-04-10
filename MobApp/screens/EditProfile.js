@@ -1,9 +1,11 @@
 import { SafeAreaView, View, Image, Pressable, TextInput, Text, ScrollView, ImageBackground, StyleSheet} from 'react-native'
 import React, { useState } from 'react';
 import { contactImage} from '../assets'
+import Icon from 'react-native-vector-icons/FontAwesome';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useFonts, Pangolin_400Regular } from '@expo-google-fonts/pangolin';
 import {icon_suhrud, background} from '../assets';
+import { useNavigation } from '@react-navigation/native';
 
 const EditProfile = () => {
 
@@ -30,27 +32,39 @@ const EditProfile = () => {
         setMode(modeToShow);
     }
 
+    const navigation=useNavigation();
+
+    const navigateback = () => {
+        navigation.navigate("Settings");
+    }
+
     return (
         <ImageBackground source={background} style={styles.imagebackground}>
-        <SafeAreaView className="bg-white flex-1 relative">
+        <View className='flex-row mt-10 p-2 justify-between'>
+            <Icon name="angle-left" size={30} onPress={navigateback}/>
+            <Image  style={styles.tinyLogo} source={icon_suhrud}/>
+        </View>
+        <SafeAreaView className=" flex-1 justify-center items-center relative">
+        
         {/* User profile picture */}
-        <View className=" mt-10 ml-28 justify-center bg-[#DDD4D4] w-[100px] h-[100px] rounded-full">
+        <View className="  justify-center  w-[100px] h-[100px] rounded-full">
+            
             <Image
             source={contactImage}
             className="w-[100px] h-[100px] object-cover rounded-full"
             />
         </View>
         {/**User Information */}{/**Add validations for age and other fields */}
-            <View className="flex-1 bg-white relative mt-10 ml-4">
+            <View className="flex-1 relative mt-5 ml-4">
             <ScrollView>
             {/**Name */}
                 <View>
-                    <Text style={{ fontFamily: 'System' }} className="font-bold text-lg text-black ml-5">
+                    <Text style={{ fontFamily: 'Pangolin_400Regular', fontSize:20}} className=" text-black ml-5">
                         Name
                     </Text>
-                    <View  className="mt-2 ml-5 mb-5 justify-center border-2 w-[258px] h-[44px] border-[#544C4C] border-opacity-10 rounded-lg">
+                    <View  className="mt-2 ml-5 mb-5 justify-center bg-white opacity-80 w-120 h-[44px] rounded-lg">
                         <TextInput 
-                            style={{ fontFamily: 'System' }} 
+                            style={{ fontFamily: 'Pangolin_400Regular' }} 
                             className="ml-2 text-lg text-[#544C4C] "
                             onChangeText={onChangeName}
                             value={name}                   
@@ -59,12 +73,12 @@ const EditProfile = () => {
                 </View>
             {/**Email */}
                 <View>
-                    <Text style={{ fontFamily: 'System' }} className="font-bold text-lg text-black ml-5">
+                    <Text style={{ fontFamily: 'Pangolin_400Regular', fontSize:20 }} className=" text-black ml-5">
                         Email
                     </Text>
-                    <View  className="mt-2 ml-5 mb-5 justify-center border-2 w-[258px] h-[44px] border-[#544C4C] border-opacity-10 rounded-lg">
+                    <View  className="mt-2 ml-5 mb-5 justify-center  w-[258px] h-[44px]  bg-white opacity-80 rounded-lg">
                         <TextInput 
-                            style={{ fontFamily: 'System' }} 
+                            style={{ fontFamily: 'Pangolin_400Regular' }} 
                             className="ml-2 text-lg text-[#544C4C] "
                             onChangeText={onChangeEmail}
                             value={email}   
@@ -74,12 +88,12 @@ const EditProfile = () => {
                 </View>
             {/**Address */}
                 <View>
-                    <Text style={{ fontFamily: 'System' }} className="font-bold text-lg text-black ml-5">
+                    <Text style={{ fontFamily: 'Pangolin_400Regular', fontSize:20 }} className=" text-black ml-5">
                         Address
                     </Text>
-                    <View  className="mt-2 ml-5 mb-5 justify-center border-2 w-[258px] h-[44px] border-[#544C4C] border-opacity-10 rounded-lg">
+                    <View  className="mt-2 ml-5 mb-5 justify-center  w-[258px] h-[44px]  bg-white opacity-80 rounded-lg">
                         <TextInput 
-                            style={{ fontFamily: 'System' }} 
+                            style={{ fontFamily: 'Pangolin_400Regular' }} 
                             className="ml-2 text-lg text-[#544C4C] "
                             onChangeText={onChangeAddress}
                             value={address}                  
@@ -89,12 +103,12 @@ const EditProfile = () => {
 
             {/**Phone number */}
                 <View>
-                    <Text style={{ fontFamily: 'System' }} className="font-bold text-lg text-black ml-5">
+                    <Text style={{ fontFamily: 'Pangolin_400Regular', fontSize:20 }} className=" text-black ml-5">
                         Phone Number
                     </Text>
-                    <View  className="mt-2 ml-5 mb-5 justify-center border-2 w-[258px] h-[44px] border-[#544C4C] border-opacity-10 rounded-lg">
+                    <View  className="mt-2 ml-5 mb-5 justify-center  w-[258px] h-[44px]  bg-white opacity-80 rounded-lg">
                         <TextInput 
-                            style={{ fontFamily: 'System' }} 
+                            style={{ fontFamily: 'Pangolin_400Regular' }} 
                             className="ml-2 text-lg text-[#544C4C] "
                             onChangeText={onChangePhone}
                             value={phone}  
@@ -105,13 +119,13 @@ const EditProfile = () => {
             
             {/**DOB */}
                 <View>
-                    <Text style={{ fontFamily: 'System' }} className="font-bold text-lg text-black ml-5">
+                    <Text style={{ fontFamily: 'Pangolin_400Regular', fontSize:20 }} className=" text-black ml-5">
                         Date of Birth
                     </Text>
-                    <View className="mt-2 ml-5 mb-5 justify-center border-2 w-[258px] h-[44px] border-[#544C4C] border-opacity-10 rounded-lg" >
+                    <View className="mt-2 ml-5 justify-center  w-[258px] h-[44px]  bg-white opacity-80 rounded-lg" >
                         <Pressable onPress={() => showMode("date")}>
                             <TextInput
-                                className="text-lg text-[#544C4C] "
+                                className="text-lg ml-2 text-[#544C4C] "
                                 value={dob.toDateString()} // Display selected date in the input field
                                 editable={false} // Make the input field non-editable
                             />
@@ -131,12 +145,10 @@ const EditProfile = () => {
             </View>
         {/**Save Button */}
         <Pressable onPress={() => console.log('Simple Button pressed')}>
-            <View className="mt-2 mb-4 ml-16 w-[221px] h-[41px] items-center justify-center rounded-lg bg-[#4DD8CF]">
+            <View className=" mb-20 ml-10 w-[150px] h-[41px] items-center justify-center rounded-lg bg-[#116fdf]">
                 <Text className=" text-white font-bold text-xl">Save Changes</Text>
             </View>
         </Pressable>       
-        {/**Navigation bar */}
-        {/* <NavigationBar /> */}
         </SafeAreaView>
         </ImageBackground>
     )
@@ -148,9 +160,8 @@ const styles = StyleSheet.create({
       resizeMode:'cover',
       },
       tinyLogo: {
-        width: 50,
-        height: 50,
-        marginTop:35,
+        width: 40,
+        height: 40,
       },
     inputText:{
       height:50,
