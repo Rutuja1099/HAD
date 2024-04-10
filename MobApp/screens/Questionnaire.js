@@ -241,7 +241,7 @@ const Questionnaire = () => {
     
     
     return (
-        <SafeAreaView className = "flex-1 bg-white p-2 py-0 relative">
+        <SafeAreaView className = "flex-1 bg-white p-2 pt-8 relative">
             <SafeAreaView className = "justify-center items-left m-2 border-b border-spacing-8 border-dashed pb-2">
                 <View className="flex-row px-2 space-x-4 mt-2">
                     <Icon onPress={() => navigateBack()} name="angle-left" size={25}/>
@@ -255,8 +255,8 @@ const Questionnaire = () => {
                 </Text>
             </SafeAreaView>
             
-            <View className = "items-left container my-8 px-4 relative flex-grow">
-                <h1 className="text-2xl font-bold mb-4">{question.question}</h1>
+            <View className = "items-left container mt-3 px-4 relative flex-grow">
+                <Text className="text-2xl font-bold mb-4">{question.question}</Text>
                     <View className="flex flex-col space-y-4 h-full relative">
                         {/* Render options here */}
                         {/* For example, you can map through options and display them */}
@@ -291,7 +291,7 @@ const Questionnaire = () => {
                         </View>
                        
                     </View>
-                    <View className="absolute bottom-10 left-0 right-0 p-4"> 
+                    <View className="absolute bottom-56 left-0 right-0 p-4"> 
                     <TouchableOpacity onPress={nextQuestion} className={`bg-blue-500 px-0 py-4 rounded-md w-full ${selectedOption === null ? 'opacity-50' : ''}`} disabled={selectedOption === null}>
                         <Text className="text-white text-center font-bold">{count === questions.length - 1 ? 'Next' : 'Continue'}
                         </Text>

@@ -30,7 +30,7 @@ const Dashboard = () => {
             <ImageBackground source={background} style={styles.imagebackground}>
             
             <ScrollView contentContainerStyle={styles.containerContent} style={styles.container}>
-                    <View className = "flex flex-row p-2  justify-between">
+                    <View className = "flex flex-row p-2 justify-between mt-4">
                         <View className='flex flex-row justify-items-start'>
                         <Image  style={styles.tinyLogo} source={icon_suhrud}/>
                         <View className='flex flex-col ml-2'>
