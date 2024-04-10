@@ -1,22 +1,21 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { View, Text, StyleSheet, TextInput, ScrollView, SafeAreaView, TouchableOpacity, Button, FlatList,Pressable} from 'react-native';
+import { View, Text, StyleSheet, TextInput, ScrollView, SafeAreaView, Image, ImageBackground, FlatList,Pressable} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
 import DoctorAppointmentBox from '../components/DoctorAppointmentBox';
 import webServerUrl from '../configurations/WebServer';
 import HttpService from '../services/HttpService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useFonts, Pangolin_400Regular } from '@expo-google-fonts/pangolin';
+import {icon_suhrud, background} from '../assets';
 
 const Appointment = ({route}) => {
     
     const [searchText, setSearchText] = useState('');
     const [searchResults, setSearchResults] = useState([]);
-    // const [allDoctorInfo, setAllDoctorInfo] = useState([
-    //     { id: 1, name: 'Dr. Saurabh', profilePhoto: 'assets/doctor.png', Days:['Mon','Tue','Wed','Thu','Fri','Sat','Sun']},
-    //     { id: 2, name: 'Dr. Sauvay', profilePhoto: 'assets/doctor.png' , Days:['Mon','Tue','Wed','Thu','Fri']},
-    //     { id: 3, name: 'Dr. Asmita', profilePhoto: 'assets/doctor.png' , Days:['Mon','Wed','Thu','Fri','Sat']},
-    //     { id: 4, name: 'Dr. Asthitha', profilePhoto: 'assets/doctor.png' , Days:['Mon','Tue','Sat','Sun']},
-    // ]);
+    let [fontsLoaded] = useFonts({
+        Pangolin_400Regular,
+    });
 
     const [allDoctorInfo, setAllDoctorInfo] = useState([]);
 
@@ -117,7 +116,8 @@ const Appointment = ({route}) => {
 
     const scrollViewRef = useRef(); 
 
-    return(    
+    return(   
+    <ImageBackground source={background} style={styles.imagebackground}> 
     <SafeAreaView className="flex-1">
         <SafeAreaView className = "m-2 border-b border-spacing-8 border-dashed pb-2 px-2 mt-2 flex-row justify-between">
             
@@ -204,6 +204,34 @@ const Appointment = ({route}) => {
 
         </SafeAreaView>
     </SafeAreaView>
+    </ImageBackground>
     )
 }
+
+const styles = StyleSheet.create({
+    imagebackground:{
+        height:'100%',
+      resizeMode:'cover',
+      },
+      tinyLogo: {
+        width: 50,
+        height: 50,
+        marginTop:35,
+      },
+    inputText:{
+      height:50,
+      color:'black',
+      fontFamily:'Pangolin_400Regular',
+    },
+    title:{
+        marginTop:20,
+        fontFamily:'Pangolin_400Regular',
+        fontSize:30,
+    },
+    pickerText:{
+    fontFamily:'Pangolin_400Regular',
+    fontSize:20,
+    },
+    
+  })
 export default Appointment;

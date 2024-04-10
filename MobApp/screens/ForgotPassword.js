@@ -1,12 +1,15 @@
-import { Pressable, ScrollView, TextInput, StyleSheet, Text, View } from 'react-native'
+import { Pressable, ScrollView, TextInput, StyleSheet, Text, View , Image, ImageBackground} from 'react-native'
 import React, {useState} from 'react'
 import { StatusBar } from 'expo-status-bar';
 import webServerUrl from '../configurations/WebServer';
 import HttpService from '../services/HttpService';
+import { useFonts, Pangolin_400Regular } from '@expo-google-fonts/pangolin';
+import {icon_suhrud, background} from '../assets';
 
 export default function ForgotPassword(props) {
 
   const [email, setEmail] = useState('');
+  let [fontsLoaded] = useFonts({ Pangolin_400Regular,});
 
   const onPressLogin = async() => {
     console.log(email);
@@ -40,6 +43,7 @@ export default function ForgotPassword(props) {
   }
 
   return (
+    <ImageBackground source={background} style={styles.imagebackground}>
     <ScrollView contentContainerStyle={styles.containerContent}
       style={styles.container}>
       <StatusBar style='auto'/>
@@ -67,6 +71,7 @@ export default function ForgotPassword(props) {
         </Pressable>
       </ScrollView>
     </ScrollView>
+    </ImageBackground>
   )
 }
 

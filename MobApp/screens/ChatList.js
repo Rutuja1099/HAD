@@ -1,11 +1,15 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { View, Text, TextInput, ScrollView, TouchableOpacity, FlatList, Image, Modal, Pressable} from 'react-native';
+import { View, Text, TextInput, ScrollView, FlatList, Image, Modal, Pressable, ImageBackground, StyleSheet} from 'react-native';
 import { useNavigation } from '@react-navigation/native'
 
 import NavigationBar from "../components/NavigationBar";
 import { Icon } from "react-native-vector-icons/FontAwesome";
+import { useFonts, Pangolin_400Regular } from '@expo-google-fonts/pangolin';
+import {icon_suhrud, background} from '../assets';
 
 const ChatList = () => {
+
+    let [fontsLoaded] = useFonts({ Pangolin_400Regular,});
 
     //the text in the search bar
     const [searchText, setSearchText] = useState('');
@@ -84,6 +88,7 @@ const ChatList = () => {
 
 
     return (
+        <ImageBackground source={background} style={styles.imagebackground}>
         <View className="flex-1 bg-rose-100 p-2 py-0">
 
             {/* top view box with all conversations name*/}
@@ -214,7 +219,35 @@ const ChatList = () => {
             <NavigationBar />
 
         </View>
+        </ImageBackground>
     );
 };
+
+const styles = StyleSheet.create({
+    imagebackground:{
+        height:'100%',
+      resizeMode:'cover',
+      },
+      tinyLogo: {
+        width: 50,
+        height: 50,
+        marginTop:35,
+      },
+    inputText:{
+      height:50,
+      color:'black',
+      fontFamily:'Pangolin_400Regular',
+    },
+    title:{
+        marginTop:20,
+        fontFamily:'Pangolin_400Regular',
+        fontSize:30,
+    },
+    pickerText:{
+    fontFamily:'Pangolin_400Regular',
+    fontSize:20,
+    },
+    
+  })
 
 export default ChatList;

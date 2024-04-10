@@ -1,9 +1,13 @@
-import { SafeAreaView, View, Image, Pressable, TextInput, Text, ScrollView} from 'react-native'
+import { SafeAreaView, View, Image, Pressable, TextInput, Text, ScrollView, ImageBackground, StyleSheet} from 'react-native'
 import React, { useState } from 'react';
 import { contactImage} from '../assets'
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { useFonts, Pangolin_400Regular } from '@expo-google-fonts/pangolin';
+import {icon_suhrud, background} from '../assets';
 
 const EditProfile = () => {
+
+    let [fontsLoaded] = useFonts({ Pangolin_400Regular,});
 
     const [name, onChangeName] = useState('Rutuja');
     const [email, onChangeEmail] = useState('rutuja@iiitb.ac.in');
@@ -27,6 +31,7 @@ const EditProfile = () => {
     }
 
     return (
+        <ImageBackground source={background} style={styles.imagebackground}>
         <SafeAreaView className="bg-white flex-1 relative">
         {/* User profile picture */}
         <View className=" mt-10 ml-28 justify-center bg-[#DDD4D4] w-[100px] h-[100px] rounded-full">
@@ -133,7 +138,34 @@ const EditProfile = () => {
         {/**Navigation bar */}
         {/* <NavigationBar /> */}
         </SafeAreaView>
+        </ImageBackground>
     )
 }
 
+const styles = StyleSheet.create({
+    imagebackground:{
+        height:'100%',
+      resizeMode:'cover',
+      },
+      tinyLogo: {
+        width: 50,
+        height: 50,
+        marginTop:35,
+      },
+    inputText:{
+      height:50,
+      color:'black',
+      fontFamily:'Pangolin_400Regular',
+    },
+    title:{
+        marginTop:20,
+        fontFamily:'Pangolin_400Regular',
+        fontSize:30,
+    },
+    pickerText:{
+    fontFamily:'Pangolin_400Regular',
+    fontSize:20,
+    },
+    
+  })
 export default EditProfile
