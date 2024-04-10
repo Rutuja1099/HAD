@@ -256,7 +256,7 @@ const Questionnaire = () => {
             </SafeAreaView>
             
             <View className = "items-left container my-8 px-4 relative flex-grow">
-                <h1 className="text-2xl font-bold mb-4">{question.question}</h1>
+                <Text className="text-2xl font-bold mb-4">{question.question}</Text>
                     <View className="flex flex-col space-y-4 h-full relative">
                         {/* Render options here */}
                         {/* For example, you can map through options and display them */}

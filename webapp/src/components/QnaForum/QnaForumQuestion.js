@@ -63,7 +63,7 @@ const QnaForumQuestion = () => {
     const [selectedAnswerId, setSelectedAnswerId] = useState();
     const [selectedAnswer, setSelectedAnswer] = useState("");
 
-    const [role, setRole] = useState("");
+    const [role, setRole] = useState(false);
 
 
     const toggleDropdown = (answerId) => {
@@ -293,7 +293,7 @@ const QnaForumQuestion = () => {
         getAllAnswers(questioniD);
 
         const sessionData = JSON.parse(window.localStorage.getItem('Data'));
-        setRole(sessionData.role);
+        setRole(sessionData.isModerator);
     }, []);
 
     const openAnswer = (question, questionId) => {
@@ -331,7 +331,7 @@ const QnaForumQuestion = () => {
 
                                             )}
 
-                                            {role === "moderator" && 
+                                            {role === true && 
                                             (
                                             <>
                                                 <div className="relative">
@@ -424,7 +424,7 @@ const QnaForumQuestion = () => {
 
                                                     )}
                                                     
-                                                    {role === "moderator" && 
+                                                    {role === true && 
                                                     (
                                                     <>
                                                         <div className="relative">
