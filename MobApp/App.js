@@ -2,6 +2,7 @@ import { NativeWindStyleSheet } from "nativewind";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+
 //components
 import Settings from './screens/Settings';
 import Profile from './screens/Profile'
@@ -35,6 +36,7 @@ NativeWindStyleSheet.setOutput({
 
 const Stack = createNativeStackNavigator();
 
+
 export default function App() {
   return (
     
@@ -43,9 +45,7 @@ export default function App() {
       {/* <Stack.Navigator>
       <Stack.Screen name="Dashboard" component={Dashboard} /> */}
 
-        
-
-      <Stack.Navigator initialRouteName="Login">
+      <Stack.Navigator initialRouteName="Login" screenOptions={{headerShown: false,}}>
       
         <Stack.Screen name="Login" component={Login}/>
         <Stack.Screen name="SignUp" component={SignUp}/>
