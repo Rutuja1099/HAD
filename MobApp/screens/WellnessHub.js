@@ -134,7 +134,6 @@ const WellnessHub = () => {
 
   const postQuestion = async () => {
 
-    console.log("viviviivi", newMessage)
     const loginURL = webServerUrl+`/suhrud/forum/postQuestion?question=${newMessage}`;
 
         const method='POST';
