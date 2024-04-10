@@ -2,29 +2,187 @@ import { View, SafeAreaView, Text, Pressable, ScrollView, TextInput } from 'reac
 import React, { useState, useRef, useEffect } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import webServerUrl from '../configurations/WebServer';
+import HttpService from '../services/HttpService';
+
 const WellnessHub = () => {
   const [selectedFilter, setSelectedFilter] = useState("All");
   const filters = ["All", "My Queries"];
   const [newMessage, setNewMessage] = useState('');
 
   //content for all filter : This should be populated from DB result
-  const [allFilterContent,setAllFilterContent] = useState([
-    {questionId:1,question:"How to boost morale", answers:'3 replies', questionTimestamp:'2024-02-11T12:11:46.000+05:30'},
-    {questionId:2, question:"How to deal with depression", answers:'2 replies', questionTimestamp:'2023-03-21T12:11:46.000+05:30'},
-    {questionId:2, question:"How to deal withhhhhhhhhhhh anxietyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy", answers:'2 replies',questionTimestamp:'2024-03-21T12:11:46.000+05:30'}
-  ]);  
+  // const [allFilterContent,setAllFilterContent] = useState([
+  //   {questionId:1,question:"How to boost morale", answers:'3 replies', questionTimestamp:'2024-02-11T12:11:46.000+05:30'},
+  //   {questionId:2, question:"How to deal with depression", answers:'2 replies', questionTimestamp:'2023-03-21T12:11:46.000+05:30'},
+  //   {questionId:2, question:"How to deal withhhhhhhhhhhh anxietyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy", answers:'2 replies',questionTimestamp:'2024-03-21T12:11:46.000+05:30'}
+  // ]);  
 
+  const [allFilterContent, setAllFilterContent] = useState([]);
+  const [myQueriesContent, setMyQueriesContent] = useState([]);
   //content for my queries filter : This should be populated from DB result
-  const [myQueriesContent,setMyQueriesContent] = useState([
-    {questionId:3,question:"How to lead a healthy lifestyle", answers:'2 replies',questionTimestamp:'2024-03-21T12:47:00.000+05:30'}
-  ]);
+  // const [myQueriesContent,setMyQueriesContent] = useState([
+  //   {questionId:3,question:"How to lead a healthy lifestyle", answers:'2 replies',questionTimestamp:'2024-03-21T12:47:00.000+05:30'}
+  // ]);
+
 
   const scrollViewRef = useRef(null);
+
+
+  const getAllQuestions = async () => {
+
+    const loginURL = webServerUrl+"/suhrud/forum/getAllQuestion";
+
+        const method='GET';
+
+        const data=null;
+        
+        try{
+
+        const sessionData = await AsyncStorage.getItem('patientData');
+        const parsedSessionData = JSON.parse(sessionData);
+
+        const bearerToken = parsedSessionData.token;
+
+        console.log("bearer token: ", bearerToken);
+
+        const headers = {
+            'Authorization': `Bearer ${bearerToken}`, // Include your token here
+            'Content-Type': 'application/json', // Specify the content type if needed
+        };
+        
+        const response=await HttpService(method,loginURL,data, headers);
+        console.log(response.status)
+        
+        if(response.status===200){
+                
+            console.log("Successful");
+            console.log(response.data);
+
+            setAllFilterContent(response.data);
+            
+            try{
+                console.log("from storage");
+
+            }catch(error){
+                console.log("error while saving data");
+                console.log(error);
+            }
+        }
+        
+        else{
+            alert("error1");
+
+        }
+        }catch(error){
+            alert(error.data);
+            console.log(error);
+        }
+  };
+
+  const getMyQuestions = async () => {
+    
+    const loginURL = webServerUrl+"/suhrud/forum/getMyQuestions";
+
+        const method='GET';
+
+        const data=null;
+        
+        try{
+
+        const sessionData = await AsyncStorage.getItem('patientData');
+        const parsedSessionData = JSON.parse(sessionData);
+
+        const bearerToken = parsedSessionData.token;
+
+        console.log("bearer token: ", bearerToken);
+
+        const headers = {
+            'Authorization': `Bearer ${bearerToken}`, // Include your token here
+            'Content-Type': 'application/json', // Specify the content type if needed
+        };
+        
+        const response=await HttpService(method,loginURL,data, headers);
+        console.log(response.status)
+        
+        if(response.status===200){
+                
+            console.log("Successful");
+            console.log(response.data);
+
+            setMyQueriesContent(response.data);
+            
+            try{
+                console.log("from storage");
+
+            }catch(error){
+                console.log("error while saving data");
+                console.log(error);
+            }
+        }
+        
+        else{
+            alert("error1");
+
+        }
+        }catch(error){
+            alert(error.data);
+            console.log(error);
+        }
+
+  };
+
+  const postQuestion = async () => {
+
+    console.log("viviviivi", newMessage)
+    const loginURL = webServerUrl+`/suhrud/forum/postQuestion?question=${newMessage}`;
+
+        const method='POST';
+
+        const data = newMessage;
+            
+        try{
+
+          const sessionData = await AsyncStorage.getItem('patientData');
+          const parsedSessionData = JSON.parse(sessionData);
+  
+          const bearerToken = parsedSessionData.token;
+
+            console.log("bearer token: ", bearerToken);
+
+            const headers = {
+                'Authorization': `Bearer ${bearerToken}`, // Include your token here
+                'Content-Type': 'text/plain', // Specify the content type if needed
+            };
+            
+            const response=await HttpService(method, loginURL, data, headers);
+            console.log(response.status)
+            
+            if(response.status===200){
+                    
+                console.log("Successful");
+                console.log(response.data);
+            }
+            
+            else{
+                alert("reponse not 200");
+            }
+        }
+        catch(error){
+            alert(error.data);
+            console.log(error);
+        }
+  };
 
   useEffect(() => {
     // Scroll to the bottom when messages change
     scrollViewRef.current.scrollToEnd({ animated: false });
 }, [newMessage]);
+
+  useEffect(() => {
+    getAllQuestions();
+    getMyQuestions();
+  },[]);
 
   // Function to render questions based on selected filter
   const renderQuestions = () =>{
@@ -55,7 +213,7 @@ const WellnessHub = () => {
             color='#4DD8CF'
           />
           <View className='flex-col ml-4' style={{ marginLeft: 10, maxWidth: '70%'}}>
-            <Text className="mt-2 mb-2 justify-center text-sm font-semibold text-[#573926] self-start">{item.question}</Text>
+            <Text className="mt-2 mb-2 justify-center text-sm font-semibold text-[#573926] self-start">{item.queryContent}</Text>
             <View className='flex-row mb-2 mt-1'>
                 <Icon name='envelope-o' color='gray' size={20} />
                 <Text className="ml-1">{item.answers}</Text>
@@ -123,6 +281,11 @@ const WellnessHub = () => {
     setAllFilterContent([...allFilterContent, newQuestion]);
     setMyQueriesContent([...myQueriesContent, newQuestion]);
     setNewMessage('');
+
+
+    postQuestion();
+
+
 };
 
   return (
@@ -158,7 +321,7 @@ const WellnessHub = () => {
           placeholder="Type your query..."
           value={newMessage}
           onChangeText={text => setNewMessage(text)}
-          onSubmitEditing={handleSend}
+          onSubmitEditing={() => handleSend()}
         />          
         <Icon
           name="send" // Use the send icon from FontAwesome

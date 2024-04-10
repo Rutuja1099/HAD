@@ -48,7 +48,7 @@ export default function Login(props) {
                     console.log("error while saving data");
                     console.log(error);
                 }
-                props.navigation.navigate("Questionnaire");
+                props.navigation.navigate("Dashboard");
             }
             else{
                 alert(response.data.message);
