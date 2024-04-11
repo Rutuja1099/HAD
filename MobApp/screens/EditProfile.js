@@ -1,6 +1,6 @@
 import { SafeAreaView, View, Image, Pressable, TextInput, Text, ScrollView, ImageBackground, StyleSheet} from 'react-native'
 import React, { useState } from 'react';
-import { contactImage} from '../assets'
+import { contactImage, pencilImage} from '../assets'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useFonts, Pangolin_400Regular } from '@expo-google-fonts/pangolin';
@@ -10,7 +10,7 @@ import { useNavigation } from '@react-navigation/native';
 const EditProfile = () => {
 
     let [fontsLoaded] = useFonts({ Pangolin_400Regular,});
-
+    const [editable, setEditable] = useState(false);
     const [name, onChangeName] = useState('Rutuja');
     const [email, onChangeEmail] = useState('rutuja@iiitb.ac.in');
     const [address, onChangeAddress] = useState('IIIT Bangalore');
@@ -27,9 +27,16 @@ const EditProfile = () => {
         }
     }
 
+    const onEdit = () =>{
+        setEditable(true);
+    }
+
     const showMode = (modeToShow) => {
-        setShow(true);
-        setMode(modeToShow);
+        if(editable)
+        {
+            setShow(true);
+            setMode(modeToShow);
+        }
     }
 
     const navigation=useNavigation();
@@ -44,15 +51,28 @@ const EditProfile = () => {
             <Icon name="angle-left" size={30} onPress={navigateback}/>
             <Image  style={styles.tinyLogo} source={icon_suhrud}/>
         </View>
-        <SafeAreaView className=" flex-1 justify-center items-center relative">
+        <SafeAreaView className=" flex-1 justify-center items-stretch relative">
         
         {/* User profile picture */}
-        <View className="  justify-center  w-[100px] h-[100px] rounded-full">
+        <View className = "flex flex-row items-end justify-end">
+        
+        <View className="justify-center  w-[100px] h-[100px] rounded-full mr-28">
             
             <Image
             source={contactImage}
             className="w-[100px] h-[100px] object-cover rounded-full"
             />
+        </View>
+
+        <View>
+        <Pressable onPress={onEdit} className="bottom-2 right-5">
+                <Image
+                    source={pencilImage}
+                    className="w-10 h-10" // Adjust size as needed
+                />
+        </Pressable>
+        </View>
+        
         </View>
         {/**User Information */}{/**Add validations for age and other fields */}
             <View className="flex-1 relative mt-5 ml-4">
@@ -62,8 +82,9 @@ const EditProfile = () => {
                     <Text style={{ fontFamily: 'Pangolin_400Regular', fontSize:20}} className=" text-black ml-5">
                         Name
                     </Text>
-                    <View  className="mt-2 ml-5 mb-5 justify-center bg-white opacity-80 w-120 h-[44px] rounded-lg">
+                    <View  className="mt-2 ml-5 mb-5 justify-center bg-white opacity-80 w-80 h-[44px] rounded-lg">
                         <TextInput 
+                            readOnly={!editable}
                             style={{ fontFamily: 'Pangolin_400Regular' }} 
                             className="ml-2 text-lg text-[#544C4C] "
                             onChangeText={onChangeName}
@@ -76,8 +97,9 @@ const EditProfile = () => {
                     <Text style={{ fontFamily: 'Pangolin_400Regular', fontSize:20 }} className=" text-black ml-5">
                         Email
                     </Text>
-                    <View  className="mt-2 ml-5 mb-5 justify-center  w-[258px] h-[44px]  bg-white opacity-80 rounded-lg">
+                    <View  className="mt-2 ml-5 mb-5 justify-center  w-80 h-[44px]  bg-white opacity-80 rounded-lg">
                         <TextInput 
+                            readOnly={!editable}
                             style={{ fontFamily: 'Pangolin_400Regular' }} 
                             className="ml-2 text-lg text-[#544C4C] "
                             onChangeText={onChangeEmail}
@@ -91,8 +113,9 @@ const EditProfile = () => {
                     <Text style={{ fontFamily: 'Pangolin_400Regular', fontSize:20 }} className=" text-black ml-5">
                         Address
                     </Text>
-                    <View  className="mt-2 ml-5 mb-5 justify-center  w-[258px] h-[44px]  bg-white opacity-80 rounded-lg">
+                    <View  className="mt-2 ml-5 mb-5 justify-center  w-80 h-[44px]  bg-white opacity-80 rounded-lg">
                         <TextInput 
+                            readOnly={!editable}
                             style={{ fontFamily: 'Pangolin_400Regular' }} 
                             className="ml-2 text-lg text-[#544C4C] "
                             onChangeText={onChangeAddress}
@@ -106,8 +129,9 @@ const EditProfile = () => {
                     <Text style={{ fontFamily: 'Pangolin_400Regular', fontSize:20 }} className=" text-black ml-5">
                         Phone Number
                     </Text>
-                    <View  className="mt-2 ml-5 mb-5 justify-center  w-[258px] h-[44px]  bg-white opacity-80 rounded-lg">
+                    <View  className="mt-2 ml-5 mb-5 justify-center  w-80 h-[44px]  bg-white opacity-80 rounded-lg">
                         <TextInput 
+                            readOnly={!editable}
                             style={{ fontFamily: 'Pangolin_400Regular' }} 
                             className="ml-2 text-lg text-[#544C4C] "
                             onChangeText={onChangePhone}
@@ -122,9 +146,10 @@ const EditProfile = () => {
                     <Text style={{ fontFamily: 'Pangolin_400Regular', fontSize:20 }} className=" text-black ml-5">
                         Date of Birth
                     </Text>
-                    <View className="mt-2 ml-5 justify-center  w-[258px] h-[44px]  bg-white opacity-80 rounded-lg" >
+                    <View className="mt-2 ml-5 justify-center  w-80 h-[44px]  bg-white opacity-80 rounded-lg" >
                         <Pressable onPress={() => showMode("date")}>
                             <TextInput
+                                readOnly={!editable}
                                 className="text-lg ml-2 text-[#544C4C] "
                                 value={dob.toDateString()} // Display selected date in the input field
                                 editable={false} // Make the input field non-editable
@@ -141,14 +166,17 @@ const EditProfile = () => {
                             )}
                     </View>
                 </View>
+                
             </ScrollView>
             </View>
         {/**Save Button */}
+        <View className="flex justify-center items-center">
         <Pressable onPress={() => console.log('Simple Button pressed')}>
-            <View className=" mb-20 ml-10 w-[150px] h-[41px] items-center justify-center rounded-lg bg-[#116fdf]">
+            <View className=" mb-20 ml-2 w-[150px] h-[41px] items-center justify-center rounded-lg bg-[#116fdf]">
                 <Text className=" text-white font-bold text-xl">Save Changes</Text>
             </View>
-        </Pressable>       
+        </Pressable> 
+        </View>      
         </SafeAreaView>
         </ImageBackground>
     )

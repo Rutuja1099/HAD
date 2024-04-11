@@ -5,7 +5,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 //components
 import Settings from './screens/Settings';
-import Profile from './screens/Profile'
 import Notifications from './screens/Notifications'
 import SecurityPrivacy from './screens/SecurityPrivacy'
 import EditProfile from './screens/EditProfile'
@@ -63,12 +62,12 @@ export default function App() {
         
         <Stack.Screen name="DoctorAppointmentDetail" component={DoctorAppointmentDetail} options={{headerShown: false,}}/>
         <Stack.Screen name="Settings" component={Settings} options={{headerShown: false,}}/>
-        <Stack.Screen name="Profile" component={Profile} options={{headerShown: false,}}/>
+        {/* <Stack.Screen name="Profile" component={Profile} options={{headerShown: false,}}/> */}
         <Stack.Screen name="Notifications" component={Notifications} options={{headerShown: false,}}/>
-        <Stack.Screen name="Security and Privacy" component={SecurityPrivacy} options={{headerShown: false,}}/>
+        <Stack.Screen name="SecurityPrivacy" component={SecurityPrivacy} options={{headerShown: false,}}/>
         <Stack.Screen name="Password Manager" component={PasswordManager} options={{headerShown: false,}}/>
         <Stack.Screen name="EditProfile" component={EditProfile} options={{headerShown: false,}}/>
-        <Stack.Screen name="Privacy Notice" component={PrivacyNotice} options={{headerShown: false,}}/>
+        <Stack.Screen name="PrivacyNotice" component={PrivacyNotice} options={{headerShown: false,}}/>
         <Stack.Screen 
           name="Chat" 
           component={Chat} 

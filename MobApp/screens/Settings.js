@@ -23,14 +23,14 @@ const Settings = () => {
             menuItemName: "Your profile",
             imageWidth: 35,
             imageHeight: 35,
-            navigateTo: "Profile"
+            navigateTo: "EditProfile"
         },
         {
             menuItemImage: securityImage,
             menuItemName: "Security and Privacy",
             imageWidth: 35,
             imageHeight: 30,
-            navigateTo: "Security and Privacy"
+            navigateTo: "SecurityPrivacy"
         },
         {
             menuItemImage: logoutImage,
