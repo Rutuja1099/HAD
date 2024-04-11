@@ -45,9 +45,9 @@ export default function App() {
       {/* <Stack.Navigator>
       <Stack.Screen name="Dashboard" component={Dashboard} /> */}
 
-      <Stack.Navigator initialRouteName="Login" screenOptions={{headerShown: false,}}>
+      <Stack.Navigator initialRouteName="Login">
       
-        <Stack.Screen name="Login" component={Login}/>
+        <Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
         <Stack.Screen name="SignUp" component={SignUp}/>
         <Stack.Screen name="ChangePassword" component={ChangePassword}/>
         <Stack.Screen name="ForgotPassword" component={ForgotPassword} />

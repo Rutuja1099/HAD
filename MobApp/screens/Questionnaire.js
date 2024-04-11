@@ -9,7 +9,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const Questionnaire = () => {
     
     const[count,setCount]= useState(0);
-    
+    const [color, setColor] = useState({
+        0:"bg-cyan-100",
+        1:"bg-orange-100",
+        2:"bg-lime-100",
+        3:"bg-violet-100",
+        4:"bg-fuchsia-100"
+    })
     const[questions,setQuestions]= useState([]);
     const[question, setQuestion] = useState({});
     const[userName,setUserName]= useState(null);
@@ -24,6 +30,7 @@ const Questionnaire = () => {
     ])
 
     const [selectedOptions, setSelectedOptions] = useState([]);
+
 
     
     // const [questions, setQuestions] = useState([
@@ -115,6 +122,8 @@ const Questionnaire = () => {
     const navigation=useNavigation();
    
     const nextQuestion = async () => {
+
+        console.log("colorrrrrrrrrrrrrr",color[count]);
 
         if (count < questions.length - 1) {
             setCount(count + 1);
@@ -241,7 +250,7 @@ const Questionnaire = () => {
     
     
     return (
-        <SafeAreaView className = "flex-1 bg-white p-2 pt-8 relative">
+        <SafeAreaView className = {`flex-1 bg-white p-2 pt-8 relative ${color[count]}`}>
             <SafeAreaView className = "justify-center items-left m-2 border-b border-spacing-8 border-dashed pb-2">
                 <View className="flex-row px-2 space-x-4 mt-2">
                     <Icon onPress={() => navigateBack()} name="angle-left" size={25}/>
@@ -292,14 +301,14 @@ const Questionnaire = () => {
                        
                     </View>
                     <View className="absolute bottom-56 left-0 right-0 p-4"> 
-                    <TouchableOpacity onPress={nextQuestion} className={`bg-blue-500 px-0 py-4 rounded-md w-full ${selectedOption === null ? 'opacity-50' : ''}`} disabled={selectedOption === null}>
-                        <Text className="text-white text-center font-bold">{count === questions.length - 1 ? 'Next' : 'Continue'}
-                        </Text>
-                    </TouchableOpacity>
+                        <TouchableOpacity onPress={nextQuestion} className={`bg-blue-500 px-0 py-4 rounded-md w-full ${selectedOption === null ? 'opacity-50' : ''}`} disabled={selectedOption === null}>
+                            <Text className="text-white text-center font-bold">{count === questions.length - 1 ? 'Next' : 'Continue'}
+                            </Text>
+                        </TouchableOpacity>
                     </View>
 
             </View>
-           
+            
 
         </SafeAreaView>
     )

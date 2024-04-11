@@ -128,7 +128,7 @@ const Dashboard = () => {
 
                     </View>
 
-            </View>
+            </ScrollView>
             </ImageBackground>
             </ScrollView>
             
