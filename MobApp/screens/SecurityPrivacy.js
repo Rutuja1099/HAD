@@ -19,7 +19,7 @@ const SecurityPrivacy = () => {
   return (
     <ImageBackground source={background} style={styles.imagebackground}>
     <SafeAreaView className="flex-1 relative">
-      <View className="flex flex-row mt-12 mx-5 items-center border-b-2 border-dashed pb-4">
+      <View className="flex flex-row mt-12 mx-5 items-center pb-4">
         <Icon name="angle-left" size={30} onPress={navigateback}/>
             
         <Text className = "font-bold text-lg ml-6 text-center" >Security and Privacy</Text>

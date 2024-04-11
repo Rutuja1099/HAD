@@ -122,7 +122,7 @@ const Appointment = ({route}) => {
         <SafeAreaView className = "m-2 border-b border-spacing-8 border-dashed pb-2 px-2 mt-14 flex-row justify-between">
             
             <View className="flex-row space-x-4">
-                <Icon name="angle-left" size={25}/>
+                {/* <Icon name="angle-left" size={25}/> */}
          
                 <Text className="flex text-xl font-semibold ml-2">
                     Suggested Doctors

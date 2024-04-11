@@ -89,10 +89,10 @@ const ChatList = () => {
 
     return (
         <ImageBackground source={background} style={styles.imagebackground}>
-        <View className="flex-1 p-2 py-0">
+        <View className="flex-1 py-0">
 
             {/* top view box with all conversations name*/}
-            <View className = " flex flex-row justify-center items-center ">
+            <View className = " flex flex-row justify-center items-center">
             <Image  style={styles.tinyLogo} source={icon_suhrud}/>
                 <Text style={styles.title}>
                     Chats

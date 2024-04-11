@@ -73,7 +73,7 @@ export default function App() {
           component={Chat} 
           // initialParams={{ doctorName: 'Dr. John', doctorId: 123 }}  
         />
-        <Stack.Screen name="Wellness Hub" component={WellnessHub} />       
+        <Stack.Screen name="Wellness Hub" component={WellnessHub} options={{headerShown: false,}}/>       
       
       </Stack.Navigator>
     </NavigationContainer>
