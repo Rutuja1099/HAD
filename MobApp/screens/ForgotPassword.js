@@ -47,6 +47,7 @@ export default function ForgotPassword(props) {
     <ScrollView contentContainerStyle={styles.containerContent}
       style={styles.container}>
       <StatusBar style='auto'/>
+      <Image  style={styles.tinyLogo} source={icon_suhrud}/>
       <Text style={styles.title}>Forgot Password</Text>
       <ScrollView contentContainerStyle={styles.logContent}
       style={styles.logbox}>
@@ -58,11 +59,13 @@ export default function ForgotPassword(props) {
               onChangeText={(text) => setEmail(text)}
           />
         </View>
+        <Text style={styles.inputText}> Please enter registered email id</Text>
+  
         <Pressable
             onPress={onPressLogin}
             style={({pressed})=>[styles.LoginBtn,
                 {
-                backgroundColor: pressed ? '#2A9396' : '#3AB4BA',
+                backgroundColor: pressed ? '#0619bb' : '#116fdf',
                 transform: [{ scale: pressed ? 0.96 : 1 }],
                 }
             ]}
@@ -78,28 +81,26 @@ export default function ForgotPassword(props) {
 const styles = StyleSheet.create({
   container:{
     flex:1,
-    backgroundColor: '#fff',
     paddingTop:200,
     position:'relative',
   },
   title:{
-    fontWeight:"bold",
-    fontFamily:'System',
     fontSize:40,
     color:"black",
-    marginBottom:40,
+    marginBottom:20,
+    marginLeft:40,
     width:'80%',
+    fontFamily:"Pangolin_400Regular",
   },
   containerContent:{
       alignItems:'center',
       justifyContent:'center',
+      
   },
   inputView:{
-    width:"80%",
-    backgroundColor:"#3AB4BA",
+    width:"100%",
+    backgroundColor:"white",
     borderRadius:20,
-    borderColor:'blue',
-    borderWidth:2,
     height:50,
     marginBottom:15,
     justifyContent:'center',
@@ -110,29 +111,26 @@ const styles = StyleSheet.create({
   inputText:{
     flex:1,
     height:50,
-    color:"white"
+    color:"white",
+    fontFamily:"Pangolin_400Regular",
   },
   LoginBtn:{
     width:"40%",
-    backgroundColor:"#3AB4BA",
-    height:40,
+    height:45,
     alignItems:"center",
     justifyContent:"center",
-    marginTop:'5%',
     marginBottom:'5%',
-    borderColor:'blue',
-    borderWidth:2,
     borderRadius:15,
   },
   loginText:{
-    color:"black",
+    color:"white",
     fontSize:20,
     alignItems:'center',
-    justifyContent:'center'
+    justifyContent:'center',
+    fontFamily:"Pangolin_400Regular",
   },
   logbox:{
     flex:1,
-    backgroundColor:'#F1E9E9',
     flexDirection:"column",
     paddingTop:25,
     paddingBottom:10,
@@ -143,5 +141,13 @@ const styles = StyleSheet.create({
   },
   logContent:{
     alignItems: 'center',
+  },
+  imagebackground:{
+    height:'100%',
+    resizeMode:'cover',
+  },
+  tinyLogo: {
+    width: 70,
+    height: 70,
   },
 })
