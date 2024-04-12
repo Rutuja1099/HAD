@@ -52,7 +52,7 @@ const Profile = () => {
         {/*Phone Number*/}
           <ProfileMenuItems 
             menuItemLabel="Phone Number"
-            menuItemContent="6778788"
+            menuItemContent="8983871569"
           />
       </ScrollView>
       </View>

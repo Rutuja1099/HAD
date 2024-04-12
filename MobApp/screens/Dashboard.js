@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { View, Text, TextInput, ScrollView} from 'react-native';
+import { View, Text, TextInput, ScrollView, Pressable} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native'
 import NavigationBar from "../components/NavigationBar";
@@ -21,6 +21,10 @@ const Dashboard = () => {
     const callHelpline = () => {
 
     };
+
+    const navigateMoodlift=()=>{
+        navigation.navigate('Moodlift');
+    }
 
     return(
         <>
@@ -110,9 +114,11 @@ const Dashboard = () => {
                                     <Text>Book appointment</Text>
                                 </View>
 
+                                <Pressable onPress={navigateMoodlift}>
                                 <View className="bg-red-400 h-40 w-28 mr-4 text-xl rounded-3xl flex justify-center items-center">
                                     <Text>Moodlift</Text>
                                 </View>
+                                </Pressable>
 
                                 <View className="bg-amber-400 h-40 w-28 mr-4 text-xl rounded-3xl flex justify-center items-center">
                                     <Text>Forum</Text>

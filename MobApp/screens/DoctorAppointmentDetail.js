@@ -31,6 +31,10 @@ const DoctorAppointmentDetails=({route})=>{
         setSelectedDaySlots(Slots);
     }, []);
 
+    const openDashboard=()=>{
+        navigation.navigate('Dashboard');
+    }
+
      // Set a maximum chunk size based on the available width
      let maxChunkSize = 8; // Default maximum chunk size
      if (windowWidth < 348) {
@@ -144,7 +148,7 @@ const DoctorAppointmentDetails=({route})=>{
                 
                     <View className="flex-grow relative bottom-0 left-0 right-0 p-4 mt-2 bg-blue-500 px-0 py-4 rounded-3xl w-full"> 
                             {/* <TouchableOpacity onPress={nextQuestion} className={`bg-blue-500 px-0 py-4 rounded-md w-full ${selectedOption === null ? 'opacity-50' : ''}`} disabled={selectedOption === null}> */}
-                            <Pressable>
+                            <Pressable onPress={openDashboard}>
                                 <Text className="text-white text-center font-bold">
                                     Schedule Appointment
                                 </Text>

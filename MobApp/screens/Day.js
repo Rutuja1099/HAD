@@ -27,7 +27,7 @@ export default function Day(props) {
 
     const onPressDay = async (item) => {
 
-      const loginURL = webServerUrl+"/suhrud/hello/getquestionnaire";
+      const loginURL = webServerUrl+"/suhrud/patient/getquestionnaire";
       const method='GET';
       
       const sessionData = await AsyncStorage.getItem('patientData')
