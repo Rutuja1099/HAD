@@ -2,17 +2,28 @@ import { SafeAreaView, View, Image, Pressable, TextInput, Text, ScrollView} from
 import React, { useState } from 'react';
 import { contactImage} from '../assets'
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { useRoute } from '@react-navigation/native';
+import webServerUrl from '../configurations/WebServer';
+import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import HttpService from '../services/HttpService'
 
 const EditProfile = () => {
 
-    const [name, onChangeName] = useState('Rutuja');
-    const [email, onChangeEmail] = useState('rutuja@iiitb.ac.in');
-    const [address, onChangeAddress] = useState('IIIT Bangalore');
-    const [age, onChangeAge] = useState('24');
-    const [phone, onChangePhone] = useState('6778788');
-    const [dob, setDob] = useState(new Date()); // Date of Birth
+    const route = useRoute(); // Get route object
+    const { patientData } = route.params; // Access patientData from route parameters
+    const navigation = useNavigation();
+
+    const [name, onChangeName] = useState(patientData.ptFullname);
+    const [email, onChangeEmail] = useState(patientData.ptEmail);
+    const [address, onChangeAddress] = useState(patientData.ptAddr);
+    const [phone, onChangePhone] = useState(patientData.ptPhone);
+    const [dob, setDob] = useState(new Date(patientData.ptDOB)); // Date of Birth
     const [show, setShow] = useState(false);
     const [mode, setMode] = useState('date');
+
+    const maxDate = new Date();
+    maxDate.setFullYear(maxDate.getFullYear() - 18);
 
     const onChange = (event, selectedDate) => {
         setShow(false);
@@ -24,6 +35,71 @@ const EditProfile = () => {
     const showMode = (modeToShow) => {
         setShow(true);
         setMode(modeToShow);
+    }
+
+    const onPressSave=async()=>{
+        if (!name.trim()) {
+            alert('Please Enter your Name');
+            return false;
+        }
+        if (!email.trim()) {
+            alert('Please Enter your email');
+            return false;
+        }
+        if (!/\S+@\S+\.\S+/.test(email.trim())) {
+            alert('Email is Invalid');
+            return false;
+        }
+        if (!address.trim()) {
+            alert('Please Enter your address');
+            return false;
+        }
+        if (!phone.trim()) {
+            alert('Please Enter Phone Number');
+            return false;
+        }
+        
+        const phoneRegex = /^\d{10}$/;
+        
+        if (!phoneRegex.test(phone.trim())) {
+            alert('Phone number should be numeric and should contain 10 digits');
+            return false;
+        }
+        
+        const editProfileURL=webServerUrl+"/suhrud/patient/updatePatient"
+        const method='PUT';
+        const data={
+        ptFullname:name,
+        ptPhone:phone,
+        ptAddr: address,
+        ptDOB: dob.toLocaleDateString(),
+        ptEmail: email
+        }
+        const sessionData = await AsyncStorage.getItem('patientData')
+        const localData=JSON.parse(sessionData);
+        const bearerToken = localData.token;
+           
+      const headers = {
+        'Authorization': `Bearer ${bearerToken}`, // Include your token here
+        'Content-Type': 'application/json', // Specify the content type if needed
+      };
+        try{
+            const response=await HttpService(method,editProfileURL,data,headers);
+            console.log(response.status)
+            if(response.status===200){
+              console.log("Successful");
+              alert(response.data);
+              navigation.replace("Profile");
+            }
+            else{
+              alert(response.data);
+              alert(response);
+              console.log(response.data);
+            }
+          }catch(error){
+              alert(error);
+              console.log(error);
+            }
     }
 
     return (
@@ -47,7 +123,7 @@ const EditProfile = () => {
                         <TextInput 
                             style={{ fontFamily: 'System' }} 
                             className="ml-2 text-lg text-[#544C4C] "
-                            onChangeText={onChangeName}
+                            onChangeText={(name)=>onChangeName(name)}
                             value={name}                   
                         />
                     </View>
@@ -61,7 +137,7 @@ const EditProfile = () => {
                         <TextInput 
                             style={{ fontFamily: 'System' }} 
                             className="ml-2 text-lg text-[#544C4C] "
-                            onChangeText={onChangeEmail}
+                            onChangeText={(email)=>onChangeEmail(email)}
                             value={email}   
                             inputMode="email"                
                         />
@@ -76,7 +152,7 @@ const EditProfile = () => {
                         <TextInput 
                             style={{ fontFamily: 'System' }} 
                             className="ml-2 text-lg text-[#544C4C] "
-                            onChangeText={onChangeAddress}
+                            onChangeText={(address)=>onChangeAddress(address)}
                             value={address}                  
                         />
                     </View>
@@ -91,7 +167,7 @@ const EditProfile = () => {
                         <TextInput 
                             style={{ fontFamily: 'System' }} 
                             className="ml-2 text-lg text-[#544C4C] "
-                            onChangeText={onChangePhone}
+                            onChangeText={(phone)=>onChangePhone(phone)}
                             value={phone}  
                             inputMode="numeric"                
                         />
@@ -107,7 +183,7 @@ const EditProfile = () => {
                         <Pressable onPress={() => showMode("date")}>
                             <TextInput
                                 className="text-lg text-[#544C4C] "
-                                value={dob.toDateString()} // Display selected date in the input field
+                                value={dob.toLocaleDateString()} // Display selected date in the input field
                                 editable={false} // Make the input field non-editable
                             />
                         </Pressable>
@@ -116,8 +192,10 @@ const EditProfile = () => {
                                     value={dob}
                                     mode={mode}
                                     is24Hour={true}
-                                    display="default"
-                                    onChange={onChange}
+                                    display="spinner"
+                                    onChange={setDob}
+                                    maximumDate={maxDate}
+                                    minimumDate={new Date(1950, 0, 1)}
                                 />
                             )}
                     </View>
@@ -125,7 +203,7 @@ const EditProfile = () => {
             </ScrollView>
             </View>
         {/**Save Button */}
-        <Pressable onPress={() => console.log('Simple Button pressed')}>
+        <Pressable onPress={onPressSave}>
             <View className="mt-2 mb-4 ml-16 w-[221px] h-[41px] items-center justify-center rounded-lg bg-[#4DD8CF]">
                 <Text className=" text-white font-bold text-xl">Save Changes</Text>
             </View>

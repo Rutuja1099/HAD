@@ -30,9 +30,8 @@ public class DoctorService {
         return doctorInfo.orElse(null);
     }
 
-    public List<DoctorAppointmentsResponse>  fetchAllAppointments(HttpServletRequest request){
+    public List<DoctorAppointmentsResponse>  fetchAllAppointments(Integer drId){
         List<DoctorAppointmentsResponse> responses=new ArrayList<>();
-        Integer drId= jwtService.extractId(request,"doctorId");
         List<Appointments> appointments= appointmentsRepository.findByDrInfoDrId(drId);
         for(Appointments appointment:appointments){
             DoctorAppointmentsResponse doctorAppointmentsResponse=new DoctorAppointmentsResponse();
@@ -42,14 +41,16 @@ public class DoctorService {
             doctorAppointmentsResponse.setPtFullName(appointment.getPatientInfo().getPtFullname());
             doctorAppointmentsResponse.setPtPhone(appointment.getPatientInfo().getPtPhone());
             doctorAppointmentsResponse.setPtGender(appointment.getPatientInfo().getPtGender());
+            doctorAppointmentsResponse.setPtAddress(appointment.getPatientInfo().getPtAddr());
             responses.add(doctorAppointmentsResponse);
         }
         return responses;
     }
 
     public List<DoctorAppointmentsResponse> fetchCurrentAppointments(HttpServletRequest request){
-        List<DoctorAppointmentsResponse> allResponses=fetchAllAppointments(request);
+        Integer drId= jwtService.extractId(request,"doctorId");
         List<DoctorAppointmentsResponse> currentAppointments=new ArrayList<>();
+        List<DoctorAppointmentsResponse> allResponses=fetchAllAppointments(drId);
         for(DoctorAppointmentsResponse response:allResponses){
             LocalDate date=LocalDate.parse(response.getDate());
             if(date.equals(LocalDate.now())){
@@ -60,8 +61,9 @@ public class DoctorService {
     }
 
     public List<DoctorAppointmentsResponse> fetchUpcomingAppointments(HttpServletRequest request){
-        List<DoctorAppointmentsResponse> allResponses=fetchAllAppointments(request);
+        Integer drId= jwtService.extractId(request,"doctorId");
         List<DoctorAppointmentsResponse> upcomingAppointments=new ArrayList<>();
+        List<DoctorAppointmentsResponse> allResponses=fetchAllAppointments(drId);
         for(DoctorAppointmentsResponse response:allResponses){
             LocalDate date=LocalDate.parse(response.getDate());
             if(date.isAfter(LocalDate.now())){
@@ -72,8 +74,9 @@ public class DoctorService {
     }
 
     public List<DoctorAppointmentsResponse> fetchPreviousAppointments(HttpServletRequest request){
-        List<DoctorAppointmentsResponse> allResponses=fetchAllAppointments(request);
+        Integer drId= jwtService.extractId(request,"doctorId");
         List<DoctorAppointmentsResponse> previousAppointments=new ArrayList<>();
+        List<DoctorAppointmentsResponse> allResponses=fetchAllAppointments(drId);
         for(DoctorAppointmentsResponse response:allResponses){
             LocalDate date=LocalDate.parse(response.getDate());
             if(date.isBefore(LocalDate.now())){

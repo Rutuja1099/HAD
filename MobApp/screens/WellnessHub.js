@@ -32,8 +32,8 @@ const WellnessHub = () => {
     
     if (newMessage.trim() !== '') {
       // If search query is not empty, filter the content based on the search query
-      filteredContent = filteredContent.filter(item =>
-        item.question.toLowerCase().includes(newMessage.toLowerCase())
+      const regex = new RegExp(newMessage, 'i'); 
+      filteredContent = filteredContent.filter(item => regex.test(item.question)
       );
     }
 

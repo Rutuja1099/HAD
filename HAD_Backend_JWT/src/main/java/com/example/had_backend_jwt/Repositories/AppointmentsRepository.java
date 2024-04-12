@@ -13,4 +13,7 @@ public interface AppointmentsRepository extends JpaRepository<Appointments,Integ
     List<Appointments> findByPatientInfoPtRegNoAndDrInfoDrIdAndDate(Integer patientInfo_ptRegNo, Integer drInfo_drId, Date date);
 
     List<Appointments> findByDrInfoDrId(Integer drId);
+
+    Optional<Appointments> findByPatientInfoPtRegNoAndDrInfoDrIdAndDateAndSlot(Integer patientInfo_ptRegNo, Integer drInfo_drId, Date date, Integer slot);
+
 }

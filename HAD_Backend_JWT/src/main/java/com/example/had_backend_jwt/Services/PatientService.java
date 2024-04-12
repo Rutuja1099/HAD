@@ -2,16 +2,11 @@ package com.example.had_backend_jwt.Services;
 
 import com.example.had_backend_jwt.Entities.*;
 import com.example.had_backend_jwt.JWT.JwtService;
-import com.example.had_backend_jwt.Models.AnswersDTO;
-import com.example.had_backend_jwt.Models.AppointmentBookingRequest;
-import com.example.had_backend_jwt.Models.BookedDaysResponse;
-import com.example.had_backend_jwt.Models.SuggestedDoctorsListResponse;
+import com.example.had_backend_jwt.Models.*;
 import com.example.had_backend_jwt.Repositories.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.example.had_backend_jwt.Entities.DoctorInfo;
@@ -55,41 +50,66 @@ public class PatientService {
         return suggestedDoctorsListResponses;
 
     }
-    public PatientInfo getPatientInfo(Integer id){
+    public PatientProfileUpdation getPatientInfo(Integer id){
         Optional<PatientInfo> patientInfoOptional=patientInfoRepository.findByPtRegNo(id);
-        return patientInfoOptional.orElse(null);
+        if(patientInfoOptional.isPresent()){
+            PatientInfo patientInfo=patientInfoOptional.get();
+            Optional<PatientLogin> patientLoginOptional=patientLoginRepository.findById(patientInfo.getPtRegNo());
+            if(patientLoginOptional.isPresent())
+                return PatientProfileUpdation.builder()
+                        .ptFullname(patientInfo.getPtFullname())
+                        .ptEmail(patientLoginOptional.get().getPtEmail())
+                        .ptDOB(patientInfo.getPtDOB())
+                        .ptAddr(patientInfo.getPtAddr())
+                        .ptPhone(patientInfo.getPtPhone())
+                        .message("Success")
+                        .build();
+            return PatientProfileUpdation.builder()
+                    .message("Failed to fetch the user's email")
+                    .build();
+        }
+        return PatientProfileUpdation.builder()
+                .message("User not found")
+                .build();
     }
 
     @Transactional
     public boolean deletePatient(HttpServletRequest request) {
-        Integer id = jwtService.extractId(request,"patientId");
-        Optional<PatientLogin> userOptional = patientLoginRepository.findById(id);
-        if (userOptional.isPresent()) {
-            PatientLogin user = userOptional.get();
-            Optional<PatientInfo> patientInfoOptional = patientInfoRepository.findById(id);
-            if (patientInfoOptional.isPresent()) {
-                patientInfoRepository.deleteById(id);
-            }
-            patientLoginRepository.delete(user);
+        // cron job to delete after a span of 3 years
+        Integer ptRegNo = jwtService.extractId(request,"patientId");
+        Optional<PatientInfo> patientInfoOptional=patientInfoRepository.findByPtRegNo(ptRegNo);
+        if(patientInfoOptional.isPresent()){
+            PatientInfo patientInfo=patientInfoOptional.get();
+            patientInfo.setIsPatientDeActivated(true);
+            patientInfo.setDeActivationTimestamp(String.valueOf(LocalDate.now()));
+            patientInfoRepository.save(patientInfo);
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
-    public boolean updatePatient(PatientInfo user, PatientInfo updatedPatient) {
-        try{
-            user.setPtFullname(updatedPatient.getPtFullname());
-            user.setPtPhone(updatedPatient.getPtPhone());
-            user.setPtAddr(updatedPatient.getPtAddr());
-            user.setPtDOB(updatedPatient.getPtDOB());
-            user.setPtGender(updatedPatient.getPtGender());
-            patientInfoRepository.save(user);
-            return true;
+    public boolean updatePatient(HttpServletRequest request, PatientProfileUpdation patientProfileUpdation) {
+        Integer ptRegNo= jwtService.extractId(request,"patientId");
+        Optional<PatientInfo> patientInfoOptional=patientInfoRepository.findByPtRegNo(ptRegNo);
+        if(patientInfoOptional.isPresent()){
+            PatientInfo patientInfo=patientInfoOptional.get();
+            patientInfo.setPtFullname(patientProfileUpdation.getPtFullname());
+            patientInfo.setPtDOB(patientProfileUpdation.getPtDOB());
+            patientInfo.setPtAddr(patientProfileUpdation.getPtAddr());
+            patientInfo.setPtPhone(patientProfileUpdation.getPtPhone());
+            patientInfoRepository.save(patientInfo);
+
+            Optional<PatientLogin> patientLoginOptional=patientLoginRepository.findById(ptRegNo);
+            if(patientLoginOptional.isPresent()){
+                PatientLogin patientLogin=patientLoginOptional.get();
+                patientLogin.setPtEmail(patientProfileUpdation.getPtEmail());
+                patientLoginRepository.save(patientLogin);
+                return true;
+            }else{
+                return false;
+            }
         }
-        catch (Exception e){
-            return false;
-        }
+        return false;
     }
 
     public List<Questionnaire> getQuestions() {
@@ -119,15 +139,23 @@ public class PatientService {
 
     public BookedDaysResponse fetchBookedDays(HttpServletRequest httpRequest,AppointmentBookingRequest request){
         //booked->true, free->false
-        Integer[] slots={1,2,3,4,5,6,7,8,9};
+        Integer[] slots={1,2,3,4,5,6,7,8};
         Map<Integer,Boolean> bookedSlots= new HashMap<>();
         List<Integer> myBookedSlots=new ArrayList<>();
         Integer ptRegNo= jwtService.extractId(httpRequest,"patientId");
+
+        //Initialize all slots
         for(Integer slot:slots)
             bookedSlots.put(slot,false);
+
+        //fetch doctor id
         Integer drId=request.getDrId();
+
+        //requested day
         LocalDate requestedDate=LocalDate.parse(request.getRequestedDate());
         LocalDate currentDate=LocalDate.now();
+
+        //previous day
         if(requestedDate.isBefore(currentDate)){
             for(Integer slot:slots)
                 bookedSlots.put(slot,true);
@@ -135,19 +163,23 @@ public class PatientService {
                     .bookedSlots(bookedSlots)
                     .build();
         }
+
+        //current or next day
         else{
             Date requestedDateSQL=Date.valueOf(requestedDate);
-            System.out.println("date type"+requestedDateSQL.getClass());
-            for(Integer slot:slots){
-                List<Appointments> appointments=appointmentsRepository.findByDrInfoDrIdAndDateAndSlot(drId,requestedDateSQL,slot);
-                if(!appointments.isEmpty()) {
-                    bookedSlots.put(slot,true);
-                    for(Appointments appointment:appointments)
-                        if(Objects.equals(appointment.getPatientInfo().getPtRegNo(), ptRegNo))
-                            myBookedSlots.add(slot);
+            Integer requestedSlot=request.getRequestedSlots();
+            for(Integer slot: slots){
+                if(Objects.equals(slot, requestedSlot)){
+                    List<Appointments> appointments=appointmentsRepository.findByDrInfoDrIdAndDateAndSlot(drId,requestedDateSQL,requestedSlot);
+                    if(!appointments.isEmpty()) {
+                        bookedSlots.put(slot,true);
+                        for(Appointments appointment:appointments)
+                            if(Objects.equals(appointment.getPatientInfo().getPtRegNo(), ptRegNo))
+                                myBookedSlots.add(slot);
+                    }
                 }
-
             }
+
             return BookedDaysResponse.builder()
                     .myBookedSlots(myBookedSlots)
                     .bookedSlots(bookedSlots)
@@ -159,47 +191,97 @@ public class PatientService {
         Optional<DoctorPatientMapping> doctorPatientMappingOptional=doctorPatientMappingRepository.findByPatientInfoPtRegNoAndDoctorInfo_DrId(ptRegNo,drId);
         return doctorPatientMappingOptional.isPresent();
     }
-    public boolean bookAppointment(HttpServletRequest request,AppointmentBookingRequest appointmentBookingRequest){
-        //include the check to see if the doctor and patient mapping for that slot already exists
+
+    public boolean checkAppointment(Integer ptRegNo,Integer drId,Date date,Integer slot){
+        Optional<Appointments> appointments=appointmentsRepository.findByPatientInfoPtRegNoAndDrInfoDrIdAndDateAndSlot(ptRegNo, drId, date, slot);
+        return appointments.isPresent();
+    }
+
+    public Integer bookAppointment(HttpServletRequest request,AppointmentBookingRequest appointmentBookingRequest){
+        //fetch all booked days
         BookedDaysResponse bookedDaysResponse=fetchBookedDays(request,appointmentBookingRequest);
         Map<Integer,Boolean> bookedSlots=bookedDaysResponse.getBookedSlots();
         List<Integer> availableSlots=new ArrayList<Integer>();
         int countTrue=0;
+
+        //available slots and previous day check
         for(Map.Entry<Integer,Boolean> entry: bookedSlots.entrySet()){
             Integer slot=entry.getKey();
             Boolean isBooked=entry.getValue();
-            if(isBooked)
+            if(isBooked){
                 countTrue+=1;
+            }
             else
                 availableSlots.add(slot);
         }
+
+        //previous day
         if(countTrue==bookedSlots.values().size())
-            return false;
+            return 0;
+
+        //current or next day
         else{
             Integer ptRegNo= jwtService.extractId(request,"patientId");
+
             PatientInfo patientInfo=patientInfoRepository.findPatientInfoByPtRegNo(ptRegNo);
             DoctorInfo doctorInfo=doctorService.getDoctorInfo(appointmentBookingRequest.getDrId());
-            for(Integer slot:availableSlots)
-                for(Integer requestSlot:appointmentBookingRequest.getRequestedSlots())
-                    if(Objects.equals(slot, requestSlot)){
-                        if(!checkDoctorPatientMapping(ptRegNo, doctorInfo.getDrId())){
-                            DoctorPatientMapping doctorPatientMapping=DoctorPatientMapping.builder()
-                                    .doctorInfo(doctorInfo)
-                                    .patientInfo(patientInfo)
-                                    .build();
-                            doctorPatientMappingRepository.save(doctorPatientMapping);
-                        }
-                        Appointments appointments=Appointments.builder()
+
+            int flag=0;
+
+            //requested slots
+            Integer requestedSlot=appointmentBookingRequest.getRequestedSlots();
+
+            for(Integer slot:availableSlots) {
+                if (Objects.equals(slot, requestedSlot)) {
+
+                    //mapping in doctorPatientMapping does not exist
+                    if (!checkDoctorPatientMapping(ptRegNo, doctorInfo.getDrId())) {
+                        DoctorPatientMapping doctorPatientMapping = DoctorPatientMapping.builder()
+                                .doctorInfo(doctorInfo)
+                                .patientInfo(patientInfo)
+                                .build();
+                        doctorPatientMappingRepository.save(doctorPatientMapping);
+                    }
+
+                    //mapping exists
+                    if (checkAppointment(ptRegNo, doctorInfo.getDrId(), Date.valueOf(appointmentBookingRequest.getRequestedDate()), requestedSlot))
+                        return -1;
+
+                    else if (!checkAppointment(ptRegNo, doctorInfo.getDrId(), Date.valueOf(appointmentBookingRequest.getRequestedDate()), requestedSlot)) {
+                        Appointments appointments = Appointments.builder()
                                 .patientInfo(patientInfo)
                                 .drInfo(doctorInfo)
                                 .date(Date.valueOf(appointmentBookingRequest.getRequestedDate()))
-                                .slot(requestSlot)
-                                .timestamp(appointmentBookingRequest.getCurrentDate())
+                                .slot(requestedSlot)
+                                .timestamp(String.valueOf(LocalDate.now()))
                                 .build();
                         appointmentsRepository.save(appointments);
+                        flag=1;
+
                     }
-            return true;
+
+                }
+            }
+            if(flag==1)
+                return 1;
+            else
+                return -1;
         }
+    }
+
+    public Integer passwordUpdation(HttpServletRequest request,PasswordUpdateRequest passwordUpdateRequest){
+        Integer ptRegNo= jwtService.extractId(request,"patientId");
+        Optional<PatientLogin> patientLoginOptional=patientLoginRepository.findById(ptRegNo);
+        if(patientLoginOptional.isPresent()){
+            PatientLogin patientLogin=patientLoginOptional.get();
+            if(passwordEncoder.matches(passwordUpdateRequest.getCurrentPassword(),patientLogin.getPtPassword())){
+                patientLogin.setPtPassword(passwordEncoder.encode(passwordUpdateRequest.getNewPassword()));
+                patientLoginRepository.save(patientLogin);
+                return 1;
+            }else
+                return -1;
+        }
+        return 0;
     }
 
 }

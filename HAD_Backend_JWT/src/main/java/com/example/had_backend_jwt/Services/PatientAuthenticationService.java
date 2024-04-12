@@ -54,6 +54,7 @@ public class PatientAuthenticationService {
                     .ptAddr(request.getPtAddr())
                     .ptDOB(request.getPtDOB())
                     .ptGender(request.getPtGender())
+                    .isPatientDeActivated(false)
                     .build();
 
             // Save PatientInfo
@@ -76,6 +77,7 @@ public class PatientAuthenticationService {
             return PatientAuthenticationResponse.builder()
                     .token(jwtToken)
                     .ptFirstTimeLogin(patientLogin.getPtFirstTimeLogin())
+                    .ptUsername(patientLogin.getPtUsername())
                     .message("Success")
                     .build();
 
@@ -103,12 +105,17 @@ public class PatientAuthenticationService {
                         .message("Invalid username or password")
                         .build();
         }
+            if(patientLogin.getPtInfo().getIsPatientDeActivated())
+                return PatientAuthenticationResponse.builder()
+                        .message("User not found. Please register yourself!!!")
+                        .build();
 
             var jwtToken=jwtService.generateToken(patientLogin);
 
             return PatientAuthenticationResponse.builder()
                     .token(jwtToken)
                     .ptFirstTimeLogin(patientLogin.getPtFirstTimeLogin())
+                    .ptUsername(patientLogin.getPtUsername())
                     .message("Success")
                     .build();
         }catch (AuthenticationException e) {

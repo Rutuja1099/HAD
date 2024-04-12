@@ -13,4 +13,5 @@ public class PatientAuthenticationResponse {
     private String token;
     private boolean ptFirstTimeLogin;
     private String message;
+    private String ptUsername;
 }

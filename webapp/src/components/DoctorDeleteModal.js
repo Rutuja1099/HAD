@@ -1,16 +1,66 @@
 import React from 'react'
 import { useState } from 'react';
+import webServerUrl from '../configurations/WebServer';
+import HttpService from '../services/HttpService';
 
 
-
-const DoctorDeleteModal = ({showDeleteConfirm, selectedDoctor, setShowDeleteConfirm, setSelectedDoctor}) => {
+const DoctorDeleteModal = ({showDeleteConfirm, selectedDoctor, setShowDeleteConfirm, setSelectedDoctor, doctorId}) => {
     
     if(!showDeleteConfirm) return null;
 
 
-    const handleDeleteConfirm = () => {
-        
-    }
+    const handleDeleteConfirm = async () => {
+    
+            const loginURL = webServerUrl+"/suhrud/deleteDoctor";
+    
+            const method='DELETE';
+            
+            // const data = {
+            //     doctorID: doctorId
+            // };
+    
+            const data = doctorId;
+                
+            try{
+    
+                const sessionData = JSON.parse(window.localStorage.getItem('Data'));
+                const bearerToken = sessionData.token;
+    
+                console.log("bearer token: ", bearerToken);
+    
+                const headers = {
+                    'Authorization': `Bearer ${bearerToken}`, // Include your token here
+                    'Content-Type': 'application/json', // Specify the content type if needed
+                };
+                
+                const response=await HttpService(method,loginURL,data, headers);
+                console.log(response.status)
+                
+                if(response.status===200){
+                        
+                    console.log("Successful");
+                    console.log(response.data);
+                            
+                    try{
+                        console.log("from storage");
+    
+                    }catch(error){
+                        console.log("error while saving data");
+                        console.log(error);
+                    }
+                }
+                
+                else{
+                    alert(response.data);
+    
+                }
+            }
+            catch(error){
+                alert(error.data);
+                console.log(error);
+            }
+            setShowDeleteConfirm(false);
+        }
     
     return (
 

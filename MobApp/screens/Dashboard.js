@@ -125,7 +125,7 @@ const Dashboard = () => {
                                 </View>
 
                                 <View className="bg-lime-400 h-40 w-28 mr-4 text-xl rounded-3xl flex justify-center items-center">
-                                    <Text></Text>
+                                    <Text>Settings</Text>
                                 </View>
 
                             </View>

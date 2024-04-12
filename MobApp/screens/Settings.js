@@ -1,13 +1,84 @@
-import { Image, View, Text, SafeAreaView, Pressable, StyleSheet, ScrollView} from 'react-native'
-import React, { useLayoutEffect, useState } from 'react'
+import { Image, View, Text, SafeAreaView, Pressable, StyleSheet, ScrollView, Alert} from 'react-native'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
-import { contactImage, accountImage, securityImage, notificationImage, logoutImage} from '../assets'
+import { contactImage, accountImage, securityImage, notificationImage, logoutImage, trashImage} from '../assets'
 import NavigationBar from '../components/NavigationBar'
+import webServerUrl from '../configurations/WebServer'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import HttpService from '../services/HttpService'
 
 const Settings = () => {
     const navigation=useNavigation();
-    const handlePress = (navigateTo, menuItemName) => {
-        if (navigateTo) {
+    const [username, setUserName] = useState("");
+
+    useEffect(()=>{
+        const fetchUsername=async()=>{
+            const sessionData = await AsyncStorage.getItem('patientData');
+            const localData=JSON.parse(sessionData);
+            setUserName("Hi "+localData.ptUsername+"!!");
+        };
+        fetchUsername();
+    },[])
+    
+
+    const deleteAccount=async()=>{
+        const deleteAccountURL=webServerUrl+"/suhrud/patient/deletePatient";  
+        const sessionData = await AsyncStorage.getItem('patientData');
+        const localData=JSON.parse(sessionData);
+        const method='DELETE';
+        const bearerToken = localData.token;
+        const headers = {
+            'Authorization': `Bearer ${bearerToken}`, // Include your token here
+            'Content-Type': 'String', // Specify the content type if needed
+        };
+        try{
+            const response=await HttpService(method,deleteAccountURL,data=null,headers);
+            console.log(response.status)
+            if(response.status===200){
+              console.log("Successful");
+              console.log(response.data);
+              alert(response.data+". Your Account is Deleted");
+              AsyncStorage.removeItem('patientData');
+              navigation.replace("Login");
+            }else{
+                alert(response.data);
+            }  
+        }catch(error){
+            alert(error.data);
+        }
+    }
+
+    const handlePress = async(navigateTo, menuItemName) => {
+        if(navigateTo==="Logout"){
+            AsyncStorage.removeItem('patientData');
+            navigation.replace("Login");
+        }
+        else if(navigateTo==="Account Deletion"){
+            const deleteAccountURL=webServerUrl+"/suhrud/patient/deletePatient";  
+            const sessionData = await AsyncStorage.getItem('patientData');
+            const localData=JSON.parse(sessionData);
+            const method='DELETE';
+            const bearerToken = localData.token;
+            const headers = {
+                'Authorization': `Bearer ${bearerToken}`, // Include your token here
+                'Content-Type': 'String', // Specify the content type if needed
+            };
+            try{
+                const response=await HttpService(method,deleteAccountURL,data=null,headers);
+                console.log(response.status)
+                if(response.status===200){
+                  console.log("Successful");
+                  console.log(response.data);
+                  alert(response.data+". Your Account is Deleted");
+                  AsyncStorage.removeItem('patientData');
+                  navigation.replace("Login");
+                }else{
+                    alert(response.data);
+                }  
+            }catch(error){
+                alert(error.data);
+            }
+        }else{
             navigation.navigate(navigateTo); // Navigate to the specified screen
         }
     };
@@ -18,7 +89,6 @@ const Settings = () => {
     //     })
     // },[])
 
-    const [username, setUserName] = useState("Hi Rutuja!!");
     const menuItems = [
         { 
             menuItemImage: accountImage,
@@ -46,8 +116,16 @@ const Settings = () => {
             menuItemName: "Log out",
             imageWidth: 23,
             imageHeight: 23,
-            navigateTo: "Login"
-        }
+            navigateTo: "Logout"
+        },
+        {
+            menuItemImage: trashImage,
+            menuItemName: "Delete Account",
+            imageWidth: 24,
+            imageWidth: 24,
+            navigateTo: "Account Deletion"
+        },
+        
     ];
 
     return (
@@ -88,7 +166,7 @@ const Settings = () => {
                                     <View style={styles.imageContainer}>
                                         <Image
                                             source={item.menuItemImage}
-                                            style={[styles.image, { width: item.imageWidth, height: item.imageHeight }]}
+                                            style={[styles.image, { width: item.imageWidth, height: item.imageHeight, tintColor: 'grey'}]}
                                             resizeMode="contain"
                                         />
                                     </View>
@@ -125,6 +203,7 @@ const styles = StyleSheet.create({
       flex: 1,
       width: null,
       height: null,
+      opacity:0.8,
     },
     textContainer: {
       justifyContent: 'center',
