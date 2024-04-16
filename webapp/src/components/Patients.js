@@ -3,11 +3,13 @@ import { useState } from 'react';
 import { FaArrowLeft } from "react-icons/fa";
 import { LiaSearchSolid } from "react-icons/lia";
 import  patientProfile from '../assets/patient.png';
+import { Link, useNavigate } from "react-router-dom";
 
 const Patients = () => {
   const [searchText, setSearchText] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   
+  const navigate = useNavigate();
   //CurrentSession not part of table
   const patientDetails=[
     {patientName:"Vikram", currentSeverity:7, Gender:"Male", Contact:8990000598,Address:"Bangalore", Email:"viki@gmail.com", currentWeek:2, currentSession:1},
@@ -34,6 +36,10 @@ const Patients = () => {
 
   const navigateBack = () => {
     setSearchText("");
+  }
+
+  const goToPatientDetails = () => {
+    navigate('/PatientDetail');
   }
 
   const renderPatient = (patientDetails) =>{
@@ -83,7 +89,7 @@ const Patients = () => {
                 </div>  
 
                 {/* Add the navigate to part here in order to navigate to specific patient details */}
-                <button className='bg-[#B5B5B5] rounded-md mb-4 mt-4'>
+                <button className='bg-[#B5B5B5] rounded-md mb-4 mt-4' onClick={goToPatientDetails}>
                   <p className='text-black font-bold text-sm p-4'>More Patient Details</p>
                 </button>  
 
