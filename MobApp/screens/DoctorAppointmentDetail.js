@@ -30,6 +30,10 @@ const DoctorAppointmentDetails=({route})=>{
         setSelectedDaySlots(Object.values(Slots));        
     }, []);
 
+    const openDashboard=()=>{
+        navigation.navigate('Dashboard');
+    }
+
      // Set a maximum chunk size based on the available width
      let maxChunkSize = 8; // Default maximum chunk size
      if (windowWidth < 348) {

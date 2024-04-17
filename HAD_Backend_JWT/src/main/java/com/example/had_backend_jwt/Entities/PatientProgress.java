@@ -28,4 +28,7 @@ public class PatientProgress {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ptRegNo")
     private PatientInfo patientInfo;
+
+    @Column(name="totalSeverity")
+    private int totalSeverity;
 }

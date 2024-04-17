@@ -38,6 +38,32 @@ const Settings = () => {
               console.log("Successful");
               console.log(response.data);
               alert(response.data+". Your Account is Deleted");
+              logout();
+            }else{
+                alert(response.data);
+            }  
+        }catch(error){
+            alert(error.data);
+        }
+    }
+
+    const logout=async()=>{
+        const logoutURL=webServerUrl+"/suhrud/patient/logout";  
+        const sessionData = await AsyncStorage.getItem('patientData');
+        const localData=JSON.parse(sessionData);
+        const method='POST';
+        const bearerToken = localData.token;
+        const headers = {
+            'Authorization': `Bearer ${bearerToken}`, // Include your token here
+            'Content-Type': 'String', // Specify the content type if needed
+        };
+        try{
+            const response=await HttpService(method,logoutURL,data=null,headers);
+            console.log(response.status)
+            if(response.status===200){
+              console.log("Successful");
+              console.log(response.data);
+              //alert(response.data);
               AsyncStorage.removeItem('patientData');
               navigation.replace("Login");
             }else{
@@ -50,34 +76,10 @@ const Settings = () => {
 
     const handlePress = async(navigateTo, menuItemName) => {
         if(navigateTo==="Logout"){
-            AsyncStorage.removeItem('patientData');
-            navigation.replace("Login");
+            logout();
         }
         else if(navigateTo==="Account Deletion"){
-            const deleteAccountURL=webServerUrl+"/suhrud/patient/deletePatient";  
-            const sessionData = await AsyncStorage.getItem('patientData');
-            const localData=JSON.parse(sessionData);
-            const method='DELETE';
-            const bearerToken = localData.token;
-            const headers = {
-                'Authorization': `Bearer ${bearerToken}`, // Include your token here
-                'Content-Type': 'String', // Specify the content type if needed
-            };
-            try{
-                const response=await HttpService(method,deleteAccountURL,data=null,headers);
-                console.log(response.status)
-                if(response.status===200){
-                  console.log("Successful");
-                  console.log(response.data);
-                  alert(response.data+". Your Account is Deleted");
-                  AsyncStorage.removeItem('patientData');
-                  navigation.replace("Login");
-                }else{
-                    alert(response.data);
-                }  
-            }catch(error){
-                alert(error.data);
-            }
+            deleteAccount();
         }else{
             navigation.navigate(navigateTo); // Navigate to the specified screen
         }
@@ -97,13 +99,13 @@ const Settings = () => {
             imageHeight: 27,
             navigateTo: "Profile"
         },
-        {
-            menuItemImage: notificationImage,
-            menuItemName: "Notifications",
-            imageWidth: 23,
-            imageHeight: 23,
-            navigateTo: "Notifications"
-        },
+        // {
+        //     menuItemImage: notificationImage,
+        //     menuItemName: "Notifications",
+        //     imageWidth: 23,
+        //     imageHeight: 23,
+        //     navigateTo: "Notifications"
+        // },
         {
             menuItemImage: securityImage,
             menuItemName: "Security and Privacy",

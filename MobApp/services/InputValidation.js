@@ -67,10 +67,10 @@ const validateSignup = ({ name, email, address, phoneNo, userName, gender, passw
     alert('Password Length is less than 6')
     return false;
   }
-  if (!password.match(/^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[\W_])[a-zA-Z0-9\W_]{8,}$/)) {
-    alert('Password must contain at least one letter, one number, and one special character');
-    return false;
-  }
+  // if (!password.match(/^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[\W_])[a-zA-Z0-9\W_]{8,}$/)) {
+  //   alert('Password must contain at least one letter, one number, and one special character');
+  //   return false;
+  // }
   if(!confirmPassword.trim()){
     alert('Please Enter Confirm Password');
     return false;
