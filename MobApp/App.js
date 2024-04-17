@@ -27,6 +27,7 @@ import Dashboard from "./screens/Dashboard";
 import Meditation from "./screens/Meditation";
 import Moodlift from "./screens/Moodlift";
 import MeditationPage from "./screens/MeditationPage";
+import EmergencyContact from "./screens/EmergencyContact";
 
 
 NativeWindStyleSheet.setOutput({
@@ -76,7 +77,8 @@ export default function App() {
           // initialParams={{ doctorName: 'Dr. John', doctorId: 123 }}  
         />
         <Stack.Screen name="Wellness Hub" component={WellnessHub} />   
-        <Stack.Screen name="Harmony" component={Harmony}/>     
+        <Stack.Screen name="Harmony" component={Harmony}/>    
+        <Stack.Screen name="Emergency Contacts" component={EmergencyContact} /> 
       
       </Stack.Navigator>
     </NavigationContainer>

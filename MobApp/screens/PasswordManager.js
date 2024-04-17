@@ -58,7 +58,7 @@ const PasswordManager = () => {
               console.log(response.data);
               alert(response.data+". Please Login again with new credentials!!");
               try{
-                AsyncStorage.removeItem('patientData');
+                logout();
               }catch(error){
                 console.log("error:"+error);
               }
@@ -74,6 +74,33 @@ const PasswordManager = () => {
             onChangeConfirmPassword('');
             onChangeCurrentPassword('');
             onChangeNewPassword('');
+        }
+    }
+
+    const logout=async()=>{
+        const logoutURL=webServerUrl+"/suhrud/patient/logout";  
+        const sessionData = await AsyncStorage.getItem('patientData');
+        const localData=JSON.parse(sessionData);
+        const method='POST';
+        const bearerToken = localData.token;
+        const headers = {
+            'Authorization': `Bearer ${bearerToken}`, // Include your token here
+            'Content-Type': 'String', // Specify the content type if needed
+        };
+        try{
+            const response=await HttpService(method,logoutURL,data=null,headers);
+            console.log(response.status)
+            if(response.status===200){
+              console.log("Successful");
+              console.log(response.data);
+              //alert(response.data);
+              AsyncStorage.removeItem('patientData');
+              navigation.replace("Login");
+            }else{
+                alert(response.data);
+            }  
+        }catch(error){
+            alert(error.data);
         }
     }
 

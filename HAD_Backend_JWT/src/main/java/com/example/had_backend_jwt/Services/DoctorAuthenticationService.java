@@ -11,7 +11,6 @@ import com.example.had_backend_jwt.Repositories.DoctorInfoRepository;
 import com.example.had_backend_jwt.Repositories.DoctorLoginRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,7 +25,6 @@ public class DoctorAuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final DoctorInfoRepository doctorInfoRepository;
     private final DoctorLoginRepository doctorLoginRepository;
-    private final AuthenticationManager authenticationManager;
 
     @Autowired
     private final RandomPasswordGenerationService randomPasswordGenerationService;
