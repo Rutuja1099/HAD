@@ -22,6 +22,10 @@ const Dashboard = () => {
 
     };
 
+    const navigateMoodlift=()=>{
+        navigation.navigate('Moodlift');
+    }
+
     return(
         <>
             <ScrollView className = "flex-1 bg-gray-100">
@@ -110,9 +114,11 @@ const Dashboard = () => {
                                     <Text>Book appointment</Text>
                                 </View>
 
+                                <Pressable onPress={navigateMoodlift}>
                                 <View className="bg-red-400 h-40 w-28 mr-4 text-xl rounded-3xl flex justify-center items-center">
                                     <Text>Moodlift</Text>
                                 </View>
+                                </Pressable>
 
                                 <View className="bg-amber-400 h-40 w-28 mr-4 text-xl rounded-3xl flex justify-center items-center">
                                     <Text>Forum</Text>

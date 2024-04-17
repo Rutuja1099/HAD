@@ -54,7 +54,7 @@ export default function SignUp(props) {
             console.log("error while saving data");
             console.log(error);
         }
-        props.navigation.navigate("Week");
+        props.navigation.navigate("Login");
       }
       else{
         alert(response.data.message);
