@@ -9,12 +9,12 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class DoctorListChatDTO {
+public class PatientListChatDTO {
 
-    private Integer drId;
+    private Integer ptId;
 
     private String ChatId;
 
-    private String drName;
+    private String ptName;
 
 }

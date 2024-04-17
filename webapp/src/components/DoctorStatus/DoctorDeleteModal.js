@@ -4,7 +4,7 @@ import webServerUrl from '../../configurations/WebServer';
 import HttpService from '../../services/HttpService';
 
 
-const DoctorDeleteModal = ({showDeleteConfirm, selectedDoctor, setShowDeleteConfirm, setSelectedDoctor, doctorId}) => {
+const DoctorDeleteModal = ({showDeleteConfirm, selectedDoctor, setShowDeleteConfirm, setSelectedDoctor, doctorId, setReloadPage, reloadPage}) => {
     
     if(!showDeleteConfirm) return null;
 
@@ -60,6 +60,7 @@ const DoctorDeleteModal = ({showDeleteConfirm, selectedDoctor, setShowDeleteConf
                 console.log(error);
             }
             setShowDeleteConfirm(false);
+            setReloadPage(!reloadPage);
         }
     
     return (

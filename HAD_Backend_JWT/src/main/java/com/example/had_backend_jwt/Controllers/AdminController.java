@@ -3,6 +3,7 @@ package com.example.had_backend_jwt.Controllers;
 import com.example.had_backend_jwt.Entities.DoctorInfo;
 import com.example.had_backend_jwt.Models.AuthenticationResponse;
 import com.example.had_backend_jwt.Models.DoctorRegisterRequest;
+import com.example.had_backend_jwt.Models.DoctorStatusDTO;
 import com.example.had_backend_jwt.Repositories.DoctorInfoRepository;
 import com.example.had_backend_jwt.Repositories.DoctorLoginRepository;
 import com.example.had_backend_jwt.Repositories.QuestionsRepository;
@@ -47,11 +48,18 @@ public class AdminController {
     }
 
 
+//    @GetMapping("/getAllDoctorsInfo")
+//    @PreAuthorize("hasAuthority('Admin')")
+//    public ResponseEntity<List<DoctorInfo>> getDoctorsList(){
+//        List<DoctorInfo> DoctorInfos=patientService.getAllDoctorsList();
+//        return  ResponseEntity.ok(DoctorInfos);
+//    }
+
     @GetMapping("/getAllDoctorsInfo")
     @PreAuthorize("hasAuthority('Admin')")
-    public ResponseEntity<List<DoctorInfo>> getDoctorsList(){
-        List<DoctorInfo> DoctorInfos=patientService.getAllDoctorsList();
-        return  ResponseEntity.ok(DoctorInfos);
+    public ResponseEntity<List<DoctorStatusDTO>> getDoctorsList(){
+        List<DoctorStatusDTO> doctorStatusInfo = patientService.getAllDoctorsStatus();
+        return  ResponseEntity.ok(doctorStatusInfo);
     }
 
     @PutMapping("/deactivateDoctor")

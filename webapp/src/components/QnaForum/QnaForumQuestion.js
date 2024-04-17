@@ -67,12 +67,14 @@ const QnaForumQuestion = () => {
 
 
     const toggleDropdown = (answerId) => {
+        setShowDropdownQuestion(false);
         setSelectedAnswerId(answerId);
         setShowDropdown(!showDropdown);
     };
 
     const toggleDropdownQuestion = (questionId) => {
         // setSelectedAnswerId(answerId);
+        setShowDropdown(false);
         setShowDropdownQuestion(!showDropdownQuestion);
     };
 

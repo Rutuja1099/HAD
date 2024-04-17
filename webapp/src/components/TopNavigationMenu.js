@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 
 import logoImage from "../assets/favicon.png";
+import profileImage from "../assets/boy.png";
 
 const DropdownMenu = ({ Logout }) => (
     <div className="absolute right-0 mt-2 w-40 bg-white border rounded shadow-lg">
@@ -18,6 +19,7 @@ const TopNavigationMenu = ({open, setOpen}) => {
 
     const [role, setRole] = useState("");
     const [showLogout, setShowLogout] = useState("");
+    const [username, setUsername] = useState("");
 
     const location = useLocation();
     const navigate = useNavigate();
@@ -26,6 +28,7 @@ const TopNavigationMenu = ({open, setOpen}) => {
     useEffect(() => {
         const data = JSON.parse(window.localStorage.getItem('Data'));
         setRole(data.role);
+        setUsername(data.username);
     },[]); 
 
     const navigateOnboarding = () => {
@@ -77,21 +80,21 @@ const TopNavigationMenu = ({open, setOpen}) => {
                             
                             {/* profile ame and profile image */}
                             <div className="flex self-end items-center justify-between">
-                                <p className="font-semibold">Admin</p>
+                                <p className="font-semibold">{username}</p>
                                 <div className="relative">
-                                <img 
-                                    src={logoImage} 
-                                    className = "w-10 h-10 rounded-full mx-4 cursor-pointer" 
-                                    onClick={() => toggleLogout()}
-                                />
-                                
-                                {showLogout &&    
-                                    (
-                                        <DropdownMenu
-                                            Logout = {Logout}
-                                        />
-                                    )
-                                }
+                                    <img 
+                                        src={profileImage} 
+                                        className = "w-10 h-10 rounded-full mx-4 cursor-pointer" 
+                                        onClick={() => toggleLogout()}
+                                    />
+                                    
+                                    {showLogout &&    
+                                        (
+                                            <DropdownMenu
+                                                Logout = {Logout}
+                                            />
+                                        )
+                                    }
                                 </div>
 
                             </div>
@@ -102,19 +105,33 @@ const TopNavigationMenu = ({open, setOpen}) => {
 
                     (
                         <>
-                        <div className="flex-1 rounded-3xl ml-8">
+                        {/* <div className="flex-1 rounded-3xl ml-8">
                         <input placeholder="Search" className="bg-gray-100 self-start pl-10 p-2 rounded-3xl w-2/4 hover:bg-gray-200 hover:text-black"/>
 
-                        </div>
+                        </div> */}
 
                         <div className="flex self-end items-center justify-between">
-                            <IoNotificationsOutline 
+                            {/* <IoNotificationsOutline 
                                 size={25} 
                                 className="cursor-pointer"/>
 
-                            <RxDividerVertical size={40}/>
-                            <p>Dr. Saurabh</p>
-                            <img src={logoImage} className = "w-10 h-10 rounded-full mx-4 cursor-pointer" />
+                            <RxDividerVertical size={40}/> */}
+                            <p>{username}</p>
+                            <div className="relative">
+                                <img 
+                                    src={profileImage} 
+                                    className = "w-10 h-10 rounded-full mx-4 cursor-pointer" 
+                                    onClick={() => toggleLogout()}    
+                                />
+
+                                {showLogout &&    
+                                        (
+                                            <DropdownMenu
+                                                Logout = {Logout}
+                                            />
+                                        )
+                                }
+                            </div>
 
                         </div>
                         </>

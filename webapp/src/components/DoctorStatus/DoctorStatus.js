@@ -17,20 +17,22 @@ const DoctorStatus = () => {
   const [showDeactivateConfirm, setShowDeactivateConfirm] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [selectedDoctor, setSelectedDoctor] = useState(null);
+  const [reloadPage, setReloadPage] = useState(false);
 
   const [allDoctorDetails, setAlldoctorDetails] = useState([]);
+
 
   const toggleAccordion = (index) => {
     setExpandedIndex((prevIndex) => (prevIndex === index ? null : index));
   };
 
-  const doctorDetails = [
-    {doctorName: "Saurabh", title: "Doctor", gender: "male", email: "sau@gmail.com", isDeactivated: "false"},
-    {doctorName: "Asmita", title: "Doctor", gender: "female", email: "asmi@gmail.com", isDeactivated: "true"},
-    {doctorName: "Ifrah", title: "Doctor", gender: "female", email: "ifrah@gmail.com", isDeactivated: "false"},
-    {doctorName: "Aman", title: "Doctor", gender: "male" , email: "aman@gmail.com", isDeactivated: "false"},
-    {doctorName: "Rushi", title: "Doctor", gender: "male" , email: "rushi@gmail.com", isDeactivated: "false"},
-]
+//   const doctorDetails = [
+//     {doctorName: "Saurabh", title: "Doctor", gender: "male", email: "sau@gmail.com", isDeactivated: "false"},
+//     {doctorName: "Asmita", title: "Doctor", gender: "female", email: "asmi@gmail.com", isDeactivated: "true"},
+//     {doctorName: "Ifrah", title: "Doctor", gender: "female", email: "ifrah@gmail.com", isDeactivated: "false"},
+//     {doctorName: "Aman", title: "Doctor", gender: "male" , email: "aman@gmail.com", isDeactivated: "false"},
+//     {doctorName: "Rushi", title: "Doctor", gender: "male" , email: "rushi@gmail.com", isDeactivated: "false"},
+// ]
 
 
 const getAllDoctors = async () => {
@@ -62,7 +64,6 @@ const getAllDoctors = async () => {
         console.log(response.data);
         
         setAlldoctorDetails(response.data);
-        console.log("hihiihiihhi", allDoctorDetails);
     
         try{
             console.log("from storage");
@@ -88,7 +89,7 @@ const getAllDoctors = async () => {
   useEffect(() => {
 
     getAllDoctors();
-  },[])
+  },[reloadPage])
 
   const handleSearch = (e) => {
 
@@ -103,7 +104,7 @@ const getAllDoctors = async () => {
     }
     
     const regex = new RegExp(text, 'i'); // i means Case-insensitive regular expression
-    const filteredResults = allDoctorDetails.filter(doctor => regex.test(doctor.doctorName));
+    const filteredResults = allDoctorDetails.filter(doctor => regex.test(doctor.drFullName));
 
     setSearchResults(filteredResults);
 
@@ -139,7 +140,7 @@ const getAllDoctors = async () => {
         <div className='m-4 flex-col bg-white rounded-2xl border-2 border-gray-300 overflow-y-auto'>
             <div className='m-4 flex items-center font-bold text-gray-400 gap-40'>
                 <div className='mr-60'>NAME</div>
-                <div>Active Patients</div>
+                <div>Doctor Degree</div>
                 <div>Status</div>
             </div>
             <div className='flex-grow'>
@@ -160,8 +161,8 @@ const getAllDoctors = async () => {
                     
                 <div className="flex justify-between items-center">
             <div className="m-4 flex flex-row gap-40">
-              <div className="font-bold w-80">{doctor.drFullName}</div>
-              <div className="text-sm text-gray-600 font-semibold mr-12">{doctor.drActivePatients}</div>
+              <div className="font-bold w-72 mr-5">{doctor.drFullName}</div>
+              <div className="text-sm text-gray-600 font-semibold mr-8 w-10 flex justify-center">{doctor.drDegree}</div>
               <div className="text-sm">{doctor.isDeactivated === true ? "Deactivated": "Activated"}</div>
             </div>
             <button
@@ -185,7 +186,7 @@ const getAllDoctors = async () => {
                  Address: <span className='text-gray-600'>{doctor.drAddr}</span>
                </div>
                <div className="font-bold flex-grow text-sm">
-                 Email: <span className='text-gray-600'>{doctor.drId}</span>
+                 Email: <span className='text-gray-600'>{doctor.drEmail}</span>
                </div>
              </div>
          
@@ -211,6 +212,8 @@ const getAllDoctors = async () => {
                 setShowDeactivateConfirm = {setShowDeactivateConfirm}
                 setSelectedDoctor = {setSelectedDoctor}
                 doctorId = {doctor.drId}
+                setReloadPage = {setReloadPage}
+                reloadPage = {reloadPage}
             />
 
             <DoctorDeleteModal
@@ -219,6 +222,8 @@ const getAllDoctors = async () => {
                 setShowDeleteConfirm = {setShowDeleteConfirm}
                 setSelectedDoctor = {setSelectedDoctor}
                 doctorId = {doctor.drId}
+                setReloadPage = {setReloadPage}
+                reloadPage = {reloadPage}
             />
 
            </>

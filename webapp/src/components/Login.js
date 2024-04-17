@@ -38,13 +38,11 @@ const Login = ({setAuthenticated}) => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         console.log(username);
-        console.log(password);
-        console.log(selectedOption);
+
         const isValid=LoginInputValidation({username,password});
         if(!isValid)
             return;
         if(selectedOption==='doctor'){
-            console.log("hihi", username, password);
             loginURL = webServerUrl+"/auth/login/doctor";
         }
         else{
@@ -60,6 +58,7 @@ const Login = ({setAuthenticated}) => {
         try{
             const response=await HttpService(method,loginURL,data);
             console.log(response.status)
+            
             if(response.status===200){
                 console.log("Successful");
                 console.log(response.data);
@@ -98,7 +97,7 @@ const Login = ({setAuthenticated}) => {
             alert(error.data.message);
             setPassword("");
             setUsername("");  
-            // window.location.reload();                  
+            window.location.reload();                  
         }
         
       };
