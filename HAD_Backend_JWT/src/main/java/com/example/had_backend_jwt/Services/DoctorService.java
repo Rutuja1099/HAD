@@ -130,4 +130,23 @@ public class DoctorService {
         detail.setSeverityWeekWise(ans);
         return detail;
     }
+
+    public DoctorInformationDTO getDoctorInformation(Integer drId) {
+        DoctorInformationDTO ans=new DoctorInformationDTO();
+        DoctorInfo doctorInfo=doctorInfoRepository.findDoctorInfoByDrId(drId);
+        if(doctorInfo==null)
+            return null;
+        ans.setDrFullName(doctorInfo.getDrFullName());
+        ans.setDrDegree(doctorInfo.getDrDegree());
+        ans.setDrGender(doctorInfo.getDrGender());
+        ans.setDrAddr(doctorInfo.getDrAddr());
+        ans.setDrPhone(doctorInfo.getDrPhone());
+        ans.setDrExperience(doctorInfo.getDrExperience());
+        ans.setDrRegNo(doctorInfo.getDrRegNo());
+        ans.setDrActivePatients(doctorInfo.getDrActivePatients());
+        ans.setDrIsModerator(doctorInfo.isDrIsModerator());
+        ans.setDrPatientLimit(doctorInfo.getDrPatientLimit());
+        ans.setDrSpecialization(doctorInfo.getDrSpecialization());
+        return ans;
+    }
 }

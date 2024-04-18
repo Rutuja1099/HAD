@@ -77,4 +77,14 @@ public class DoctorController {
         return ResponseEntity.ok(drId);
     }
 
+    @GetMapping("/doctorInfo")
+    @PreAuthorize("hasAuthority('Doctor')")
+    public ResponseEntity<DoctorInformationDTO> getDoctorInformation(HttpServletRequest request) {
+        Integer drId=jwtService.extractId(request,"doctorId");
+        DoctorInformationDTO ans=doctorService.getDoctorInformation(drId);
+        if(ans==null)
+            return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(ans);
+    }
+
 }
