@@ -36,7 +36,7 @@ const DoctorStatus = () => {
 
 
 const getAllDoctors = async () => {
-      
+    
   const loginURL = webServerUrl+"/suhrud/getAllDoctorsInfo";
 
   const method='GET';

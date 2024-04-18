@@ -191,7 +191,7 @@ const ChatPage = () => {
                         allPatientsInfo.map((item, index) => (
                             <div
                                 key={index}
-                                className={`p-3 flex item-centered hover:bg-slate-100 active:bg-slate-100 rounded-3xl cursor-pointer ${item.drName === selectedPatientName ? 'bg-gray-200' : ''}`} 
+                                className={`p-3 flex item-centered hover:bg-slate-100 rounded-3xl cursor-pointer ${item.ptName === selectedPatientName ? 'bg-slate-100' : ''}`} 
                                 onClick={() => enterChat(item.ptName, item.ptId, item.chatId)}
                             >
 
@@ -211,7 +211,7 @@ const ChatPage = () => {
                         searchResults.map((item, index) => (
                             <div
                                 key={index}
-                                className="p-3 flex item-centered hover:bg-slate-100 active:bg-slate-100 rounded-3xl " 
+                                className={`p-3 flex item-centered hover:bg-slate-100 rounded-3xl ${item.ptName === selectedPatientName ? 'bg-slate-100' : ''}`}
                                 onClick={() => enterChat(item.name, item.id, item.chatId)}
                             >
 
