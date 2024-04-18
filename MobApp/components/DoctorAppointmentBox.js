@@ -2,7 +2,6 @@ import { View, Text, SafeAreaView, Image ,useWindowDimensions,style, Button, Pre
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { homeImage, progressImage, moodliftImage, messageImage, settingsImage} from '../assets'
 import Icon from 'react-native-vector-icons/FontAwesome';
-import ChooseDoctorPopUp from './ChooseDoctorPopUp';
 import webServerUrl from '../configurations/WebServer';
 import HttpService from '../services/HttpService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
