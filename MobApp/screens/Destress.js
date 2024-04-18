@@ -5,6 +5,7 @@ import YoutubePlayer from 'react-native-youtube-iframe';
 import {image1, image2} from '../assets';
 import NavigationBar from "../components/NavigationBar";
 import Icon from "react-native-vector-icons/FontAwesome";
+import { useFonts, Pangolin_400Regular } from '@expo-google-fonts/pangolin';
 
 
 const Destress = (props) => {
@@ -13,6 +14,9 @@ const Destress = (props) => {
     const [playing, setPlaying] = useState(false);
     const [visibleState, setVisibleState] = useState(true);
 
+    let [fontsLoaded] = useFonts({
+      Pangolin_400Regular,
+    });
 
     useLayoutEffect(() => {
             navigation.setOptions({

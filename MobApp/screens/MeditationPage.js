@@ -5,6 +5,7 @@ import YoutubePlayer from 'react-native-youtube-iframe';
 import {image1} from '../assets';
 import NavigationBar from "../components/NavigationBar";
 import Icon from "react-native-vector-icons/FontAwesome";
+import { useFonts, Pangolin_400Regular } from '@expo-google-fonts/pangolin';
 
 
 const MeditationPage = (props) => {
@@ -13,6 +14,9 @@ const MeditationPage = (props) => {
     const [playing, setPlaying] = useState(false);
     const [visibleState, setVisibleState] = useState(true);
 
+    let [fontsLoaded] = useFonts({
+      Pangolin_400Regular,
+    });
 
     useLayoutEffect(() => {
             navigation.setOptions({
@@ -30,16 +34,16 @@ const MeditationPage = (props) => {
         <SafeAreaView className="  bg-white flex-1 relative">
           <View className="bg-sky-950 flex-1 text-white p-2">
                 <View className = "p-4 flex-row items-center">
-                    <Icon name="angle-left" color="grey" size={25} onPress={navigateback}/>
-                    <Text className="text-xl ml-5 mt-4 mb-3 text-slate-50 font-extrabold ">
+                    <Icon name="angle-left" color="white" size={25} onPress={navigateback}/>
+                    <Text style={styles.title}>
                       Relax and Meditate..
                     </Text>
                 </View>
                     <View style={styles.container}>
                     <ImageBackground source={image1} resizeMode="cover" style={styles.image}>
                         <View style={styles.ImageContainer}>
-                        <Text className="text-xl ml-5 mt-5 mb-3 text-slate-50 font-extrabold">What is Meditation? </Text>
-                        <Text className="m-5 text-l ml-5 mt-5 mb-3 text-slate-50 font-extrabold">
+                        <Text style={styles.subtitle}>What is Meditation? </Text>
+                        <Text style={styles.dayText}>
                                 Meditation can be defined as a set of techniques that are intended to encourage a heightened state of awareness and focused attention. 
                                 Meditation is also a consciousness-changing technique shown to have many benefits on psychological well-being
                                 </Text>
@@ -51,17 +55,17 @@ const MeditationPage = (props) => {
                         <View style={styles.innercontainer}>
                            
                             <Pressable disabled={!visibleState} onPress={()=>setVisibleState(false)}>
-                                <Text className='m-5 text-l ml-5 mt-5 mb-3 text-slate-50 font-extrabold'>Know the steps</Text></Pressable>
+                                <Text style={styles.subtitle}>Know the steps</Text></Pressable>
                             <View disabled={visibleState} style={styles.textContainer}>
-                            <Text className="text-l text-slate-50 font-extrabold">
+                            <Text style={styles.dayText}>
                                 1. Choose a quite spot.</Text>
-                            <Text className="text-l text-slate-50 font-extrabold">
+                            <Text style={styles.dayText}>
                                 2. Play the video above. </Text>
-                            <Text className="text-l text-slate-50 font-extrabold">
+                            <Text style={styles.dayText}>
                                 3. Pay attention towards your breathing. </Text>
-                            <Text className="text-l  text-slate-50 font-extrabold">
+                            <Text style={styles.dayText}>
                                 4. Notice your thoughts. </Text>
-                            <Text className="text-l text-slate-50 font-extrabold">
+                            <Text style={styles.dayText}>
                                 5. You may set a timer.
                                 </Text>
                             </View>
@@ -97,7 +101,7 @@ const styles = StyleSheet.create({
         width:'auto',
         alignContent:'space-around',
         overflow:'hidden',
-        padding:1,
+        padding:5,
       },
     ImageContainer: {
       alignItems: 'center',
@@ -118,7 +122,7 @@ const styles = StyleSheet.create({
       alignItems:'center',
     },
     textContainer: {
-      backgroundColor: 'rgba(222,233,246, 0.1)',
+      backgroundColor: 'rgba(222,233,246, 0.2)',
       paddingHorizontal: 24,
       paddingVertical: 8,
       borderRadius: 5,
@@ -127,17 +131,33 @@ const styles = StyleSheet.create({
       justifyContent:'center',
       alignItems:'flex-start',
     },
-    text: {
-      fontSize: 15,
-      color: 'white',
-      fontWeight:"700",
+    title:{
+      fontFamily:"Pangolin_400Regular",
+      fontSize:30,
+      color:'white',
+      marginLeft:20,
+    },
+    subtitle:{
+      fontFamily:"Pangolin_400Regular",
+      fontSize:25,
+      color:'white',
+      marginRight:10,
+      marginTop:25,
+      marginBottom:20,
+    },
+    dayText:{
+      fontFamily:"System",
+      fontSize:15,
+      color:'white',
+      marginLeft:10,
+      marginRight:10,
     },
     videoContainer:{
         backgroundColor:'rgba(222,233,246,0.3)',
         width:'auto',
         overflow:'hidden',
         padding:2,
-        margin:2,
+        margin:10,
         borderRadius:2,
         border:'solid, lavender',
     }

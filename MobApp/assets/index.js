@@ -17,4 +17,4 @@ export {default as image3} from './image3.jpeg';
 export {default as image4} from './image4.jpeg';
 export {default as icon_suhrud} from './icon_suhrud.jpeg';
 export {default as background} from './background.jpg';
-
+export {default as therapy} from './therapy.jpeg';

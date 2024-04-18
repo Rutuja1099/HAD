@@ -44,7 +44,7 @@ const Settings = () => {
     return (
         <ImageBackground source={background} style={styles.imagebackground}>
         <SafeAreaView className="flex-1 relative">
-
+        and 
             {/* Settings Container for name and profile picture*/}
             <View className="flex-row p-2 rounded-2xl shadow-lg justify-between mt-10">
                 {/* profile picture*/}
