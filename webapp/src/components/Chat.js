@@ -62,7 +62,7 @@ const Chat = ({selectedChat, selectedPatientId, room, user}) => {
         await addDoc(messageRef, {
             text: newMessage,
             createdAt: new Date(),
-            user: user,
+            // user: user,
             room: room
         });
 
@@ -85,7 +85,6 @@ const Chat = ({selectedChat, selectedPatientId, room, user}) => {
 
                     {messages.map((message, index) => {
                         
-                        console.log("1111111")
                         const messageLength = message.text.length;
                         
                         const createdAtDate = new Date(message.createdAt.seconds * 1000); // Convert seconds to milliseconds

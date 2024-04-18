@@ -6,6 +6,8 @@ import { AiOutlineSchedule, AiOutlineQuestionCircle } from "react-icons/ai";
 import { PiChats } from "react-icons/pi";
 import { CgProfile } from "react-icons/cg";
 import { useLocation, useNavigate } from "react-router-dom";
+import webServerUrl from "../configurations/WebServer";
+import HttpService from "../services/HttpService";
 
 const SideNavigationMenu = ({ open, setOpen }) => {
     const location = useLocation();
@@ -40,11 +42,31 @@ const SideNavigationMenu = ({ open, setOpen }) => {
         navigate(src);
     };
 
-    const handleLogout = () => {
-        // Clear localStorage
-        localStorage.removeItem('Data');
-        // Navigate to the login page
-        navigate('/login');
+    const handleLogout = async() => {
+        const logoutURL=webServerUrl+"/suhrud/doctor/logout";  
+        const sessionData = await localStorage.getItem('Data');
+        const localData=JSON.parse(sessionData);
+        const method='POST';
+        const bearerToken = localData.token;
+        const headers = {
+            'Authorization': `Bearer ${bearerToken}`, // Include your token here
+            'Content-Type': 'String', // Specify the content type if needed
+        };
+        try{
+            const response=await HttpService(method,logoutURL,null,headers);
+            console.log(response.status)
+            if(response.status===200){
+              console.log("Successful");
+              console.log(response.data);
+              //alert(response.data);
+              localStorage.removeItem('Data');
+              navigate('/login');
+            }else{
+                alert(response.data);
+            }  
+        }catch(error){
+            alert(error.data);
+        }
     };
 
     return (

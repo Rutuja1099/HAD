@@ -2,6 +2,7 @@ package com.example.had_backend_jwt.Controllers;
 
 import com.example.had_backend_jwt.Entities.DoctorInfo;
 import com.example.had_backend_jwt.Entities.DoctorLogin;
+import com.example.had_backend_jwt.JWT.JwtService;
 import com.example.had_backend_jwt.Models.AuthenticationResponse;
 import com.example.had_backend_jwt.Models.DoctorRegisterRequest;
 import com.example.had_backend_jwt.Models.DoctorStatusDTO;
@@ -12,6 +13,7 @@ import com.example.had_backend_jwt.Services.AdminAuthenticationService;
 import com.example.had_backend_jwt.Services.DoctorAuthenticationService;
 import com.example.had_backend_jwt.Services.EmailService;
 import com.example.had_backend_jwt.Services.PatientService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,6 +33,8 @@ public class AdminController {
 
     private final DoctorAuthenticationService doctorAuthService;
     private final AdminAuthenticationService adminAuthService;
+    private final JwtService jwtService;
+
     @Autowired
     private PatientService patientService;
 
@@ -121,5 +125,11 @@ public class AdminController {
         }
 
         return ResponseEntity.ok(Map.of("success", true));
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logoutUser(HttpServletRequest request){
+        jwtService.addToBlacklist(request);
+        return ResponseEntity.ok("Successfully logged out");
     }
 }

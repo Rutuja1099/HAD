@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import profilePhoto from '../assets/boy.png';
 import Scrollbars from 'rc-scrollbars';
 import '../styles/ChatPage.css';
 import { FaArrowLeft } from "react-icons/fa";
 import Chat from './Chat';
+import webServerUrl from '../configurations/WebServer';
+import HttpService from '../services/HttpService';
 
 
 const ChatPage = () => {
@@ -18,28 +20,97 @@ const ChatPage = () => {
 
     //logged in user information
     const [user, setUser] = useState("Saurabh");
+    
+    const [allPatientsInfo, setAllPatientsInfo] = useState([]);
+    const [drId, setDrId] = useState();
 
 
-    const [chats, setChats] = useState([
-        { id: 1, name: 'Saurabh', profilePhoto:  profilePhoto},
-        { id: 2, name: 'Asmita', profilePhoto: profilePhoto },
-        { id: 3, name: 'Vikram', profilePhoto: profilePhoto },
-        { id: 4, name: 'Ifrah', profilePhoto: profilePhoto },
-        { id: 5, name: 'Rutuja', profilePhoto: profilePhoto },
-        { id: 6, name: 'Rutuja', profilePhoto: profilePhoto },
-        { id: 7, name: 'Rutuja', profilePhoto: profilePhoto },
-        { id: 8, name: 'Rutuja', profilePhoto: profilePhoto },
-        { id: 9, name: 'Rutuja', profilePhoto: profilePhoto },
+    // const [chats, setChats] = useState([
+    //     { id: 1, name: 'Saurabh', profilePhoto:  profilePhoto},
+    //     { id: 2, name: 'Asmita', profilePhoto: profilePhoto },
+    //     { id: 3, name: 'Vikram', profilePhoto: profilePhoto },
+    //     { id: 4, name: 'Ifrah', profilePhoto: profilePhoto },
+    //     { id: 5, name: 'Rutuja', profilePhoto: profilePhoto },
+    //     { id: 6, name: 'Rutuja', profilePhoto: profilePhoto },
+    //     { id: 7, name: 'Rutuja', profilePhoto: profilePhoto },
+    //     { id: 8, name: 'Rutuja', profilePhoto: profilePhoto },
+    //     { id: 9, name: 'Rutuja', profilePhoto: profilePhoto },
 
-    ]);
+    // ]);
 
-    const [allDoctorInfo, setAllDoctorInfo] = useState([
-        { id: 1, name: 'Saurabh', profilePhoto: profilePhoto },
-        { id: 2, name: 'Sauvay', profilePhoto: profilePhoto },
-        { id: 3, name: 'Asmita', profilePhoto: profilePhoto },
-        { id: 4, name: 'Asthitha', profilePhoto: profilePhoto },
-    ]);
+    // const [allDoctorInfo, setAllDoctorInfo] = useState([
+    //     { id: 1, name: 'Saurabh', profilePhoto: profilePhoto },
+    //     { id: 2, name: 'Sauvay', profilePhoto: profilePhoto },
+    //     { id: 3, name: 'Asmita', profilePhoto: profilePhoto },
+    //     { id: 4, name: 'Asthitha', profilePhoto: profilePhoto },
+    // ]);
 
+    const getDrId = async () => {
+        
+        const method='GET';
+        const sessionData = JSON.parse(window.localStorage.getItem('Data'));
+        const bearerToken = sessionData.token;
+
+        const URL = webServerUrl + "/suhrud/doctor/getDrId";
+
+        const headers = {
+            'Authorization': `Bearer ${bearerToken}`, // token here
+            'Content-Type': 'application/json', // content type
+        };
+
+        try{
+            const response=await HttpService(method,URL,null,headers);
+            console.log(response.status)
+
+            if(response.status===200){
+                const patientProgress=await response.data;
+                console.log(patientProgress);
+
+                setDrId(response.data);
+            }else{
+                console.log("error");
+                alert("Failed to fetch the patient records");
+            }
+
+        }catch(error){
+            console.log("error:");
+            console.log(error);
+        }
+    }
+
+    const getAllPatients = async (drId) => {
+
+        const method='GET';
+        const sessionData = JSON.parse(window.localStorage.getItem('Data'));
+        const bearerToken = sessionData.token;
+
+        const URL = webServerUrl + `/suhrud/chat/getMappedPatients?drId=1`;
+        console.log("URLLLL", URL);
+
+        const headers = {
+            'Authorization': `Bearer ${bearerToken}`, // token here
+            'Content-Type': 'application/json', // content type
+        };
+
+        try{
+            const response=await HttpService(method,URL,null,headers);
+            console.log(response.status)
+
+            if(response.status===200){
+                console.log("yohoyohoyoho",response.data);
+
+                setAllPatientsInfo(response.data);
+            }else{
+                console.log("error");
+                alert("Failed to fetch the patient records");
+            }
+
+        }catch(error){
+            console.log("error:");
+            console.log(error);
+        } 
+    }
+    
     const handleSearch = (e) => {
 
         var text = e.target.value;
@@ -53,23 +124,28 @@ const ChatPage = () => {
         // }
         
         const regex = new RegExp(text, 'i'); // i means Case-insensitive regular expression
-        const filteredResults = allDoctorInfo.filter(doctor => regex.test(doctor.name));
+        const filteredResults = allPatientsInfo.filter(doctor => regex.test(doctor.ptName));
         // const filteredResults = allDoctorInfo.filter(doctor => doctor.name.toLowerCase().includes(searchText.toLowerCase()));
         setSearchResults(filteredResults);
 
     }
 
-    const enterChat = (patientName, patientId) => {
+    const enterChat = (patientName, patientId, chatId) => {
 
         setSearchText("");
         setSelectedPatientName(patientName);
-        setRoom(patientName+user);
+        setRoom(chatId);
         console.log(room);
     }
 
     const navigateBack = () => {
         setSearchText("");
     }
+
+    useEffect (() => {
+        getDrId();
+        getAllPatients(drId);
+    },[]);
 
     return (
         <>
@@ -103,16 +179,16 @@ const ChatPage = () => {
                     
                     (
                         
-                        chats.map((item, index) => (
+                        allPatientsInfo.map((item, index) => (
                             <div
                                 key={index}
-                                className={`p-3 flex item-centered hover:bg-slate-100 active:bg-slate-100 rounded-3xl cursor-pointer`} 
-                                onClick={() => enterChat(item.name, item.id)}
+                                className={`p-3 flex item-centered hover:bg-slate-100 active:bg-slate-100 rounded-3xl cursor-pointer ${item.drName === selectedPatientName ? 'bg-gray-200' : ''}`} 
+                                onClick={() => enterChat(item.ptName, item.ptId, item.chatId)}
                             >
 
-                                <img src ={item.profilePhoto } className = "w-10 h-10 rounded-full mr-4" />
+                                <img src ={profilePhoto } className = "w-10 h-10 rounded-full mr-4" />
                                 <div className = "flex-1 self-center"> 
-                                    <p className = "text-2sm text-black" >{item.name}</p>
+                                    <p className = "text-2sm text-black" >{item.ptName}</p>
                                 </div>
                                             
                             </div>
@@ -127,7 +203,7 @@ const ChatPage = () => {
                             <div
                                 key={index}
                                 className="p-3 flex item-centered hover:bg-slate-100 active:bg-slate-100 rounded-3xl " 
-                                onClick={() => enterChat(item.name, item.id)}
+                                onClick={() => enterChat(item.name, item.id, item.chatId)}
                             >
 
                                 <img src ={item.profilePhoto } className = "w-10 h-10 rounded-full mr-4" />

@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { IoNotificationsOutline } from "react-icons/io5";
 import { RxDividerVertical } from "react-icons/rx";
 import { useLocation, useNavigate } from "react-router-dom";
-
+import webServerUrl from "../configurations/WebServer";
+import HttpService from "../services/HttpService";
 
 import logoImage from "../assets/favicon.png";
 import profileImage from "../assets/boy.png";
@@ -43,10 +44,32 @@ const TopNavigationMenu = ({open, setOpen}) => {
         setShowLogout(!showLogout);
     }
 
-    const Logout = () => {
-        localStorage.removeItem('Data');
-        navigate('/login');
-    }
+    const handleLogout = async() => {
+        const logoutURL=webServerUrl+"/suhrud/doctor/logout";  
+        const sessionData = await localStorage.getItem('Data');
+        const localData=JSON.parse(sessionData);
+        const method='POST';
+        const bearerToken = localData.token;
+        const headers = {
+            'Authorization': `Bearer ${bearerToken}`, // Include your token here
+            'Content-Type': 'String', // Specify the content type if needed
+        };
+        try{
+            const response=await HttpService(method,logoutURL,null,headers);
+            console.log(response.status)
+            if(response.status===200){
+              console.log("Successful");
+              console.log(response.data);
+              //alert(response.data);
+              localStorage.removeItem('Data');
+              navigate('/login');
+            }else{
+                alert(response.data);
+            }  
+        }catch(error){
+            alert(error.data);
+        }
+    };
 
     return (
         <>
@@ -91,7 +114,7 @@ const TopNavigationMenu = ({open, setOpen}) => {
                                     {showLogout &&    
                                         (
                                             <DropdownMenu
-                                                Logout = {Logout}
+                                                Logout = {() => handleLogout()}
                                             />
                                         )
                                     }
@@ -127,7 +150,7 @@ const TopNavigationMenu = ({open, setOpen}) => {
                                 {showLogout &&    
                                         (
                                             <DropdownMenu
-                                                Logout = {Logout}
+                                                Logout = {() => handleLogout()}
                                             />
                                         )
                                 }

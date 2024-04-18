@@ -1,6 +1,7 @@
 package com.example.had_backend_jwt.Services;
 
 import com.example.had_backend_jwt.Entities.*;
+import com.example.had_backend_jwt.Models.PatientProfileUpdation;
 import com.example.had_backend_jwt.Models.QandAnswerDTO;
 import com.example.had_backend_jwt.Models.QandAnswerDoctorDTO;
 import com.example.had_backend_jwt.Repositories.*;
@@ -29,6 +30,10 @@ public class ForumService {
     private  QuestionsRepository questionsRepository;
     @Autowired
     private AnswersRepository answersRepository;
+    @Autowired
+    private EmailService emailService;
+    @Autowired
+    private PatientLoginRepository patientLoginRepository;
 
     public String postAnswers(Integer id, Integer queryId, String content) {
         try{
@@ -58,7 +63,18 @@ public class ForumService {
             if (pInfo == null)
                 return false;
             Questions q = new Questions();
-            q.setQueryContent(question);
+            String processedQuery=maskPersonalInfo(id,question);
+            if(!processedQuery.equals(question.toLowerCase())){
+                Optional<PatientLogin> patientLoginOptional=patientLoginRepository.findById(id);
+                if(patientLoginOptional.isPresent()){
+                    PatientLogin patientLogin=patientLoginOptional.get();
+                    emailService.sendSimpleMessage(patientLogin.getPtEmail(),"Wellness Hub Query Posting","Dear user,\n To preserve your privacy we have masked the personal details present in the query. Hence the query posted now looks like this:\n"+processedQuery+"\n");
+                    q.setQueryContent(processedQuery);
+                }
+            }
+            else {
+                q.setQueryContent(question);
+            }
             q.setPatientInfo(pInfo);
             questionsRepository.save(q);
             return true;
@@ -151,5 +167,18 @@ public class ForumService {
             answer.add(qna);
         }
         return answer;
+    }
+
+    public String maskPersonalInfo(int ptRegNo,String question){
+        PatientInfo patientInfo=patientInfoRepository.findPatientInfoByPtRegNo(ptRegNo);
+        String processedQuery=question;
+        if(patientInfo!=null){
+            processedQuery=processedQuery.toLowerCase()
+                    .replace(patientInfo.getPtFullname().toLowerCase(),"*****")
+                    .replace(patientInfo.getPtPhone(),"*****")
+                    .replace(patientInfo.getPtAddr().toLowerCase(),"*****")
+                    .replace(patientInfo.getPtGender().toLowerCase(),"*****");
+        }
+        return processedQuery;
     }
 }

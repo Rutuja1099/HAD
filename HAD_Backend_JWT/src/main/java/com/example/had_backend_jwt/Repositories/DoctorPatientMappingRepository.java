@@ -16,4 +16,6 @@ public interface DoctorPatientMappingRepository extends JpaRepository<DoctorPati
 
     @Query(value = "SELECT ptRegNo, chatId, drId FROM doctorpatientmapping WHERE drId = :drId",nativeQuery = true)
     List<Object[]> PatientsList(@Param("drId") Integer drId);
+
+    List<DoctorPatientMapping> findByDoctorInfo_DrId(Integer drId);
 }

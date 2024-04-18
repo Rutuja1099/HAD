@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { View, Text, TextInput, ScrollView} from 'react-native';
+import { View, Text, TextInput, ScrollView, Pressable} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native'
 import NavigationBar from "../components/NavigationBar";
@@ -22,6 +22,10 @@ const Dashboard = () => {
 
     };
 
+    const navigateMoodlift=()=>{
+        navigation.navigate('Moodlift');
+    }
+
     return(
         <>
             <ScrollView className = "flex-1 bg-gray-100">
@@ -36,11 +40,11 @@ const Dashboard = () => {
                         </View>
 
                         <View className="flex flex-row justify-center items-center">
-
-                            <View className="mr-4">
-                                <Feather name="phone-call" size={24} color="black" />
-                            </View>
-                            
+                            <Pressable onPress={() => navigation.navigate("Emergency Contacts")}>
+                                <View className="mr-4">
+                                    <Feather name="phone-call" size={24} color="black" />
+                                </View>
+                            </Pressable>
                             <View className="border-2 rounded-full p-1">
                                 <Feather name="user" size={24} color="black" />
                             </View>
@@ -110,9 +114,11 @@ const Dashboard = () => {
                                     <Text>Book appointment</Text>
                                 </View>
 
+                                <Pressable onPress={navigateMoodlift}>
                                 <View className="bg-red-400 h-40 w-28 mr-4 text-xl rounded-3xl flex justify-center items-center">
                                     <Text>Moodlift</Text>
                                 </View>
+                                </Pressable>
 
                                 <View className="bg-amber-400 h-40 w-28 mr-4 text-xl rounded-3xl flex justify-center items-center">
                                     <Text>Forum</Text>

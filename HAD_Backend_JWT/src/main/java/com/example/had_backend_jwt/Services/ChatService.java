@@ -44,8 +44,8 @@ public class ChatService {
 
                 DoctorListChatDTO response = DoctorListChatDTO.builder()
                         .drId(drId)
-                        .drName(chatId)
-                        .ChatId(drName)
+                        .drName(drName)
+                        .ChatId(chatId)
                         .build();
                 DoctorsListResponses.add(response);
             }

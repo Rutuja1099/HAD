@@ -193,16 +193,8 @@ public class PatientService {
         return sum;
     }
 
-    public BookedDaysResponse fetchBookedDays(HttpServletRequest httpRequest,AppointmentBookingRequest request){
+    public boolean fetchSpecificBookedDay(HttpServletRequest httpRequest,AppointmentBookingRequest request){
         //booked->true, free->false
-        Integer[] slots={1,2,3,4,5,6,7,8};
-        Map<Integer,Boolean> bookedSlots= new HashMap<>();
-        List<Integer> myBookedSlots=new ArrayList<>();
-        Integer ptRegNo= jwtService.extractId(httpRequest,"patientId");
-
-        //Initialize all slots
-        for(Integer slot:slots)
-            bookedSlots.put(slot,false);
 
         //fetch doctor id
         Integer drId=request.getDrId();
@@ -212,34 +204,15 @@ public class PatientService {
         LocalDate currentDate=LocalDate.now();
 
         //previous day
-        if(requestedDate.isBefore(currentDate)){
-            for(Integer slot:slots)
-                bookedSlots.put(slot,true);
-            return BookedDaysResponse.builder()
-                    .bookedSlots(bookedSlots)
-                    .build();
-        }
+        if(requestedDate.isBefore(currentDate))
+            return true;//already booked
 
         //current or next day
         else{
             Date requestedDateSQL=Date.valueOf(requestedDate);
             Integer requestedSlot=request.getRequestedSlots();
-            for(Integer slot: slots){
-                if(Objects.equals(slot, requestedSlot)){
-                    List<Appointments> appointments=appointmentsRepository.findByDrInfoDrIdAndDateAndSlot(drId,requestedDateSQL,requestedSlot);
-                    if(!appointments.isEmpty()) {
-                        bookedSlots.put(slot,true);
-                        for(Appointments appointment:appointments)
-                            if(Objects.equals(appointment.getPatientInfo().getPtRegNo(), ptRegNo))
-                                myBookedSlots.add(slot);
-                    }
-                }
-            }
-
-            return BookedDaysResponse.builder()
-                    .myBookedSlots(myBookedSlots)
-                    .bookedSlots(bookedSlots)
-                    .build();
+            Optional<Appointments> appointmentsOptional=appointmentsRepository.findByDrInfoDrIdAndDateAndSlot(drId,requestedDateSQL,requestedSlot);
+            return appointmentsOptional.isPresent();
         }
     }
 
@@ -248,32 +221,17 @@ public class PatientService {
         return doctorPatientMappingOptional.isPresent();
     }
 
-    public boolean checkAppointment(Integer ptRegNo,Integer drId,Date date,Integer slot){
-        Optional<Appointments> appointments=appointmentsRepository.findByPatientInfoPtRegNoAndDrInfoDrIdAndDateAndSlot(ptRegNo, drId, date, slot);
-        return appointments.isPresent();
-    }
+//    public boolean checkAppointment(Integer ptRegNo,Integer drId,Date date,Integer slot){
+//        Optional<Appointments> appointments=appointmentsRepository.findByPatientInfoPtRegNoAndDrInfoDrIdAndDateAndSlot(ptRegNo, drId, date, slot);
+//        return appointments.isPresent();
+//    }
 
     public Integer bookAppointment(HttpServletRequest request,AppointmentBookingRequest appointmentBookingRequest){
         //fetch all booked days
-        BookedDaysResponse bookedDaysResponse=fetchBookedDays(request,appointmentBookingRequest);
-        Map<Integer,Boolean> bookedSlots=bookedDaysResponse.getBookedSlots();
-        List<Integer> availableSlots=new ArrayList<Integer>();
-        int countTrue=0;
+        boolean bookedSlotStatus=fetchSpecificBookedDay(request,appointmentBookingRequest);
 
-        //available slots and previous day check
-        for(Map.Entry<Integer,Boolean> entry: bookedSlots.entrySet()){
-            Integer slot=entry.getKey();
-            Boolean isBooked=entry.getValue();
-            if(isBooked){
-                countTrue+=1;
-            }
-            else
-                availableSlots.add(slot);
-        }
-
-        //previous day
-        if(countTrue==bookedSlots.values().size())
-            return 0;
+        if(bookedSlotStatus)
+            return -1;
 
         //current or next day
         else{
@@ -282,47 +240,29 @@ public class PatientService {
             PatientInfo patientInfo=patientInfoRepository.findPatientInfoByPtRegNo(ptRegNo);
             DoctorInfo doctorInfo=doctorService.getDoctorInfo(appointmentBookingRequest.getDrId());
 
-            int flag=0;
-
             //requested slots
             Integer requestedSlot=appointmentBookingRequest.getRequestedSlots();
 
-            for(Integer slot:availableSlots) {
-                if (Objects.equals(slot, requestedSlot)) {
-
-                    //mapping in doctorPatientMapping does not exist
-                    if (!checkDoctorPatientMapping(ptRegNo, doctorInfo.getDrId())) {
-                        DoctorPatientMapping doctorPatientMapping = DoctorPatientMapping.builder()
-                                .doctorInfo(doctorInfo)
-                                .patientInfo(patientInfo)
-                                .build();
-                        doctorPatientMappingRepository.save(doctorPatientMapping);
-                    }
-
-                    //mapping exists
-                    if (checkAppointment(ptRegNo, doctorInfo.getDrId(), Date.valueOf(appointmentBookingRequest.getRequestedDate()), requestedSlot))
-                        return -1;
-
-                    else if (!checkAppointment(ptRegNo, doctorInfo.getDrId(), Date.valueOf(appointmentBookingRequest.getRequestedDate()), requestedSlot)) {
-                        Appointments appointments = Appointments.builder()
-                                .patientInfo(patientInfo)
-                                .drInfo(doctorInfo)
-                                .date(Date.valueOf(appointmentBookingRequest.getRequestedDate()))
-                                .slot(requestedSlot)
-                                .timestamp(String.valueOf(LocalDate.now()))
-                                .build();
-                        appointmentsRepository.save(appointments);
-                        flag=1;
-
-                    }
-
-                }
+            //mapping in doctorPatientMapping does not exist
+            if (!checkDoctorPatientMapping(ptRegNo, doctorInfo.getDrId())) {
+                DoctorPatientMapping doctorPatientMapping = DoctorPatientMapping.builder()
+                        .doctorInfo(doctorInfo)
+                        .patientInfo(patientInfo)
+                        .build();
+                doctorPatientMappingRepository.save(doctorPatientMapping);
             }
-            if(flag==1)
-                return 1;
-            else
-                return -1;
+
+            Appointments appointments = Appointments.builder()
+                    .patientInfo(patientInfo)
+                    .drInfo(doctorInfo)
+                    .date(Date.valueOf(appointmentBookingRequest.getRequestedDate()))
+                    .slot(requestedSlot)
+                    .timestamp(String.valueOf(LocalDate.now()))
+                    .build();
+            appointmentsRepository.save(appointments);
+            return 1;
         }
+
     }
 
     public Integer passwordUpdation(HttpServletRequest request,PasswordUpdateRequest passwordUpdateRequest){

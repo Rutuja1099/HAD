@@ -37,8 +37,8 @@ const Login = ({setAuthenticated}) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log(username);
 
+        console.log(selectedOption);
         const isValid=LoginInputValidation({username,password});
         if(!isValid)
             return;
@@ -70,8 +70,8 @@ const Login = ({setAuthenticated}) => {
                     await window.localStorage.setItem('Data',JSON.stringify(userData));
                     setAuthenticated(true);
     
-                    console.log("from storage");
-                    console.log(await window.localStorage.getItem('Data'));
+                    //console.log("from storage");
+                    //console.log(await window.localStorage.getItem('Data'));
     
                 }catch(error){
                     console.log("error while saving data");

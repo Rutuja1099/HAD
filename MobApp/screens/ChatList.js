@@ -4,6 +4,11 @@ import { useNavigation } from '@react-navigation/native'
 
 import NavigationBar from "../components/NavigationBar";
 import { Icon } from "react-native-vector-icons/FontAwesome";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import webServerUrl from '../configurations/WebServer';
+import HttpService from '../services/HttpService';
+
+import image1 from "../assets/index";
 
 const ChatList = () => {
 
@@ -23,22 +28,25 @@ const ChatList = () => {
     //logged in user information
     const [user, setUser] = useState("Asmita");
 
-    //all the people with whom the user had a chat with
-    const [chats, setChats] = useState([
-        { id: 1, name: 'Saurabh', profilePhoto: 'assets/boy.png' },
-        { id: 2, name: 'Asmita', profilePhoto: 'assets/boy.png' },
-        { id: 3, name: 'Vikram', profilePhoto: 'assets/boy.png' },
-        { id: 4, name: 'Ifrah', profilePhoto: 'assets/boy.png' },
-        { id: 5, name: 'Rutuja', profilePhoto: 'assets/boy.png' },
-    ]);
+    // //all the people with whom the user had a chat with
+    // const [chats, setChats] = useState([
+    //     { id: 1, name: 'Saurabh', profilePhoto: 'assets/boy.png' },
+    //     { id: 2, name: 'Asmita', profilePhoto: 'assets/boy.png' },
+    //     { id: 3, name: 'Vikram', profilePhoto: 'assets/boy.png' },
+    //     { id: 4, name: 'Ifrah', profilePhoto: 'assets/boy.png' },
+    //     { id: 5, name: 'Rutuja', profilePhoto: 'assets/boy.png' },
+    // ]);
 
-    //all doctors present in the database for search functionality
-    const [allDoctorInfo, setAllDoctorInfo] = useState([
-        { id: 1, name: 'Saurabh', profilePhoto: 'assets/boy.png' },
-        { id: 2, name: 'Sauvay', profilePhoto: 'assets/boy.png' },
-        { id: 3, name: 'Asmita', profilePhoto: 'assets/boy.png' },
-        { id: 4, name: 'Asthitha', profilePhoto: 'assets/boy.png' },
-    ]);
+    // //all doctors present in the database for search functionality
+    // const [allDoctorInfo, setAllDoctorInfo] = useState([
+    //     { id: 1, name: 'Saurabh', profilePhoto: 'assets/boy.png' },
+    //     { id: 2, name: 'Sauvay', profilePhoto: 'assets/boy.png' },
+    //     { id: 3, name: 'Asmita', profilePhoto: 'assets/boy.png' },
+    //     { id: 4, name: 'Asthitha', profilePhoto: 'assets/boy.png' },
+    // ]);
+
+    const [allDoctorsInfo, setAllDoctorsInfo] = useState([]);
+    const [ptId, setPtId] = useState();
 
 
     const navigation=useNavigation();
@@ -48,6 +56,74 @@ const ChatList = () => {
             headerShown: false,
         })
     },[])
+
+
+    const getPtId = async () => {
+        
+        const method='GET';
+        const sessionData = JSON.parse(window.localStorage.getItem('Data'));
+        const bearerToken = sessionData.token;
+
+        const URL = webServerUrl + "/suhrud/doctor/getDrId";
+
+        const headers = {
+            'Authorization': `Bearer ${bearerToken}`, // token here
+            'Content-Type': 'application/json', // content type
+        };
+
+        try{
+            const response=await HttpService(method,URL,null,headers);
+            console.log(response.status)
+
+            if(response.status===200){
+                const patientProgress=await response.data;
+                console.log(patientProgress);
+
+                setDrId(response.data);
+            }else{
+                console.log("error");
+                alert("Failed to fetch the patient records");
+            }
+
+        }catch(error){
+            console.log("error:");
+            console.log(error);
+        }
+    }
+
+    const getAllDoctors = async (drId) => {
+
+        const method='GET';
+        const sessionData = await AsyncStorage.getItem('patientData')
+        const data=JSON.parse(sessionData);
+        const bearerToken = data.token;
+
+        const URL = webServerUrl + "/suhrud/chat/getMappedDoctors?pId=1";
+
+        const headers = {
+            'Authorization': `Bearer ${bearerToken}`, // token here
+            'Content-Type': 'application/json', // content type
+        };
+
+        try{
+            const response=await HttpService(method,URL,null,headers);
+            console.log(response.status)
+
+            if(response.status===200){
+                console.log("yohoyohoyoho",response.data);
+
+                setAllDoctorsInfo(response.data);
+            }else{
+                console.log("error");
+                alert("Failed to fetch the patient records");
+            }
+
+        }catch(error){
+            console.log("error:");
+            console.log(error);
+        } 
+    }
+
 
     const handleSearch = (text) => {
 
@@ -61,19 +137,19 @@ const ChatList = () => {
         }
 
         const regex = new RegExp(text, 'i'); // i means Case-insensitive regular expression
-        const filteredResults = allDoctorInfo.filter(doctor => regex.test(doctor.name));
+        const filteredResults = allDoctorsInfo.filter(doctor => regex.test(doctor.name));
         // const filteredResults = allDoctorInfo.filter(doctor => doctor.name.toLowerCase().includes(searchText.toLowerCase()));
         setSearchResults(filteredResults);
 
     }
 
-    const enterChat = (doctorName, doctorId, user) => {
+    const enterChat = (doctorName, doctorId, chatId) => {
 
         setSearchText("");
         setSelectedDoctorName(doctorName);
 
-        const room = user+doctorName; 
-        setRoom(room);
+        // const room = user+doctorName; 
+        setRoom(chatId);
 
         navigation.navigate("Chat", { doctorName, doctorId, room, user});
     }
@@ -81,6 +157,12 @@ const ChatList = () => {
     const navigateBack = () => {
         setSearchText("");
     }
+
+
+    useEffect(() => {
+        // getPtId();
+        getAllDoctors();
+    },[]);
 
 
     return (
@@ -125,26 +207,26 @@ const ChatList = () => {
                                 // onSubmitEditing={showResults}
                             />
                         </View>
-               
+                
                 
 
                 {searchText.trim() === '' ?
                     
                     (
                         <FlatList
-                            data={chats}
-                            keyExtractor={(item) => item.id.toString()}
+                            data={allDoctorsInfo}
+                            keyExtractor={(item) => item.drId.toString()}
                             renderItem={({ item }) => {
                                 
                                 return (
                                     <Pressable 
                                         className="flex-row item-centered p-4 hover:bg-sky-700 active:bg-slate-500" 
-                                        onPress={() => enterChat(item.name, item.id, user)}
+                                        onPress={() => enterChat(item.drName, item.drId, item.chatId)}
                                     >
 
-                                        <Image source={{ uri: item.profilePhoto }} className = "w-12 h-12 rounded-full mr-4" />
+                                        <Image source={{ uri: image1 }} className = "w-12 h-12 rounded-full mr-4" />
                                         <View className = "flex-1 self-center"> 
-                                            <Text className = "text-lg" >{item.name}</Text>
+                                            <Text className = "text-lg" >{item.drName}</Text>
                                         </View>
                                         
                                     </Pressable>
@@ -158,18 +240,18 @@ const ChatList = () => {
                     (
                         <FlatList
                             data={searchResults}
-                            keyExtractor={(item) => item.id.toString()}
+                            keyExtractor={(item) => item.drId.toString()}
                             renderItem={({ item }) => {
                                 
                                 return (
                                     <Pressable 
                                         className="flex-row item-centered p-4 hover:bg-sky-700 active:bg-slate-500"
-                                        onPress={() => enterChat(item.name, item.id, user)}
+                                        onPress={() => enterChat(item.drName, item.drId, item.chatId)}
                                     >
 
-                                        <Image source={{ uri: item.profilePhoto }} className = "w-12 h-12 rounded-full mr-4" />
+                                        <Image source={{ uri: image1 }} className = "w-12 h-12 rounded-full mr-4" />
                                         <View className = "flex-1 self-center"> 
-                                            <Text className = "text-lg" >{item.name}</Text>
+                                            <Text className = "text-lg" >{item.drName}</Text>
                                         </View>
                                         
                                     </Pressable>
