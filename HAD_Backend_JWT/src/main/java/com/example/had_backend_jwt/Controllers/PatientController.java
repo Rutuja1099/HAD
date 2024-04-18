@@ -68,12 +68,20 @@ public class PatientController {
         return  ResponseEntity.ok("Severity : "+severity);
     }
 
-//    @GetMapping("/fetchBookedDays")
-//    @PreAuthorize("hasAnyAuthority('Patient')")
-//    public ResponseEntity<Boolean> fetchBookedDays(HttpServletRequest httpServletRequest,@RequestBody AppointmentBookingRequest request){
-//        boolean bookedDays=patientService.fetchSpecificBookedDay(httpServletRequest,request);
-//        return ResponseEntity.ok(bookedDays);
-//    }
+    @PostMapping("/fetchAllBookedSlots")
+    @PreAuthorize("hasAnyAuthority('Patient')")
+    public ResponseEntity<BookedDaysResponse> fetchAllBookedSlots(HttpServletRequest httpServletRequest,@RequestBody AppointmentBookingRequest request){
+        System.out.println("Request body : "+request);
+        BookedDaysResponse bookedDays=patientService.fetchAllBookedAppointments(httpServletRequest,request);
+        return ResponseEntity.ok(bookedDays);
+    }
+    // @PostMapping("/fetchBookedDays")
+    // @PreAuthorize("hasAnyAuthority('Patient')")
+    // public ResponseEntity<BookedDaysResponse> fetchBookedDays(HttpServletRequest httpServletRequest,@RequestBody AppointmentBookingRequest request){
+    //    // System.out.println("Request body : "+request);
+    //     BookedDaysResponse bookedDays=patientService.fetchBookedDays(httpServletRequest,request);
+    //     return ResponseEntity.ok(bookedDays);
+    // }
 
     @PostMapping("/bookAppointment")
     @PreAuthorize("hasAuthority('Patient')")

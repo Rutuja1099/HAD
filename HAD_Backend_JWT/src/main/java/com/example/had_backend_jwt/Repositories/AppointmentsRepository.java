@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface AppointmentsRepository extends JpaRepository<Appointments,Integer> {
     Optional<Appointments> findByDrInfoDrIdAndDateAndSlot(Integer drInfo_drId, Date date, Integer slot);
-
+    List<Appointments> findByDrInfoDrIdAndDate(Integer drInfo_drId, Date date);
     List<Appointments> findByPatientInfoPtRegNoAndDrInfoDrIdAndDate(Integer patientInfo_ptRegNo, Integer drInfo_drId, Date date);
 
     List<Appointments> findByDrInfoDrId(Integer drId);
