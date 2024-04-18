@@ -213,6 +213,10 @@ public class PatientService {
         patientProgress.setSeverityType(temp);
         patientProgress.setTotalSeverity(16);
         patientProgressRepository.save(patientProgress);
+
+        PatientLogin patientLogin=patientLoginRepository.findPatientLoginByPtInfo(patientInfo);
+        patientLogin.setPtFirstTimeLogin(false);
+        patientLoginRepository.save(patientLogin);
         return true;
     }
 
