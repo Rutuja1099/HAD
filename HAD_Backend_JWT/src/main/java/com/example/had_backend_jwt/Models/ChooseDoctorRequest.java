@@ -7,14 +7,8 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
-public class DoctorListChatDTO {
-
+@AllArgsConstructor
+public class ChooseDoctorRequest {
     private Integer drId;
-
-    private String ChatId;
-
-    private String drName;
-
 }

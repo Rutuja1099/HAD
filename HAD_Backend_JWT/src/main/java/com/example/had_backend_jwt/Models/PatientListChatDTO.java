@@ -9,11 +9,12 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PatientProgressInfo {
-    private String ptFullname;
-    private int currentWeek;
-    private int currentDay;
-    private int severity;
-    private int totalSeverity;
-    private Integer ptRegNo;
+public class PatientListChatDTO {
+
+    private Integer ptId;
+
+    private String ChatId;
+
+    private String ptName;
+
 }
