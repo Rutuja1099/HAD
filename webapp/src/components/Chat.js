@@ -62,7 +62,7 @@ const Chat = ({selectedChat, selectedPatientId, room, user}) => {
         await addDoc(messageRef, {
             text: newMessage,
             createdAt: new Date(),
-            // user: user,
+            user: user,
             room: room
         });
 

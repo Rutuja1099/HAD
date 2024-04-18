@@ -19,7 +19,7 @@ const ChatPage = () => {
     const [room, setRoom] = useState(null);
 
     //logged in user information
-    const [user, setUser] = useState("Saurabh");
+    const [user, setUser] = useState("");
     
     const [allPatientsInfo, setAllPatientsInfo] = useState([]);
     const [drId, setDrId] = useState();
@@ -45,18 +45,27 @@ const ChatPage = () => {
     //     { id: 4, name: 'Asthitha', profilePhoto: profilePhoto },
     // ]);
 
-    const getDrId = async () => {
+    // const getDrId = async () => {
         
-        const method='GET';
-        const sessionData = JSON.parse(window.localStorage.getItem('Data'));
-        const bearerToken = sessionData.token;
 
-        const URL = webServerUrl + "/suhrud/doctor/getDrId";
+    // }
 
-        const headers = {
+    const getAllPatients = async () => {
+
+
+        let method='GET';
+        let sessionData = JSON.parse(window.localStorage.getItem('Data'));
+        let bearerToken = sessionData.token;
+        setUser(sessionData.username);
+
+        let URL = webServerUrl + "/suhrud/doctor/getDrId";
+
+        let headers = {
             'Authorization': `Bearer ${bearerToken}`, // token here
             'Content-Type': 'application/json', // content type
         };
+
+        let drId_response;
 
         try{
             const response=await HttpService(method,URL,null,headers);
@@ -67,6 +76,7 @@ const ChatPage = () => {
                 console.log(patientProgress);
 
                 setDrId(response.data);
+                drId_response = response.data;
             }else{
                 console.log("error");
                 alert("Failed to fetch the patient records");
@@ -76,18 +86,17 @@ const ChatPage = () => {
             console.log("error:");
             console.log(error);
         }
-    }
 
-    const getAllPatients = async (drId) => {
 
-        const method='GET';
-        const sessionData = JSON.parse(window.localStorage.getItem('Data'));
-        const bearerToken = sessionData.token;
 
-        const URL = webServerUrl + `/suhrud/chat/getMappedPatients?drId=1`;
+        method='GET';
+        sessionData = JSON.parse(window.localStorage.getItem('Data'));
+        bearerToken = sessionData.token;
+
+        URL = webServerUrl + `/suhrud/chat/getMappedPatients?drId=${drId_response}`;
         console.log("URLLLL", URL);
 
-        const headers = {
+        headers = {
             'Authorization': `Bearer ${bearerToken}`, // token here
             'Content-Type': 'application/json', // content type
         };
@@ -143,7 +152,7 @@ const ChatPage = () => {
     }
 
     useEffect (() => {
-        getDrId();
+        // getDrId();
         getAllPatients(drId);
     },[]);
 

@@ -48,7 +48,19 @@ export default function Login(props) {
                     console.log("error while saving data");
                     console.log(error);
                 }
-                props.navigation.navigate("Dashboard");
+
+                const sessionData = await AsyncStorage.getItem('patientData');
+                const data=JSON.parse(sessionData);
+                const loginstatus = data.ptFirstTimeLogin;
+
+                if(loginstatus === true){
+                    props.navigation.navigate("Questionnaire");
+                }
+                else{
+                    props.navigation.navigate("Dashboard");
+                }
+                
+                
             }
             else{
                 alert(response.data.message);

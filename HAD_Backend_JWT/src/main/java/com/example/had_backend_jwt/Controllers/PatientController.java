@@ -113,4 +113,13 @@ public class PatientController {
         jwtService.addToBlacklist(request);
         return ResponseEntity.ok("Successfully logged out");
     }
+
+
+    @GetMapping("/getPtId")
+    @PreAuthorize("hasAuthority('Patient')")
+    public ResponseEntity<Integer> getPtId(HttpServletRequest request){
+        Integer ptId= jwtService.extractId(request,"patientId");
+        return ResponseEntity.ok(ptId);
+    }
+
 }

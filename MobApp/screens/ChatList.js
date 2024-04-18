@@ -8,7 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import webServerUrl from '../configurations/WebServer';
 import HttpService from '../services/HttpService';
 
-import image1 from "../assets/index";
+import {image1} from "../assets";
 
 const ChatList = () => {
 
@@ -58,18 +58,27 @@ const ChatList = () => {
     },[])
 
 
-    const getPtId = async () => {
+    // const getPtId = async () => {
         
-        const method='GET';
-        const sessionData = JSON.parse(window.localStorage.getItem('Data'));
-        const bearerToken = sessionData.token;
 
-        const URL = webServerUrl + "/suhrud/doctor/getDrId";
+    // }
 
-        const headers = {
+    const getAllDoctors = async (drId) => {
+
+
+        let method='GET';
+        let sessionData = await AsyncStorage.getItem('patientData')
+        let data=JSON.parse(sessionData);
+        let bearerToken = data.token;
+
+        let URL = webServerUrl + "/suhrud/patient/getPtId";
+
+        let headers = {
             'Authorization': `Bearer ${bearerToken}`, // token here
             'Content-Type': 'application/json', // content type
         };
+
+        let ptId_response;
 
         try{
             const response=await HttpService(method,URL,null,headers);
@@ -79,7 +88,7 @@ const ChatList = () => {
                 const patientProgress=await response.data;
                 console.log(patientProgress);
 
-                setDrId(response.data);
+                ptId_response = response.data;
             }else{
                 console.log("error");
                 alert("Failed to fetch the patient records");
@@ -89,18 +98,19 @@ const ChatList = () => {
             console.log("error:");
             console.log(error);
         }
-    }
 
-    const getAllDoctors = async (drId) => {
 
-        const method='GET';
-        const sessionData = await AsyncStorage.getItem('patientData')
-        const data=JSON.parse(sessionData);
-        const bearerToken = data.token;
 
-        const URL = webServerUrl + "/suhrud/chat/getMappedDoctors?pId=1";
 
-        const headers = {
+        method='GET';
+        sessionData = await AsyncStorage.getItem('patientData')
+        data=JSON.parse(sessionData);
+        bearerToken = data.token;
+
+        URL = webServerUrl + `/suhrud/chat/getMappedDoctors?pId=${ptId_response}`;
+        console.log("URLLLL", URL);
+
+        headers = {
             'Authorization': `Bearer ${bearerToken}`, // token here
             'Content-Type': 'application/json', // content type
         };
