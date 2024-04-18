@@ -6,8 +6,8 @@ import { BsChevronCompactDown } from "react-icons/bs";
 import { BsChevronUp } from "react-icons/bs";
 import DoctorStatusModal from './DoctorStatusModal';
 import DoctorDeleteModal from './DoctorDeleteModal';
-import webServerUrl from '../configurations/WebServer';
-import HttpService from '../services/HttpService';
+import webServerUrl from '../../configurations/WebServer';
+import HttpService from '../../services/HttpService';
 
 const DoctorStatus = () => {
   const [searchText, setSearchText] = useState('');

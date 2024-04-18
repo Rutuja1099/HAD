@@ -1,18 +1,24 @@
-import { SafeAreaView, View, Image, Pressable, TextInput, Text, ScrollView} from 'react-native'
+import { SafeAreaView, View, Image, Pressable, TextInput, Text, ScrollView, ImageBackground, StyleSheet} from 'react-native'
 import React, { useState } from 'react';
-import { contactImage} from '../assets'
+import { contactImage, pencilImage} from '../assets'
+import Icon from 'react-native-vector-icons/FontAwesome';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useRoute } from '@react-navigation/native';
 import webServerUrl from '../configurations/WebServer';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import HttpService from '../services/HttpService'
+import { useFonts, Pangolin_400Regular } from '@expo-google-fonts/pangolin';
+import {icon_suhrud, background} from '../assets';
+
 
 const EditProfile = () => {
 
+    let [fontsLoaded] = useFonts({ Pangolin_400Regular,});
+    const [editable, setEditable] = useState(false);
     const route = useRoute(); // Get route object
     const { patientData } = route.params; // Access patientData from route parameters
-    const navigation = useNavigation();
+
 
     const [name, onChangeName] = useState(patientData.ptFullname);
     const [email, onChangeEmail] = useState(patientData.ptEmail);
@@ -32,9 +38,22 @@ const EditProfile = () => {
         }
     }
 
+    const onEdit = () =>{
+        setEditable(true);
+    }
+
     const showMode = (modeToShow) => {
-        setShow(true);
-        setMode(modeToShow);
+        if(editable)
+        {
+            setShow(true);
+            setMode(modeToShow);
+        }
+    }
+
+    const navigation=useNavigation();
+
+    const navigateback = () => {
+        navigation.navigate("Settings");
     }
 
     const onPressSave=async()=>{
@@ -103,25 +122,46 @@ const EditProfile = () => {
     }
 
     return (
-        <SafeAreaView className="bg-white flex-1 relative">
+        <ImageBackground source={background} style={styles.imagebackground}>
+        <View className='flex-row mt-10 p-2 justify-between'>
+            <Icon name="angle-left" size={30} onPress={navigateback}/>
+            <Image  style={styles.tinyLogo} source={icon_suhrud}/>
+        </View>
+        <SafeAreaView className=" flex-1 justify-center items-stretch relative">
+        
         {/* User profile picture */}
-        <View className=" mt-10 ml-28 justify-center bg-[#DDD4D4] w-[100px] h-[100px] rounded-full">
+        <View className = "flex flex-row items-end justify-end">
+        
+        <View className="justify-center  w-[100px] h-[100px] rounded-full mr-28">
+            
             <Image
             source={contactImage}
             className="w-[100px] h-[100px] object-cover rounded-full"
             />
         </View>
+
+        <View>
+        <Pressable onPress={onEdit} className="bottom-2 right-5">
+                <Image
+                    source={pencilImage}
+                    className="w-10 h-10" // Adjust size as needed
+                />
+        </Pressable>
+        </View>
+        
+        </View>
         {/**User Information */}{/**Add validations for age and other fields */}
-            <View className="flex-1 bg-white relative mt-10 ml-4">
+            <View className="flex-1 relative mt-5 ml-4">
             <ScrollView>
             {/**Name */}
                 <View>
-                    <Text style={{ fontFamily: 'System' }} className="font-bold text-lg text-black ml-5">
+                    <Text style={{ fontFamily: 'Pangolin_400Regular', fontSize:20}} className=" text-black ml-5">
                         Name
                     </Text>
-                    <View  className="mt-2 ml-5 mb-5 justify-center border-2 w-[258px] h-[44px] border-[#544C4C] border-opacity-10 rounded-lg">
+                    <View  className="mt-2 ml-5 mb-5 justify-center bg-white opacity-80 w-80 h-[44px] rounded-lg">
                         <TextInput 
-                            style={{ fontFamily: 'System' }} 
+                            readOnly={!editable}
+                            style={{ fontFamily: 'Pangolin_400Regular' }} 
                             className="ml-2 text-lg text-[#544C4C] "
                             onChangeText={(name)=>onChangeName(name)}
                             value={name}                   
@@ -130,12 +170,13 @@ const EditProfile = () => {
                 </View>
             {/**Email */}
                 <View>
-                    <Text style={{ fontFamily: 'System' }} className="font-bold text-lg text-black ml-5">
+                    <Text style={{ fontFamily: 'Pangolin_400Regular', fontSize:20 }} className=" text-black ml-5">
                         Email
                     </Text>
-                    <View  className="mt-2 ml-5 mb-5 justify-center border-2 w-[258px] h-[44px] border-[#544C4C] border-opacity-10 rounded-lg">
+                    <View  className="mt-2 ml-5 mb-5 justify-center  w-80 h-[44px]  bg-white opacity-80 rounded-lg">
                         <TextInput 
-                            style={{ fontFamily: 'System' }} 
+                            readOnly={!editable}
+                            style={{ fontFamily: 'Pangolin_400Regular' }} 
                             className="ml-2 text-lg text-[#544C4C] "
                             onChangeText={(email)=>onChangeEmail(email)}
                             value={email}   
@@ -145,12 +186,13 @@ const EditProfile = () => {
                 </View>
             {/**Address */}
                 <View>
-                    <Text style={{ fontFamily: 'System' }} className="font-bold text-lg text-black ml-5">
+                    <Text style={{ fontFamily: 'Pangolin_400Regular', fontSize:20 }} className=" text-black ml-5">
                         Address
                     </Text>
-                    <View  className="mt-2 ml-5 mb-5 justify-center border-2 w-[258px] h-[44px] border-[#544C4C] border-opacity-10 rounded-lg">
+                    <View  className="mt-2 ml-5 mb-5 justify-center  w-80 h-[44px]  bg-white opacity-80 rounded-lg">
                         <TextInput 
-                            style={{ fontFamily: 'System' }} 
+                            readOnly={!editable}
+                            style={{ fontFamily: 'Pangolin_400Regular' }} 
                             className="ml-2 text-lg text-[#544C4C] "
                             onChangeText={(address)=>onChangeAddress(address)}
                             value={address}                  
@@ -160,12 +202,13 @@ const EditProfile = () => {
 
             {/**Phone number */}
                 <View>
-                    <Text style={{ fontFamily: 'System' }} className="font-bold text-lg text-black ml-5">
+                    <Text style={{ fontFamily: 'Pangolin_400Regular', fontSize:20 }} className=" text-black ml-5">
                         Phone Number
                     </Text>
-                    <View  className="mt-2 ml-5 mb-5 justify-center border-2 w-[258px] h-[44px] border-[#544C4C] border-opacity-10 rounded-lg">
+                    <View  className="mt-2 ml-5 mb-5 justify-center  w-80 h-[44px]  bg-white opacity-80 rounded-lg">
                         <TextInput 
-                            style={{ fontFamily: 'System' }} 
+                            readOnly={!editable}
+                            style={{ fontFamily: 'Pangolin_400Regular' }} 
                             className="ml-2 text-lg text-[#544C4C] "
                             onChangeText={(phone)=>onChangePhone(phone)}
                             value={phone}  
@@ -176,15 +219,16 @@ const EditProfile = () => {
             
             {/**DOB */}
                 <View>
-                    <Text style={{ fontFamily: 'System' }} className="font-bold text-lg text-black ml-5">
+                    <Text style={{ fontFamily: 'Pangolin_400Regular', fontSize:20 }} className=" text-black ml-5">
                         Date of Birth
                     </Text>
-                    <View className="mt-2 ml-5 mb-5 justify-center border-2 w-[258px] h-[44px] border-[#544C4C] border-opacity-10 rounded-lg" >
+                    <View className="mt-2 ml-5 justify-center  w-80 h-[44px]  bg-white opacity-80 rounded-lg" >
                         <Pressable onPress={() => showMode("date")}>
                             <TextInput
                                 className="text-lg text-[#544C4C] "
                                 value={dob.toLocaleDateString()} // Display selected date in the input field
-                                editable={false} // Make the input field non-editable
+                                readOnly={!editable}
+                                // editable={false} // Make the input field non-editable
                             />
                         </Pressable>
                             {show && (
@@ -200,18 +244,45 @@ const EditProfile = () => {
                             )}
                     </View>
                 </View>
+                
             </ScrollView>
             </View>
         {/**Save Button */}
-        <Pressable onPress={onPressSave}>
-            <View className="mt-2 mb-4 ml-16 w-[221px] h-[41px] items-center justify-center rounded-lg bg-[#4DD8CF]">
+        <View className="flex justify-center items-center">
+        <Pressable onPress={() => console.log('Simple Button pressed')}>
+            <View className=" mb-20 ml-2 w-[150px] h-[41px] items-center justify-center rounded-lg bg-[#116fdf]">
                 <Text className=" text-white font-bold text-xl">Save Changes</Text>
             </View>
-        </Pressable>       
-        {/**Navigation bar */}
-        {/* <NavigationBar /> */}
+        </Pressable> 
+        </View>      
         </SafeAreaView>
+        </ImageBackground>
     )
 }
 
+const styles = StyleSheet.create({
+    imagebackground:{
+        height:'100%',
+      resizeMode:'cover',
+      },
+      tinyLogo: {
+        width: 40,
+        height: 40,
+      },
+    inputText:{
+      height:50,
+      color:'black',
+      fontFamily:'Pangolin_400Regular',
+    },
+    title:{
+        marginTop:20,
+        fontFamily:'Pangolin_400Regular',
+        fontSize:30,
+    },
+    pickerText:{
+    fontFamily:'Pangolin_400Regular',
+    fontSize:20,
+    },
+    
+  })
 export default EditProfile

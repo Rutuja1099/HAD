@@ -1,9 +1,13 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { View, Text, Image, StyleSheet, TextInput, ScrollView, SafeAreaView, TouchableOpacity, Button, FlatList, useWindowDimensions, Pressable} from 'react-native';
+import { View, Text, Image, StyleSheet, TextInput, ScrollView, SafeAreaView, ImageBackground, useWindowDimensions, Pressable} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
+import { useFonts, Pangolin_400Regular } from '@expo-google-fonts/pangolin';
+import {icon_suhrud, background} from '../assets';
 
 const DoctorAppointmentDetails=({route})=>{
+
+    let [fontsLoaded] = useFonts({ Pangolin_400Regular,});
    
     const {drId, drFullName, drSpecialization, drExperience,drGender,profilePhoto} = route.params;
 
@@ -87,7 +91,7 @@ const DoctorAppointmentDetails=({route})=>{
         navigation.navigate("Dashboard");
     }
     return(   
-        
+        <ImageBackground source={background} style={styles.imagebackground}>
         <View classname="flex bg-blue-500">
              <View className = "p-4 flex-row items-center border-b border-gray-300">
                 
@@ -165,7 +169,34 @@ const DoctorAppointmentDetails=({route})=>{
             
             
         </View>
-        
+       </ImageBackground> 
     )
 }
+
+const styles = StyleSheet.create({
+    imagebackground:{
+        height:'100%',
+      resizeMode:'cover',
+      },
+      tinyLogo: {
+        width: 50,
+        height: 50,
+        marginTop:35,
+      },
+    inputText:{
+      height:50,
+      color:'black',
+      fontFamily:'Pangolin_400Regular',
+    },
+    title:{
+        marginTop:20,
+        fontFamily:'Pangolin_400Regular',
+        fontSize:30,
+    },
+    pickerText:{
+    fontFamily:'Pangolin_400Regular',
+    fontSize:20,
+    },
+    
+  })
 export default DoctorAppointmentDetails;

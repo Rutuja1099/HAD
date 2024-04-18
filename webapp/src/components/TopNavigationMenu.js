@@ -6,9 +6,19 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import logoImage from "../assets/favicon.png";
 
+const DropdownMenu = ({ Logout }) => (
+    <div className="absolute right-0 mt-2 w-40 bg-white border rounded shadow-lg">
+      <ul>
+        <li className="cursor-pointer px-4 py-2 hover:bg-gray-100" onClick={Logout}>Logout</li>
+      </ul>
+    </div>
+  );
+
 const TopNavigationMenu = ({open, setOpen}) => {
 
     const [role, setRole] = useState("");
+    const [showLogout, setShowLogout] = useState("");
+
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -25,6 +35,15 @@ const TopNavigationMenu = ({open, setOpen}) => {
     const navigateStatus = () => {
         navigate("doctorStatus");
     };
+
+    const toggleLogout = () => {
+        setShowLogout(!showLogout);
+    }
+
+    const Logout = () => {
+        localStorage.removeItem('Data');
+        navigate('/login');
+    }
 
     return (
         <>
@@ -59,7 +78,21 @@ const TopNavigationMenu = ({open, setOpen}) => {
                             {/* profile ame and profile image */}
                             <div className="flex self-end items-center justify-between">
                                 <p className="font-semibold">Admin</p>
-                                <img src={logoImage} className = "w-10 h-10 rounded-full mx-4 cursor-pointer" />
+                                <div className="relative">
+                                <img 
+                                    src={logoImage} 
+                                    className = "w-10 h-10 rounded-full mx-4 cursor-pointer" 
+                                    onClick={() => toggleLogout()}
+                                />
+                                
+                                {showLogout &&    
+                                    (
+                                        <DropdownMenu
+                                            Logout = {Logout}
+                                        />
+                                    )
+                                }
+                                </div>
 
                             </div>
                         </div>

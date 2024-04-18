@@ -5,13 +5,16 @@ import YoutubePlayer from 'react-native-youtube-iframe';
 import {image1,image2,image3,image4} from '../assets';
 import NavigationBar from "../components/NavigationBar";
 import Icon from "react-native-vector-icons/FontAwesome";
-
+import { useFonts, Pangolin_400Regular } from '@expo-google-fonts/pangolin';
 
 const Meditation = (props) => {
 
     const navigation = useNavigation();
     const [playing, setPlaying] = useState(false);
 
+    let [fontsLoaded] = useFonts({
+      Pangolin_400Regular,
+    });
 
     useLayoutEffect(() => {
             navigation.setOptions({
@@ -34,18 +37,18 @@ const Meditation = (props) => {
         <SafeAreaView className="  bg-white flex-1 relative">
           <View className="bg-sky-950 flex-1 text-white p-2">
                 <View className = "p-4 flex-row items-center">
-                    <Icon name="angle-left" color="grey" size={25} onPress={navigateback}/>
-                    <Text className="text-xl ml-5 mt-4 mb-3 text-slate-50 font-extrabold ">
+                    <Icon name="angle-left" color="white" size={25} onPress={navigateback}/>
+                    <Text style={styles.title}>
                       Your space ! 
                     </Text>
                 </View>
                     <View style={styles.container}>
-                        <Text className="text-l ml-5 mt-5 mb-3 text-slate-50 font-extrabold">What do you wish to do?</Text>
+                        <Text style={styles.subtitle}>What do you wish to do?</Text>
                         <View style={styles.innercontainer}>
                             <View style={styles.ImageContainer}>
                                     <Pressable onPress={onPressMeditation}>
                                             <ImageBackground source={image1} resizeMode="cover" style={styles.image}>
-                                            <View style={styles.textContainer}><Text style={styles.text}>Meditate</Text></View>
+                                            <View style={styles.textContainer}><Text style={styles.dayText}>Meditate</Text></View>
                                             </ImageBackground>
                                     
                                     </Pressable>
@@ -54,7 +57,7 @@ const Meditation = (props) => {
                                     <Pressable>
                                         
                                             <ImageBackground source={image2} resizeMode="cover" style={styles.image}>
-                                            <View style={styles.textContainer}><Text style={styles.text}>De-Stress</Text></View>
+                                            <View style={styles.textContainer}><Text style={styles.dayText}>De-Stress</Text></View>
                                             </ImageBackground>
                                     
                                     </Pressable>
@@ -64,7 +67,7 @@ const Meditation = (props) => {
                             <View style={styles.ImageContainer}>
                                     <Pressable>
                                             <ImageBackground source={image3} resizeMode="cover" style={styles.image}>
-                                            <View style={styles.textContainer}><Text style={styles.text}>Serenity</Text></View>
+                                            <View style={styles.textContainer}><Text style={styles.dayText}>Serenity</Text></View>
                                             </ImageBackground>
                                     
                                     </Pressable>
@@ -73,18 +76,13 @@ const Meditation = (props) => {
                                     <Pressable>
                                         
                                             <ImageBackground source={image4} resizeMode="cover" style={styles.image}>
-                                                    <View style={styles.textContainer}><Text style={styles.text}>Sleep On</Text></View>
+                                                    <View style={styles.textContainer}><Text style={styles.dayText}>Sleep On</Text></View>
                                             </ImageBackground>
                                     
                                     </Pressable>
                             </View>
                         </View>
                     </View>
-                    {/* <View style={styles.videoContainer}>
-                      <YoutubePlayer play={playing} videoId={"0sZCzu0D4kI"}/>
-                      <View className='flex items-end mt-2'>
-                      </View>
-                    </View> */}
             </View>
             <NavigationBar />
         </SafeAreaView>
@@ -123,6 +121,24 @@ const styles = StyleSheet.create({
       borderCurve:20,
       margin:2,
       padding:2,
+    },
+    title:{
+      fontFamily:"Pangolin_400Regular",
+      fontSize:30,
+      color:'white',
+      marginLeft:20,
+    },
+    subtitle:{
+      fontFamily:"Pangolin_400Regular",
+      fontSize:20,
+      color:'white',
+      marginLeft:10,
+      marginTop:10,
+    },
+    dayText:{
+      fontFamily:"Pangolin_400Regular",
+      fontSize:15,
+      color:'white',
     },
     image: {
       borderRadius: 20,

@@ -3,6 +3,7 @@ package com.example.had_backend_jwt.Controllers;
 import com.example.had_backend_jwt.Models.DoctorAppointmentsResponse;
 import com.example.had_backend_jwt.Services.DoctorService;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -10,25 +11,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.had_backend_jwt.Models.*;
-import com.example.had_backend_jwt.Repositories.DoctorInfoRepository;
-import com.example.had_backend_jwt.Services.*;
 import com.example.had_backend_jwt.JWT.*;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import com.example.had_backend_jwt.Entities.DoctorInfo;
-import java.security.Principal;
 
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/suhrud/doctor")
 public class DoctorController {
     @Autowired
     private DoctorService doctorService;
-    
 
+    @Autowired
+    private final JwtService jwtService;
 
     @GetMapping("/viewAppointments/current")
     @PreAuthorize("hasAuthority('Doctor')")
@@ -50,6 +46,18 @@ public class DoctorController {
         List<DoctorAppointmentsResponse> responses=doctorService.fetchPreviousAppointments(request);
         return ResponseEntity.ok(responses);
     }
-    
 
+    @GetMapping("/viewPatients/fetchPatientProgressInfo")
+    @PreAuthorize("hasAuthority('Doctor')")
+    public ResponseEntity<List<PatientProgressInfo>> fetchPatientProgressInfo(HttpServletRequest request){
+        List<PatientProgressInfo> patientProgressInfos=doctorService.fetchPatientProgressInfo(request);
+        return ResponseEntity.ok(patientProgressInfos);
+    }
+
+    @PostMapping("/logout")
+    @PreAuthorize("hasAuthority('Doctor')")
+    public ResponseEntity<?> logoutUser(HttpServletRequest request){
+        jwtService.addToBlacklist(request);
+        return ResponseEntity.ok("Successfully logged out");
+    }
 }

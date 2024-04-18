@@ -9,14 +9,14 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 
 @Service
@@ -144,6 +144,19 @@ public class JwtService {
         }
         return null;
     }
-    //Extract patient info from token
+
+    // This set stores invalidated tokens
+    private Set<String> blacklist = new HashSet<>();
+
+    // Method to add token to the blacklist
+    public void addToBlacklist(HttpServletRequest request) {
+        String token=resolveToken(request);
+        blacklist.add(token);
+    }
+
+    // Method to check if a token is blacklisted
+    public boolean isTokenBlacklisted(String token) {
+        return blacklist.contains(token);
+    }
 
 }

@@ -3,7 +3,6 @@ import axios from 'axios';
 import React from 'react'
 
 const HttpService = async(method,url,data=null,headers={}) => {
-    console.log("axios data",data);
     try{
         const response=await axios(
             {

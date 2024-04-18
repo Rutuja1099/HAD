@@ -1,25 +1,25 @@
 import React from 'react'
 import { useState } from 'react';
-import webServerUrl from '../configurations/WebServer';
-import HttpService from '../services/HttpService';
+import webServerUrl from '../../configurations/WebServer';
+import HttpService from '../../services/HttpService';
 
 
-const DoctorDeleteModal = ({showDeleteConfirm, selectedDoctor, setShowDeleteConfirm, setSelectedDoctor, doctorId}) => {
+const DeleteModal = ({openDeleteBox, setOpenDeletBox, id, content }) => {
     
-    if(!showDeleteConfirm) return null;
+    if(!openDeleteBox) return null;
+
+    const handleDeleteConfirm = async (id) => {
 
 
-    const handleDeleteConfirm = async () => {
-    
-            const loginURL = webServerUrl+"/suhrud/deleteDoctor";
-    
+            const loginURL = webServerUrl+`/suhrud/forum/deleteAnswer/${id}`;
+            
             const method='DELETE';
             
             // const data = {
             //     doctorID: doctorId
             // };
     
-            const data = doctorId;
+            const data = null;
                 
             try{
     
@@ -59,7 +59,7 @@ const DoctorDeleteModal = ({showDeleteConfirm, selectedDoctor, setShowDeleteConf
                 alert(error.data);
                 console.log(error);
             }
-            setShowDeleteConfirm(false);
+            setOpenDeletBox(false);
         }
     
     return (
@@ -67,12 +67,12 @@ const DoctorDeleteModal = ({showDeleteConfirm, selectedDoctor, setShowDeleteConf
             // Deactivate confirmation modal
             <div className="p-4 rounded-md fixed inset-0 bg-white bg-opacity-30 backdrop-blur-sm flex flex-col justify-center items-center">
                 <div className='bg-white px-28 py-16 border-2 border-stone-500'>
-                <p>Are you sure you want to Delete {selectedDoctor?.doctorName}?</p>
+                <p>Are you sure you want to Delete {content}?</p>
                 <div className="flex justify-center mt-4">
-                    <button className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-md mr-2" onClick={() => handleDeleteConfirm()}>
+                    <button className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-md mr-2" onClick={() => handleDeleteConfirm(id)}>
                     Yes
                     </button>
-                    <button className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-md" onClick={() => { setShowDeleteConfirm(false); }}>
+                    <button className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-md" onClick={() => { setOpenDeletBox(false); }}>
                     No
                     </button>
                 </div>
@@ -82,4 +82,4 @@ const DoctorDeleteModal = ({showDeleteConfirm, selectedDoctor, setShowDeleteConf
     )
 };
 
-export default DoctorDeleteModal;
+export default DeleteModal;
