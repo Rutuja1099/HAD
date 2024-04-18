@@ -2,9 +2,9 @@ import { NativeWindStyleSheet } from "nativewind";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+
 //components
 import Settings from './screens/Settings';
-import Profile from './screens/Profile'
 import Notifications from './screens/Notifications'
 import SecurityPrivacy from './screens/SecurityPrivacy'
 import EditProfile from './screens/EditProfile'
@@ -19,7 +19,6 @@ import ForgotPassword from "./screens/ForgotPassword";
 import Week from "./screens/Week";
 import Day from "./screens/Day";
 import ChangePassword from "./screens/ChangePassword";
-import Harmony from "./screens/Harmony";
 import Questionnaire from "./screens/Questionnaire";
 import Appointment from "./screens/Appointment";
 import DoctorAppointmentDetail from "./screens/DoctorAppointmentDetail";
@@ -28,6 +27,7 @@ import Meditation from "./screens/Meditation";
 import Moodlift from "./screens/Moodlift";
 import MeditationPage from "./screens/MeditationPage";
 import EmergencyContact from "./screens/EmergencyContact";
+import AnswerQnA from "./screens/AnswerQnA";
 
 
 NativeWindStyleSheet.setOutput({
@@ -35,6 +35,7 @@ NativeWindStyleSheet.setOutput({
 });
 
 const Stack = createNativeStackNavigator();
+
 
 export default function App() {
   return (
@@ -44,33 +45,31 @@ export default function App() {
       {/* <Stack.Navigator>
       <Stack.Screen name="Dashboard" component={Dashboard} /> */}
 
-        
-
-      <Stack.Navigator initialRouteName="Login">
+      <Stack.Navigator initialRouteName="Login" >
       
-        <Stack.Screen name="Login" component={Login}/>
-        <Stack.Screen name="SignUp" component={SignUp}/>
-        <Stack.Screen name="ChangePassword" component={ChangePassword}/>
-        <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
+        <Stack.Screen name="Login" component={Login} options={{headerShown: false,}}/>
+        <Stack.Screen name="SignUp" component={SignUp} options={{headerShown: false,}}/>
+        <Stack.Screen name="ChangePassword" component={ChangePassword} options={{headerShown: false,}}/>
+        <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{headerShown: false,}}/>
         <Stack.Screen name="Week" component={Week}/>
         <Stack.Screen name="Day" component={Day}/>
-        <Stack.Screen name="ChatList" component={ChatList} />
-        <Stack.Screen name="Meditation" component={Meditation} />
-        <Stack.Screen name="Moodlift" component={Moodlift} />
-        <Stack.Screen name="MeditationPage" component={MeditationPage} />
-        <Stack.Screen name="Appointment" component={Appointment} />
-        <Stack.Screen name="Dashboard" component={Dashboard} />
+        <Stack.Screen name="ChatList" component={ChatList} options={{headerShown: false,}}/>
+        <Stack.Screen name="Meditation" component={Meditation} options={{headerShown: false,}}/>
+        <Stack.Screen name="Moodlift" component={Moodlift} options={{headerShown: false,}}/>
+        <Stack.Screen name="MeditationPage" component={MeditationPage} options={{headerShown: false,}}/>
+        <Stack.Screen name="Appointment" component={Appointment} options={{headerShown: false,}}/>
+        <Stack.Screen name="Dashboard" component={Dashboard} options={{headerShown: false,}}/>
 
-        <Stack.Screen name="Questionnaire" component={Questionnaire} />
+        <Stack.Screen name="Questionnaire" component={Questionnaire} options={{headerShown: false,}}/>
         
-        <Stack.Screen name="DoctorAppointmentDetail" component={DoctorAppointmentDetail} />
-        <Stack.Screen name="Settings" component={Settings} />
-        <Stack.Screen name="Profile" component={Profile} />
-        <Stack.Screen name="Notifications" component={Notifications} />
-        <Stack.Screen name="Security and Privacy" component={SecurityPrivacy} />
-        <Stack.Screen name="Password Manager" component={PasswordManager} />
-        <Stack.Screen name="Edit Profile" component={EditProfile} />
-        <Stack.Screen name="Privacy Notice" component={PrivacyNotice} />
+        <Stack.Screen name="DoctorAppointmentDetail" component={DoctorAppointmentDetail} options={{headerShown: false,}}/>
+        <Stack.Screen name="Settings" component={Settings} options={{headerShown: false,}}/>
+        {/* <Stack.Screen name="Profile" component={Profile} options={{headerShown: false,}}/> */}
+        <Stack.Screen name="Notifications" component={Notifications} options={{headerShown: false,}}/>
+        <Stack.Screen name="SecurityPrivacy" component={SecurityPrivacy} options={{headerShown: false,}}/>
+        <Stack.Screen name="Password Manager" component={PasswordManager} options={{headerShown: false,}}/>
+        <Stack.Screen name="EditProfile" component={EditProfile} options={{headerShown: false,}}/>
+        <Stack.Screen name="PrivacyNotice" component={PrivacyNotice} options={{headerShown: false,}}/>
         <Stack.Screen 
           name="Chat" 
           component={Chat} 
@@ -79,6 +78,7 @@ export default function App() {
         <Stack.Screen name="Wellness Hub" component={WellnessHub} />   
         <Stack.Screen name="Harmony" component={Harmony}/>    
         <Stack.Screen name="Emergency Contacts" component={EmergencyContact} /> 
+        <Stack.Screen name="AnswerQnA" component={AnswerQnA} options={{headerShown: false,}}/>      
       
       </Stack.Navigator>
     </NavigationContainer>

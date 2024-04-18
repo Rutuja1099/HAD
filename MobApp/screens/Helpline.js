@@ -6,12 +6,12 @@ import { useNavigation } from '@react-navigation/native';
 import {icon_suhrud, background} from '../assets';
 
 
-const PrivacyNotice = () => {
+const Helpline = () => {
 
   const navigation = useNavigation();
   
   const navigateback = () => {
-    navigation.navigate("SecurityPrivacy");
+    navigation.navigate("Dashboard");
   };
 
   return (
@@ -20,43 +20,69 @@ const PrivacyNotice = () => {
       <View className="flex flex-row mt-12 mx-5 items-center pb-4">
         <Icon name="angle-left" size={30} onPress={navigateback}/>
             
-        <Text className = "font-bold text-lg ml-6 text-center" >Privacy Notice</Text>
+        <Text className = "font-bold text-lg ml-6 text-center" >Helplines</Text>
       </View>
 
       <View className="flex-1 text-black pt-2 p-4 mt-4 ml-5 mr-5 mb-4 shadow-lg rounded-lg">
         <ScrollView>
-          <Text style={{ fontFamily: 'System'}} className="text-lg">
-            Your privacy matters. Here's a summary of how we handle your data:
-          </Text>
           <Text style={{ fontFamily: 'System'}} className="text-lg font-bold mt-2">
-            What We Collect:
+            Mental health helpline:
           </Text>
+          
           <Text style={{ fontFamily: 'System'}} className="text-lg">
-            Personal details, usage data, and insights into your mental health.
+           Vandrevella foundation : 
           </Text>
-          <Text style={{ fontFamily: 'System'}} className="text-lg font-bold mt-2">
-            How We Use Your Data:
+          <View className="flex flex-row mt-5"> 
+          <View className="ml-5 mr-10">
+          <Icon
+                  name='phone'
+                  size={20}
+                  color='black'
+                />
+           </View>
+           <View>
+          <Text>
+          +919999666555
           </Text>
+          </View>
+          </View>
+
           <Text style={{ fontFamily: 'System'}} className="text-lg">
-            To personalize your experience, improve our services, and enhance treatment outcomes.
+           Vandrevella foundation : 
           </Text>
-          <Text style={{ fontFamily: 'System'}} className="text-lg font-bold mt-2">
-              Data Sharing:
+          <View className="flex flex-row mt-5"> 
+          <View className="ml-5 mr-10">
+          <Icon
+                  name='phone'
+                  size={20}
+                  color='black'
+                />
+           </View>
+           <View>
+          <Text>
+          +919999666555
           </Text>
+          </View>
+          </View>
+
           <Text style={{ fontFamily: 'System'}} className="text-lg">
-            We do not sell your data. We may share it with service providers or for legal compliance.      </Text>
-          <Text style={{ fontFamily: 'System'}} className="text-lg font-bold mt-2">
-            Your Rights:
+           Vandrevella foundation : 
           </Text>
-          <Text style={{ fontFamily: 'System'}} className="text-lg">
-            Access, modify, or delete your data. By using our app, you consent to our privacy practices.
+          <View className="flex flex-row mt-5"> 
+          <View className="ml-5 mr-10">
+          <Icon
+                  name='phone'
+                  size={20}
+                  color='black'
+                />
+           </View>
+           <View>
+          <Text>
+          +919999666555
           </Text>
-          <Text style={{ fontFamily: 'System'}} className="text-lg font-bold mt-2">
-            Contact Us:
-          </Text>
-          <Text style={{ fontFamily: 'System'}} className="text-lg">
-            If you have any questions or concerns about your privacy, please reach out to us.
-          </Text>
+          </View>
+          </View>
+         
         </ScrollView>
       </View>
       {/* <NavigationBar /> */}
@@ -105,4 +131,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default PrivacyNotice
+export default Helpline

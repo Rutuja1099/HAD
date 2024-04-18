@@ -2,13 +2,13 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { View, Text,SafeAreaView, ImageBackground, ScrollView, Modal,  StyleSheet, Pressable, Dimensions, Button, Animated, useWindowDimensions} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import YoutubePlayer from 'react-native-youtube-iframe';
-import {image1} from '../assets';
+import {image1, image2} from '../assets';
 import NavigationBar from "../components/NavigationBar";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { useFonts, Pangolin_400Regular } from '@expo-google-fonts/pangolin';
 
 
-const MeditationPage = (props) => {
+const Destress = (props) => {
 
     const navigation = useNavigation();
     const [playing, setPlaying] = useState(false);
@@ -34,16 +34,16 @@ const MeditationPage = (props) => {
         <SafeAreaView className="  bg-white flex-1 relative">
           <View className="bg-sky-950 flex-1 text-white p-2">
                 <View className = "p-4 flex-row items-center">
-                    <Icon name="angle-left" color="white" size={25} onPress={navigateback}/>
-                    <Text style={styles.title}>
-                      Relax and Meditate..
+                    <Icon name="angle-left" color="grey" size={25} onPress={navigateback}/>
+                    <Text className="text-xl ml-5 mt-4 mb-3 text-slate-50 font-extrabold ">
+                      Let us help you to de-Stress
                     </Text>
                 </View>
                     <View style={styles.container}>
-                    <ImageBackground source={image1} resizeMode="cover" style={styles.image}>
+                    <ImageBackground source={image2} resizeMode="cover" style={styles.image}>
                         <View style={styles.ImageContainer}>
-                        <Text style={styles.subtitle}>What is Meditation? </Text>
-                        <Text style={styles.dayText}>
+                        <Text className="text-xl ml-5 mt-5 mb-3 text-slate-50 font-extrabold">What is Meditation? </Text>
+                        <Text className="m-5 text-l ml-5 mt-5 mb-3 text-slate-50 font-extrabold">
                                 Meditation can be defined as a set of techniques that are intended to encourage a heightened state of awareness and focused attention. 
                                 Meditation is also a consciousness-changing technique shown to have many benefits on psychological well-being
                                 </Text>
@@ -55,17 +55,17 @@ const MeditationPage = (props) => {
                         <View style={styles.innercontainer}>
                            
                             <Pressable disabled={!visibleState} onPress={()=>setVisibleState(false)}>
-                                <Text style={styles.subtitle}>Know the steps</Text></Pressable>
+                                <Text className='m-5 text-l ml-5 mt-5 mb-3 text-slate-50 font-extrabold'>Know the steps</Text></Pressable>
                             <View disabled={visibleState} style={styles.textContainer}>
-                            <Text style={styles.dayText}>
+                            <Text className="text-l text-slate-50 font-extrabold">
                                 1. Choose a quite spot.</Text>
-                            <Text style={styles.dayText}>
+                            <Text className="text-l text-slate-50 font-extrabold">
                                 2. Play the video above. </Text>
-                            <Text style={styles.dayText}>
+                            <Text className="text-l text-slate-50 font-extrabold">
                                 3. Pay attention towards your breathing. </Text>
-                            <Text style={styles.dayText}>
+                            <Text className="text-l  text-slate-50 font-extrabold">
                                 4. Notice your thoughts. </Text>
-                            <Text style={styles.dayText}>
+                            <Text className="text-l text-slate-50 font-extrabold">
                                 5. You may set a timer.
                                 </Text>
                             </View>
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
         width:'auto',
         alignContent:'space-around',
         overflow:'hidden',
-        padding:5,
+        padding:1,
       },
     ImageContainer: {
       alignItems: 'center',
@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
       alignItems:'center',
     },
     textContainer: {
-      backgroundColor: 'rgba(222,233,246, 0.2)',
+      backgroundColor: 'rgba(222,233,246, 0.1)',
       paddingHorizontal: 24,
       paddingVertical: 8,
       borderRadius: 5,
@@ -131,37 +131,21 @@ const styles = StyleSheet.create({
       justifyContent:'center',
       alignItems:'flex-start',
     },
-    title:{
-      fontFamily:"Pangolin_400Regular",
-      fontSize:30,
-      color:'white',
-      marginLeft:20,
-    },
-    subtitle:{
-      fontFamily:"Pangolin_400Regular",
-      fontSize:25,
-      color:'white',
-      marginRight:10,
-      marginTop:25,
-      marginBottom:20,
-    },
-    dayText:{
-      fontFamily:"System",
-      fontSize:15,
-      color:'white',
-      marginLeft:10,
-      marginRight:10,
+    text: {
+      fontSize: 15,
+      color: 'white',
+      fontWeight:"700",
     },
     videoContainer:{
         backgroundColor:'rgba(222,233,246,0.3)',
         width:'auto',
         overflow:'hidden',
         padding:2,
-        margin:10,
+        margin:2,
         borderRadius:2,
         border:'solid, lavender',
     }
   });
 
 
-export default MeditationPage
+export default Destress

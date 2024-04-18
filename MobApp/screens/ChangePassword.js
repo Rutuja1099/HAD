@@ -1,4 +1,4 @@
-import { Pressable, ScrollView, TextInput, StyleSheet, Text, View } from 'react-native'
+import { Pressable, ScrollView, TextInput, StyleSheet, Text, View, Image, ImageBackground } from 'react-native'
 import React, {useState} from 'react'
 import { StatusBar } from 'expo-status-bar';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -6,6 +6,8 @@ import { useRoute } from '@react-navigation/native';
 import webServerUrl from '../configurations/WebServer';
 import {LoginInputValidation} from '../services/InputValidation';
 import HttpService from '../services/HttpService';
+import { useFonts, Pangolin_400Regular } from '@expo-google-fonts/pangolin';
+import {icon_suhrud, background} from '../assets';
 
 export default function ChangePassword(props) {
     const [userName, setUserName] = useState('');
@@ -16,6 +18,9 @@ export default function ChangePassword(props) {
     const toggleShowPassword = () => {
         setIsSecure(!isSecure);
     };
+    let [fontsLoaded] = useFonts({
+      Pangolin_400Regular,
+    });
 
     const onPressLogin = async() => {
       const isValid=LoginInputValidation({userName,password})
@@ -69,9 +74,12 @@ export default function ChangePassword(props) {
 
     }
     return (
+      <ImageBackground source={background} style={styles.imagebackground}>
       <ScrollView contentContainerStyle={styles.containerContent}
         style={styles.container}>
+          
         <StatusBar style='auto'/>
+        <Image  style={styles.tinyLogo} source={icon_suhrud}/>
         <Text style={styles.title}>Change Password</Text>
         <Text style={{color:'red'}}>Every field is Required*</Text>
         <ScrollView contentContainerStyle={styles.logContent}
@@ -124,7 +132,7 @@ export default function ChangePassword(props) {
               onPress={onPressLogin}
               style={({pressed})=>[styles.LoginBtn,
                   {
-                  backgroundColor: pressed ? '#2A9396' : '#3AB4BA',
+                  backgroundColor: pressed ? '#0619bb' : '#116fdf',
                   transform: [{ scale: pressed ? 0.96 : 1 }],
                   }
               ]}
@@ -132,42 +140,43 @@ export default function ChangePassword(props) {
               <Text style={styles.loginText}>Change</Text>
           </Pressable>
         </ScrollView>
+        
       </ScrollView>
+      </ImageBackground>
     )
   }
 
 const styles = StyleSheet.create({
+  imagebackground:{
+    flex:1,
+    width:'100%',
+    height:'100%',
+  },
+  tinyLogo: {
+    width: 100,
+    height: 100,
+  },
   container:{
     flex:1,
-    backgroundColor: '#fff',
     paddingTop:100,
+    padding:10,
     position:'relative',
-  },
-  title:{
-    fontWeight:"bold",
-    fontFamily:'System',
-    fontSize:40,
-    color:"black",
-    marginBottom:40,
-    width:'80%',
   },
   containerContent:{
       alignItems:'center',
       justifyContent:'center',
   },
   title:{
-    fontWeight:'bold',
-    fontFamily:'System',
-    fontSize:50,
+    fontFamily:"Pangolin_400Regular",
+    fontSize:40,
     marginTop:20,
-    marginBottom:20,
+    marginBottom:30,
+    color:"#116fdf",
   },
   inputView:{
-    width:'80%',
-    backgroundColor:'#3AB4BA',
+    width:'90%',
+    backgroundColor:'white',
     borderRadius:20,
-    borderColor:'blue',
-    borderWidth:2,
     height:50,
     marginBottom:13,
     justifyContent:'center',
@@ -179,30 +188,30 @@ const styles = StyleSheet.create({
   inputText:{
     flex:1,
     height:50,
-    color:'white',
+    fontFamily:"Pangolin_400Regular",
+    color:'black',
     flexDirection:'row',
   },
   LoginBtn:{
     width:"40%",
-    backgroundColor:"#3AB4BA",
+    backgroundColor:"#116fdf",
     height:40,
     alignItems:"center",
     justifyContent:"center",
     marginTop:'5%',
     marginBottom:'5%',
-    borderColor:'blue',
-    borderWidth:2,
     borderRadius:15,
   },
   loginText:{
-    color:"black",
+    color:"white",
     fontSize:20,
     alignItems:'center',
-    justifyContent:'center'
+    justifyContent:'center',
+    marginBottom:5,
+    fontFamily:"Pangolin_400Regular",
   },
   logbox:{
     flex:1,
-    backgroundColor:'#F1E9E9',
     flexDirection:"column",
     paddingTop:25,
     paddingBottom:10,
