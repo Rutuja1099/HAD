@@ -63,17 +63,17 @@ public class DoctorInfo {
     private DoctorLogin drLogin;
 
     @JsonIgnore
-    @OneToMany(mappedBy="doctorInfo", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy="doctorInfo",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonBackReference
     List<DoctorPatientMapping> user;
 
     @JsonIgnore
-    @OneToMany(mappedBy="drInfo", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy="drInfo", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonBackReference
     List<Answers> answers;
 
     @JsonIgnore
-    @OneToMany(mappedBy="drInfo", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy="drInfo", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonBackReference
     List<Appointments> appointments;
 

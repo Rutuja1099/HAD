@@ -220,7 +220,7 @@ const PasswordManager = () => {
                         </View>
                     </View>
             </View>
-            <Pressable onPress={() => console.log('Simple Button pressed')}>
+            <Pressable onPress={() => onPressChangePassword()}>
                 <View className="mt-4 mb-4 mx-10 h-[41px] items-center justify-center rounded-3xl bg-[#3C3FFF]">
                     <Text className=" text-white font-bold text-xl">Change Password</Text>
                 </View>

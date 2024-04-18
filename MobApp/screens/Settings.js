@@ -95,7 +95,7 @@ const Settings = () => {
             menuItemName: "Your profile",
             imageWidth: 18,
             imageHeight: 27,
-            navigateTo: "Profile"
+            navigateTo: "EditProfile"
         },
         {
             menuItemImage: securityImage,

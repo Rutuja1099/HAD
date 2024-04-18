@@ -45,7 +45,7 @@ const TopNavigationMenu = ({open, setOpen}) => {
     }
 
     const handleLogout = async() => {
-        const logoutURL=webServerUrl+"/suhrud/doctor/logout";  
+        const logoutURL=webServerUrl+"/suhrud/logout";  
         const sessionData = await localStorage.getItem('Data');
         const localData=JSON.parse(sessionData);
         const method='POST';
