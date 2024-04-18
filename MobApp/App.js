@@ -26,6 +26,8 @@ import Dashboard from "./screens/Dashboard";
 import Meditation from "./screens/Meditation";
 import Moodlift from "./screens/Moodlift";
 import MeditationPage from "./screens/MeditationPage";
+import AnswerQnA from "./screens/AnswerQnA";
+import Helpline from "./screens/Helpline";
 
 
 NativeWindStyleSheet.setOutput({
@@ -73,7 +75,9 @@ export default function App() {
           component={Chat} 
           // initialParams={{ doctorName: 'Dr. John', doctorId: 123 }}  
         />
-        <Stack.Screen name="Wellness Hub" component={WellnessHub} options={{headerShown: false,}}/>       
+        <Stack.Screen name="Wellness Hub" component={WellnessHub} options={{headerShown: false,}}/> 
+        <Stack.Screen name="AnswerQnA" component={AnswerQnA} options={{headerShown: false,}}/>
+        <Stack.Screen name="Helpline" component={Helpline} options={{headerShown: false,}}/>       
       
       </Stack.Navigator>
     </NavigationContainer>
