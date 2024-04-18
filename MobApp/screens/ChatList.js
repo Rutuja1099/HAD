@@ -160,8 +160,9 @@ const ChatList = () => {
 
         // const room = user+doctorName; 
         setRoom(chatId);
+        console.log("chattttt: ",chatId);
 
-        navigation.navigate("Chat", { doctorName, doctorId, room, user});
+        navigation.navigate("Chat", { doctorName, doctorId, chatId, user});
     }
 
     const navigateBack = () => {
