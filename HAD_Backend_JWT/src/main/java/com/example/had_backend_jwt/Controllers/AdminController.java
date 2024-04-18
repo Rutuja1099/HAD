@@ -1,14 +1,17 @@
 package com.example.had_backend_jwt.Controllers;
 
 import com.example.had_backend_jwt.Entities.DoctorInfo;
+import com.example.had_backend_jwt.Entities.DoctorLogin;
 import com.example.had_backend_jwt.JWT.JwtService;
 import com.example.had_backend_jwt.Models.AuthenticationResponse;
 import com.example.had_backend_jwt.Models.DoctorRegisterRequest;
+import com.example.had_backend_jwt.Models.DoctorStatusDTO;
 import com.example.had_backend_jwt.Repositories.DoctorInfoRepository;
 import com.example.had_backend_jwt.Repositories.DoctorLoginRepository;
 import com.example.had_backend_jwt.Repositories.QuestionsRepository;
 import com.example.had_backend_jwt.Services.AdminAuthenticationService;
 import com.example.had_backend_jwt.Services.DoctorAuthenticationService;
+import com.example.had_backend_jwt.Services.EmailService;
 import com.example.had_backend_jwt.Services.PatientService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -40,6 +43,9 @@ public class AdminController {
     @Autowired
     private DoctorLoginRepository doctorLoginRepository;
 
+    @Autowired
+    private EmailService emailService;
+
     @PostMapping("/register/doctor")
     @PreAuthorize("hasAuthority('Admin')")
     public ResponseEntity<AuthenticationResponse> registerDoctor(@RequestBody DoctorRegisterRequest request){
@@ -51,11 +57,18 @@ public class AdminController {
     }
 
 
+//    @GetMapping("/getAllDoctorsInfo")
+//    @PreAuthorize("hasAuthority('Admin')")
+//    public ResponseEntity<List<DoctorInfo>> getDoctorsList(){
+//        List<DoctorInfo> DoctorInfos=patientService.getAllDoctorsList();
+//        return  ResponseEntity.ok(DoctorInfos);
+//    }
+
     @GetMapping("/getAllDoctorsInfo")
     @PreAuthorize("hasAuthority('Admin')")
-    public ResponseEntity<List<DoctorInfo>> getDoctorsList(){
-        List<DoctorInfo> DoctorInfos=patientService.getAllDoctorsList();
-        return  ResponseEntity.ok(DoctorInfos);
+    public ResponseEntity<List<DoctorStatusDTO>> getDoctorsList(){
+        List<DoctorStatusDTO> doctorStatusInfo = patientService.getAllDoctorsStatus();
+        return  ResponseEntity.ok(doctorStatusInfo);
     }
 
     @PutMapping("/deactivateDoctor")
@@ -63,7 +76,6 @@ public class AdminController {
     public ResponseEntity<?> deactivateDoctor(@RequestBody Integer doctorID){
 
         try {
-            System.out.println("hihi");
             Optional<DoctorInfo> doctorInfoById = doctorInfoRepository.findById(doctorID);
 
             if (doctorInfoById.isEmpty()) {
@@ -74,6 +86,18 @@ public class AdminController {
             doctorInfo.setIsDeactivated(!doctorInfo.getIsDeactivated());
 
             doctorInfoRepository.save(doctorInfo);
+            System.out.println("hehehehe");
+            System.out.println(doctorInfo.getIsDeactivated());
+            Optional<DoctorLogin> doctorLogin = doctorLoginRepository.findById(doctorID);
+            DoctorLogin doctorLogin1 = doctorLogin.get();
+
+            if(doctorInfo.getIsDeactivated()){
+                emailService.sendSimpleMessage(doctorLogin1.getDrEmail(), "Account status","Dear User your account with username: "+doctorLogin1.getDrUsername()+ " is deactivated");
+            }
+            else{
+                emailService.sendSimpleMessage(doctorLogin1.getDrEmail(), "Account status","Dear User your account with username: "+doctorLogin1.getDrUsername()+ " is Activated");
+            }
+
             return ResponseEntity.ok(Map.of("success", true));
 
         }
@@ -88,6 +112,13 @@ public class AdminController {
         try {
             doctorInfoRepository.deleteById(doctorID);
             doctorLoginRepository.deleteById(doctorID);
+
+            Optional<DoctorLogin> doctorLogin = doctorLoginRepository.findById(doctorID);
+            if(doctorLogin.isPresent()) {
+                DoctorLogin doctorLogin1 = doctorLogin.get();
+
+                emailService.sendSimpleMessage(doctorLogin1.getDrEmail(), "Account Deletec", "Dear User your account with username: " + doctorLogin1.getDrUsername() + " is deleted");
+            }
         }
         catch(Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.toString());
@@ -97,6 +128,7 @@ public class AdminController {
     }
 
     @PostMapping("/logout")
+    @PreAuthorize("hasAuthority('Admin')")
     public ResponseEntity<?> logoutUser(HttpServletRequest request){
         jwtService.addToBlacklist(request);
         return ResponseEntity.ok("Successfully logged out");

@@ -163,6 +163,7 @@ public class DoctorAuthenticationService {
                 return AuthenticationResponse.builder()
                         .token(jwtToken)
                         .message("Success")
+                        .isModerator(doctorInfo.isDrIsModerator())
                         .username(doctorLogin.getDrUsername())
                         .build();
             }

@@ -103,7 +103,7 @@ const DoctorAppointmentBox=({item, navigation})=>{
             </View>
             <View className="flex-row justify-between z-10">
                 <View className="mt-2 ml-6">
-                    <h3><Text className="text-lg">{drFullName}</Text></h3>
+                    <Text className="text-lg">{drFullName}</Text>
                 </View>
                 <View className="items-end mr-4">
                     <View className="absolute bg-gray-100 w-28 h-28 mt-4 mr-0 rounded-3xl border-cyan-950">

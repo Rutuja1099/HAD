@@ -54,9 +54,27 @@ public class DoctorController {
         return ResponseEntity.ok(patientProgressInfos);
     }
 
+    @GetMapping("/viewPatients/fetchPatientProgressInfo/patientDetail")
+    @PreAuthorize("hasAuthority('Doctor')")
+    public ResponseEntity<PatientDetailDTO> getPatientDetailById(@RequestParam Integer id)
+    {
+        PatientDetailDTO detail=doctorService.getPatientDetailById(id);
+        return ResponseEntity.ok(detail);
+    }
+
     @PostMapping("/logout")
+    @PreAuthorize("hasAuthority('Doctor')")
     public ResponseEntity<?> logoutUser(HttpServletRequest request){
         jwtService.addToBlacklist(request);
         return ResponseEntity.ok("Successfully logged out");
     }
+
+
+    @GetMapping("/getDrId")
+    @PreAuthorize("hasAuthority('Doctor') or hasAuthority('Moderator')")
+    public ResponseEntity<Integer> getDrId(HttpServletRequest request){
+        Integer drId= jwtService.extractId(request,"doctorId");
+        return ResponseEntity.ok(drId);
+    }
+
 }

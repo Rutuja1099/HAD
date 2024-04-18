@@ -28,10 +28,66 @@ public class PatientService {
     private final DoctorPatientMappingRepository doctorPatientMappingRepository;
     private final DoctorInfoRepository doctorInfoRepository;
 
+    private final DoctorLoginRepository doctorLoginRepository;
+
     public List<DoctorInfo> getAllDoctorsList(){
         return doctorInfoRepository.findAll();
 
     }
+
+    public List<DoctorStatusDTO> getAllDoctorsStatus(){
+
+        List<DoctorInfo> doctorInfos = doctorInfoRepository.findAll();
+        List<DoctorStatusDTO> DoctorsListResponses = new ArrayList<>();
+
+        for (DoctorInfo row : doctorInfos) {
+            Integer drId = (Integer) row.getDrId();
+            Integer drRegNo = (Integer) row.getDrRegNo();
+            String drFullName = (String) row.getDrFullName();
+            String drPhone = (String) row.getDrPhone();
+            String drAddr = (String) row.getDrAddr();
+            String drSpecialization = (String) row.getDrSpecialization();
+            Integer drExperience = (Integer) row.getDrExperience();
+            Integer drPatientLimit = (Integer) row.getDrPatientLimit();
+            Integer drActivePatients = (Integer) row.getDrActivePatients();
+            boolean drIsModerator = (boolean) row.getIsDeactivated();
+            String drGender = (String) row.getDrGender();
+            String drDegree = (String) row.getDrDegree();
+            boolean isDeactivated = (boolean) row.getIsDeactivated();
+
+            Optional<DoctorLogin> doctorLogin = doctorLoginRepository.findById(drId);
+
+            if(doctorLogin.isPresent()) {
+                DoctorLogin doctorLogin1 = doctorLogin.get();
+
+                String drEmail = doctorLogin1.getDrEmail();
+
+                DoctorStatusDTO response = DoctorStatusDTO.builder()
+                        .drId(drId)
+                        .drRegNo(drRegNo)
+                        .drFullName(drFullName)
+                        .drEmail(drEmail)
+                        .drPhone(drPhone)
+                        .drAddr(drAddr)
+                        .drSpecialization(drSpecialization)
+                        .drExperience(drExperience)
+                        .drExperience(drExperience)
+                        .drPatientLimit(drPatientLimit)
+                        .drActivePatients(drActivePatients)
+                        .drIsModerator(drIsModerator)
+                        .drGender(drGender)
+                        .drDegree(drDegree)
+                        .isDeactivated(isDeactivated)
+                        .build();
+                DoctorsListResponses.add(response);
+            }
+        }
+
+        return DoctorsListResponses;
+
+    }
+
+
     public List<SuggestedDoctorsListResponse> getSuggestedDoctorsList(){
         List<Object[]> queryResult = doctorInfoRepository.SuggestDoctorsList();
         List<SuggestedDoctorsListResponse> suggestedDoctorsListResponses = new ArrayList<>();

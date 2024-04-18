@@ -5,11 +5,10 @@ import { useNavigation } from '@react-navigation/native';
 import YoutubePlayer from 'react-native-youtube-iframe';
 import NavigationBar from "../components/NavigationBar";
 import { Icon } from "react-native-vector-icons/FontAwesome";
+import { useFonts, Pangolin_400Regular } from '@expo-google-fonts/pangolin';
 
 
-const images = new Array(6).fill(
-  'https://static.vecteezy.com/system/resources/previews/022/451/024/non_2x/generative-ai-illustration-of-a-dog-and-cat-under-a-colorful-blanket-photo.jpg',
-);
+
 
 const Moodlift = (props) => {
 
@@ -20,6 +19,10 @@ const Moodlift = (props) => {
             headerShown: false,
         })
     },[])
+
+    let [fontsLoaded] = useFonts({
+      Pangolin_400Regular,
+    });
 
     const [playing, setPlaying] = useState(false);
     
@@ -113,11 +116,11 @@ const Moodlift = (props) => {
       <View className=" bg-sky-950 bg-opacity-10 flex-1 text-white pt-2 p-5 mt-2 ml-2 mr-2 mb-2 shadow-lg rounded-lg">
                 <View className = "p-4 flex-row items-center">
                     {/* <Icon name="angle-left" color="grey" size={25} onPress={()=>navigateback()}/> */}
-                    <Text className="text-xl ml-5 mt-4 mb-3 text-white font-extrabold ">
+                    <Text style={styles.title}>
                       Your space ! 
                     </Text>
                 </View>
-                <Text  className="text-l text-white">
+                <Text style={styles.subtitle}>
                   Sit back, Calm down and let us help you... 
                 </Text>
    
@@ -142,7 +145,8 @@ const Moodlift = (props) => {
                       </Pressable>
                     ))}
                     </View>
-                  <YoutubePlayer key={videoUrl} play={playing} videoId={videoUrl}/>
+                  <YoutubePlayer  height={200}   
+                                  width={320}    key={videoUrl} play={playing} videoId={videoUrl}/>
                   <View className='flex items-end mt-2'>
                       <Pressable onPress={()=> onPressMore()}>
                           <Text style={styles.linkText}>See more..</Text>
@@ -165,63 +169,7 @@ const Moodlift = (props) => {
                   </View>
                   </View>      
       </View>
-      {/* <View style={styles.scrollContainer}>
-        <ScrollView
-          horizontal={true}
-          pagingEnabled
-          showsHorizontalScrollIndicator={false}
-          onScroll={Animated.event([
-            {
-              nativeEvent: {
-                contentOffset: {
-                  x: scrollX,
-                },
-              },
-              
-            },
-          ],{ useNativeDriver: true } )}
-          scrollEventThrottle={1}>
-          {images.map((image, imageIndex) => {
-                    return (
-                      <View style={{width: windowWidth, height: 200}} key={imageIndex}>
-                        <ImageBackground source={{uri: image}} style={styles.card}>
-                          <View style={styles.textContainer}>
-                            <Text style={styles.infoText}>
-                              {'Image - ' + imageIndex}
-                            </Text>
-                          </View>
-                        </ImageBackground>
-                        
-                    <View style={styles.textContainer}>
-                            <Text style={styles.infoText}>
-                              {'Image - ' + imageIndex}
-                            </Text>
-                          </View>
-                      </View>
-                    );
-          })}
-        </ScrollView>
-        <View style={styles.indicatorContainer}>
-          {images.map((image, imageIndex) => {
-            const width = scrollX.interpolate({
-              inputRange: [
-                windowWidth * (imageIndex - 1),
-                windowWidth * imageIndex,
-                windowWidth * (imageIndex + 1),
-              ],
-              outputRange: [8, 16, 8],
-              extrapolate: 'clamp',
-            });
-            return (
-              <Animated.View
-                key={imageIndex}
-                style={[styles.normalDot, {width}]}
-                
-              />
-            );
-          })}
-        </View>
-      </View> */}
+      
       <NavigationBar />
     </SafeAreaView>
   )
@@ -256,15 +204,17 @@ const styles = StyleSheet.create({
   infoText: {
     color: 'white',
     fontSize: 16,
-    fontWeight: 'bold',
+    fontFamily:"Pangolin_400Regular",
   },
   beautyText: {
     color: 'blue',
     fontSize: 16,
+    fontFamily:"Pangolin_400Regular",
   },
   linkText: {
     color: 'blue',
     fontSize: 14,
+    fontFamily:"Pangolin_400Regular",
   },
   normalDot: {
     height: 8,
@@ -272,6 +222,22 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     backgroundColor: 'silver',
     marginHorizontal: 4,
+  },
+  title:{
+    fontFamily:"Pangolin_400Regular",
+    fontSize:30,
+    color:'white',
+  },
+  subtitle:{
+    fontFamily:"Pangolin_400Regular",
+    fontSize:15,
+    color:'white',
+    marginLeft:10,
+  },
+  dayText:{
+    fontFamily:"Pangolin_400Regular",
+    fontSize:15,
+    color:'black',
   },
   indicatorContainer: {
     flexDirection: 'row',
@@ -323,7 +289,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 12,
     color: 'black',
-    fontWeight:"600",
+    fontFamily:"Pangolin_400Regular",
   },
 });
 

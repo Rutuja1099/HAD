@@ -15,4 +15,5 @@ public class PatientProgressInfo {
     private int currentDay;
     private int severity;
     private int totalSeverity;
+    private Integer ptRegNo;
 }

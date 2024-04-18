@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react';
-import webServerUrl from '../configurations/WebServer';
-import HttpService from '../services/HttpService';
+import webServerUrl from '../../configurations/WebServer';
+import HttpService from '../../services/HttpService';
 
 
-const DoctorStatusModal = ({showDeactivateConfirm, selectedDoctor, setShowDeactivateConfirm, setSelectedDoctor, doctorId}) => {
+const DoctorStatusModal = ({showDeactivateConfirm, selectedDoctor, setShowDeactivateConfirm, setSelectedDoctor, doctorId, setReloadPage, reloadPage}) => {
     
     if(!showDeactivateConfirm) return null;
 
@@ -42,7 +42,7 @@ const DoctorStatusModal = ({showDeactivateConfirm, selectedDoctor, setShowDeacti
             }
             
             else{
-                alert("reponse not 200");
+                alert("response not 200");
             }
         }
         catch(error){
@@ -50,6 +50,7 @@ const DoctorStatusModal = ({showDeactivateConfirm, selectedDoctor, setShowDeacti
             console.log(error);
         }
         setShowDeactivateConfirm(false);
+        setReloadPage(!reloadPage);
     }
     
     return (

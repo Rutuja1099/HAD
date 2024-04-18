@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import logoImage from "../assets/favicon.png";
 import { IoIosMenu, IoIosHome, IoIosLogOut } from "react-icons/io";
 import { FaRegUser } from "react-icons/fa";
@@ -12,6 +12,14 @@ import HttpService from "../services/HttpService";
 const SideNavigationMenu = ({ open, setOpen }) => {
     const location = useLocation();
     const navigate = useNavigate();
+
+    const [role, setRole] = useState("");
+
+    useEffect(() => {
+        const data = JSON.parse(window.localStorage.getItem('Data'));
+        setRole(data.role);
+    },[]); 
+
 
     const Menus = [
         { title: "Dashboard", icon: <IoIosHome size={25} />, src: "/main" },
@@ -62,6 +70,7 @@ const SideNavigationMenu = ({ open, setOpen }) => {
     };
 
     return (
+        
         <>
             <div className={`bg-white relative ${open ? "w-96" : "w-16"} h-full rounded-3xl duration-500`} >
                 <div className={`flex border-b border-neutral-600 h-14 justify-between items-center`}>

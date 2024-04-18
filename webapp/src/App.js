@@ -9,12 +9,12 @@ import Dashboard from './components/Dashboard';
 import Login from './components/Login';
 import Patients from './components/Patients';
 import Appointments from './components/Appointments';
-import QnaForum from './components/QnaForum';
+import QnaForum from './components/QnaForum/QnaForum';
 import DoctorOnboarding from './components/DoctorOnboarding';
 import SetPassword from './components/SetPassword';
 import ForgotPasswordMail from './components/ForgotPasswordMail';
-import QnaForumQuestion from './components/QnaForumQuestion';
-import DoctorStatus from './components/DoctorStatus';
+import QnaForumQuestion from './components/QnaForum/QnaForumQuestion';
+import DoctorStatus from './components/DoctorStatus/DoctorStatus';
 import PatientDetail from './components/PatientDetail';
 
 function App() {
@@ -67,7 +67,7 @@ function App() {
           <Routes>
             <Route path='chatpage' element={< ChatPage />} />
             <Route path='patients' element={<Patients />} />
-            <Route path='/patientDetail' element={<PatientDetail/>}/>
+            <Route path='/patientDetail/:patientRegNo' element={<PatientDetail/>}/>
             <Route path='appointments' element={<Appointments />} />
             <Route path='/main' element={<Dashboard />} />
             <Route path='login' element={<Login setAuthenticated = {setAuthenticated}/>} />
