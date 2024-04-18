@@ -11,9 +11,9 @@ import java.util.Optional;
 public interface DoctorPatientMappingRepository extends JpaRepository<DoctorPatientMapping,Integer> {
     Optional<DoctorPatientMapping> findByPatientInfoPtRegNoAndDoctorInfo_DrId(Integer ptRegNo, Integer drId);
 
-    @Query(value = "SELECT userId, chatId, drId FROM doctorpatientmapping WHERE userId = :pId",nativeQuery = true)
+    @Query(value = "SELECT ptRegNo, chatId, drId FROM doctorpatientmapping WHERE ptRegNo = :pId",nativeQuery = true)
     List<Object[]> DoctorsList(@Param("pId") Integer pId);
 
-    @Query(value = "SELECT userId, chatId, drId FROM doctorpatientmapping WHERE userId = :drId",nativeQuery = true)
+    @Query(value = "SELECT ptRegNo, chatId, drId FROM doctorpatientmapping WHERE drId = :drId",nativeQuery = true)
     List<Object[]> PatientsList(@Param("drId") Integer drId);
 }

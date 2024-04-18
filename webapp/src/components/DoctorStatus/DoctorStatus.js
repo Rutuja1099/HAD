@@ -163,7 +163,7 @@ const getAllDoctors = async () => {
             <div className="m-4 flex flex-row gap-40">
               <div className="font-bold w-72 mr-5">{doctor.drFullName}</div>
               <div className="text-sm text-gray-600 font-semibold mr-8 w-10 flex justify-center">{doctor.drDegree}</div>
-              <div className="text-sm">{doctor.isDeactivated === true ? "Deactivated": "Activated"}</div>
+              <div className="text-sm">{doctor.deactivated === true ? "Deactivated": "Activated"}</div>
             </div>
             <button
               className="focus:outline-none text-xl"
@@ -193,10 +193,10 @@ const getAllDoctors = async () => {
              {/* Buttons : here add navigate to functionality for the required buttons*/}
              <div className="flex bg-[#D6EEFF] gap-96">
                <button 
-                    className={`bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-8 rounded-xl ml-10 mb-4 mr-auto text-center ${doctor.isDeactivated === true ? "bg-green-500" : "bg-red-500"}`}
+                    className={`bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-8 rounded-xl ml-10 mb-4 mr-auto text-center ${doctor.deactivated === true ? "bg-green-500" : "bg-red-500"}`}
                     onClick={() => openDeactivateBox(doctor)}
                 >
-                {doctor.isDeactivated === true ? "Activate": "Deactivate"}
+                {doctor.deactivated === true ? "Activate": "Deactivate"}
                </button>
                <button 
                     className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-8 rounded-xl mr-10 mb-4 ml-auto"

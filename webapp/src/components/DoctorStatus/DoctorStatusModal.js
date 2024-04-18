@@ -42,7 +42,7 @@ const DoctorStatusModal = ({showDeactivateConfirm, selectedDoctor, setShowDeacti
             }
             
             else{
-                alert("reponse not 200");
+                alert("response not 200");
             }
         }
         catch(error){

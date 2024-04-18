@@ -29,8 +29,11 @@ public class ChatService {
         List<Object[]> queryResult = doctorPatientMappingRepository.DoctorsList(pId);
         List<DoctorListChatDTO> DoctorsListResponses = new ArrayList<>();
 
+        int queryResultLength = queryResult.size();
+        System.out.println("Length of queryResult: " + queryResultLength);
+
         for (Object[] row : queryResult) {
-            Integer drId = (Integer) row[3];
+            Integer drId = (Integer) row[2];
             String chatId = (String) row[1];
 
             Optional<DoctorInfo> doctorInfo = doctorInfoRepository.findByDrId(drId);

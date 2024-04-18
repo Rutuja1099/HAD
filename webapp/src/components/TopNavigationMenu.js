@@ -80,7 +80,7 @@ const TopNavigationMenu = ({open, setOpen}) => {
                             
                             {/* profile ame and profile image */}
                             <div className="flex self-end items-center justify-between">
-                                <p className="font-semibold">{username}</p>
+                                <p className="font-semibold">Admin</p>
                                 <div className="relative">
                                     <img 
                                         src={profileImage} 
