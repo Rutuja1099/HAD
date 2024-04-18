@@ -67,7 +67,7 @@ function App() {
           <Routes>
             <Route path='chatpage' element={< ChatPage />} />
             <Route path='patients' element={<Patients />} />
-            <Route path='/patientDetail' element={<PatientDetail/>}/>
+            <Route path='/patientDetail/:patientRegNo' element={<PatientDetail/>}/>
             <Route path='appointments' element={<Appointments />} />
             <Route path='/main' element={<Dashboard />} />
             <Route path='login' element={<Login setAuthenticated = {setAuthenticated}/>} />

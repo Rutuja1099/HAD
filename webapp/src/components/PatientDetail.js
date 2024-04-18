@@ -1,4 +1,6 @@
-import React,{useState} from 'react';
+import React,{useEffect, useState} from 'react';
+import { useParams } from 'react-router-dom';
+import HttpService from '../services/HttpService';
 import {
 Chart as ChartJS,
 CategoryScale,
@@ -9,6 +11,7 @@ LineElement,
 PointElement
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
+import webServerUrl from '../configurations/WebServer';
   
 ChartJS.register(
 CategoryScale,
@@ -21,13 +24,61 @@ Legend
 
 
 function PatientDetail() {
-    const [name,setName]=useState('Viki V');
-    const [gender, SetGender]=useState('Male');
-    const [contact, setContact] =useState('9326494421');
-    const [dob,setDob]=useState('11/12/2000')
 
-    const datas=[3, 1, 9, 10, 8, 11, 7];
-    const labels=Array.from({length:datas.length},(_,index)=>`Week ${index+1}`);
+    const { patientRegNo } = useParams();
+    console.log(patientRegNo);
+
+    const [name,setName]=useState('');
+    const [gender, setGender]=useState('');
+    const [contact, setContact] =useState('');
+    const [dob,setDob]=useState('');
+    const [severity, setSeverity]=useState([]);
+    const [week,setWeek]=useState([]);
+
+    const patientDetailURL=webServerUrl+`/suhrud/doctor/viewPatients/fetchPatientProgressInfo/patientDetail?id=${patientRegNo}`;
+
+    useEffect(()=>{
+      patientDetailInfo(patientDetailURL);
+    },[]);
+
+    const patientDetailInfo=async(patientDetailURL)=>{
+      const method='GET';
+      const sessionData = JSON.parse(window.localStorage.getItem('Data'));
+      const bearerToken = sessionData.token;
+
+      const headers = {
+        'Authorization': `Bearer ${bearerToken}`,
+        'Content-Type': 'application/json',
+      };
+
+      try{
+        const response=await HttpService(method,patientDetailURL,null,headers);
+        console.log(response.status);
+        if(response.status==200){
+          const patientData=await response.data;
+          console.log(patientData);
+          setData(patientData);
+        }
+        else{
+          console.log("error:");
+          console.log("Failed to fetch the error");
+        }
+      }catch(error){
+        console.log("error:");
+        console.log(error);
+      }
+    }
+
+    const setData=(patientData)=>{
+      setName(patientData.fullname);
+      setContact(patientData.phone);
+      setDob(patientData.dob);
+      setGender(patientData.gender);
+      const weeks=patientData.severityWeekWise.map((item, index) => `Week ${item.week}`);
+      setWeek(weeks);
+      const sev=patientData.severityWeekWise.map(item => item.avgSeverity);
+      setSeverity(sev);
+    }
 
     const chat = () => {
         console.log("Chat");
@@ -40,11 +91,11 @@ function PatientDetail() {
       }
     
       const data = {
-        labels: labels,
+        labels: week,
         datasets: [
           {
             label: 'Week wise Severity of Patients',
-            data: datas,
+            data: severity,
             backgroundColor: 'rgba(54, 162, 235, 0.3)',
             borderColor: 'rgba(54, 162, 235)',
             borderWidth: 1,

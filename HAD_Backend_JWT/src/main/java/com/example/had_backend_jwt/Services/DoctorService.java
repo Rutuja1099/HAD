@@ -1,16 +1,9 @@
 package com.example.had_backend_jwt.Services;
 
-import com.example.had_backend_jwt.Entities.Appointments;
-import com.example.had_backend_jwt.Entities.DoctorInfo;
-import com.example.had_backend_jwt.Entities.DoctorPatientMapping;
-import com.example.had_backend_jwt.Entities.PatientProgress;
+import com.example.had_backend_jwt.Entities.*;
 import com.example.had_backend_jwt.JWT.JwtService;
-import com.example.had_backend_jwt.Models.DoctorAppointmentsResponse;
-import com.example.had_backend_jwt.Models.PatientProgressInfo;
-import com.example.had_backend_jwt.Repositories.AppointmentsRepository;
-import com.example.had_backend_jwt.Repositories.DoctorInfoRepository;
-import com.example.had_backend_jwt.Repositories.DoctorPatientMappingRepository;
-import com.example.had_backend_jwt.Repositories.PatientProgressRepository;
+import com.example.had_backend_jwt.Models.*;
+import com.example.had_backend_jwt.Repositories.*;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,6 +22,8 @@ public class DoctorService {
     private final AppointmentsRepository appointmentsRepository;
     private final DoctorPatientMappingRepository doctorPatientMappingRepository;
     private final PatientProgressRepository patientProgressRepository;
+    public final PatientInfoRepository patientInfoRepository;
+//    public final PatientProgressRepository patientProgressRepository;
 
     public DoctorInfo getDoctorInfo(Integer drId){
         Optional<DoctorInfo> doctorInfo=doctorInfoRepository.findByDrId(drId);
@@ -101,6 +96,7 @@ public class DoctorService {
             if(patientProgressOptional.isPresent()){
                 PatientProgress patientProgress=patientProgressOptional.get();
                 PatientProgressInfo patientProgressInfo=new PatientProgressInfo();
+                patientProgressInfo.setPtRegNo(patient.getPatientInfo().getPtRegNo());
                 patientProgressInfo.setPtFullname(patient.getPatientInfo().getPtFullname());
                 patientProgressInfo.setCurrentWeek(patientProgress.getCurrentWeek());
                 patientProgressInfo.setCurrentDay(patientProgress.getCurrentDay());
@@ -113,4 +109,25 @@ public class DoctorService {
         return patientProgressInfos;
     }
 
+    public PatientDetailDTO getPatientDetailById(Integer id) {
+        PatientDetailDTO detail=new PatientDetailDTO();
+        PatientInfo patientInfo=patientInfoRepository.findPatientInfoByPtRegNo(id);
+        if(patientInfo==null)
+            return null;
+        detail.setFullname(patientInfo.getPtFullname());
+        detail.setGender(patientInfo.getPtGender());
+        detail.setPhone(patientInfo.getPtPhone());
+        detail.setDob(patientInfo.getPtDOB());
+
+        List<WeekWiseSeverity> patientWeekWiseSeverity=patientProgressRepository.findAverageSeverityByPatientInfoPtRegNoOrderByWeekDesc(id);
+        List<SeverityWeek> ans=new ArrayList<>();
+        for(WeekWiseSeverity p:patientWeekWiseSeverity){
+            SeverityWeek week=new SeverityWeek();
+            week.setWeek(p.getWeek());
+            week.setAvgSeverity(p.getAvgSeverity());
+            ans.add(0,week);
+        }
+        detail.setSeverityWeekWise(ans);
+        return detail;
+    }
 }
