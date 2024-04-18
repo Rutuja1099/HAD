@@ -152,7 +152,7 @@ function DoctorOnboarding() {
 
   return ( 
     
-    <div className="bg-doctor-background  bg-cover flex justify-center content-center">
+    <div className="bg-doctor-background bg-cover flex justify-center content-center">
     <div className="bg-white bg-opacity-85 w-2/3 m-10 rounded-3xl">
       <form className="p-10 m-5 block content-center" onSubmit={handleSubmit}> 
         

@@ -16,6 +16,7 @@ import ForgotPasswordMail from './components/ForgotPasswordMail';
 import QnaForumQuestion from './components/QnaForum/QnaForumQuestion';
 import DoctorStatus from './components/DoctorStatus/DoctorStatus';
 import PatientDetail from './components/PatientDetail';
+import DoctorProfile from './components/DoctorProfile';
 
 function App() {
   const [open, setOpen] = useState(false);
@@ -65,6 +66,7 @@ function App() {
             />
           )}
           <Routes>
+            <Route path='profile' element={< DoctorProfile />} />
             <Route path='chatpage' element={< ChatPage />} />
             <Route path='patients' element={<Patients />} />
             <Route path='/patientDetail' element={<PatientDetail/>}/>
