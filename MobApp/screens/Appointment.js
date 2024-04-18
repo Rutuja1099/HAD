@@ -119,17 +119,17 @@ const Appointment = ({route}) => {
     return(   
     <ImageBackground source={background} style={styles.imagebackground}> 
     <SafeAreaView className="flex-1">
-        <SafeAreaView className = "m-2 border-b border-spacing-8 border-dashed pb-2 px-2 mt-2 flex-row justify-between">
+        <SafeAreaView className = "m-2 border-b border-spacing-8 border-dashed pb-2 px-2 mt-14 flex-row justify-between">
             
             <View className="flex-row space-x-4">
-                <Icon name="angle-left" size={25}/>
+                {/* <Icon name="angle-left" size={25}/> */}
          
                 <Text className="flex text-xl font-semibold ml-2">
                     Suggested Doctors
                 </Text>
             </View>
             <SafeAreaView className="mr-0">
-                <Text onPress={() => navigateDashboard()} className="text-center rounded-xl bg-white w-full h-full p-1">Skip</Text>
+                <Text onPress={() => navigateDashboard()} className="text-center rounded-xl bg-white w-full p-1">Skip</Text>
             </SafeAreaView>
            
         </SafeAreaView>
@@ -213,25 +213,6 @@ const styles = StyleSheet.create({
         height:'100%',
       resizeMode:'cover',
       },
-      tinyLogo: {
-        width: 50,
-        height: 50,
-        marginTop:35,
-      },
-    inputText:{
-      height:50,
-      color:'black',
-      fontFamily:'Pangolin_400Regular',
-    },
-    title:{
-        marginTop:20,
-        fontFamily:'Pangolin_400Regular',
-        fontSize:30,
-    },
-    pickerText:{
-    fontFamily:'Pangolin_400Regular',
-    fontSize:20,
-    },
     
   })
 export default Appointment;

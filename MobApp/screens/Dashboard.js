@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { View, Text, TextInput, ScrollView, StyleSheet, ImageBackground,Image,Animated, useWindowDimensions} from 'react-native';
+import { View, Text, TextInput, ScrollView, StyleSheet, ImageBackground,Image,Animated, useWindowDimensions, Pressable} from 'react-native';
 import { useNavigation } from '@react-navigation/native'
 import NavigationBar from "../components/NavigationBar";
 import { Feather } from '@expo/vector-icons';
@@ -38,14 +38,26 @@ const Dashboard = () => {
 
     };
 
+    const navigateForum = () => {
+        navigation.navigate("Wellness Hub");
+    };
+
+    const navigateAppointment = () => {
+        navigation.navigate("Appointment");
+    };
+
+    const navigateMoodlift = () => {
+        navigation.navigate("Moodlift");
+    };
+
     return(
         <>
             
             <ScrollView className="flex-1 h-full">
             <ImageBackground source={background} style={styles.imagebackground}>
             
-            <View contentContainerStyle={styles.containerContent} style={styles.container}>
-                    <View className = "flex flex-row p-2 justify-between mt-4">
+            <ScrollView contentContainerStyle={styles.containerContent} style={styles.container} className="px-2">
+                    <View className = "flex flex-row px-2 pt-2 justify-between mt-4">
                         <View className='flex flex-row justify-items-start'>
                             <Image  style={styles.tinyLogo} source={icon_suhrud}/>
                             <View className='flex flex-col ml-2'>
@@ -65,7 +77,7 @@ const Dashboard = () => {
 
                         <View className = "flex flex-row justify-between mb-2">
                             <Text style={styles.pickerText}>Ask our experts</Text>
-                            <Feather name="arrow-right" size={24} color="black" />
+                            <Feather name="arrow-right" size={24} color="black" onPress={navigateForum}/>
                         </View>
 
                         <View className="flex flex-row px-4 py-3  bg-white opacity-80 rounded-3xl justify-between">
@@ -123,7 +135,6 @@ const Dashboard = () => {
 
                     </View>
 
-            </View>
             <View style={styles.scrollContainer}>
                             <ScrollView
                             horizontal={true}
@@ -171,8 +182,8 @@ const Dashboard = () => {
                             })}
                             </View>
                         </View>
-                        
-            </ImageBackground>
+                    </ScrollView>
+                </ImageBackground>
             </ScrollView>
             
             <NavigationBar />

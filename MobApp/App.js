@@ -49,8 +49,8 @@ export default function App() {
         <Stack.Screen name="SignUp" component={SignUp} options={{headerShown: false,}}/>
         <Stack.Screen name="ChangePassword" component={ChangePassword} options={{headerShown: false,}}/>
         <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{headerShown: false,}}/>
-        <Stack.Screen name="Week" component={Week} options={{headerShown: false,}}/>
-        <Stack.Screen name="Day" component={Day} options={{headerShown: false,}}/>
+        <Stack.Screen name="Week" component={Week}/>
+        <Stack.Screen name="Day" component={Day}/>
         <Stack.Screen name="ChatList" component={ChatList} options={{headerShown: false,}}/>
         <Stack.Screen name="Meditation" component={Meditation} options={{headerShown: false,}}/>
         <Stack.Screen name="Moodlift" component={Moodlift} options={{headerShown: false,}}/>
@@ -73,7 +73,7 @@ export default function App() {
           component={Chat} 
           // initialParams={{ doctorName: 'Dr. John', doctorId: 123 }}  
         />
-        <Stack.Screen name="Wellness Hub" component={WellnessHub} />       
+        <Stack.Screen name="Wellness Hub" component={WellnessHub} options={{headerShown: false,}}/>       
       
       </Stack.Navigator>
     </NavigationContainer>
