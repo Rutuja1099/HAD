@@ -126,7 +126,9 @@ const Questionnaire = ({route}) => {
                 "v2": parseInt(storedSelectedOptions[3]),
                 "v3": parseInt(storedSelectedOptions[5]),
                 "v4": parseInt(storedSelectedOptions[7]),
-                "v5": parseInt(storedSelectedOptions[9])
+                "v5": parseInt(storedSelectedOptions[9]),
+                "currentDay":day,
+                "currentWeek":week
             }
 
             // for (let i = 0; i < storedSelectedOptions.length; i++) {
