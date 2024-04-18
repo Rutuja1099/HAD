@@ -11,6 +11,16 @@ import {icon_suhrud, background, therapy} from '../assets';
 
 const Dashboard = () => {
 
+    const [username, setUserName] = useState("");
+
+    useEffect(()=>{
+        const fetchUsername=async()=>{
+            const sessionData = await AsyncStorage.getItem('patientData');
+            const localData=JSON.parse(sessionData);
+            setUserName("Hi "+localData.ptUsername+"!!");
+        };
+        fetchUsername();
+    },[])
     const jokes = new Array();
     jokes[0]='https://www.champak.in/wp-content/uploads/2019/02/c84.jpg';
     jokes[1]='https://www.champak.in/wp-content/uploads/2019/03/c97-633x422.jpg';
@@ -62,7 +72,7 @@ const Dashboard = () => {
                         <View className='flex flex-row justify-items-start'>
                             <Image  style={styles.tinyLogo} source={icon_suhrud}/>
                             <View className='flex flex-col ml-2'>
-                                <Text style={styles.title}>Hello Rutu</Text>
+                                <Text style={styles.title}>Hello {username} </Text>
                                 <Text style={styles.inputText}>Weclome to our safe space</Text>
                             </View>
                         </View>
@@ -126,19 +136,20 @@ const Dashboard = () => {
             <View style={styles.scrollContainer}>
                             <ScrollView
                             horizontal={true}
-                            pagingEnabled
-                            showsHorizontalScrollIndicator={false}
-                            onScroll={Animated.event([
-                                {
-                                nativeEvent: {
-                                    contentOffset: {
-                                    x: scrollX,
-                                    },
-                                },
+                            // pagingEnabled
+                            // showsHorizontalScrollIndicator={false}
+                            // onScroll={Animated.event([
+                            //     {
+                            //     nativeEvent: {
+                            //         contentOffset: {
+                            //         x: scrollX,
+                            //         },
+                            //     },
                                 
-                                },
-                            ],{ useNativeDriver: true } )}
-                            scrollEventThrottle={1}>
+                            //     },
+                            // ],{ useNativeDriver: true } )}
+                            // scrollEventThrottle={1}>
+                            >
                             {jokes.map((image, imageIndex) => {
                                         return (
                                         <View style={{width: windowWidth, height: 200}} key={imageIndex}>
@@ -149,7 +160,7 @@ const Dashboard = () => {
                                         );
                             })}
                             </ScrollView>
-                            <View style={styles.indicatorContainer}>
+                            {/* <View style={styles.indicatorContainer}>
                             {jokes.map((image, imageIndex) => {
                                 const width = scrollX.interpolate({
                                 inputRange: [
@@ -168,7 +179,7 @@ const Dashboard = () => {
                                 />
                                 );
                             })}
-                            </View>
+                            </View> */}
                         </View>
                     </ScrollView>
                 </ImageBackground>
@@ -245,7 +256,7 @@ const styles = StyleSheet.create({
       therapy:{
       height:180,
       width:400,
-      opacity:'100%',
+
       },
   })
 

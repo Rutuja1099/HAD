@@ -15,6 +15,64 @@ const AnswerQnA = () => {
     {answerId:3, answer:"Write and vent it out"},
    ]);  
 
+
+   const getAnswers = async () => {
+
+    const loginURL = webServerUrl+"/suhrud/forum/getAnswerPatient";
+
+        const method='GET';
+
+        const data=null;
+
+        const params={qId:1}
+        
+        try{
+
+        const sessionData = await AsyncStorage.getItem('patientData');
+        const parsedSessionData = JSON.parse(sessionData);
+
+        const bearerToken = parsedSessionData.token;
+
+        console.log("bearer token: ", bearerToken);
+
+        const headers = {
+            'Authorization': `Bearer ${bearerToken}`, // Include your token here
+            'Content-Type': 'application/json', // Specify the content type if needed
+        };
+        
+        const response=await HttpService(method,loginURL,data, headers);
+        console.log(response.status)
+        
+        if(response.status===200){
+                
+            console.log("Successful");
+            console.log(response.data);
+
+            setAllFilterContent(response.data);
+            
+            try{
+                console.log("from storage");
+
+            }catch(error){
+                console.log("error while saving data");
+                console.log(error);
+            }
+        }
+        
+        else{
+            alert("error1");
+
+        }
+        }catch(error){
+            alert(error.data);
+            console.log(error);
+        }
+  };
+
+  useEffect(() => {
+    getAnswers();
+  },[]);
+
   const scrollViewRef = useRef(null);
 
   const navigation = useNavigation();

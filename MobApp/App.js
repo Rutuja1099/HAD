@@ -28,7 +28,7 @@ import Moodlift from "./screens/Moodlift";
 import MeditationPage from "./screens/MeditationPage";
 import EmergencyContact from "./screens/EmergencyContact";
 import AnswerQnA from "./screens/AnswerQnA";
-
+import Destress from "./screens/Destress";
 
 NativeWindStyleSheet.setOutput({
   default: "native",
@@ -57,6 +57,7 @@ export default function App() {
         <Stack.Screen name="Meditation" component={Meditation} options={{headerShown: false,}}/>
         <Stack.Screen name="Moodlift" component={Moodlift} options={{headerShown: false,}}/>
         <Stack.Screen name="MeditationPage" component={MeditationPage} options={{headerShown: false,}}/>
+        <Stack.Screen name="Destress" component={Destress} options={{headerShown: false,}}/>
         <Stack.Screen name="Appointment" component={Appointment} options={{headerShown: false,}}/>
         <Stack.Screen name="Dashboard" component={Dashboard} options={{headerShown: false,}}/>
 

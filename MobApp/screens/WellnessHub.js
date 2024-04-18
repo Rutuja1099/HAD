@@ -1,6 +1,13 @@
 import { View, SafeAreaView, Text, Pressable, ScrollView, TextInput, StyleSheet, ImageBackground, Image, TouchableOpacity } from 'react-native';
 import React, { useState, useRef, useEffect } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import HttpService from '../services/HttpService'
+import { useFonts, Pangolin_400Regular } from '@expo-google-fonts/pangolin';
+import {icon_suhrud, background} from '../assets';
+import webServerUrl from '../configurations/WebServer';
+
 
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -13,19 +20,9 @@ const WellnessHub = () => {
   const filters = ["All", "My Queries"];
   const [newMessage, setNewMessage] = useState('');
 
-  //content for all filter : This should be populated from DB result
-  // const [allFilterContent,setAllFilterContent] = useState([
-  //   {questionId:1,question:"How to boost morale", answers:'3 replies', questionTimestamp:'2024-02-11T12:11:46.000+05:30'},
-  //   {questionId:2, question:"How to deal with depression", answers:'2 replies', questionTimestamp:'2023-03-21T12:11:46.000+05:30'},
-  //   {questionId:2, question:"How to deal withhhhhhhhhhhh anxietyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy", answers:'2 replies',questionTimestamp:'2024-03-21T12:11:46.000+05:30'}
-  // ]);  
-
+ 
   const [allFilterContent, setAllFilterContent] = useState([]);
   const [myQueriesContent, setMyQueriesContent] = useState([]);
-  //content for my queries filter : This should be populated from DB result
-  // const [myQueriesContent,setMyQueriesContent] = useState([
-  //   {questionId:3,question:"How to lead a healthy lifestyle", answers:'2 replies',questionTimestamp:'2024-03-21T12:47:00.000+05:30'}
-  // ]);
 
 
   const scrollViewRef = useRef(null);

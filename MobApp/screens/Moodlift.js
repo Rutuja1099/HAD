@@ -145,7 +145,8 @@ const Moodlift = (props) => {
                       </Pressable>
                     ))}
                     </View>
-                  <YoutubePlayer key={videoUrl} play={playing} videoId={videoUrl}/>
+                  <YoutubePlayer  height={200}   
+                                  width={320}    key={videoUrl} play={playing} videoId={videoUrl}/>
                   <View className='flex items-end mt-2'>
                       <Pressable onPress={()=> onPressMore()}>
                           <Text style={styles.linkText}>See more..</Text>
