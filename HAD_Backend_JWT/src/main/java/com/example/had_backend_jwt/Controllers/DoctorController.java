@@ -54,6 +54,14 @@ public class DoctorController {
         return ResponseEntity.ok(patientProgressInfos);
     }
 
+    @GetMapping("/viewPatients/fetchPatientProgressInfo/patientDetail")
+    @PreAuthorize("hasAuthority('Doctor')")
+    public ResponseEntity<PatientDetailDTO> getPatientDetailById(@RequestParam Integer id)
+    {
+        PatientDetailDTO detail=doctorService.getPatientDetailById(id);
+        return ResponseEntity.ok(detail);
+    }
+
     @PostMapping("/logout")
     @PreAuthorize("hasAuthority('Doctor')")
     public ResponseEntity<?> logoutUser(HttpServletRequest request){
