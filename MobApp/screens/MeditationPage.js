@@ -1,11 +1,13 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { View, Text,SafeAreaView, ImageBackground, ScrollView, Modal,  StyleSheet, Pressable, Dimensions, Button, Animated, useWindowDimensions} from 'react-native';
+import React, { useEffect, useCallback,useLayoutEffect, useState } from "react";
+import { View, Text,SafeAreaView, ImageBackground, ScrollView, Modal,  StyleSheet, Pressable, Dimensions, Animated, useWindowDimensions} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import YoutubePlayer from 'react-native-youtube-iframe';
+import { Button, Alert } from "react-native";
+import YoutubePlayer from "react-native-youtube-iframe";
 import {image1} from '../assets';
 import NavigationBar from "../components/NavigationBar";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { useFonts, Pangolin_400Regular } from '@expo-google-fonts/pangolin';
+import { useRef } from "react";
 
 
 const MeditationPage = (props) => {
@@ -28,6 +30,11 @@ const MeditationPage = (props) => {
         navigation.navigate("Meditation");
     }
 
+    
+    const onStateChange = useCallback((state) => 
+    {    if (state === "ended") {      setPlaying(false);      Alert.alert("video has finished playing!");    }  }, []);
+    const togglePlaying = useCallback(() => {    setPlaying((prev) => !prev);  }, []);
+
     return (
 
     
@@ -35,7 +42,7 @@ const MeditationPage = (props) => {
           <View className="bg-sky-950 flex-1 text-white p-2">
                 <View className = "p-4 flex-row items-center">
                     <Icon name="angle-left" color="white" size={25} onPress={navigateback}/>
-                    <Text style={styles.title}>
+                    <Text style={styles.subtitle}>
                       Relax and Meditate..
                     </Text>
                 </View>
@@ -48,9 +55,17 @@ const MeditationPage = (props) => {
                                 Meditation is also a consciousness-changing technique shown to have many benefits on psychological well-being
                                 </Text>
                         <View style={styles.videoContainer}>
-                                <YoutubePlayer play={playing} videoId={"W19PdslW7iw"}/>
-                                <View className='flex items-end mt-2'>
-                                </View>
+                                {/* <YoutubePlayer play={playing} videoId={"W19PdslW7iw"}/> */}
+                                
+                                  
+                                  <YoutubePlayer  
+                                  height={200}   
+                                  width={350}     
+                                  play={playing}       
+                                   videoId={"W19PdslW7iw"}        
+                                   onChangeState={onStateChange}      />
+                                
+                                {/* <Button title={playing ? "pause" : "play"} onPress={togglePlaying} />   */}
                         </View>
                         <View style={styles.innercontainer}>
                            
@@ -142,7 +157,8 @@ const styles = StyleSheet.create({
       fontSize:25,
       color:'white',
       marginRight:10,
-      marginTop:25,
+      marginLeft:10,
+      marginTop:20,
       marginBottom:20,
     },
     dayText:{
@@ -154,10 +170,11 @@ const styles = StyleSheet.create({
     },
     videoContainer:{
         backgroundColor:'rgba(222,233,246,0.3)',
-        width:'auto',
+        width:'100%',
         overflow:'hidden',
-        padding:2,
+        padding:10,
         margin:10,
+        height:'80% ',
         borderRadius:2,
         border:'solid, lavender',
     }

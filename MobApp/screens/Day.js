@@ -12,13 +12,9 @@ const height = 320;
 
 export default function Day(props) {
     const [items, setItems] = useState([
-      { item: "Sunday" },
-      { item: "Monday" },
-      { item: "Tuesday" },
-      { item: "Wednesday" },
-      { item: "Thursday" },
-      { item: "Friday" },
-      { item: "Saturday" },
+      { item: "Day 1" },
+      { item: "Day 2" },
+      { item: "Day 3" },
     ]);
 
     const navigation = useNavigation();
@@ -133,6 +129,7 @@ export default function Day(props) {
   const styles = StyleSheet.create({
     container: {
       flex: 1,
+      flexDirection:'row',
     },
     parallaxHeader: {
       width,
@@ -151,8 +148,9 @@ export default function Day(props) {
       borderTopRightRadius: 20,
       overflow: 'hidden',
       padding: 16,
-      paddingTop: 20,
-      marginTop:-30,
+      height:'100%',
+      paddingTop: 40,
+      marginTop:-10,
     },
     dayBtn: {
       width: "100%",

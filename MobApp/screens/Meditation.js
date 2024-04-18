@@ -27,6 +27,11 @@ const Meditation = (props) => {
         props.navigation.navigate("MeditationPage");
     };
 
+    const onDeStress = () => {
+      console.log("Clicked on destress");
+      props.navigation.navigate("Destress");
+  };
+
     const navigateback = () => {
         navigation.navigate("Moodlift");
     };
@@ -54,7 +59,7 @@ const Meditation = (props) => {
                                     </Pressable>
                             </View>
                             <View style={styles.ImageContainer}>
-                                    <Pressable>
+                                    <Pressable onPress={onDeStress}>
                                         
                                             <ImageBackground source={image2} resizeMode="cover" style={styles.image}>
                                             <View style={styles.textContainer}><Text style={styles.dayText}>De-Stress</Text></View>

@@ -1,7 +1,5 @@
-import { Image, View, Text, SafeAreaView, Pressable, StyleSheet, ScrollView, Alert} from 'react-native'
+import { Image, View, Text, SafeAreaView, Pressable, StyleSheet, ScrollView, Alert, ImageBackground} from 'react-native'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
-import { Image, View, Text, SafeAreaView, Pressable, StyleSheet, ScrollView, ImageBackground} from 'react-native'
-import React, { useLayoutEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { contactImage, accountImage, securityImage, notificationImage, logoutImage, trashImage} from '../assets'
 import NavigationBar from '../components/NavigationBar'
@@ -125,7 +123,6 @@ const Settings = () => {
     return (
         <ImageBackground source={background} style={styles.imagebackground}>
         <SafeAreaView className="flex-1 relative">
-        and 
             {/* Settings Container for name and profile picture*/}
             <View className="flex-row p-2 rounded-2xl shadow-lg justify-between mt-10">
                 {/* profile picture*/}

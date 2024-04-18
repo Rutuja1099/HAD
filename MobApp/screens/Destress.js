@@ -48,7 +48,9 @@ const Destress = (props) => {
                                 Meditation is also a consciousness-changing technique shown to have many benefits on psychological well-being
                                 </Text>
                         <View style={styles.videoContainer}>
-                                <YoutubePlayer play={playing} videoId={"W19PdslW7iw"}/>
+                                <YoutubePlayer height={200}   
+                                  width={350}     
+                                  play={playing} videoId={"W19PdslW7iw"}/>
                                 <View className='flex items-end mt-2'>
                                 </View>
                         </View>
@@ -137,14 +139,15 @@ const styles = StyleSheet.create({
       fontWeight:"700",
     },
     videoContainer:{
-        backgroundColor:'rgba(222,233,246,0.3)',
-        width:'auto',
-        overflow:'hidden',
-        padding:2,
-        margin:2,
-        borderRadius:2,
-        border:'solid, lavender',
-    }
+      backgroundColor:'rgba(222,233,246,0.3)',
+      width:'100%',
+      overflow:'hidden',
+      padding:10,
+      margin:10,
+      height:'80% ',
+      borderRadius:2,
+      border:'solid, lavender',
+  },
   });
 
 
