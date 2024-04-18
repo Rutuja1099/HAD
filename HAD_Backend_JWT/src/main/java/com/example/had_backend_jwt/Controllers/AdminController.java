@@ -97,6 +97,7 @@ public class AdminController {
     }
 
     @PostMapping("/logout")
+    @PreAuthorize("hasAuthority('Admin')")
     public ResponseEntity<?> logoutUser(HttpServletRequest request){
         jwtService.addToBlacklist(request);
         return ResponseEntity.ok("Successfully logged out");

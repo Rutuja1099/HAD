@@ -54,7 +54,7 @@ export default function Login(props) {
                     console.log("error while saving data");
                     console.log(error);
                 }
-                props.navigation.navigate("Dashboard");
+                props.navigation.navigate("ChatList");
             }
             else{
                 alert(response.data.message);
