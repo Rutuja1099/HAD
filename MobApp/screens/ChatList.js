@@ -235,7 +235,7 @@ const ChatList = () => {
                                         onPress={() => enterChat(item.drName, item.drId, item.chatId)}
                                     >
 
-                                        <Image source={{ uri: image1 }} className = "w-12 h-12 rounded-full mr-4" />
+                                        <Image source={image1 } className = "w-12 h-12 rounded-full mr-4" />
                                         <View className = "flex-1 self-center"> 
                                             <Text className = "text-lg" >{item.drName}</Text>
                                         </View>
@@ -260,7 +260,7 @@ const ChatList = () => {
                                         onPress={() => enterChat(item.drName, item.drId, item.chatId)}
                                     >
 
-                                        <Image source={{ uri: image1 }} className = "w-12 h-12 rounded-full mr-4" />
+                                        <Image source={image1 } className = "w-12 h-12 rounded-full mr-4" />
                                         <View className = "flex-1 self-center"> 
                                             <Text className = "text-lg" >{item.drName}</Text>
                                         </View>
