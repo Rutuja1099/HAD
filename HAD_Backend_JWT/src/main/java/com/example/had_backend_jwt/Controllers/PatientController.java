@@ -75,6 +75,14 @@ public class PatientController {
         BookedDaysResponse bookedDays=patientService.fetchAllBookedAppointments(httpServletRequest,request);
         return ResponseEntity.ok(bookedDays);
     }
+
+    @PostMapping("/chooseDoctor")
+    @PreAuthorize("hasAnyAuthority('Patient')")
+    public ResponseEntity<String> chooseDoctor(HttpServletRequest httpServletRequest,@RequestBody ChooseDoctorRequest request){
+        System.out.println("Request body : "+request);
+        patientService.chooseDoctor(httpServletRequest,request);
+        return ResponseEntity.ok("Doctor has been chosen by patient");
+    }
     // @PostMapping("/fetchBookedDays")
     // @PreAuthorize("hasAnyAuthority('Patient')")
     // public ResponseEntity<BookedDaysResponse> fetchBookedDays(HttpServletRequest httpServletRequest,@RequestBody AppointmentBookingRequest request){

@@ -231,6 +231,21 @@ public class PatientService {
 //        return appointments.isPresent();
 //    }
 
+    public void chooseDoctor(HttpServletRequest request,ChooseDoctorRequest chooseDoctorRequest){
+        Integer ptRegNo= jwtService.extractId(request,"patientId");
+        PatientInfo patientInfo=patientInfoRepository.findPatientInfoByPtRegNo(ptRegNo);
+        DoctorInfo doctorInfo=doctorService.getDoctorInfo(chooseDoctorRequest.getDrId());
+        //mapping in doctorPatientMapping does not exist
+        if (!checkDoctorPatientMapping(ptRegNo, doctorInfo.getDrId())) {
+            DoctorPatientMapping doctorPatientMapping = DoctorPatientMapping.builder()
+                    .doctorInfo(doctorInfo)
+                    .patientInfo(patientInfo)
+                    .build();
+            doctorPatientMappingRepository.save(doctorPatientMapping);
+        }
+
+    }
+
     public Integer bookAppointment(HttpServletRequest request,AppointmentBookingRequest appointmentBookingRequest){
         //fetch all booked days
         boolean bookedSlotStatus=fetchSpecificBookedDay(request,appointmentBookingRequest);

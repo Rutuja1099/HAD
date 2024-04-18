@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { View, Text, Image, StyleSheet, TextInput, ScrollView, SafeAreaView, TouchableOpacity, Button, FlatList, useWindowDimensions, Pressable} from 'react-native';
+import { View, Text, Image, StyleSheet, TextInput, ScrollView, SafeAreaView, TouchableOpacity, Button, FlatList, useWindowDimensions, Pressable, Alert} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
 import moment from 'moment';
@@ -31,6 +31,11 @@ const DoctorAppointmentDetails=({route})=>{
     const [formattedDate,setFormattedDate ]=useState(null);
     const [pressedSlotindex,setPressedSlotindex]=useState(1);
     const [noOfEleInRow, SetNoOfEleInRow]=useState(null); 
+    // const [showAlert, setShowAlert] = useState(false);
+
+    // const handlePress = () => {
+    //     setShowAlert(false); // Close the alert
+    // };
     //const [maxChunk, setmaxChunk]=useState(); 
     const currentMoment = moment();
 
@@ -165,7 +170,11 @@ const DoctorAppointmentDetails=({route})=>{
     const onScheduleAppointment=(selectedDay,pressedSlotindex)=>{
         console.log("onScheduleAppointment", selectedDay);
         console.log(pressedSlotindex);
+        //setShowAlert(true);
+        
         bookAppoinment(selectedDay,pressedSlotindex);
+        Alert.alert("You have booked an appointment");
+        OpenDashborad();
     }
 
     const OnSlotClick=(pressedSlot)=>{
@@ -294,9 +303,10 @@ const DoctorAppointmentDetails=({route})=>{
             alert(error.data);
             console.log(error);
         }
-        const myBookedSlotRes=response.myBookedSlots;
+        const myBookedSlotRes=response.data.myBookedSlots;
+        //console.log("huihuihui",myBookedSlotRes);
         setMyBookedSlots(myBookedSlotRes);
-        console.log("in fetchbookdays",myBookedSlots);
+        //console.log("in fetchbookdays",myBookedSlots);
         const bookedSlotsRes=response.data.bookedSlots;
         //console.log(bookedSlotsRes);
         setBookedSlots(bookedSlotsRes);
@@ -304,7 +314,7 @@ const DoctorAppointmentDetails=({route})=>{
     }
 
     useEffect (() => {
-        console.log("in tututututut",myBookedSlots);
+        //console.log("in tututututut",myBookedSlots);
     }, [bookedSlots, myBookedSlots]);
 
     useEffect(() => {   
@@ -332,7 +342,15 @@ const DoctorAppointmentDetails=({route})=>{
         //console.log("in jajajajaja",myBookedSlots);
     // getSelectedOptions();
     },[]);
-    
+
+    // const Alert = ({ message, onPress }) => {
+    //     return (
+    //       <TouchableOpacity onPress={onPress} className={`bg-gray-200 fixed inset-0 bg-opacity-30 backdrop-blur-sm px-4 py-2 rounded-md shadow-md`}>
+    //         <Text className={`text-black`}>{message}</Text>
+    //       </TouchableOpacity>
+    //     );
+    // };
+
     return(   
         
         <View classname="flex bg-blue-500">
@@ -357,6 +375,7 @@ const DoctorAppointmentDetails=({route})=>{
 
                     <View className = "overflow-scroll flex-1">
                     <SafeAreaView className=" bg-white rounded-3xl mt-20 ">
+                     <Text className="flex self-end pr-4 text-lg font-semibold ml-8 mt-4 text-left" size={25}>{currentMonth}</Text>
                     <Text className=" text-lg font-semibold ml-8 mt-4" size={25}>Date :</Text>
                     <View className="flex flex-row flex-wrap ml-5 mb-5">
                         {/* Map over the chunkedDays array to create rows with three elements each */}
@@ -409,12 +428,12 @@ const DoctorAppointmentDetails=({route})=>{
                                         
                                         ${
                                             pressedSlot === slot
-                                             ? 'bg-blue-500 text-white border-none' 
-                                                :bookedSlots[rowIndex*noOfEleInRow+(index+1)] 
-                                                    ?myBookedSlots && myBookedSlots.length > 0 && myBookedSlots.includes(parseInt((rowIndex * noOfEleInRow) + (index + 1)))
-                                                        ?'bg-red-400 text-black border-none cursor-not-allowed' 
-                                                        :'bg-gray-600 text-black border-none cursor-not-allowed'
-                                                    :'bg-gray-100 text-gray-500 border-gray-700 cursor-pointer' 
+                                             ? ('bg-blue-500 text-white border-none' )
+                                                :(bookedSlots[rowIndex*noOfEleInRow+(index+1)] 
+                                                    ?(myBookedSlots && myBookedSlots.length > 0 && myBookedSlots.includes(parseInt((rowIndex * noOfEleInRow) + (index + 1)))
+                                                        ?('bg-green-400 text-black border-none cursor-not-allowed')
+                                                        :'bg-gray-400 text-black border-none cursor-not-allowed')
+                                                    :'bg-gray-100 text-gray-500 border-gray-700 cursor-pointer' )
                                         // }`}>{slot}</Text>
                                     }`}>{rowIndex*noOfEleInRow+(index+1)}</Text>
                                         </Pressable>
@@ -434,7 +453,6 @@ const DoctorAppointmentDetails=({route})=>{
                                 {/* </TouchableOpacity> */}
                         </View>
                     </Pressable>
-
                     </SafeAreaView>
                     </View>
                    
