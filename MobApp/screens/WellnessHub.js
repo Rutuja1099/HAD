@@ -1,32 +1,34 @@
-import { View, SafeAreaView, Text, Pressable, ScrollView, TextInput } from 'react-native';
+import { View, SafeAreaView, Text, Pressable, ScrollView, TextInput, StyleSheet, ImageBackground, Image, TouchableOpacity } from 'react-native';
 import React, { useState, useRef, useEffect } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
-
+import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import HttpService from '../services/HttpService'
+import { useFonts, Pangolin_400Regular } from '@expo-google-fonts/pangolin';
+import {icon_suhrud, background} from '../assets';
 import webServerUrl from '../configurations/WebServer';
-import HttpService from '../services/HttpService';
+
+
+import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import HttpService from '../services/HttpService'
+import { useFonts, Pangolin_400Regular } from '@expo-google-fonts/pangolin';
+import {icon_suhrud, background} from '../assets';
 
 const WellnessHub = () => {
   const [selectedFilter, setSelectedFilter] = useState("All");
   const filters = ["All", "My Queries"];
   const [newMessage, setNewMessage] = useState('');
 
-  //content for all filter : This should be populated from DB result
-  // const [allFilterContent,setAllFilterContent] = useState([
-  //   {questionId:1,question:"How to boost morale", answers:'3 replies', questionTimestamp:'2024-02-11T12:11:46.000+05:30'},
-  //   {questionId:2, question:"How to deal with depression", answers:'2 replies', questionTimestamp:'2023-03-21T12:11:46.000+05:30'},
-  //   {questionId:2, question:"How to deal withhhhhhhhhhhh anxietyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy", answers:'2 replies',questionTimestamp:'2024-03-21T12:11:46.000+05:30'}
-  // ]);  
-
+ 
   const [allFilterContent, setAllFilterContent] = useState([]);
   const [myQueriesContent, setMyQueriesContent] = useState([]);
-  //content for my queries filter : This should be populated from DB result
-  // const [myQueriesContent,setMyQueriesContent] = useState([
-  //   {questionId:3,question:"How to lead a healthy lifestyle", answers:'2 replies',questionTimestamp:'2024-03-21T12:47:00.000+05:30'}
-  // ]);
 
 
   const scrollViewRef = useRef(null);
+
+  const navigation = useNavigation();
+
 
 
   const getAllQuestions = async () => {
@@ -197,7 +199,7 @@ const WellnessHub = () => {
     //if search result is empty
     if (filteredContent.length === 0) {
       return (
-        <View className='flex-row bg-white border-b-2 border-[#F4F2F1] border-opacity-5 m-5 h-auto'style={{ maxWidth: '80%' }}>
+        <View className='flex-row border-b-2 border-[#F4F2F1] border-opacity-5 m-5 h-auto'style={{ maxWidth: '80%' }}>
           <Text className='mb-2 justify-center text-sm font-semibold text-[#573926]'>No matching queries found</Text>
         </View>
       );
@@ -212,7 +214,7 @@ const WellnessHub = () => {
             color='#4DD8CF'
           />
           <View className='flex-col ml-4' style={{ marginLeft: 10, maxWidth: '70%'}}>
-            <Text className="mt-2 mb-2 justify-center text-sm font-semibold text-[#573926] self-start">{item.queryContent}</Text>
+            <Text className="mt-2 mb-2 justify-center text-sm font-semibold text-[#573926] self-start">{item.question}</Text>
             <View className='flex-row mb-2 mt-1'>
                 <Icon name='envelope-o' color='gray' size={20} />
                 <Text className="ml-1">{item.answers}</Text>
@@ -287,13 +289,29 @@ const WellnessHub = () => {
 
 };
 
+const navigateback = () => {
+  navigation.navigate("Dashboard");
+};
+
+
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
-      <View style={{ flexDirection: 'row', padding: 2, borderRadius: 20, marginLeft: 4, marginRight: 12, marginTop: 6, width: 200, height: 81, backgroundColor: 'white' }}>
+    <ImageBackground source={background} style={styles.imagebackground}>
+
+    <SafeAreaView className="flex-1">
+      <View className = "flex flex-row mt-12 mx-5 items-center pb-4 justify-between">
+        <View className="flex flex-row items-center">
+          <Icon name="angle-left" size={30} onPress={navigateback}/>
+              
+          <Text className = "font-bold text-lg ml-6 text-center" >Q&A Forum</Text>
+        </View>
+        <Image style={styles.tinyLogo} source={icon_suhrud}/>
+      </View>
+      
+      <View className="flex-row justify-between px-3 rounded-lg mt-4 mb-4">
         {/* filters */}
         {filters.map((filter, index) => (
           <Pressable key={index} onPress={() => handleFilterClick(filter)}>
-            <View key={index} style={{ margin: '2%', marginHorizontal: 6, alignItems: 'center', justifyContent: 'center', backgroundColor: selectedFilter === filter ? '#4DD8CF': '#F4F2F1', borderRadius: 8, width: 170, height:50 }}>
+            <View key={index} style={{ margin: '2%', marginHorizontal: 6, alignItems: 'center', justifyContent: 'center', backgroundColor: selectedFilter === filter ? '#373BFD': '#F3F4FF', borderRadius: 8, width: 170, height:50 }}>
               <Text style={{ fontFamily: 'System', color: selectedFilter === filter ? 'white':'#8A8A8A', fontSize: 18, fontWeight:selectedFilter === filter ? 'bold':null}}>
                 {filter}
               </Text>
@@ -308,7 +326,7 @@ const WellnessHub = () => {
         contentOffset={{ y: 1000000 }}
         onContentSizeChange={() => scrollViewRef.current.scrollToEnd({ animated: false })}
       >
-        <View className="flex-1 bg-white">
+        <View className="flex-1 pb-20">
           {renderQuestions()}
         </View>
       </ScrollView>
@@ -325,12 +343,25 @@ const WellnessHub = () => {
         <Icon
           name="send" // Use the send icon from FontAwesome
           size={25}
-          color="#4DD8CF"
+          color="#192CFF"
           onPress={handleSend} // Handle sending message on button press
         />          
       </View>
     </SafeAreaView>
+    </ImageBackground>
   );
 };
+
+const styles = StyleSheet.create({
+  imagebackground:{
+      height:'100%',
+      resizeMode:'cover',
+    },
+    tinyLogo: {
+      width: 40,
+      height: 40,
+      marginTop:5,
+    },
+});
 
 export default WellnessHub;

@@ -67,7 +67,7 @@ const ChatList = () => {
 
 
         let method='GET';
-        let sessionData = await AsyncStorage.getItem('patientData')
+        let sessionData = await AsyncStorage.getItem('patientData');
         let data=JSON.parse(sessionData);
         let bearerToken = data.token;
 

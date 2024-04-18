@@ -11,9 +11,6 @@ export default function Week(props) {
       { item: "Week 3" },
       { item: "Week 4" },
       { item: "Week 5" },
-      { item: "Week 6" },
-      { item: "Week 7" },
-      { item: "Week 8" },
     ]);
     
     const onPressWeek = (item) => {
@@ -67,7 +64,7 @@ export default function Week(props) {
                 style={({pressed})=>[
                   styles.dayBtn, 
                   {
-                    backgroundColor: pressed?'#2A9396' : '#3AB4BA',
+                    backgroundColor: pressed?'#2A9396' : '#B8FAFF',
                     transform: [{scale: pressed?0.96:1}]
                   },
                 ]}
@@ -93,12 +90,12 @@ const styles = StyleSheet.create({
     },
     smiley: {
       width: width,
-      height: 200,
+      height: 50,
       resizeMode: 'contain',
     },
     scrollViewContent: {
       flex: 1,
-      backgroundColor: '#fff',
+      backgroundColor: '#F2FFFE',
       borderTopLeftRadius: 20,
       borderTopRightRadius: 20,
       overflow: 'hidden',
@@ -114,8 +111,9 @@ const styles = StyleSheet.create({
       justifyContent: "center",
       marginTop: 25,
       marginBottom: 10,
-      borderColor: 'blue',
-      borderWidth: 2,
+      opacity: 0.9,
+      // borderColor: 'blue',
+      // borderWidth: 2,
       borderRadius: 20,
     },
     dayText: {

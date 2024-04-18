@@ -1,10 +1,12 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { View, Text, TextInput, ScrollView} from 'react-native';
+import { View, Text, TextInput, ScrollView, StyleSheet, Image, ImageBackground} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native'
 
 import {addDoc, collection, onSnapshot, orderBy, query, serverTimestamp, where} from 'firebase/firestore';
 import { db } from "../configurations/firebase-config";
+import { useFonts, Pangolin_400Regular } from '@expo-google-fonts/pangolin';
+import {icon_suhrud, background} from '../assets';
 
 
 const Chat = ({route}) => {
@@ -14,16 +16,9 @@ const Chat = ({route}) => {
 
     const scrollViewRef = useRef();
 
-    // const [messages, setMessages] = useState([
-    //     { text: 'Hello!', time: '10:00 AM', sender: 'doctor' },
-    //     { text: 'Hi thereeeeeeeeeeeeeeeeeeeeweeeeeeeeeeeeeee!', time: '10:05 AM', sender: 'patient' },
-    //     { text: 'Hello!', time: '10:00 AM', sender: 'doctor' },
-    //     { text: 'Hi thereeeeeeeeeeeeeeeeeeeeweeeeeeeeeeeeeee!', time: '10:05 AM', sender: 'patient' },
-    //     { text: 'Hello!', time: '10:00 AM', sender: 'doctor' },
-    //     { text: 'Hi thereeeeeeeeeeeeeeeeeeeeweeeeeeeeeeeeeee!', time: '10:05 AM', sender: 'patient' },
-    //     { text: 'Hello!', time: '10:00 AM', sender: 'doctor' },
-    //     { text: 'Hi thereeeeeeeeeeeeeeeeeeeeweeeeeeeeeeeeeee!', time: '10:05 AM', sender: 'patient' },
-    //   ]);
+    let [fontsLoaded] = useFonts({
+        Pangolin_400Regular,
+    });
 
     //all the messages present in the firebase database according to the query will be saved here
     const [messages, setMessages] = useState([]);
@@ -98,13 +93,16 @@ const Chat = ({route}) => {
 
 
     return (
-        <View className = "flex-1 bg-white">
+        <ImageBackground source={background} style={styles.imagebackground}>
+        <View className = "flex-1">
                 
-                <View className = "p-4 flex-row items-center border-b border-gray-300">
+                <View className = "p-4 mt-5 flex-row items-center justify-between border-b border-gray-300">
                 
                     <Icon name="angle-left" size={25} onPress={navigateback}/>
                 
                     <Text className = "font-bold text-lg ml-4" >{doctorName}</Text>
+
+                    <Image  style={styles.tinyLogo} source={icon_suhrud}/>
                 
                 </View>
 
@@ -162,7 +160,35 @@ const Chat = ({route}) => {
 
 
         </View>
+        </ImageBackground>
     )
 }
+
+const styles = StyleSheet.create({
+    imagebackground:{
+        height:'100%',
+      resizeMode:'cover',
+      },
+      tinyLogo: {
+        width: 40,
+        height: 40,
+        marginTop:5,
+      },
+    inputText:{
+      height:50,
+      color:'black',
+      fontFamily:'Pangolin_400Regular',
+    },
+    title:{
+        marginTop:20,
+        fontFamily:'Pangolin_400Regular',
+        fontSize:30,
+    },
+    pickerText:{
+    fontFamily:'Pangolin_400Regular',
+    fontSize:20,
+    },
+    
+  })
 
 export default Chat;

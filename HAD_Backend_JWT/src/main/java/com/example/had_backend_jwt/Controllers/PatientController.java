@@ -109,6 +109,7 @@ public class PatientController {
     }
 
     @PostMapping("/logout")
+    @PreAuthorize("hasAuthority('Patient')")
     public ResponseEntity<?> logoutUser(HttpServletRequest request){
         jwtService.addToBlacklist(request);
         return ResponseEntity.ok("Successfully logged out");

@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, TextInput, ScrollView, TouchableOpacity, View } from 'react-native';
+import { Pressable, StyleSheet, Text, TextInput, ScrollView, TouchableOpacity, ImageBackground, View, Image} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -7,6 +7,9 @@ import {LoginInputValidation} from '../services/InputValidation';
 import HttpService from '../services/HttpService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
+import { useFonts, Pangolin_400Regular } from '@expo-google-fonts/pangolin';
+import {icon_suhrud, background} from '../assets';
+
 
 export default function Login(props) {
     
@@ -15,6 +18,9 @@ export default function Login(props) {
     const [isSecure, setIsSecure] = useState(true);
 
     const navigation = useNavigation();
+    let [fontsLoaded] = useFonts({
+        Pangolin_400Regular,
+      });
 
     const toggleShowPassword = () => {
         setIsSecure(!isSecure);
@@ -86,11 +92,12 @@ export default function Login(props) {
     }
 
     return (
-    <ScrollView contentContainerStyle={styles.containerContent}
-    style={styles.container}>
-        <StatusBar style="auto" />
-      <Text style={styles.title}>LOG IN</Text>
-      <ScrollView contentContainerStyle={styles.logContent} style={styles.logbox}>
+    <ImageBackground source={background} style={styles.imagebackground}>
+    <ScrollView contentContainerStyle={styles.containerContent} style={styles.container}>
+    <ScrollView contentContainerStyle={styles.logContent} style={styles.logbox}>    
+        <Image  style={styles.tinyLogo} source={icon_suhrud}/>
+            <Text style={styles.title}>Log In</Text>
+      
         <View style={styles.inputView}>
             <TextInput
                 style={styles.inputText}
@@ -117,36 +124,45 @@ export default function Login(props) {
                 />
             </Pressable>
         </View>
-        <Pressable onPress={onPressForgotPassword}>
-            <Text style={styles.forgot}>Forgot Password?</Text>
-        </Pressable>
+        
         <Pressable
             onPress={onPressLogin}
             style={({pressed})=>[styles.LoginBtn,
                 {
-                backgroundColor: pressed ? '#2A9396' : '#3AB4BA',
-                transform: [{ scale: pressed ? 0.96 : 1 }],
+                backgroundColor: pressed ? '#0619bb' : '#116fdf',
+                // transform: [{ scale: pressed ? 0.96 : 1 }],
                 }
-            ]}
-            >
+            ]}>
             <Text style={styles.loginText}>Login</Text>
         </Pressable>
-        <Text>Do not have an Account?</Text>
+        <Pressable onPress={onPressForgotPassword}>
+            <Text style={styles.forgot}>Forgot Password?</Text>
+        </Pressable>
+        <View className='flex flex-row'>
+        <Text style={styles.inputSignUp}>Do not have an Account?  </Text>
         <Pressable
             onPress={onPressSignUp}>
             <Text style={styles.inputSignUp}>SignUp</Text>
         </Pressable>
+        </View>
       </ScrollView>
+      
     </ScrollView>
+    </ImageBackground>
+    
   )
 }
 
 const styles = StyleSheet.create({
     container:{
         flex:1,
-        backgroundColor: '#fff',
-        paddingTop:'40%',
+        paddingTop:'30%',
         position:'relative',
+    },
+    imagebackground:{
+        flex:1,
+        width:'100%',
+        height:'100%',
     },
     iconTouchableArea: {
         position: 'absolute',
@@ -163,70 +179,76 @@ const styles = StyleSheet.create({
     icon: { 
         position:'absolute',
     },
+    tinyLogo: {
+        width: 100,
+        height: 100,
+    },
     logbox:{
         flex:1,
-        backgroundColor:'#F1E9E9',
         flexDirection:"column",
-        paddingTop:25,
+        paddingTop:15,
         paddingBottom:10,
         borderRadius:30,
         position:'relative',
-        width:'70%',
+        width:'90%',
         height:'100%',
     },
     logContent:{
         alignItems: 'center',
     },
     title:{
-        fontWeight:"bold",
-        fontFamily:'System',
+        fontFamily:"Pangolin_400Regular",
         fontSize:50,
-        // color:'#000000',
-        marginBottom:40,
+        color:'#116fdf',
+        marginBottom:20,
     },
     inputView:{
         width:"80%",
         backgroundColor:"#F1E9E9",
         borderRadius:20,
-        borderColor:'blue',
-        borderWidth:2,
         height:50,
-        marginBottom:15,
+        marginBottom:25,
         justifyContent:'center',
         flexDirection:'row',
         alignItems:'center',
         padding:20,
+        
     },
     inputText:{
         flex:1,
         height:50,
-        color:"black"
+        color:"black",
+        marginBottom:2,
+        fontFamily:'Pangolin_400Regular',
     },
     LoginBtn:{
         width:"40%",
-        backgroundColor:"#3AB4BA",
-        height:'15%',
+        backgroundColor:"#116fdf",
         alignItems:"center",
         justifyContent:"center",
-        marginTop:'5%',
-        marginBottom:'5%',
-        borderColor:'blue',
-        borderWidth:2,
-        borderRadius:15,
+        padding:2,
+        borderRadius:20,
+        marginBottom:10,
     },
     inputSignUp:{
         color:"black",
         fontSize:11,
-        marginBottom:'5%',
+        marginTop:8,
+        fontFamily:'Pangolin_400Regular',
+        marginBottom:1,
     },
     forgot:{
         color:"black",
         fontSize:11,
+        fontFamily:'Pangolin_400Regular',
+        marginBottom:1,
     },
     loginText:{
-        color:"black",
-        fontSize:20,
+        color:"white",
+        fontSize:25,
+        marginBottom:5,
         alignItems:'center',
-        justifyContent:'center'
+        justifyContent:'center',
+        fontFamily:'Pangolin_400Regular',  
     },
 })
