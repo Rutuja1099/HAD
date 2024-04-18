@@ -6,7 +6,9 @@ import webServerUrl from '../configurations/WebServer';
 import HttpService from '../services/HttpService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Questionnaire = () => {
+const Questionnaire = ({route}) => {
+
+    const {week, day}=route.params;
     
     const[count,setCount]= useState(0);
     const [color, setColor] = useState({
@@ -36,6 +38,10 @@ const Questionnaire = () => {
     useEffect(() => {
 
         const getQuestionnaire = async () => {
+
+            console.log("Day on Q", day);
+            console.log("Week on Q", week);
+
             
             const loginURL = webServerUrl+"/suhrud/patient/getquestionnaire";
             const method='GET';
