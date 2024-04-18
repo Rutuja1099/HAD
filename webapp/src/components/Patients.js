@@ -75,8 +75,8 @@ const Patients = () => {
     setSearchText("");
   }
 
-  const goToPatientDetails = () => {
-    navigate('/PatientDetail');
+  const goToPatientDetails = (ptRegNo) => {
+    navigate(`/PatientDetail/${ptRegNo}`);
   }
 
   const renderPatient = (patientDetails) =>{
@@ -120,7 +120,7 @@ const Patients = () => {
                 </div>  
 
                 {/* Add the navigate to part here in order to navigate to specific patient details */}
-                <button className='bg-[#B5B5B5] rounded-md mb-4 mt-4 ml-20' onClick={goToPatientDetails}>
+                <button className='bg-[#B5B5B5] rounded-md mb-4 mt-4 ml-20' onClick={() => goToPatientDetails(patient.ptRegNo)}>
                   <p className='text-black font-bold text-sm p-4'>More Patient Details</p>
                 </button>  
 
