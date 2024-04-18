@@ -2,6 +2,12 @@ import { View, SafeAreaView, Text, Pressable, ScrollView, TextInput, StyleSheet,
 import React, { useState, useRef, useEffect } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import HttpService from '../services/HttpService'
+import { useFonts, Pangolin_400Regular } from '@expo-google-fonts/pangolin';
+import {icon_suhrud, background} from '../assets';
+
 const WellnessHub = () => {
   const [selectedFilter, setSelectedFilter] = useState("All");
   const filters = ["All", "My Queries"];

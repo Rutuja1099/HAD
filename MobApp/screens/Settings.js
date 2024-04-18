@@ -1,7 +1,5 @@
-import { Image, View, Text, SafeAreaView, Pressable, StyleSheet, ScrollView, Alert} from 'react-native'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { Image, View, Text, SafeAreaView, Pressable, StyleSheet, ScrollView, ImageBackground} from 'react-native'
-import React, { useLayoutEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { contactImage, accountImage, securityImage, notificationImage, logoutImage, trashImage} from '../assets'
 import NavigationBar from '../components/NavigationBar'

@@ -1,5 +1,4 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { View, Text, TextInput, ScrollView, Pressable} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { View, Text, TextInput, ScrollView, StyleSheet, ImageBackground,Image,Animated, useWindowDimensions, Pressable} from 'react-native';
 import { useNavigation } from '@react-navigation/native'
