@@ -89,19 +89,17 @@ const Settings = () => {
         }
     };
 
+    const handleEdit = () => {
+       
+            navigation.navigate("EditProfile", {sessionData:sessionData}); 
+    };
+
     const menuItems = [
-        { 
-            menuItemImage: accountImage,
-            menuItemName: "Your profile",
-            imageWidth: 18,
-            imageHeight: 27,
-            navigateTo: "EditProfile"
-        },
         {
             menuItemImage: securityImage,
             menuItemName: "Security and Privacy",
-            imageWidth: 35,
-            imageHeight: 30,
+            imageWidth: 25,
+            imageHeight: 2,
             navigateTo: "SecurityPrivacy"
         },
         {
@@ -142,7 +140,25 @@ const Settings = () => {
 
             {/*Components*/}
             <View className="flex-1 relative rounded-2xl shadow-lg ml-4 mr-12 mt-5 p-3 w-367 h-700">   
-                <ScrollView>       
+                <ScrollView>    
+                <Pressable
+                               
+                                onPress={() => handleEdit()}>
+                                <View style={styles.container}>
+                                    <View style={styles.imageContainer}>
+                                        <Image
+                                            source={accountImage}
+                                            style={[{ width: 25, height: 25}]}
+                                            resizeMode="contain"
+                                        />
+                                    </View>
+                                    <View style={styles.textContainer}>
+                                        <Text style={styles.text}>
+                                            Edit profile
+                                        </Text> 
+                                    </View>
+                                </View>
+                            </Pressable>   
                     {menuItems.map((item, index) => (
                             <Pressable
                                 key={index}
@@ -152,7 +168,7 @@ const Settings = () => {
                                     <View style={styles.imageContainer}>
                                         <Image
                                             source={item.menuItemImage}
-                                            style={[styles.image, { width: item.imageWidth, height: item.imageHeight, tintColor: 'grey'}]}
+                                            style={[{ width: item.imageWidth, height: item.imageHeight}]}
                                             resizeMode="contain"
                                         />
                                     </View>
