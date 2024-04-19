@@ -179,8 +179,17 @@ const DoctorAppointmentDetails=({route})=>{
         //setShowAlert(true);
         
         bookAppoinment(selectedDay,pressedSlotindex);
-        Alert.alert("You have booked an appointment");
-        OpenDashborad();
+        Alert.alert(
+            "You have booked an appointment  ",
+            "Details : " + drFullName + " on " + selectedDay +" at "+ pressedSlot,
+            [
+              {
+                text: "OK",
+                onPress: () => OpenDashborad()
+              }
+            ]
+          );
+        
     }
 
     const OnSlotClick=(pressedSlot)=>{
@@ -364,26 +373,26 @@ const DoctorAppointmentDetails=({route})=>{
                 
                 <Icon name="angle-left" size={25} onPress={navigateback}/>
             
-                <Text className = "font-bold text-lg ml-4 text-center" >Doctor's Profile</Text>
+                <Text className = "font-bold text-lg ml-4 mt-4 text-center" >Doctor's Profile</Text>
             
             </View>
            
                 <SafeAreaView className="flex-grow bg-blue-950 ml-6 mr-6 mt-3 rounded-3xl">
                     
-                    <SafeAreaView className=" justify-center items-center mt-20">
+                    <View className=" justify-center items-center mt-16">
                         <View className="relative w-32 h-32 rounded-full bg-black ">
-                            <Image source={{ uri: profilePhoto }} className = "w-full h-full rounded-full" />
+                            <Image source={profilePhoto} className = "w-full h-full rounded-full" />
                             <Text className=" text-center text-lg font-bold mt-2 text-white" size={25}>{drFullName}</Text>
                             <Text className=" text-center text-base font-bold mt-2 text-white" size={25}>{drSpecialization}</Text>
                         
                         </View>
-                    </SafeAreaView>
+                    </View>
 
-                    <View className = "overflow-scroll flex-1">
+                    <View className = "flex-grow overflow-scroll">
                     <SafeAreaView className=" bg-white rounded-3xl mt-20 ">
                      <Text className="flex self-end pr-4 text-lg font-semibold ml-8 mt-4 text-left" size={25}>{currentMonth}</Text>
-                    <Text className=" text-lg font-semibold ml-8 mt-4" size={25}>Date :</Text>
-                    <View className="flex flex-row flex-wrap ml-5 mb-5">
+                    <Text className=" text-lg font-semibold ml-4 mt-4" size={25}>Date :</Text>
+                    <View className="flex flex-row flex-wrap ml-3 mb-5">
                         {/* Map over the chunkedDays array to create rows with three elements each */}
                         {/* {Days.map((row, rowIndex) => ( */}
                         
@@ -421,7 +430,7 @@ const DoctorAppointmentDetails=({route})=>{
                             
                             {/* ))} */}
                     </View>
-                    <Text className=" text-lg font-semibold ml-8" size={25}>Time :</Text>
+                    <Text className=" text-lg font-semibold ml-4" size={25}>Time :</Text>
                     <View className="flex flex-row flex-wrap w-1/5 ml-5">
                         {/* Map over the chunkedDays array to create rows with three elements each */}
                         {chunkedSlots.map((row, rowIndex) => (
@@ -440,8 +449,8 @@ const DoctorAppointmentDetails=({route})=>{
                                                         ?('bg-green-400 text-black border-none cursor-not-allowed')
                                                         :'bg-gray-400 text-black border-none cursor-not-allowed')
                                                     :'bg-gray-100 text-gray-500 border-gray-700 cursor-pointer' )
-                                        // }`}>{slot}</Text>
-                                    }`}>{rowIndex*noOfEleInRow+(index+1)}</Text>
+                                        }`}>{slot}</Text>
+                                    {/* }`}>{rowIndex*noOfEleInRow+(index+1)}</Text> */}
                                         </Pressable>
                                     ))}
                                 </View>
