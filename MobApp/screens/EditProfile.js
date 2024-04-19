@@ -1,5 +1,5 @@
 import { SafeAreaView, View, Image, Pressable, TextInput, Text, ScrollView, ImageBackground, StyleSheet} from 'react-native'
-import React, { useState } from 'react';
+import React, { useState , useEffect} from 'react';
 import { contactImage, pencilImage} from '../assets'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -16,14 +16,45 @@ const EditProfile = ({route}) => {
 
     let [fontsLoaded] = useFonts({ Pangolin_400Regular,});
     const [editable, setEditable] = useState(false);
-    const { sessionData} = route.params;
+    const {patientData}=route.params;
 
+    // const [patientData,setPatientData]=useState(null);
 
-    const [name, onChangeName] = useState(sessionData.ptFullname);
-    const [email, onChangeEmail] = useState(sessionData.ptEmail);
-    const [address, onChangeAddress] = useState(sessionData.ptAddr);
-    const [phone, onChangePhone] = useState(sessionData.ptPhone);
-    const [dob, setDob] = useState(new Date(sessionData.ptDOB)); // Date of Birth
+    // useEffect(()=>{
+    //     const fetchDetails=async()=>{
+    //       const patientInfoURL=webServerUrl+"/suhrud/patient/patientInfo";
+    //       const method='GET';
+    //       const patientData = await AsyncStorage.getItem('patientData')
+    //       const data=JSON.parse(patientData);
+    //       const bearerToken = data.token;
+               
+    //       const headers = {
+    //         'Authorization': `Bearer ${bearerToken}`, // Include your token here
+    //         'Content-Type': 'application/json', // Specify the content type if needed
+    //       };
+          
+    //       try{
+    //         const response=await HttpService(method,patientInfoURL,null,headers);
+    //         console.log("my response"+response.status);
+    //         if(response.status===200){
+    //           setPatientData(response.data);
+    //           console.log(patientData);
+    //         }
+    //         else{
+    //           alert(response.data);
+    //         }
+    //       }catch(error){
+    //         alert(response.data);
+    //       }
+    //     };
+    //     fetchDetails();
+    //   },[])  
+
+    const [name, onChangeName] = useState(patientData.ptFullname);
+    const [email, onChangeEmail] = useState(patientData.ptEmail);
+    const [address, onChangeAddress] = useState(patientData.ptAddr);
+    const [phone, onChangePhone] = useState(patientData.ptPhone);
+    const [dob, setDob] = useState(new Date(patientData.ptDOB)); // Date of Birth
     const [show, setShow] = useState(false);
     const [mode, setMode] = useState('date');
 
@@ -94,8 +125,8 @@ const EditProfile = ({route}) => {
         ptDOB: dob.toLocaleDateString(),
         ptEmail: email
         }
-        const sessionData = await AsyncStorage.getItem('patientData')
-        const localData=JSON.parse(sessionData);
+        const patientData = await AsyncStorage.getItem('patientData')
+        const localData=JSON.parse(patientData);
         const bearerToken = localData.token;
            
       const headers = {
@@ -249,7 +280,7 @@ const EditProfile = ({route}) => {
             </View>
         {/**Save Button */}
         <View className="flex justify-center items-center">
-        <Pressable onPress={() => console.log('Simple Button pressed')}>
+        <Pressable onPress={onPressSave}>
             <View className=" mb-20 ml-2 w-[150px] h-[41px] items-center justify-center rounded-lg bg-[#116fdf]">
                 <Text className=" text-white font-bold text-xl">Save Changes</Text>
             </View>

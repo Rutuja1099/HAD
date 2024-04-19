@@ -14,6 +14,7 @@ const Settings = () => {
     let [fontsLoaded] = useFonts({ Pangolin_400Regular,});
     const navigation=useNavigation();
     const [username, setUserName] = useState("");
+    const [patientData,setPatientData]=useState(null);
 
     useEffect(()=>{
         const fetchUsername=async()=>{
@@ -22,7 +23,37 @@ const Settings = () => {
             setUserName("Hi "+localData.ptUsername+"!!");
         };
         fetchUsername();
-    },[])
+
+        
+
+        const fetchDetails=async()=>{
+          const patientInfoURL=webServerUrl+"/suhrud/patient/patientInfo";
+          const method='GET';
+          const patientData = await AsyncStorage.getItem('patientData')
+          const data=JSON.parse(patientData);
+          const bearerToken = data.token;
+               
+          const headers = {
+            'Authorization': `Bearer ${bearerToken}`, // Include your token here
+            'Content-Type': 'application/json', // Specify the content type if needed
+          };
+          
+          try{
+            const response=await HttpService(method,patientInfoURL,null,headers);
+            console.log("my response"+response.status);
+            if(response.status===200){
+              setPatientData(response.data);
+              console.log(patientData);
+            }
+            else{
+              alert(response.data);
+            }
+          }catch(error){
+            alert(response.data);
+          }
+        };
+        fetchDetails();
+      },[])  
     
 
     const deleteAccount=async()=>{
@@ -91,7 +122,7 @@ const Settings = () => {
 
     const handleEdit = () => {
        
-            navigation.navigate("EditProfile", {sessionData:sessionData}); 
+            navigation.navigate("EditProfile", {patientData:patientData}); 
     };
 
     const menuItems = [
@@ -99,7 +130,7 @@ const Settings = () => {
             menuItemImage: securityImage,
             menuItemName: "Security and Privacy",
             imageWidth: 25,
-            imageHeight: 2,
+            imageHeight: 25,
             navigateTo: "SecurityPrivacy"
         },
         {
