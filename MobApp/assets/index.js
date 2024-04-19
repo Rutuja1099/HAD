@@ -19,3 +19,4 @@ export {default as trashImage} from './Trash.png';
 export {default as icon_suhrud} from './icon_suhrud.jpeg';
 export {default as background} from './background.jpg';
 export {default as therapy} from './therapy.jpeg';
+export {default as profilePhoto} from './doctor.png';

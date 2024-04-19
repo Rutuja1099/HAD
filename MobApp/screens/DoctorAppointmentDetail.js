@@ -369,7 +369,7 @@ const DoctorAppointmentDetails=({route})=>{
     return(   
         <ImageBackground source={background} style={styles.imagebackground}>
         <View classname="flex bg-blue-500">
-             <View className = "p-4 flex-row items-center border-b border-gray-300">
+             <View className = "p-4 flex flex-row items-center border-b border-gray-300 mt-4">
                 
                 <Icon name="angle-left" size={25} onPress={navigateback}/>
             
@@ -379,11 +379,11 @@ const DoctorAppointmentDetails=({route})=>{
            
                 <SafeAreaView className="flex-grow bg-blue-950 ml-6 mr-6 mt-3 rounded-3xl">
                     
-                    <View className=" justify-center items-center mt-16">
+                    <View className=" justify-center items-center mt-10">
                         <View className="relative w-32 h-32 rounded-full bg-black ">
                             <Image source={profilePhoto} className = "w-full h-full rounded-full" />
-                            <Text className=" text-center text-lg font-bold mt-2 text-white" size={25}>{drFullName}</Text>
-                            <Text className=" text-center text-base font-bold mt-2 text-white" size={25}>{drSpecialization}</Text>
+                            <Text className=" text-center text-lg font-bold mt-2 text-white w-36 self-center" size={25}>{drFullName}</Text>
+                            <Text className=" text-center text-base font-bold mt-2 text-white w-56 self-center" size={25}>{drSpecialization}</Text>
                         
                         </View>
                     </View>
