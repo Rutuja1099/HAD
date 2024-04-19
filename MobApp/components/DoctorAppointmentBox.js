@@ -18,7 +18,7 @@ const DoctorAppointmentBox=({item, navigation})=>{
     }
     const openChooseDoctorPopup=()=>{
         handleStatusChange(drId);
-        alert("You have chose this doctor");
+        Alert.alert("You have chosen this doctor, now you can chat with your doctor");
 
     }
     const handleStatusChange = async (drId) => {

@@ -353,7 +353,17 @@ public class PatientService {
                         .doctorInfo(doctorInfo)
                         .patientInfo(patientInfo)
                         .build();
+
                 doctorPatientMappingRepository.save(doctorPatientMapping);
+
+                Optional<DoctorPatientMapping> doctorPatientMapping1 = doctorPatientMappingRepository.findByPatientInfoPtRegNoAndDoctorInfo_DrId(ptRegNo, doctorInfo.getDrId());
+
+                DoctorPatientMapping doctorPatientMapping2 = doctorPatientMapping1.get();
+
+                doctorPatientMapping2.setChatId(doctorPatientMapping2.getUserId());
+
+                doctorPatientMappingRepository.save(doctorPatientMapping2);
+
             }
 
             Appointments appointments = Appointments.builder()
