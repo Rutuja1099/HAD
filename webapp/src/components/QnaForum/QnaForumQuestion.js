@@ -97,7 +97,7 @@ const QnaForumQuestion = () => {
 
       const handleDeleteQuestion = (questionContent) => {
         setShowDropdownQuestion(false); 
-        setOpenDeletBox(true);
+        setOpenDeletBoxQuestion(true);
       };
 
 
@@ -342,7 +342,7 @@ const QnaForumQuestion = () => {
                                                     <BsThreeDots className="cursor-pointer" onClick={() => toggleDropdownQuestion(questioniD)} />
                                                     {showDropdownQuestion &&
                                                     (
-                                                        <DropdownMenuQuestion onDelete={() => handleDeleteQuestion(questionContent)} />
+                                                        <DropdownMenuQuestion onDelete={(questionContent) => handleDeleteQuestion(questionContent)} />
                                                     )}
                                                 </div>
 
