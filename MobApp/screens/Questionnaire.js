@@ -8,7 +8,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Questionnaire = ({route}) => {
 
-    const {week, day}=route.params;
+    const {week, day}=route.params ?? {week:1, day:1};
+
     
     const[count,setCount]= useState(0);
     const [color, setColor] = useState({
