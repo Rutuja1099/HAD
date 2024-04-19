@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, TextInput, ScrollView, View, ImageBackground, Image } from 'react-native'
+import { Pressable, StyleSheet, Text, TextInput, ScrollView, View, ImageBackground, Image, Alert, Button, Modal } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { StatusBar } from 'expo-status-bar'
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -10,6 +10,7 @@ import HttpService from '../services/HttpService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFonts, Pangolin_400Regular } from '@expo-google-fonts/pangolin';
 import {icon_suhrud, background} from '../assets';
+import { Linking } from 'react-native';
 
 export default function SignUp(props) {
 
@@ -17,6 +18,8 @@ export default function SignUp(props) {
     Pangolin_400Regular,
   });
 
+  const [modalVisible, setModalVisible] = useState(false);
+  const [accept, setAccept] = useState(false);
   const [isSecure, setIsSecure] = useState(true);
 
   const toggleShowPassword = () => {
@@ -94,6 +97,12 @@ export default function SignUp(props) {
     setShow(true);
     setMode(modeToShow);
   }
+
+  const onAccept = () => {
+    setAccept(true);
+    setModalVisible(!modalVisible);
+  }
+
 
   return (
     <ImageBackground source={background} style={styles.imagebackground}>
@@ -206,14 +215,42 @@ export default function SignUp(props) {
               />
           </Pressable>
         </View>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+          setModalVisible(!modalVisible);
+        }}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalTitle}>Our Privacy Policy</Text>
+            <Text style={styles.modalText}>We will collect your data for Personal details, usage data, and insights into your mental health.</Text>
+            <Text style={styles.modalText}>To personalize your experience, improve our services, and enhance treatment outcomes.</Text>
+            <Text style={styles.modalText}>We may share it with service providers or for legal compliance.</Text>
+            <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={onAccept}>
+              <Text style={styles.textStyle}>I accept</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+          <Pressable style={{color: 'blue'}}
+                onPress={() => setModalVisible(true)}>
+          <Text style={{color:'blue'}}> Terms and Conditions</Text>
+          </Pressable>
         <Pressable
             onPress={onPressSignUp}
-            style={({pressed})=>[styles.signUpBtn,
+            disabled={!accept}
+            style={({pressed, disabled})=>[disabled ? styles.disabledButton : styles.signUpBtn,
                 {
-                backgroundColor: pressed ? '#0619bb' : '#116fdf',
                 transform: [{ scale: pressed ? 0.96 : 1 }],
                 }
-            ]}
+            ]
+          }
             >
             <Text style={styles.signUp}>Sign Up</Text>
         </Pressable>
@@ -234,7 +271,7 @@ const styles = StyleSheet.create({
     tinyLogo: {
       width: 50,
       height: 50,
-      marginTop:'30%',
+      marginTop:'20%',
     },
   container:{
     flex:1,
@@ -317,6 +354,18 @@ const styles = StyleSheet.create({
     justifyContent:'center',
     marginBottom:'5%',
     borderRadius:15,
+    padding:10, 
+    backgroundColor:'#116fdf',
+  },
+  disabledButton:{
+    width:'40%',
+    height:'6%',
+    alignItems:'center',
+    justifyContent:'center',
+    marginBottom:'5%',
+    borderRadius:15,
+    padding:10, 
+    backgroundColor:'grey',
   },
   dateView: {
     width: '80%',
@@ -338,5 +387,41 @@ const styles = StyleSheet.create({
     color: 'black',
     marginLeft: 10, 
     fontFamily:'Pangolin_400Regular',
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+
+  buttonClose: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+    backgroundColor: '#2196F3',
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  modalText: {
+    marginBottom: 10,
+    textAlign: 'center',
+  },
+  modalTitle: {
+    marginBottom: 15,
+    textAlign: 'center',
+    fontWeight:'bold',
   },
 })

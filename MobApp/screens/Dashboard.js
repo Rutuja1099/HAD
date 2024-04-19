@@ -90,19 +90,41 @@ const Dashboard = () => {
                         
                     </View>
 
-                    <View className = "flex flex-row">
+                    <View className = "flex flex-col">
                         
-                        <ImageBackground source={therapy} style={styles.therapy}>
-                       
-                        </ImageBackground>
-
+                        <Image source={therapy} style={styles.therapy}/>
+                        <View className="flex flex-row px-4 py-3  bg-white opacity-80 rounded-3xl items-center justify-between">
+                        <Text style={styles.pickerText}>Seeking help?</Text>   
+                        <Pressable
+                            onPress={navigateAppointment}
+                            style={({pressed})=>[styles.signUpBtn,
+                                {
+                                backgroundColor: pressed ? '#0619bb' : '#116fdf',
+                                transform: [{ scale: pressed ? 0.96 : 1}],
+                                }
+                            ]}
+                            >
+                            <Text style={styles.signUp}>Book Appointment</Text>
+                        </Pressable>               
+                        </View>
                     </View>
 
-                    <View className = "flex flex-col p-2 mt-1 mb-1 justify-between">
+                    <View className = "flex flex-col mb-1">
 
-                        <View className="flex flex-row px-4 py-3  bg-white opacity-80 rounded-3xl justify-between">
-                        <Text style={styles.pickerText}>Seeking help? Book an appointment </Text>                  
-                        </View>
+                        {/* <View className="flex flex-row px-4 py-3  bg-white opacity-80 rounded-3xl items-center justify-between">
+                        <Text style={styles.pickerText}>Seeking help?</Text>   
+                        <Pressable
+                            onPress={navigateAppointment}
+                            style={({pressed})=>[styles.signUpBtn,
+                                {
+                                backgroundColor: pressed ? '#0619bb' : '#116fdf',
+                                transform: [{ scale: pressed ? 0.96 : 1}],
+                                }
+                            ]}
+                            >
+                            <Text style={styles.signUp}>Book Appointment</Text>
+                        </Pressable>               
+                        </View> */}
                         
                     </View>
 
@@ -128,10 +150,10 @@ const Dashboard = () => {
 
 
                     {/* Fifth Section */}
-                    <View className = "flex flex-col p-4 mb-2">
+                    <View className="flex flex-row px-4 py-3 bg-white opacity-80 rounded-3xl items-center justify-between">
                         
                         <View className="mt-1">
-                            <Text style={styles.pickerText}>Jokes to lighten up your mood</Text>
+                            <Text style={styles.pickerText}>Jokes to lighten up your mood...</Text>
                         </View>
 
                     </View>
@@ -139,19 +161,6 @@ const Dashboard = () => {
             <View style={styles.scrollContainer}>
                             <ScrollView
                             horizontal={true}
-                            // pagingEnabled
-                            // showsHorizontalScrollIndicator={false}
-                            // onScroll={Animated.event([
-                            //     {
-                            //     nativeEvent: {
-                            //         contentOffset: {
-                            //         x: scrollX,
-                            //         },
-                            //     },
-                                
-                            //     },
-                            // ],{ useNativeDriver: true } )}
-                            // scrollEventThrottle={1}>
                             >
                             {jokes.map((image, imageIndex) => {
                                         return (
@@ -163,26 +172,6 @@ const Dashboard = () => {
                                         );
                             })}
                             </ScrollView>
-                            {/* <View style={styles.indicatorContainer}>
-                            {jokes.map((image, imageIndex) => {
-                                const width = scrollX.interpolate({
-                                inputRange: [
-                                    windowWidth * (imageIndex - 1),
-                                    windowWidth * imageIndex,
-                                    windowWidth * (imageIndex + 1),
-                                ],
-                                outputRange: [8, 16, 8],
-                                extrapolate: 'clamp',
-                                });
-                                return (
-                                <Animated.View
-                                    key={imageIndex}
-                                    style={[styles.normalDot, {width}]}
-                                    
-                                />
-                                );
-                            })}
-                            </View> */}
                         </View>
                     </ScrollView>
                 </ImageBackground>
@@ -257,9 +246,23 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
       },
       therapy:{
-      height:180,
-      width:400,
+      height:200,
+      width:350,
 
+      },
+      signUpBtn:{
+        width:'40%',
+        height:'40%',
+        alignItems:'center',
+        justifyContent:'center',
+        borderRadius:15,
+        padding:10,
+      },
+      signUp:{
+        flex:1,
+        color:'white',
+        fontSize:15,
+        fontFamily:'Pangolin_400Regular',
       },
   })
 
