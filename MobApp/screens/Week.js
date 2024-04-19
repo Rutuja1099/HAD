@@ -5,6 +5,7 @@ import {progImage,smileysImage} from '../assets';
 const { width } = Dimensions.get('window').width;
 const height = 320;
 export default function Week(props) {
+    let week;
     const [items, setItems] = useState([
       { item: "Week 1" },
       { item: "Week 2" },
@@ -14,8 +15,23 @@ export default function Week(props) {
     ]);
     
     const onPressWeek = (item) => {
-      console.log(item);
-      props.navigation.navigate("Day");
+      if(item==="Week 1"){
+        week = 1;
+      }
+      else if(item==="Week 2"){
+        week = 2; 
+      }
+      else if(item==="Week 3"){
+        week = 3; 
+      }
+      else if(item==="Week 4"){
+        week = 4;
+      }
+      else {
+        week = 5;
+      }
+      console.log("Week is :", week);
+      props.navigation.navigate("Day",{week:week});
     };
   
     const scrollY = useRef(new Animated.Value(0)).current;

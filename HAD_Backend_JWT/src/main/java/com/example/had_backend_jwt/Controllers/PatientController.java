@@ -63,9 +63,12 @@ public class PatientController {
 
     @PostMapping("/answerquestionnaire")
     @PreAuthorize("hasAuthority('Patient')")
-    public ResponseEntity<String> getQuestions(@RequestBody AnswersDTO answersDTO){
-        int severity= patientService.calcSeverity(answersDTO);
-        return  ResponseEntity.ok("Severity : "+severity);
+    public ResponseEntity<String> getQuestions(HttpServletRequest req,@RequestBody AnswersDTO answersDTO){
+        Integer id= jwtService.extractId(req,"patientId");
+        boolean severity= patientService.calcSeverity(id,answersDTO);
+        if(severity)
+            return  ResponseEntity.ok("Successfully posted");
+        return ResponseEntity.badRequest().body("Failed");
     }
 
     @PostMapping("/fetchAllBookedSlots")

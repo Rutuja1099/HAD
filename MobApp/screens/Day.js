@@ -10,7 +10,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const { width } = Dimensions.get('window').width;
 const height = 320;
 
-export default function Day(props) {
+export default function Day({route}) {
+    const {week} = route.params;
+    let day;
     const [items, setItems] = useState([
       { item: "Day 1" },
       { item: "Day 2" },
@@ -19,9 +21,19 @@ export default function Day(props) {
 
     const navigation = useNavigation();
 
-
+    console.log("Week", week);
 
     const onPressDay = async (item) => {
+
+      if(item==="Day 1"){
+        day = 1;
+      }
+      else if (item === "Day 2"){
+        day = 2;
+      }
+      else{
+        day = 3;
+      }
 
       const loginURL = webServerUrl+"/suhrud/patient/getquestionnaire";
       const method='GET';
@@ -62,7 +74,7 @@ export default function Day(props) {
       }
 
 
-      navigation.navigate("Questionnaire", { item, response });
+      navigation.navigate("Questionnaire", {week:week, day:day});
     };
   
     const scrollY = useRef(new Animated.Value(0)).current;

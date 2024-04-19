@@ -27,6 +27,7 @@ public class PatientService {
     private final DoctorService doctorService;
     private final DoctorPatientMappingRepository doctorPatientMappingRepository;
     private final DoctorInfoRepository doctorInfoRepository;
+    private final PatientProgressRepository patientProgressRepository;
 
     private final DoctorLoginRepository doctorLoginRepository;
 
@@ -186,12 +187,39 @@ public class PatientService {
         return questions;
     }
 
-    public int calcSeverity(AnswersDTO answersDTO) {
+    public boolean calcSeverity(Integer id,AnswersDTO answersDTO) {
+        PatientInfo patientInfo=patientInfoRepository.findPatientInfoByPtRegNo(id);
+        if(patientInfo==null)
+            return false;
 
         int sum = (int)answersDTO.getV1() + (int)answersDTO.getV2() + (int)answersDTO.getV3() + (int)answersDTO.getV4() + (int)answersDTO.getV5();
+        String temp="";
+        if(sum<=4)
+            temp="Minimal Depression";
+        else if(sum<=9)
+            temp="Mild Depression";
+        else if(sum<=14)
+            temp="Moderate Depression";
+        else if(sum<=19)
+            temp="Moderately Severe Depression";
+        else
+            temp="Severe Depression";
+        PatientProgress patientProgress=new PatientProgress();
 
-        return sum;
+        patientProgress.setSeverity(sum);
+        patientProgress.setPatientInfo(patientInfo);
+        patientProgress.setCurrentDay(answersDTO.getCurrentDay());
+        patientProgress.setCurrentWeek(answersDTO.getCurrentWeek());
+        patientProgress.setSeverityType(temp);
+        patientProgress.setTotalSeverity(16);
+        patientProgressRepository.save(patientProgress);
+
+        PatientLogin patientLogin=patientLoginRepository.findPatientLoginByPtInfo(patientInfo);
+        patientLogin.setPtFirstTimeLogin(false);
+        patientLoginRepository.save(patientLogin);
+        return true;
     }
+
     public BookedDaysResponse fetchAllBookedAppointments(HttpServletRequest httpRequest,AppointmentBookingRequest request){
         //booked->true, free->false
         Integer[] slots={1,2,3,4,5,6,7,8};
