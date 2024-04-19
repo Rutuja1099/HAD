@@ -5,6 +5,10 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import webServerUrl from '../configurations/WebServer';
 import HttpService from '../services/HttpService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {profilePhoto} from '../assets';
+
+
+
 const DoctorAppointmentBox=({item, navigation})=>{
 
     // console.log(item);
@@ -12,7 +16,6 @@ const DoctorAppointmentBox=({item, navigation})=>{
     
     //const windowWidth = useWindowDimensions().width;
     
-    const profilePhoto = 'assets/doctor.png';
     const navigateNext = () => {
         navigation.navigate("DoctorAppointmentDetail", { drId, drFullName, drSpecialization, drExperience,drGender,profilePhoto});
     }
@@ -106,7 +109,7 @@ const DoctorAppointmentBox=({item, navigation})=>{
                 </View>
                 <View className="items-end mr-4">
                     <View className="absolute bg-gray-100 w-28 h-28 mt-4 mr-0 rounded-3xl border-cyan-950">
-                        <Image source={{ uri:profilePhoto }} className = " rounded-3xl w-full h-full items-center" />
+                        <Image source={profilePhoto } className = " rounded-3xl w-full h-full items-center" />
                     </View>
                 </View>
             </View>
