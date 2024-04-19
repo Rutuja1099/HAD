@@ -66,11 +66,11 @@ const NavigationBar = () => {
             <MaterialCommunityIcons name="progress-clock" size={26} color="black" onPress={() => navigation.navigate("Week")}/>
 
             {/* this is for Meditation vala page */}
-            {/* <MaterialIcons name="mood" size={24} color="black" /> */}
+            <MaterialIcons name="mood" size={24} color="black" onPress={() => navigation.navigate("Moodlift")}/>
 
 
             {/* this is for forum */}
-            <AntDesign name="questioncircleo" size={26} color="black" onPress={() => navigation.navigate("Wellness Hub")}/>
+            {/* <AntDesign name="questioncircleo" size={26} color="black" onPress={() => navigation.navigate("Wellness Hub")}/> */}
 
 
 

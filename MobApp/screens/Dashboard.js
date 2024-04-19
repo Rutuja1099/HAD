@@ -66,11 +66,11 @@ const Dashboard = () => {
 
     return(
         <>
-            
-            <ScrollView className="flex-1 h-full">
             <ImageBackground source={background} style={styles.imagebackground}>
+            <ScrollView className="flex-1 h-full">
             
-            <ScrollView contentContainerStyle={styles.containerContent} style={styles.container} className="px-2">
+            
+                <ScrollView className="px-2">
                     <View className = "flex flex-row px-2 pt-2 justify-between mt-4">
                         <View className='flex flex-row justify-items-start'>
                             <Image  style={styles.tinyLogo} source={icon_suhrud}/>
@@ -93,8 +93,8 @@ const Dashboard = () => {
                     <View className = "flex flex-col">
                         
                         <Image source={therapy} style={styles.therapy}/>
-                        <View className="flex flex-row px-4 py-3  bg-white opacity-80 rounded-3xl items-center justify-between">
-                        <Text style={styles.pickerText}>Seeking help?</Text>   
+                        <View className="flex flex-row px-2 bg-white opacity-80 rounded-3xl items-center justify-between p-2">
+                        <Text className="pl-5" style={styles.pickerText}>Seeking help?</Text>   
                         <Pressable
                             onPress={navigateAppointment}
                             style={({pressed})=>[styles.signUpBtn,
@@ -107,6 +107,20 @@ const Dashboard = () => {
                             <Text style={styles.signUp}>Book Appointment</Text>
                         </Pressable>               
                         </View>
+                    </View>
+
+                    <View className = "flex flex-col mt-5">
+
+                        <View className = "flex flex-row justify-between mb-2">
+                            <Text style={styles.pickerText}>Ask our experts</Text>
+                            <Feather name="arrow-right" size={24} color="black" onPress={navigateForum}/>
+                        </View>
+
+                        <View className="flex flex-row px-4 py-3  bg-white opacity-80 rounded-3xl justify-between">
+                            <TextInput className=" w-72" placeholder="Type your question"/>
+                            <MaterialIcons  name="send" size={24} color="black"/>                          
+                        </View>
+                        
                     </View>
 
 
@@ -140,7 +154,7 @@ const Dashboard = () => {
 
                     </View>
 
-            <View style={styles.scrollContainer}>
+            {/* <View style={styles.scrollContainer}> */}
                             <ScrollView
                             horizontal={true}
                             >
@@ -154,12 +168,14 @@ const Dashboard = () => {
                                         );
                             })}
                             </ScrollView>
-                        </View>
+                        {/* </View> */}
                     </ScrollView>
-                </ImageBackground>
+                
             </ScrollView>
-            
             <NavigationBar />
+            </ImageBackground>
+            
+            
             
         </>
 
@@ -233,12 +249,12 @@ const styles = StyleSheet.create({
 
       },
       signUpBtn:{
-        width:'40%',
-        height:'40%',
+        width:140,
+        height:50,
+        paddingTop:7,
         alignItems:'center',
         justifyContent:'center',
         borderRadius:15,
-        padding:10,
       },
       signUp:{
         flex:1,
