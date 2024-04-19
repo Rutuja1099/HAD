@@ -26,7 +26,7 @@ const ChatList = () => {
     const [room, setRoom] = useState("");
 
     //logged in user information
-    const [user, setUser] = useState("Asmita");
+    const [user, setUser] = useState("");
 
     // //all the people with whom the user had a chat with
     // const [chats, setChats] = useState([
@@ -70,7 +70,7 @@ const ChatList = () => {
         let sessionData = await AsyncStorage.getItem('patientData');
         let data=JSON.parse(sessionData);
         let bearerToken = data.token;
-
+        setUser(data.ptUsername);
         let URL = webServerUrl + "/suhrud/patient/getPtId";
 
         let headers = {

@@ -34,7 +34,7 @@ public class ChatService {
 
         for (Object[] row : queryResult) {
             Integer drId = (Integer) row[2];
-            String chatId = (String) row[1];
+            Integer chatId = (Integer) row[1];
 
             Optional<DoctorInfo> doctorInfo = doctorInfoRepository.findByDrId(drId);
 
@@ -61,7 +61,7 @@ public class ChatService {
 
         for (Object[] row : queryResult) {
             Integer ptId = (Integer) row[0];
-            String chatId = (String) row[1];
+            Integer chatId = (Integer) row[1];
 
             Optional<PatientInfo> patientInfo = patientInfoRepository.findById(ptId);
 

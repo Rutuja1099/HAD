@@ -162,13 +162,13 @@ const Appointments = () => {
                 className={`w-full p-4 ${index % 2 === 0 ? 'bg-gray-100' : 'bg-white'}`}> 
                     
                 <div className="flex justify-between items-center">
-            <div className="m-4 flex flex-row gap-40">
-              <div className="font-bold mr-52">{appointment.ptFullName}</div>
-              <div className="text-sm text-gray-600 font-semibold">{appointment.date}</div>
+            <div className="m-4 flex flex-row gap-32">
+              <div className="font-bold w-72 mr-2">{appointment.ptFullName}</div>
+              <div className="text-sm text-gray-600 mr-3 w-20 font-semibold">{appointment.date}</div>
               {/* <div className={`text-base font-bold ${appointment.severity === 'HIGH' ? 'text-red-500':'text-green-500'}`}>
                 {appointment.severity}
               </div> */}
-              <div className="text-sm text-gray-600 font-semibold">{slots[appointment.slot]}</div>
+              <div className="text-sm text-gray-600 mr-2 w-20 font-semibold">{slots[appointment.slot]}</div>
             </div>
             <button
               className="focus:outline-none text-xl"
@@ -184,12 +184,12 @@ const Appointments = () => {
                <div className="font-bold flex-grow text-sm">
                  Gender: <span className='text-gray-600'>{appointment.ptGender}</span>
                </div>
-               <div className="font-bold flex-grow text-sm">
+               {/* <div className="font-bold flex-grow text-sm">
                  Contact: <span className='text-gray-600'>{appointment.ptPhone}</span>
                </div>
                <div className="font-bold flex-grow text-sm">
                  Address: <span className='text-gray-600'>{appointment.ptAddress}</span>
-               </div>
+               </div> */}
                <div className="font-bold flex-grow text-sm">
                  Email: <span className='text-gray-600'>{appointment.ptEmail}</span>
                </div>

@@ -48,7 +48,7 @@ const Chat = ({route}) => {
         await addDoc(messageRef, {
             text: newMessage,
             createdAt: new Date(),
-            // user: user,
+            user: user,
             room: chatId
         });
 
