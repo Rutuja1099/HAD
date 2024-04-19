@@ -5,9 +5,12 @@ import { useNavigation } from '@react-navigation/native';
 import {icon_suhrud, background} from '../assets';
 
 
-const AnswerQnA = () => {
+const AnswerQnA = ({route}) => {
 
   const [newMessage, setNewMessage] = useState('');
+
+  const {questionItem} = route.params;
+  console.log("ashmita pageeeeee: ", questionItem);
 
   const [answers,setAnswers] = useState([
     {answerId:1,answer:"Talk to a friend"},
@@ -130,7 +133,7 @@ const AnswerQnA = () => {
                   color='#4DD8CF'
                 />
                 <View className='flex-col ml-4' style={{ marginLeft: 10, maxWidth: '70%'}}>
-                  <Text className="mt-2 mb-2 justify-center text-sm font-semibold text-black self-start">How do I deal with depression</Text>
+                  <Text className="mt-2 mb-2 justify-center text-sm font-semibold text-black self-start">{questionItem.queryContent}</Text>
                 </View>
               </View>
             </Pressable>

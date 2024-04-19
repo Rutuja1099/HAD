@@ -15,6 +15,7 @@ const QnaForumAnswerModal = ({openAnswerBox, setOpenAnswerBox, questionContent, 
 
     const handleAnswerSubmit = async (answer, questionId) => {
     
+        console.log("huihuihuhuihu: ", answer, questionId);
         const loginURL = webServerUrl+`/suhrud/forum/postAnswer?queryId=${questionId}`;
 
         const method='POST';

@@ -8,6 +8,9 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useFonts, Pangolin_400Regular } from '@expo-google-fonts/pangolin';
 import {icon_suhrud, background, therapy} from '../assets';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import webServerUrl from '../configurations/WebServer';
+import HttpService from '../services/HttpService';
 
 const Dashboard = () => {
 
@@ -17,7 +20,7 @@ const Dashboard = () => {
         const fetchUsername=async()=>{
             const sessionData = await AsyncStorage.getItem('patientData');
             const localData=JSON.parse(sessionData);
-            setUserName("Hi "+localData.ptUsername+"!!");
+            setUserName(localData.ptUsername+"!!");
         };
         fetchUsername();
     },[])
