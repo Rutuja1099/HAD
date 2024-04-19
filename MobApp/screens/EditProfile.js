@@ -12,19 +12,18 @@ import { useFonts, Pangolin_400Regular } from '@expo-google-fonts/pangolin';
 import {icon_suhrud, background} from '../assets';
 
 
-const EditProfile = () => {
+const EditProfile = ({route}) => {
 
     let [fontsLoaded] = useFonts({ Pangolin_400Regular,});
     const [editable, setEditable] = useState(false);
-    const route = useRoute(); // Get route object
-    const { patientData } = route.params; // Access patientData from route parameters
+    const { sessionData} = route.params;
 
 
-    const [name, onChangeName] = useState(patientData.ptFullname);
-    const [email, onChangeEmail] = useState(patientData.ptEmail);
-    const [address, onChangeAddress] = useState(patientData.ptAddr);
-    const [phone, onChangePhone] = useState(patientData.ptPhone);
-    const [dob, setDob] = useState(new Date(patientData.ptDOB)); // Date of Birth
+    const [name, onChangeName] = useState(sessionData.ptFullname);
+    const [email, onChangeEmail] = useState(sessionData.ptEmail);
+    const [address, onChangeAddress] = useState(sessionData.ptAddr);
+    const [phone, onChangePhone] = useState(sessionData.ptPhone);
+    const [dob, setDob] = useState(new Date(sessionData.ptDOB)); // Date of Birth
     const [show, setShow] = useState(false);
     const [mode, setMode] = useState('date');
 
@@ -55,6 +54,7 @@ const EditProfile = () => {
     const navigateback = () => {
         navigation.navigate("Settings");
     }
+
 
     const onPressSave=async()=>{
         if (!name.trim()) {

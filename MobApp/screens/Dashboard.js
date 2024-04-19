@@ -109,24 +109,6 @@ const Dashboard = () => {
                         </View>
                     </View>
 
-                    <View className = "flex flex-col mb-1">
-
-                        {/* <View className="flex flex-row px-4 py-3  bg-white opacity-80 rounded-3xl items-center justify-between">
-                        <Text style={styles.pickerText}>Seeking help?</Text>   
-                        <Pressable
-                            onPress={navigateAppointment}
-                            style={({pressed})=>[styles.signUpBtn,
-                                {
-                                backgroundColor: pressed ? '#0619bb' : '#116fdf',
-                                transform: [{ scale: pressed ? 0.96 : 1}],
-                                }
-                            ]}
-                            >
-                            <Text style={styles.signUp}>Book Appointment</Text>
-                        </Pressable>               
-                        </View> */}
-                        
-                    </View>
 
 
                     {/* Third Section */}
@@ -150,7 +132,7 @@ const Dashboard = () => {
 
 
                     {/* Fifth Section */}
-                    <View className="flex flex-row px-4 py-3 bg-white opacity-80 rounded-3xl items-center justify-between">
+                    <View className="flex flex-row px-4 py-3 items-center justify-between">
                         
                         <View className="mt-1">
                             <Text style={styles.pickerText}>Jokes to lighten up your mood...</Text>
