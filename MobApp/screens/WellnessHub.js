@@ -134,7 +134,7 @@ const WellnessHub = () => {
         const method='POST';
 
         const data = newMessage;
-            
+
         try{
 
           const sessionData = await AsyncStorage.getItem('patientData');
@@ -148,7 +148,6 @@ const WellnessHub = () => {
                 'Authorization': `Bearer ${bearerToken}`, // Include your token here
                 'Content-Type': 'text/plain', // Specify the content type if needed
             };
-            
             const response=await HttpService(method, loginURL, data, headers);
             console.log(response.status)
             
@@ -159,13 +158,18 @@ const WellnessHub = () => {
             }
             
             else{
-                alert("reponse not 200");
+                alert("response not 200");
             }
         }
         catch(error){
             alert(error.data);
             console.log(error);
         }
+  };
+
+
+  const openQuestion = (item) => {
+    navigation.navigate("AnswerQnA", {item});
   };
 
   useEffect(() => {
@@ -185,7 +189,7 @@ const WellnessHub = () => {
     if (newMessage.trim() !== '') {
       // If search query is not empty, filter the content based on the search query
       const regex = new RegExp(newMessage, 'i'); 
-      filteredContent = filteredContent.filter(item => regex.test(item.question)
+      filteredContent = filteredContent.filter(item => regex.test(item.queryContent)
       );
     }
 
@@ -200,21 +204,23 @@ const WellnessHub = () => {
 
     return filteredContent.map((item, index) =>(
         // Enter <Pressable> element here=> provide the navigate to function for next page
-        <View key={index} className='flex-row bg-white border-b-2 border-[#F4F2F1] border-opacity-5 m-5 h-auto 'style={{ maxWidth: '80%' }}>
-          <Icon
-            name='user-circle'
-            size={50}
-            color='#4DD8CF'
-          />
-          <View className='flex-col ml-4' style={{ marginLeft: 10, maxWidth: '70%'}}>
-            <Text className="mt-2 mb-2 justify-center text-sm font-semibold text-[#573926] self-start">{item.question}</Text>
-            <View className='flex-row mb-2 mt-1'>
-                <Icon name='envelope-o' color='gray' size={20} />
-                <Text className="ml-1">{item.answers}</Text>
-                <Text className="ml-10 mt-1 mr-1 text-xs text-gray-500 self-start text-right">{calculateTimeDifference(item.questionTimestamp)}</Text>
+        <Pressable onPress={(item) => openQuestion(item)}>
+          <View key={index} className='flex-row border-opacity-5 h-auto mb-5 pb-3 bg-[#EDEFFF] p-2 rounded-3xl'>
+            <Icon
+              name='user-circle'
+              size={50}
+              color='#4DD8CF'
+            />
+            <View className='flex-col ml-4' style={{ marginLeft: 10, maxWidth: '70%'}}>
+              <Text className="mt-2 mb-2 justify-center text-sm font-semibold text-black self-start">{item.queryContent}</Text>
+              <View className='flex-row mb-2 mt-1'>
+                  <Icon name='envelope-o' color='gray' size={20} />
+                  <Text className="ml-1">{item.answers}</Text>
+                  <Text className="ml-10 mt-1 mr-1 text-xs text-gray-500 self-start text-right">{calculateTimeDifference(item.questionTimestamp)}</Text>
+              </View>
             </View>
           </View>
-        </View>
+        </Pressable>
       ));
   } 
 
@@ -265,8 +271,8 @@ const WellnessHub = () => {
 
     const currentTime = new Date().toString(); // Get current time in ISO format
     const newQuestion = {
-      questionId: allFilterContent.length + 1, // Increment questionId for each new question
-      question: newMessage,
+      queryId: allFilterContent.length + 1, // Increment questionId for each new question
+      queryContent: newMessage,
       answers: '0 replies', // initially there are no replies
       questionTimestamp: currentTime,
     };

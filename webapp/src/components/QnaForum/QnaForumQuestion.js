@@ -49,6 +49,7 @@ const QnaForumQuestion = () => {
     ])
 
     const [openAnswerBox, setOpenAnswerBox] = useState(false);
+    const [openEditBox, setOpenEditBox] = useState(false);
     const [openDeleteBox, setOpenDeletBox] = useState(false);
     const [openDeleteBoxQuestion, setOpenDeletBoxQuestion] = useState(false);
     
@@ -82,7 +83,8 @@ const QnaForumQuestion = () => {
         // Logic for handling edit action
         setSelectedAnswer(answer);
         setShowDropdown(false); // Hide dropdown after performing action
-        setOpenAnswerBox(true);
+        // setOpenAnswerBox(true);
+        setOpenEditBox(true);
         
       };
     
@@ -95,7 +97,7 @@ const QnaForumQuestion = () => {
 
       const handleDeleteQuestion = (questionContent) => {
         setShowDropdownQuestion(false); 
-        setOpenDeletBox(true);
+        setOpenDeletBoxQuestion(true);
       };
 
 
@@ -340,7 +342,7 @@ const QnaForumQuestion = () => {
                                                     <BsThreeDots className="cursor-pointer" onClick={() => toggleDropdownQuestion(questioniD)} />
                                                     {showDropdownQuestion &&
                                                     (
-                                                        <DropdownMenuQuestion onDelete={() => handleDeleteQuestion(questionContent)} />
+                                                        <DropdownMenuQuestion onDelete={(questionContent) => handleDeleteQuestion(questionContent)} />
                                                     )}
                                                 </div>
 
@@ -449,8 +451,8 @@ const QnaForumQuestion = () => {
                                                 </div>
 
                                                 <QnaForumAnswerModal
-                                                    openAnswerBox = {openAnswerBox}
-                                                    setOpenAnswerBox = {setOpenAnswerBox}
+                                                    openAnswerBox = {openEditBox}
+                                                    setOpenAnswerBox = {setOpenEditBox}
                                                     questionContent = {questionContent}
                                                     questionId = {questioniD}
                                                     answerContent={selectedAnswer}

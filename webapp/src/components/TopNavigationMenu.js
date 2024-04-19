@@ -45,11 +45,21 @@ const TopNavigationMenu = ({open, setOpen}) => {
     }
 
     const handleLogout = async() => {
-        const logoutURL=webServerUrl+"/suhrud/logout";  
+        // const logoutURL=webServerUrl+"/suhrud/logout";  
         const sessionData = await localStorage.getItem('Data');
         const localData=JSON.parse(sessionData);
         const method='POST';
         const bearerToken = localData.token;
+
+        let logoutURL;
+        
+        if(localData.role === "doctor"){
+            logoutURL=webServerUrl+"/suhrud/doctor/logout"; 
+        }
+        if(localData.role === "admin"){
+            logoutURL=webServerUrl+"/suhrud/logout"; 
+        }
+        
         const headers = {
             'Authorization': `Bearer ${bearerToken}`, // Include your token here
             'Content-Type': 'String', // Specify the content type if needed

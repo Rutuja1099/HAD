@@ -11,8 +11,8 @@ import {icon_suhrud, background} from '../assets';
 
 const Chat = ({route}) => {
     
-    const {doctorName, doctorId, room, user} = route.params;
-    console.log(doctorName, room, user);
+    const {doctorName, doctorId, chatId, user} = route.params;
+    console.log(doctorName, chatId, user);
 
     const scrollViewRef = useRef();
 
@@ -49,7 +49,7 @@ const Chat = ({route}) => {
             text: newMessage,
             createdAt: new Date(),
             // user: user,
-            room: room
+            room: chatId
         });
 
         // setMessages(updatedMessages);
@@ -65,7 +65,7 @@ const Chat = ({route}) => {
         //applying the query to the firebase database as per need
         const queryMessages = query(
             messageRef, 
-            where("room", "==", room), 
+            where("room", "==", chatId), 
             orderBy("createdAt")
         );
 
