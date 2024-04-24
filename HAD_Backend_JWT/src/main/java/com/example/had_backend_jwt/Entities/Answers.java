@@ -37,6 +37,9 @@ public class Answers {
     @Column(name="isEdited")
     private Boolean isEdited;
 
+    @Column(name="isDeleted")
+    private Boolean isDeleted=false;
+
 //    public Answers(Integer answerId, Questions query, String answerContent, DoctorInfo drInfo, Integer upVote, Integer aflagCount, Boolean isEdited) {
 //        this.answerId = answerId;
 //        this.query = query;
