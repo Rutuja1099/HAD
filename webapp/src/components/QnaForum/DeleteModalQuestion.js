@@ -10,9 +10,9 @@ const DeleteModalQuestion = ({openDeleteBox, setOpenDeletBox, id, content}) => {
 
     const handleDeleteConfirm = async (id) => {
 
-            const loginURL = webServerUrl+`/suhrud/forum/deleteQuestion?queryId=${id}`;
+            const loginURL = webServerUrl+`/suhrud/forum/disableQuestion?queryId=${id}`;
 
-            const method='DELETE';
+            const method='PUT';
             
             // const data = {
             //     doctorID: doctorId

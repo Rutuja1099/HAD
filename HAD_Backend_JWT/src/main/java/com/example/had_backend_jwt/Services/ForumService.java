@@ -47,6 +47,7 @@ public class ForumService {
                     .upVote(0)
                     .aflagCount(0)
                     .isEdited(Boolean.FALSE)
+                    .isDeleted(Boolean.FALSE)
                     .build();
 
             answersRepository.save(newAnswer);
@@ -121,7 +122,11 @@ public class ForumService {
             qna.setDoctorName(ans.get(i).getDrInfo().getDrFullName());
             qna.setUpVote(ans.get(i).getUpVote());
             qna.setIsEdited(ans.get(i).getIsEdited());
-            answer.add(qna);
+            qna.setIsDeleted(ans.get(i).getIsDeleted());
+            if(!ans.get(i).getIsDeleted()){
+                answer.add(qna);
+            }
+
         }
         return answer;
     }

@@ -15,6 +15,8 @@ import HttpService from '../services/HttpService';
 const Dashboard = () => {
 
     const [username, setUserName] = useState("");
+    const [newMessage, setNewMessage] = useState('');
+
 
     useEffect(()=>{
         const fetchUsername=async()=>{
@@ -63,6 +65,52 @@ const Dashboard = () => {
         navigation.navigate("Appointment");
     };
 
+    const postQuestion = async () => {
+
+        const loginURL = webServerUrl+`/suhrud/forum/postQuestion?question=${newMessage}`;
+    
+            const method='POST';
+    
+            const data = newMessage;
+    
+            try{
+    
+              const sessionData = await AsyncStorage.getItem('patientData');
+              const parsedSessionData = JSON.parse(sessionData);
+      
+              const bearerToken = parsedSessionData.token;
+    
+                console.log("bearer token: ", bearerToken);
+    
+                const headers = {
+                    'Authorization': `Bearer ${bearerToken}`, // Include your token here
+                    'Content-Type': 'text/plain', // Specify the content type if needed
+                };
+                const response=await HttpService(method, loginURL, data, headers);
+                console.log(response.status)
+                
+                if(response.status===200){
+                        
+                    console.log("Successful");
+                    console.log(response.data);
+                }
+                
+                else{
+                    alert("response not 200");
+                }
+            }
+            catch(error){
+                alert(error.data);
+                console.log(error);
+            }
+      };
+
+    const handleSend = () => {
+        if (newMessage.trim() === '') return;
+    
+        postQuestion();
+        setNewMessage('');
+    };
 
     return(
         <>
@@ -117,8 +165,18 @@ const Dashboard = () => {
                         </View>
 
                         <View className="flex flex-row px-4 py-3  bg-white opacity-80 rounded-3xl justify-between">
-                            <TextInput className=" w-72" placeholder="Type your question"/>
-                            <MaterialIcons  name="send" size={24} color="black"/>                          
+                            <TextInput 
+                                className=" w-72" 
+                                placeholder="Type your question"
+                                value={newMessage}
+                                onChangeText={text => setNewMessage(text)}
+                            />
+                            <MaterialIcons  
+                                name="send" 
+                                size={24} 
+                                color="black"
+                                onPress={() => handleSend()}
+                            />                          
                         </View>
                         
                     </View>

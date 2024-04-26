@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import '../../styles/ChatPage.css';
 import boy from '../../assets/boy.png';
 
@@ -35,18 +35,12 @@ const DropdownMenuQuestion = ({ onDelete }) => (
 const QnaForumQuestion = () => {
 
     const location = useLocation();
+
+    const navigate = useNavigate();
     
     const {questioniD, questionContent} = location.state;
 
-    console.log("yohoyohoyoho", questioniD, questionContent);
-
-    const [relatedQuestions, setRelatedQuestions] = useState([
-        "I'm depressed almost every day and have been for years. My life feels empty and meaningless and almost nothing makes me truly happy. What could I do to fix it? I am on antidepressants, they help but don't do enough.",
-        "I am deeply unhappy. I am always depressed about my life, and I feel like every year my life gets worse and worse. I feel like a failure. What can do?",
-        "I'm worried that I'm going to be depressed forever and always struggle through life and not enjoy it. Is there no hope for me?",
-        "Does life ever get better? Or am I going to be depressed forever?",
-        "At what age does life seem to get better?"
-    ])
+    const [allFlagQuestions,setAllFlagQuestions] = useState([]);
 
     const [openAnswerBox, setOpenAnswerBox] = useState(false);
     const [openEditBox, setOpenEditBox] = useState(false);
@@ -293,8 +287,64 @@ const QnaForumQuestion = () => {
         }
     }
 
+    const getAllFlagQuestions = async () => {
+
+        const loginURL = webServerUrl+"/suhrud/forum/getTrendingQuestions";
+
+        const method='GET';
+
+        const data=null;
+        
+        try{
+
+        const sessionData = JSON.parse(window.localStorage.getItem('Data'));
+        const bearerToken = sessionData.token;
+
+        console.log("bearer token: ", bearerToken);
+
+        const headers = {
+            'Authorization': `Bearer ${bearerToken}`, // Include your token here
+            'Content-Type': 'application/json', // Specify the content type if needed
+        };
+        
+        const response=await HttpService(method,loginURL,data, headers);
+        console.log(response.status)
+        
+        if(response.status===200){
+                
+            console.log("Successful");
+            console.log(response.data);
+
+            setAllFlagQuestions(response.data);
+            
+            try{
+                console.log("from storage");
+
+            }catch(error){
+                console.log("error while saving data");
+                console.log(error);
+            }
+        }
+        
+        else{
+            alert(response.data);
+
+        }
+        }catch(error){
+            alert(error.data);
+            console.log(error);
+        }
+
+    }
+
+    
+    const navigateToQuestion = (questioniD, questionContent) => {
+        navigate("/qnaForumQuestion", { state: {questioniD: questioniD, questionContent: questionContent}});
+    }
+
     useEffect(() => {
         getAllAnswers(questioniD);
+        getAllFlagQuestions();
 
         const sessionData = JSON.parse(window.localStorage.getItem('Data'));
         setRole(sessionData.isModerator);
@@ -384,7 +434,7 @@ const QnaForumQuestion = () => {
 
                                     {allAnswers.map((answer, index) => (
                                         
-                                        <div className='border-b-2 mb-5'>
+                                        <div className='felx flex-col border-b-2 mb-5'>
                                             
                                             <div className='flex flex-row justify-between'>
                                                 <div className='flex flex-row mb-3'>
@@ -465,8 +515,12 @@ const QnaForumQuestion = () => {
                                             </div>
 
                                             <p key={index}>{answer.answerContent}</p>
-                                
-                                
+                                            
+                                            {answer.isEdited === true &&
+                                                <div className='flex flex-row justify-end mt-1 mr-2 mb-2'>
+                                                    <p className="text-sm text-gray-500">edited by moderator</p>
+                                                </div>
+                                            }
                                         </div>
                                 
                                     ))}
@@ -477,13 +531,13 @@ const QnaForumQuestion = () => {
                             </div>
                     </div>
                     
-                    {/* Related Questions Section */}
+                    {/* Trending Questions Section */}
                     <div className="bg-white p-4 rounded-3xl w-1/3">
-                        <h2 className="text-lg font-semibold mb-4 border-b-2 border-b-black">Related Questions</h2>
-                        {relatedQuestions.map((question, index) => (
-                            <Link key={index} to={{pathname: `/question`, state: {question}}} className="block mb-4 bg-white hover:text-blue-700 hover:underline blur-link hover:bg-gray-50">
-                                {question}
-                            </Link>
+                        <h2 className="text-lg font-semibold mb-4 border-b-2 border-b-black">Trending Questions</h2>
+                        {allFlagQuestions.map((question, index) => (
+                            <p key={index} onClick={() => navigateToQuestion(question.queryId, question.queryContent)} className="block mb-4 bg-white hover:text-blue-700 hover:underline blur-link hover:bg-gray-50">
+                            {question.queryContent}
+                            </p>
                         ))}
                     </div>
             </div>

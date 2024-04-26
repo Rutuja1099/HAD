@@ -9,13 +9,16 @@ public class QandAnswerDoctorDTO {
     private String answerContent;
     private String doctorName;
     private Boolean isEdited;
+    private Boolean isDeleted;
 
-    public QandAnswerDoctorDTO(Integer answerId, Integer upVote, String answerContent, String doctorName, Boolean isEdited) {
+
+    public QandAnswerDoctorDTO(Integer answerId, Integer upVote, String answerContent, String doctorName, Boolean isEdited, Boolean isDeleted) {
         this.answerId = answerId;
         this.upVote = upVote;
         this.answerContent = answerContent;
         this.doctorName = doctorName;
         this.isEdited = isEdited;
+        this.isDeleted = isDeleted;
     }
 
     public QandAnswerDoctorDTO() {
@@ -59,5 +62,13 @@ public class QandAnswerDoctorDTO {
 
     public void setEdited(Boolean edited) {
         isEdited = edited;
+    }
+
+    public Boolean getDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        isDeleted = deleted;
     }
 }

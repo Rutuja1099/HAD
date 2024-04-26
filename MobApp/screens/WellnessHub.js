@@ -216,7 +216,8 @@ const WellnessHub = () => {
               <View className='flex-row mb-2 mt-1'>
                   <Icon name='envelope-o' color='gray' size={20} />
                   <Text className="ml-1">{item.answers}</Text>
-                  <Text className="ml-10 mt-1 mr-1 text-xs text-gray-500 self-start text-right">{calculateTimeDifference(item.questionTimestamp)}</Text>
+                  <Text className="ml-3 mt-1 mr-1 text-xs text-gray-500">{calculateTimeDifference(item.questionTimestamp)}</Text>
+                  {item.isDeleted === true && <Text className="ml-3 mt-1 mr-1 text-xs text-gray-500">Deleted by admin</Text>}
               </View>
             </View>
           </View>

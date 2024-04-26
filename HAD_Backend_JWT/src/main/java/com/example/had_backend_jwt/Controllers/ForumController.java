@@ -11,6 +11,7 @@ import com.example.had_backend_jwt.Repositories.*;
 import com.example.had_backend_jwt.Services.ForumService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -172,7 +173,7 @@ public class ForumController {
     public ResponseEntity<List<Questions>> getQuestionss(){
 
         try {
-            List<Questions> questions = questionsRepository.findAll();
+            List<Questions> questions = questionsRepository.QuestionList();
             System.out.println("Retrieved " + questions.size() + " questions");
             for (Questions question : questions) {
                 System.out.println("Question ID: " + question.getQueryId() + ", Content: " + question.getQueryContent());
@@ -204,7 +205,40 @@ public class ForumController {
     @PreAuthorize("hasAuthority('Moderator')")
     public ResponseEntity<?> disableQuestion(@RequestParam Integer queryId){
         try{
-            return ResponseEntity.ok("Success");
+            Optional<Questions> question = questionsRepository.findById(queryId);
+
+            if (question.isPresent()) {
+                Questions question1 = question.get();
+                question1.setIsDeleted(true);
+                questionsRepository.save(question1);
+            }
+
+            Map<String, Boolean> response = new HashMap<>();
+            response.put("disable", Boolean.TRUE);
+            System.out.println("deletion here");
+            return ResponseEntity.ok(response);
+        }
+        catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.toString());
+        }
+    }
+
+    @PutMapping("/disableAnswer")
+    @PreAuthorize("hasAuthority('Moderator')")
+    public ResponseEntity<?> disableAnswer(@RequestParam Integer answerId){
+        try{
+            Optional<Answers> answer = answersRepository.findById(answerId);
+
+            if (answer.isPresent()) {
+                Answers answer1 = answer.get();
+                answer1.setIsDeleted(true);
+                answersRepository.save(answer1);
+            }
+
+            Map<String, Boolean> response = new HashMap<>();
+            response.put("disable", Boolean.TRUE);
+            System.out.println("deletion here");
+            return ResponseEntity.ok(response);
         }
         catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.toString());
@@ -222,6 +256,19 @@ public class ForumController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/getTrendingQuestions")
+    @PreAuthorize("hasAuthority('Moderator') or hasAuthority('Doctor')")
+    public ResponseEntity<List<Questions>> getTrendingQuestions(){
+
+        try {
+            List<Questions> questions = questionsRepository.TrendingQuestionList();
+
+            return ResponseEntity.ok(questions);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+
+    }
 
     @PutMapping("/updateAnswer/{answerId}")
     @PreAuthorize("hasAuthority('Moderator')")
@@ -232,6 +279,7 @@ public class ForumController {
         if (answer.isPresent()) {
             Answers answer1 = answer.get();
             answer1.setAnswerContent(newAnswerContent);
+            answer1.setIsEdited(true);
             answersRepository.save(answer1);
         }
         else{
@@ -309,6 +357,7 @@ public class ForumController {
         List<QandAnswerDoctorDTO> answer=forumService.trendingAnswers();
         return ResponseEntity.ok().body(answer);
     }
+
 
 
 
