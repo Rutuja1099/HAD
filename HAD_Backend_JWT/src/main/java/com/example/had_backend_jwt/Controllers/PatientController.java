@@ -198,6 +198,8 @@ public class PatientController {
     public ResponseEntity<List<SeverityWeek>> getDashBoardGraph(HttpServletRequest req)
     {
         int id=jwtService.extractId(req,"patientId");
+        if(id==-1)
+            return ResponseEntity.notFound().build();
         List<WeekWiseSeverity> patientWeekWiseSeverity=patientProgressRepository.findAverageSeverityByPatientInfoPtRegNoOrderByWeekDesc(id);
         List<SeverityWeek> ans=new ArrayList<>();
         for(WeekWiseSeverity p:patientWeekWiseSeverity){
@@ -206,7 +208,18 @@ public class PatientController {
             week.setAvgSeverity(p.getAvgSeverity());
             ans.add(0,week);
         }
-        return ResponseEntity.ok(ans);
+//        List<SeverityWeek> patientDashboardGraphData=new ArrayList<>();
+//        }
+//        int j=0;
+//        for(int i=ans.size()-1;i>=0 && j<4;i--,j++)
+//        {
+//            SeverityWeek week=new SeverityWeek();
+//            week.setWeek(ans.get(i).getWeek());
+//            week.setAvgSeverity(ans.get(i).getAvgSeverity());
+//            patientDashboardGraphData.add(0,week);
+//            j++;
+//        }
+        return ResponseEntity.ok(ans.subList(Math.max(0,ans.size()-4),ans.size()));
     }
 
 

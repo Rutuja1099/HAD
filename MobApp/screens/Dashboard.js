@@ -7,15 +7,19 @@ import { Feather } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useFonts, Pangolin_400Regular } from '@expo-google-fonts/pangolin';
 import {icon_suhrud, background, therapy} from '../assets';
-
+import {Dimensions} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import webServerUrl from '../configurations/WebServer';
 import HttpService from '../services/HttpService';
+import {
+    LineChart
+  } from "react-native-chart-kit";
 
 const Dashboard = () => {
 
     const [username, setUserName] = useState("");
 
+    // http://localhost:8082/suhrud/patient/dashboardGraph
     useEffect(()=>{
         const fetchUsername=async()=>{
             const sessionData = await AsyncStorage.getItem('patientData');
@@ -123,9 +127,6 @@ const Dashboard = () => {
                         
                     </View>
 
-
-
-                    {/* Third Section */}
                     <View className = "flex flex-col p-4 ">
 
                         <View className="mb-4">
@@ -137,8 +138,52 @@ const Dashboard = () => {
                                 <Text className="text-3xl">25%</Text>
                             </View>
 
-                            <View className="bg-white opacity-70 p-2 flex flex-grow overflow-hidden rounded-3xl">
-                                <Text>Graph</Text>
+                            <View className="bg-white opacity-70 p-1 flex flex-grow overflow-hidden rounded-3xl">
+                                <Text className="text-center">Week Wise Severity</Text>
+                                <LineChart
+                                    data={{
+                                    datasets: [
+                                        {
+                                            data: [19, 10, 8, 23],
+                                            color: (opacity = 1) => `rgba(54, 162, 235, ${opacity})`, // Optional, affects the line color
+                                            backgroundColor: 'rgba(54, 162, 235, 0.3)', // Not directly applicable here
+                                            borderColor: 'rgba(54, 162, 235)', // Border color for the line
+                                            borderWidth: 1, // Width of the line
+                                        }
+                                    ]
+                                    }}
+                                    height={116}
+                                    width={228}
+                                    fromZero="true"
+                                    formatYLabel = {(label) => {
+                                        const labelVal = Number(label);
+                                        return (labelVal*4).toFixed(0);
+                                        // if(labelVal >= 1000) return (labelVal/1000).toFixed(0) + 'K';
+                                        // return label;
+                                      }}
+                                    withVerticalLabels="true"
+                                    chartConfig={{
+                                    backgroundColor: "#e26a00",
+                                    backgroundGradientFrom: "#fb8c00",
+                                    backgroundGradientTo: "#ffa726",
+                                    decimalPlaces: 0,
+                                    color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                                    labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                                    style: {
+                                        borderRadius: 16
+                                    },
+                                    propsForDots: {
+                                        r: "6",
+                                        strokeWidth: "2",
+                                        stroke: "#ffa726"
+                                    }
+                                    }}
+                                    bezier
+                                    style={{
+                                    marginVertical: 8,
+                                    borderRadius: 16
+                                    }}
+                                />
                             </View>
                         </View>
 
