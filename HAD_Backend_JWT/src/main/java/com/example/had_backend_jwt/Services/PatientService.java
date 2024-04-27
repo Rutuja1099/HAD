@@ -305,9 +305,9 @@ public class PatientService {
         }
     }
 
-    public boolean checkDoctorPatientMapping(PatientInfo patientInfo, DoctorInfo doctorInfo){
-        /* DoctorPatientMapping doctorPatientMappingOptional=doctorPatientMappingRepository.findByPatientInfoPtRegNoAndDoctorInfo_DrId(ptRegNo,drId); */
-        DoctorPatientMapping doctorPatientMappingOptional=doctorPatientMappingRepository.findByPatientInfoAndDoctorInfo(patientInfo,doctorInfo);
+    public boolean checkDoctorPatientMapping(Integer ptRegNo, Integer drId){
+        DoctorPatientMapping doctorPatientMappingOptional=doctorPatientMappingRepository.findByPatientInfoPtRegNoAndDoctorInfo_DrId(ptRegNo,drId);
+//        DoctorPatientMapping doctorPatientMappingOptional=doctorPatientMappingRepository.findByPatientInfoAndDoctorInfo(patientInfo,doctorInfo);
         return doctorPatientMappingOptional!=null;
     }
 
@@ -391,17 +391,15 @@ public class PatientService {
 
                 doctorPatientMappingRepository.save(doctorPatientMapping);
 
-                Optional<DoctorPatientMapping> doctorPatientMapping1 = doctorPatientMappingRepository.findByPatientInfoPtRegNoAndDoctorInfo_DrId(ptRegNo, doctorInfo.getDrId());
+                DoctorPatientMapping doctorPatientMapping1 = doctorPatientMappingRepository.findByPatientInfoPtRegNoAndDoctorInfo_DrId(ptRegNo, doctorInfo.getDrId());
+                doctorPatientMapping1.setChatId(doctorPatientMapping1.getUserId());
 
-                DoctorPatientMapping doctorPatientMapping2 = doctorPatientMapping1.get();
-
-                doctorPatientMapping2.setChatId(doctorPatientMapping2.getUserId());
-
-                doctorPatientMappingRepository.save(doctorPatientMapping2);
+                doctorPatientMappingRepository.save(doctorPatientMapping1);
 
             }
             else {
                 doctorPatientMappingOptional.setCurrent(true);
+                doctorPatientMappingOptional.setChatId(doctorPatientMappingOptional.getUserId());
                 doctorPatientMappingRepository.save(doctorPatientMappingOptional);
             }
 
