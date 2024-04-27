@@ -1,5 +1,6 @@
 package com.example.had_backend_jwt.Entities;
 
+import com.example.had_backend_jwt.Configurations.AttributeEncryptor;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -19,9 +20,11 @@ public class PatientProgress {
     @Column(name="currentDay")
     private int currentDay;
 
+    @Convert(converter = AttributeEncryptor.class)
     @Column(name="severity")
     private int severity;
 
+    @Convert(converter = AttributeEncryptor.class)
     @Column(name = "severityType")
     private String severityType;
 
@@ -29,6 +32,7 @@ public class PatientProgress {
     @JoinColumn(name = "ptRegNo")
     private PatientInfo patientInfo;
 
+    @Convert(converter = AttributeEncryptor.class)
     @Column(name="totalSeverity")
     private int totalSeverity;
 }
