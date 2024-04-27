@@ -1,13 +1,11 @@
 package com.example.had_backend_jwt.Services;
 
 import com.example.had_backend_jwt.Entities.*;
-import com.example.had_backend_jwt.Models.PatientProfileUpdation;
 import com.example.had_backend_jwt.Models.QandAnswerDTO;
 import com.example.had_backend_jwt.Models.QandAnswerDoctorDTO;
 import com.example.had_backend_jwt.Repositories.*;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -34,6 +32,8 @@ public class ForumService {
     private EmailService emailService;
     @Autowired
     private PatientLoginRepository patientLoginRepository;
+    @Autowired
+    private FlagTableAnswerPatientRepository flagTableAnswerPatientRepository;
 
     public String postAnswers(Integer id, Integer queryId, String content) {
         try{
@@ -91,40 +91,41 @@ public class ForumService {
         return questionsRepository.findQuestionsByPatientInfo(pInfo);
     }
 
-    public List<QandAnswerDTO> getAnswerPatient(Questions question) {
-        if(question==null)
-            return Collections.emptyList();
-        List<Answers> ans=answersRepository.findAnswersByQuery(question);
-        List<QandAnswerDTO> answer=new ArrayList<>();
-        for(int i=0;i<ans.size();i++)
-        {
-            QandAnswerDTO qna=new QandAnswerDTO();
-            qna.setAnswerId(ans.get(i).getAnswerId());
-            qna.setAnswerContent(ans.get(i).getAnswerContent());
-            qna.setDoctorName(ans.get(i).getDrInfo().getDrFullName());
-            qna.setUpVote(ans.get(i).getUpVote());
-            answer.add(qna);
-        }
-        return answer;
-    }
+//    public List<QandAnswerDTO> getAnswerPatient(PatientInfo patientInfo, Questions question) {
+//        if(question==null)
+//            return Collections.emptyList();
+//        List<Answers> ans=answersRepository.findAnswersByQuery(question);
+////        List<FlagTableAnswerPatient> fAnswers=flagTableAnswerPatientRepository.findByPatientInfo();
+//        List<QandAnswerDTO> answer=new ArrayList<>();
+//        for(int i=0;i<ans.size();i++)
+//        {
+//            QandAnswerDTO qna=new QandAnswerDTO();
+//            qna.setAnswerId(ans.get(i).getAnswerId());
+//            qna.setAnswerContent(ans.get(i).getAnswerContent());
+//            qna.setDoctorName(ans.get(i).getDrInfo().getDrFullName());
+//            qna.setUpVote(ans.get(i).getUpVote());
+//            answer.add(qna);
+//        }
+//        return answer;
+//    }
 
-    public List<QandAnswerDoctorDTO> getAnswerDoctor(Questions question) {
-        if(question==null)
-            return Collections.emptyList();
-        List<Answers> ans=answersRepository.findAnswersByQuery(question);
-        List<QandAnswerDoctorDTO> answer=new ArrayList<>();
-        for(int i=0;i<ans.size();i++)
-        {
-            QandAnswerDoctorDTO qna=new QandAnswerDoctorDTO();
-            qna.setAnswerId(ans.get(i).getAnswerId());
-            qna.setAnswerContent(ans.get(i).getAnswerContent());
-            qna.setDoctorName(ans.get(i).getDrInfo().getDrFullName());
-            qna.setUpVote(ans.get(i).getUpVote());
-            qna.setIsEdited(ans.get(i).getIsEdited());
-            answer.add(qna);
-        }
-        return answer;
-    }
+//    public List<QandAnswerDoctorDTO> getAnswerDoctor(Questions question) {
+//        if(question==null)
+//            return Collections.emptyList();
+//        List<Answers> ans=answersRepository.findAnswersByQuery(question);
+//        List<QandAnswerDoctorDTO> answer=new ArrayList<>();
+//        for(int i=0;i<ans.size();i++)
+//        {
+//            QandAnswerDoctorDTO qna=new QandAnswerDoctorDTO();
+//            qna.setAnswerId(ans.get(i).getAnswerId());
+//            qna.setAnswerContent(ans.get(i).getAnswerContent());
+//            qna.setDoctorName(ans.get(i).getDrInfo().getDrFullName());
+//            qna.setUpVote(ans.get(i).getUpVote());
+//            qna.setIsEdited(ans.get(i).getIsEdited());
+//            answer.add(qna);
+//        }
+//        return answer;
+//    }
 
     public List<QandAnswerDoctorDTO> getAnswerDoctorrr(Integer id) {
 //        DoctorLogin doctorLogin=doctorLoginRepository.findDoctorLoginByDrUsername(username).getDrInfo();
@@ -164,6 +165,7 @@ public class ForumService {
             qna.setDoctorName(ans.get(i).getDrInfo().getDrFullName());
             qna.setUpVote(ans.get(i).getUpVote());
             qna.setIsEdited(ans.get(i).getIsEdited());
+            qna.setFlagged(false);
             answer.add(qna);
         }
         return answer;

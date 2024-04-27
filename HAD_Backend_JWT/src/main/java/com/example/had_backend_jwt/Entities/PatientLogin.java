@@ -8,7 +8,6 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @Entity
-@Data
 @Table(name="patientLogin")
 public class PatientLogin {
     @Id

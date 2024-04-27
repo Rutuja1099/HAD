@@ -11,11 +11,33 @@ public class QandAnswerDTO {
 
     private String doctorName;
 
-    public QandAnswerDTO(Integer answerId, Integer upVote, String answerContent, String doctorName) {
+    private boolean isFlagged;
+    private boolean isUpvoted;
+
+
+    public QandAnswerDTO(Integer answerId, Integer upVote, String answerContent, String doctorName, boolean isFlagged, boolean isUpvoted) {
         this.answerId = answerId;
         this.upVote = upVote;
         this.answerContent = answerContent;
         this.doctorName = doctorName;
+        this.isFlagged = isFlagged;
+        this.isUpvoted = isUpvoted;
+    }
+
+    public boolean isUpvoted() {
+        return isUpvoted;
+    }
+
+    public void setUpvoted(boolean upvoted) {
+        isUpvoted = upvoted;
+    }
+
+    public boolean isFlagged() {
+        return isFlagged;
+    }
+
+    public void setFlagged(boolean flagged) {
+        isFlagged = flagged;
     }
 
     public QandAnswerDTO() {

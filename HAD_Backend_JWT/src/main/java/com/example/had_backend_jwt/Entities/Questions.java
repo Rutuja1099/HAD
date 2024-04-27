@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -38,17 +39,47 @@ public class Questions {
     @JsonIgnore
     @OneToMany(mappedBy="query", fetch = FetchType.LAZY)
     @JsonBackReference
-    List<Answers> answers;
+    private List<Answers> answers;
 
-//    public Questions(Integer queryId, String queryContent, PatientInfo patientInfo, Boolean isUrgent, Integer flagCount, List<Answers> answers) {
-//        this.queryId = queryId;
-//        this.queryContent = queryContent;
-//        this.patientInfo = patientInfo;
-//        this.isUrgent = isUrgent;
-//        this.flagCount = flagCount;
-//        this.answers = answers;
-//    }
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<FlagTableQuestionPatient> flagTableQuestionPatientList;
+
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<FlagTableQuestionDoctor> flagTableQuestionDoctorList;
+
+//        @OneToMany(mappedBy = "answers", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+//    private List<FlagTableQuestionDoctor> flagTableQuestionDoctorList;
 //
-//    public Questions() {
-//    }
+//    @OneToMany(mappedBy = "answers", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+//    private List<FlagTableQuestionPatient> flagTableQuestionPatientList;
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

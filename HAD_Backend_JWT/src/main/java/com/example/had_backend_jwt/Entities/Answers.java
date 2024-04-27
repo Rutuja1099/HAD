@@ -3,6 +3,8 @@ package com.example.had_backend_jwt.Entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -36,6 +38,26 @@ public class Answers {
 
     @Column(name="isEdited")
     private Boolean isEdited;
+
+    @OneToMany(mappedBy = "answers", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private List<FlagTableAnswerPatient> flagTableAnswerPatientList;
+
+    @OneToMany(mappedBy = "answers", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private List<FlagTableAnswerDoctor> flagTableAnswerDoctorList;
+
+//    @OneToMany(mappedBy = "answers", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+//    private List<FlagTableQuestionDoctor> flagTableQuestionDoctorList;
+//
+//    @OneToMany(mappedBy = "answers", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+//    private List<FlagTableQuestionPatient> flagTableQuestionPatientList;
+
+    @OneToMany(mappedBy = "answers", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private List<UpVoteAnswerPatient> upVoteAnswerPatientList;
+
+    @OneToMany(mappedBy = "answers", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private List<UpVoteAnswerDoctor> upVoteAnswerDoctorList;
+
+
 
 //    public Answers(Integer answerId, Questions query, String answerContent, DoctorInfo drInfo, Integer upVote, Integer aflagCount, Boolean isEdited) {
 //        this.answerId = answerId;

@@ -77,4 +77,9 @@ public class DoctorInfo {
     @JsonBackReference
     List<Appointments> appointments;
 
+    @OneToMany(mappedBy = "doctorInfo",fetch = FetchType.LAZY)
+    private List<FlagTableQuestionDoctor> flagTableQuestionDoctorList;
+
+    @OneToMany(mappedBy = "doctorInfo",fetch = FetchType.LAZY)
+    private List<FlagTableAnswerDoctor> flagTableAnswerDoctorList;
 }

@@ -16,7 +16,6 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 @Entity
-@Data
 @Table(name = "patientInfo")
 public class PatientInfo {
 //    @Id
@@ -61,6 +60,7 @@ public class PatientInfo {
 
     @OneToOne(mappedBy = "ptInfo",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonBackReference
+    @JsonIgnore
     private PatientLogin ptLogin;
 
     @OneToMany(mappedBy = "patientInfo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -87,4 +87,14 @@ public class PatientInfo {
 
     @Column(name="isPatientDeActivated")
     private Boolean isPatientDeActivated;
+
+    @OneToMany(mappedBy = "patientInfo",fetch = FetchType.LAZY)
+    private List<FlagTableQuestionPatient> flagTableQuestionPatientList;
+
+    @OneToMany(mappedBy = "patientInfo",fetch = FetchType.LAZY)
+    private List<FlagTableAnswerPatient> flagTableAnswerPatientList;
+
+    @OneToMany(mappedBy = "patientInfo",fetch = FetchType.LAZY)
+    private List<UpVoteAnswerPatient> upVoteAnswerPatientList;
+
 }

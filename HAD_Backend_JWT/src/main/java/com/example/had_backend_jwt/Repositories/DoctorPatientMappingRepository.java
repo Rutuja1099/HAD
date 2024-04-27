@@ -1,5 +1,6 @@
 package com.example.had_backend_jwt.Repositories;
 
+import com.example.had_backend_jwt.Entities.DoctorInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import com.example.had_backend_jwt.Entities.DoctorPatientMapping;
 import org.springframework.data.jpa.repository.Query;
@@ -18,4 +19,6 @@ public interface DoctorPatientMappingRepository extends JpaRepository<DoctorPati
     List<Object[]> PatientsList(@Param("drId") Integer drId);
 
     List<DoctorPatientMapping> findByDoctorInfo_DrId(Integer drId);
+
+    List<DoctorPatientMapping> findByDoctorInfo(DoctorInfo doctorInfo);
 }
