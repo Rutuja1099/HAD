@@ -217,7 +217,7 @@ const WellnessHub = () => {
                   <Icon name='envelope-o' color='gray' size={20} />
                   <Text className="ml-1">{item.answers}</Text>
                   <Text className="ml-3 mt-1 mr-1 text-xs text-gray-500">{calculateTimeDifference(item.questionTimestamp)}</Text>
-                  {item.isDeleted === true && <Text className="ml-3 mt-1 mr-1 text-xs text-gray-500">Deleted by admin</Text>}
+                  {item.isDeleted === true && <Text className="ml-3 mt-1 mr-1 text-xs text-gray-500">Deleted by Moderator</Text>}
               </View>
             </View>
           </View>
