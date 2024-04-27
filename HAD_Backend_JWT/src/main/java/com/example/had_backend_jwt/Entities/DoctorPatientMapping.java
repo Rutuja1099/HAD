@@ -1,5 +1,6 @@
 package com.example.had_backend_jwt.Entities;
 
+import com.example.had_backend_jwt.Configurations.AttributeEncryptor;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,11 +31,12 @@ public class DoctorPatientMapping {
     private Integer chatId;
 
 
-
+    @Convert(converter = AttributeEncryptor.class)
     @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn(name = "drId", referencedColumnName = "drId")
     private DoctorInfo doctorInfo;
 
+    @Convert(converter = AttributeEncryptor.class)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ptRegNo", referencedColumnName = "ptRegNo")
     private PatientInfo patientInfo;

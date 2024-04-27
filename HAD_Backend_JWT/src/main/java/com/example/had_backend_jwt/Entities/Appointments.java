@@ -1,5 +1,6 @@
 package com.example.had_backend_jwt.Entities;
 
+import com.example.had_backend_jwt.Configurations.AttributeEncryptor;
 import jakarta.persistence.Entity;
 import lombok.*;
 import jakarta.persistence.*;
@@ -20,10 +21,12 @@ public class Appointments {
     @Column(name="appointmentId")
     private Integer appointmentId;
 
+    @Convert(converter = AttributeEncryptor.class)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ptRegNo")
     private PatientInfo patientInfo;
 
+    @Convert(converter = AttributeEncryptor.class)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "drId")
     private DoctorInfo drInfo;
