@@ -1,5 +1,6 @@
 package com.example.had_backend_jwt.Entities;
 
+import com.example.had_backend_jwt.Configurations.AttributeEncryptor;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -18,11 +19,16 @@ import java.util.Set;
 @Entity
 @Table(name = "patientInfo")
 public class PatientInfo {
+//<<<<<<< HEAD
+//=======
+//
+//>>>>>>> ecdde9d4edd2249240d5013e5a4932aac57c5e15
 @Id
 @GeneratedValue(strategy = GenerationType.IDENTITY)
 @Column(name = "ptRegNo")
     private Integer ptRegNo;
 
+    @Convert(converter = AttributeEncryptor.class)
     @Column(name = "ptFullname", nullable = false, length = 50)
     private String ptFullname;
 

@@ -1,4 +1,5 @@
 package com.example.had_backend_jwt.Entities;
+import com.example.had_backend_jwt.Configurations.AttributeEncryptor;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,9 +16,11 @@ public class PatientLogin {
     @Column(name = "ptRegNo")
     private int ptRegNo;
 
+    @Convert(converter = AttributeEncryptor.class)
     @Column(name = "ptUsername",nullable = false, unique = true, length = 30)
     private String ptUsername;
 
+    @Convert(converter = AttributeEncryptor.class)
     @Column(name = "ptPassword", nullable = false)
     private String ptPassword;
 
