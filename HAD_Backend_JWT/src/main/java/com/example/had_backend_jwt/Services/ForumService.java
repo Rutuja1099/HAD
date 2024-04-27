@@ -47,6 +47,7 @@ public class ForumService {
                     .upVote(0)
                     .aflagCount(0)
                     .isEdited(Boolean.FALSE)
+                    .isDeleted(Boolean.FALSE)
                     .build();
 
             answersRepository.save(newAnswer);
