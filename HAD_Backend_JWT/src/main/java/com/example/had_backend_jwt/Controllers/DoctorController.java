@@ -73,9 +73,12 @@ public class DoctorController {
 
     @GetMapping("/viewPatients/fetchPatientProgressInfo/patientDetail")
     @PreAuthorize("hasAuthority('Doctor')")
-    public ResponseEntity<PatientDetailDTO> getPatientDetailById(@RequestParam Integer id)
+    public ResponseEntity<PatientDetailDTO> getPatientDetailById(HttpServletRequest request,@RequestParam Integer id)
     {
-        PatientDetailDTO detail=doctorService.getPatientDetailById(id);
+        PatientDetailDTO detail=doctorService.getPatientDetailById(request,id);
+        if(detail.equals(null)){
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.ok(detail);
     }
 

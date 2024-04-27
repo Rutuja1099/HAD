@@ -8,6 +8,7 @@ import NavigationBar from "../components/NavigationBar";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { useFonts, Pangolin_400Regular } from '@expo-google-fonts/pangolin';
 import { useRef } from "react";
+import YouTubeVideos from "../components/YouTubeVideos";
 
 
 const MeditationPage = (props) => {
@@ -39,6 +40,7 @@ const MeditationPage = (props) => {
 
     
         <SafeAreaView className="  bg-white flex-1 relative">
+          <ScrollView>
           <View className="bg-sky-950 flex-1 text-white p-2">
                 <View className = "p-4 flex-row items-center">
                     <Icon name="angle-left" color="white" size={25} onPress={navigateback}/>
@@ -54,18 +56,21 @@ const MeditationPage = (props) => {
                                 Meditation can be defined as a set of techniques that are intended to encourage a heightened state of awareness and focused attention. 
                                 Meditation is also a consciousness-changing technique shown to have many benefits on psychological well-being
                                 </Text>
-                        <View style={styles.videoContainer}>
+                        {/* <View style={styles.videoContainer}> */}
                                 {/* <YoutubePlayer play={playing} videoId={"W19PdslW7iw"}/> */}
                                 
                                   
-                                  <YoutubePlayer  
+                                  {/* <YoutubePlayer  
                                   height={200}   
                                   width={350}     
                                   play={playing}       
                                    videoId={"W19PdslW7iw"}        
-                                   onChangeState={onStateChange}      />
+                                   onChangeState={onStateChange}      /> */}
                                 
                                 {/* <Button title={playing ? "pause" : "play"} onPress={togglePlaying} />   */}
+                        {/* </View> */}
+                        <View style={styles.videoContainer}>
+                          <YouTubeVideos/>
                         </View>
                         <View style={styles.innercontainer}>
                            
@@ -90,8 +95,11 @@ const MeditationPage = (props) => {
                         </ImageBackground>
                     </View>
             </View>
+            </ScrollView>
             <NavigationBar />
         </SafeAreaView>
+        
+        
 
     )  
     

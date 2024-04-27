@@ -41,4 +41,7 @@ public class DoctorPatientMapping {
     @JoinColumn(name = "ptRegNo", referencedColumnName = "ptRegNo")
     private PatientInfo patientInfo;
 
+    @Column(name="isCurrent")
+    private boolean isCurrent=true;
+
 }

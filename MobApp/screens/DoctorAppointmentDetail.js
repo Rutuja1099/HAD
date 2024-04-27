@@ -36,7 +36,7 @@ const DoctorAppointmentDetails=({route})=>{
     const [myBookedSlots, setMyBookedSlots] = useState([]);
     const [formattedDate,setFormattedDate ]=useState(null);
     const [pressedSlotindex,setPressedSlotindex]=useState(1);
-    const [noOfEleInRow, SetNoOfEleInRow]=useState(null); 
+    const [noOfEleInRow, SetNoOfEleInRow]=useState(null);  
     // const [showAlert, setShowAlert] = useState(false);
 
     // const handlePress = () => {
@@ -113,7 +113,7 @@ const DoctorAppointmentDetails=({route})=>{
         }
         console.log("in LoadSlots",currentSlot);
         setSelectedDay(sendDateobj);
-
+        // setCurrentMonth(sendDateobj.format('MMMM'))
         fetchBookedDays(sendDateobj,currentSlot)
         console.log("while loading slot",myBookedSlots);
         setSelectedDaySlots(Object.values(Slots));
@@ -124,7 +124,8 @@ const DoctorAppointmentDetails=({route})=>{
     const navigateback = () => {
         navigation.navigate("Appointment");
     }
-    const OpenDashborad=()=>{
+    const OpenDashboard=()=>{
+        bookAppoinment(selectedDay,pressedSlotindex);
         navigation.navigate("Dashboard");
     }
 
@@ -178,17 +179,25 @@ const DoctorAppointmentDetails=({route})=>{
         console.log(pressedSlotindex);
         //setShowAlert(true);
         
-        bookAppoinment(selectedDay,pressedSlotindex);
+      
         Alert.alert(
-            "You have booked an appointment  ",
-            "Details : " + drFullName + " on " + selectedDay +" at "+ pressedSlot,
+            "Do you want to confirm an appointment ?",
+            "Details: " + drFullName + " on " + selectedDay + " at " + pressedSlot,
             [
-              {
-                text: "OK",
-                onPress: () => OpenDashborad()
-              }
-            ]
-          );
+                {
+                    text: "Cancel",
+                    onPress: () => console.log("Appointment booking canceled"),
+                    style: "cancel",
+                    className: "bg-red-500 text-white"
+                },
+                {
+                    text: "OK",
+                    onPress: () => OpenDashboard(),
+                    className: "bg-green-500 text-white"
+                }
+            ],
+            { cancelable: false } // To prevent dismissing the alert by tapping outside
+        );
         
     }
 
@@ -367,17 +376,19 @@ const DoctorAppointmentDetails=({route})=>{
     // };
 
     return(   
+        <ScrollView>
         <ImageBackground source={background} style={styles.imagebackground}>
         <View classname="flex bg-blue-500">
-             <View className = "p-4 flex flex-row items-center border-b border-gray-300 mt-4">
-                
-                <Icon name="angle-left" size={25} onPress={navigateback}/>
-            
+             <View className = "p-4 flex-row items-center border-b border-gray-300">
+                <View className="self-center mt-4">
+                <Icon name="angle-left"  size={25} onPress={navigateback}/>
+                </View>
                 <Text className = "font-bold text-lg ml-4 mt-4 text-center" >Doctor's Profile</Text>
             
             </View>
-           
-                <SafeAreaView className="flex-grow bg-blue-950 ml-6 mr-6 mt-3 rounded-3xl">
+            <View className="flex">
+            
+                <SafeAreaView className="flex-1 bg-blue-950 ml-4 mr-4 mt-3 mb-3 rounded-3xl">
                     
                     <View className=" justify-center items-center mt-10">
                         <View className="relative w-32 h-32 rounded-full bg-black ">
@@ -387,9 +398,10 @@ const DoctorAppointmentDetails=({route})=>{
                         
                         </View>
                     </View>
-
-                    <View className = "flex-grow overflow-scroll">
-                    <SafeAreaView className=" bg-white rounded-3xl mt-20 ">
+                    
+                    
+                    {/* <View className = "flex-grow overflow-scroll"> */}
+                    <View className=" bg-white rounded-3xl mt-24">
                      <Text className="flex self-end pr-4 text-lg font-semibold ml-8 mt-4 text-left" size={25}>{currentMonth}</Text>
                     <Text className=" text-lg font-semibold ml-4 mt-4" size={25}>Date :</Text>
                     <View className="flex flex-row flex-wrap ml-3 mb-5">
@@ -468,15 +480,19 @@ const DoctorAppointmentDetails=({route})=>{
                                 {/* </TouchableOpacity> */}
                         </View>
                     </Pressable>
-                    </SafeAreaView>
                     </View>
+                    {/* </View> */}
                    
+                    
                   
                 </SafeAreaView>
+                
+                </View>
             
             
         </View>
        </ImageBackground> 
+       </ScrollView>
     )
 }
 

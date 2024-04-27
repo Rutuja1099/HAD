@@ -6,13 +6,12 @@ import webServerUrl from '../configurations/WebServer';
 import HttpService from '../services/HttpService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {profilePhoto} from '../assets';
-
-
-
+import {Octicons} from '@expo/vector-icons';
 const DoctorAppointmentBox=({item, navigation})=>{
 
     // console.log(item);
     const {drId,drFullName, drSpecialization, drExperience,drGender} = item;
+    const [chooseDocStatus, setchooseDocStatus]=useState(false);
     
     //const windowWidth = useWindowDimensions().width;
     
@@ -20,12 +19,32 @@ const DoctorAppointmentBox=({item, navigation})=>{
         navigation.navigate("DoctorAppointmentDetail", { drId, drFullName, drSpecialization, drExperience,drGender,profilePhoto});
     }
     const openChooseDoctorPopup=()=>{
-        handleStatusChange(drId);
-        Alert.alert("You have chosen this doctor, now you can chat with your doctor");
+        Alert.alert(
+            "Do you want to select this Doctor ? ",
+            "Click OK to chat with " + drFullName,
+            [
+                {
+                    text: "Cancel",
+                    onPress: () => console.log("Choosing doctor canceled"),
+                    style: "cancel",
+                    className: "bg-red-500 text-white"
+                },
+                {
+                    text: "OK",
+                    onPress: () =>handleStatusChange(drId),
+                    className: "bg-green-500 text-white",
+                    
+                }
+            ],
+            { cancelable: false } // To prevent dismissing the alert by tapping outside
+        );
+        
+       
 
     }
     const handleStatusChange = async (drId) => {
     
+        setchooseDocStatus(true);
         const loginURL = webServerUrl+"/suhrud/patient/chooseDoctor";
 
         const method='POST';
@@ -66,7 +85,7 @@ const DoctorAppointmentBox=({item, navigation})=>{
             alert(error.data);
             console.log(error);
         }
-        //setShowPopup(false);
+        
        
     }
 
@@ -84,13 +103,27 @@ const DoctorAppointmentBox=({item, navigation})=>{
                 
             </View>
             <View className="flex-row space-x-6 mt-4 ml-2"> 
+            {!chooseDocStatus?
+            
                     <Pressable onPress={()=> openChooseDoctorPopup()}>
                             <Text className="text-white text-base bg-blue-700 w-32 h-10 text-center rounded-3xl pt-1.5">
                                 Choose Doctor
                             </Text>
                     </Pressable>
+                    :
+                    <View className="flex-row rounded-3xl items-center w-32 h-10 justify-center bg-green-600 space-x-2">
+                        {/* <Icon name='check' size={20}>
+                        </Icon> */}
+                        <Octicons name="check-circle" size={17} color="white"/>
+
+                        <Text className="text-white text-base">
+                                Selected
+                        </Text>
+                    </View>
+
+            }
                     <Pressable onPress={() => navigateNext()}>
-                    <Text className="text-white text-base bg-blue-700 w-40 h-10 text-center rounded-3xl pt-1.5" >
+                    <Text className="text-white text-base bg-blue-700 w-40 h-10 text-center rounded-3xl pt-2" >
                         Book Appointment
                     </Text>
                     </Pressable>

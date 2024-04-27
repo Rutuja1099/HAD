@@ -13,8 +13,8 @@ import java.util.List;
 @AllArgsConstructor
 public class PatientDetailDTO {
     private String fullname;
-    private String gender;
-    private String phone;
-    private String dob;
+//    private String gender;
+//    private String phone;
+//    private String dob;
     private List<SeverityWeek> severityWeekWise;
 }
