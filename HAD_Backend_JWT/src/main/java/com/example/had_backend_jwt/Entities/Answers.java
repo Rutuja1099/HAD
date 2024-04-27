@@ -5,12 +5,12 @@ import lombok.*;
 
 import java.util.List;
 
-@Entity
-@Getter
-@Setter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
+//@Entity
+//@Getter
+//@Setter
+//@Builder
+//@AllArgsConstructor
+//@NoArgsConstructor
 @Data
 @Table(name="answers")
 public class Answers {
@@ -39,6 +39,7 @@ public class Answers {
     @Column(name="isEdited")
     private Boolean isEdited;
 
+
     @OneToMany(mappedBy = "answers", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<FlagTableAnswerPatient> flagTableAnswerPatientList;
 
@@ -58,6 +59,8 @@ public class Answers {
     private List<UpVoteAnswerDoctor> upVoteAnswerDoctorList;
 
 
+    @Column(name="isDeleted")
+    private Boolean isDeleted=false;
 
 //    public Answers(Integer answerId, Questions query, String answerContent, DoctorInfo drInfo, Integer upVote, Integer aflagCount, Boolean isEdited) {
 //        this.answerId = answerId;

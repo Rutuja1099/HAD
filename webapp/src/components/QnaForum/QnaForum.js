@@ -163,11 +163,11 @@ const QnaForum = () => {
                                         className="cursor-pointer hover:text-blue-600 hover:underline underline-offset-2" 
                                         onClick={() => navigateToQuestion(question.queryId, question.queryContent)}
                                     >
-                                        3 answers 
+                                        view answers 
                                     </p>
 
-                                    <p>**</p>
-                                    <p>3 flags</p>
+                                    {/* <p>**</p>
+                                    <p>3 flags</p> */}
                                 </div>
                                 
                                 {/* <div>

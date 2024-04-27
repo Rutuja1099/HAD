@@ -10,7 +10,7 @@ const DeleteModalQuestion = ({openDeleteBox, setOpenDeletBox, id, content}) => {
 
     const handleDeleteConfirm = async (id) => {
 
-            const loginURL = webServerUrl+`/suhrud/forum/deleteQuestion/queryId=${id}`;
+            const loginURL = webServerUrl+`/suhrud/forum/deleteQuestion?queryId=${id}`;
 
             const method='DELETE';
             

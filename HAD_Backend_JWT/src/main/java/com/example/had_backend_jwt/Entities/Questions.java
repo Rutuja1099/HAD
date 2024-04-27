@@ -36,6 +36,9 @@ public class Questions {
     @Column(name="flagCount")
     private Integer flagCount=0;
 
+    @Column(name="isDeleted")
+    private Boolean isDeleted=false;
+
     @JsonIgnore
     @OneToMany(mappedBy="query", fetch = FetchType.LAZY)
     @JsonBackReference

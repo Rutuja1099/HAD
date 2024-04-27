@@ -324,6 +324,17 @@ public class ForumController {
 
     }
 
+    @PutMapping("/disableQuestion")
+    @PreAuthorize("hasAuthority('Moderator')")
+    public ResponseEntity<?> disableQuestion(@RequestParam Integer queryId){
+        try{
+            return ResponseEntity.ok("Success");
+        }
+        catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.toString());
+        }
+    }
+
     @DeleteMapping("/deleteAnswer/{answerId}")
     @PreAuthorize("hasAuthority('Moderator')")
     public ResponseEntity<Map<String, Boolean>> deleteAnswer(@PathVariable Integer answerId){

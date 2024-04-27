@@ -13,7 +13,7 @@ public class DoctorListChatDTO {
 
     private Integer drId;
 
-    private String ChatId;
+    private Integer ChatId;
 
     private String drName;
 
