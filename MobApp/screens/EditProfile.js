@@ -16,39 +16,7 @@ const EditProfile = ({route}) => {
 
     let [fontsLoaded] = useFonts({ Pangolin_400Regular,});
     const [editable, setEditable] = useState(false);
-    const {patientData}=route.params;
-
-    // const [patientData,setPatientData]=useState(null);
-
-    // useEffect(()=>{
-    //     const fetchDetails=async()=>{
-    //       const patientInfoURL=webServerUrl+"/suhrud/patient/patientInfo";
-    //       const method='GET';
-    //       const patientData = await AsyncStorage.getItem('patientData')
-    //       const data=JSON.parse(patientData);
-    //       const bearerToken = data.token;
-               
-    //       const headers = {
-    //         'Authorization': `Bearer ${bearerToken}`, // Include your token here
-    //         'Content-Type': 'application/json', // Specify the content type if needed
-    //       };
-          
-    //       try{
-    //         const response=await HttpService(method,patientInfoURL,null,headers);
-    //         console.log("my response"+response.status);
-    //         if(response.status===200){
-    //           setPatientData(response.data);
-    //           console.log(patientData);
-    //         }
-    //         else{
-    //           alert(response.data);
-    //         }
-    //       }catch(error){
-    //         alert(response.data);
-    //       }
-    //     };
-    //     fetchDetails();
-    //   },[])  
+    const {patientData}=route.params; 
 
     const [name, onChangeName] = useState(patientData.ptFullname);
     const [email, onChangeEmail] = useState(patientData.ptEmail);

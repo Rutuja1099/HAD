@@ -18,8 +18,10 @@ import {
 const Dashboard = () => {
 
     const [username, setUserName] = useState("");
+    
+    const [severity, setSeverity]=useState([]);
+    const [week,setWeek]=useState([]);
 
-    // http://localhost:8082/suhrud/patient/dashboardGraph
     useEffect(()=>{
         const fetchUsername=async()=>{
             const sessionData = await AsyncStorage.getItem('patientData');
@@ -27,7 +29,42 @@ const Dashboard = () => {
             setUserName(localData.ptUsername+"!!");
         };
         fetchUsername();
+        
+        graph();
     },[])
+
+    const graph=async()=>{
+        const DashboardUrl = webServerUrl+"/suhrud/patient/dashboardGraph";
+        const method='GET';
+      
+        const sessionData = await AsyncStorage.getItem('patientData')
+        const data=JSON.parse(sessionData);
+        const bearerToken = data.token;
+        console.log("bearer token: ", bearerToken);
+        const headers = {
+            'Authorization': `Bearer ${bearerToken}`, // Include your token here
+            'Content-Type': 'application/json', // Specify the content type if needed
+        };
+        let response;
+        try{
+            response=await HttpService(method,DashboardUrl,null,headers);
+            console.log(response.status)
+            if(response.status===200){
+                const patientGraph=await response.data;
+                console.log(patientGraph);
+                setData(patientGraph);
+                console.log("Hereeeeeeeee", patientGraph);
+            }
+            else{
+                alert(response.data);
+  
+            }
+        }catch(error){
+            alert(error.data);
+            console.log(error);
+        }
+    };
+
     const jokes = new Array();
     jokes[0]='https://www.champak.in/wp-content/uploads/2019/02/c84.jpg';
     jokes[1]='https://www.champak.in/wp-content/uploads/2019/03/c97-633x422.jpg';
@@ -66,6 +103,26 @@ const Dashboard = () => {
     const navigateAppointment = () => {
         navigation.navigate("Appointment");
     };
+
+    const minValue = 0;
+
+    function* yLabel() {
+    yield* [0, 25, 50, 75, 100];
+    }
+
+    const yLabelIterator = yLabel();
+    const setData=(patientGraph)=>{
+        const weeks=patientGraph.map((item, index) => `Week ${item.week}`);
+        setWeek(weeks);
+        const sev=patientGraph.map(item => item.avgSeverity);
+        setSeverity(sev);
+    }
+
+    const sum = severity.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+    const avg=sum/severity.length;
+    console.log(avg);
+    const avgWithTwoDecimals = avg.toFixed(2);
+    console.log(avgWithTwoDecimals);
 
 
     return(
@@ -135,38 +192,34 @@ const Dashboard = () => {
 
                         <View className="flex flex-row">
                             <View className = "flex rounded-full h-28 w-28 bg-white opacity-70 items-center justify-center mr-4">
-                                <Text className="text-3xl">25%</Text>
+                                <Text className="text-3xl">{avgWithTwoDecimals*4}%</Text>
                             </View>
 
                             <View className="bg-white opacity-70 p-1 flex flex-grow overflow-hidden rounded-3xl">
-                                <Text className="text-center">Week Wise Severity</Text>
+                                <Text className="text-center font-bold">Week Wise Severity Percentage</Text>
                                 <LineChart
                                     data={{
-                                    datasets: [
-                                        {
-                                            data: [19, 10, 8, 23],
-                                            color: (opacity = 1) => `rgba(54, 162, 235, ${opacity})`, // Optional, affects the line color
-                                            backgroundColor: 'rgba(54, 162, 235, 0.3)', // Not directly applicable here
-                                            borderColor: 'rgba(54, 162, 235)', // Border color for the line
-                                            borderWidth: 1, // Width of the line
-                                        }
-                                    ]
-                                    }}
+                                        labels: week,
+                                        datasets: [
+                                            {
+                                                data: severity,
+                                                color: (opacity = 1) => `rgba(54, 162, 235, ${opacity})`,
+                                                backgroundColor: 'rgba(255, 255, 255, 0.3)',
+                                                borderColor: 'rgba(54, 162, 235)',
+                                                borderWidth: 1,
+                                            }
+                                        ]
+                                        }}
                                     height={116}
                                     width={228}
+                                    yAxisInterval={5}
                                     fromZero="true"
-                                    formatYLabel = {(label) => {
-                                        const labelVal = Number(label);
-                                        return (labelVal*4).toFixed(0);
-                                        // if(labelVal >= 1000) return (labelVal/1000).toFixed(0) + 'K';
-                                        // return label;
-                                      }}
-                                    withVerticalLabels="true"
+                                    formatYLabel={ () => yLabelIterator.next().value}                                    withVerticalLabels="true"
                                     chartConfig={{
-                                    backgroundColor: "#e26a00",
-                                    backgroundGradientFrom: "#fb8c00",
-                                    backgroundGradientTo: "#ffa726",
+                                    backgroundGradientFrom: "#1DE3DD",
+                                    backgroundGradientTo: "#BFFAF9",
                                     decimalPlaces: 0,
+                                    // yAxisInterval:{5},
                                     color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
                                     labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
                                     style: {

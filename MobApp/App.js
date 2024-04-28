@@ -45,7 +45,7 @@ export default function App() {
       {/* <Stack.Navigator>
       <Stack.Screen name="Dashboard" component={Dashboard} /> */}
 
-      <Stack.Navigator initialRouteName="Dashboard" >
+      <Stack.Navigator initialRouteName="Login" >
       
         <Stack.Screen name="Login" component={Login} options={{headerShown: false,}}/>
         <Stack.Screen name="SignUp" component={SignUp} options={{headerShown: false,}}/>
