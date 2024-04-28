@@ -64,8 +64,7 @@ export default function Login(props) {
                 }
                 else{
                     props.navigation.navigate("Dashboard");
-                }
-                
+                }                
                 
             }
             else{

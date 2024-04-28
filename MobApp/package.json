@@ -22,6 +22,7 @@
     "expo-app-loading": "^2.1.1",
     "expo-font": "~11.10.3",
     "expo-linear-gradient": "^12.7.2",
+    "expo-localization": "~14.8.4",
     "expo-status-bar": "~1.11.1",
     "firebase": "^10.9.0",
     "nativewind": "^2.0.11",
@@ -37,8 +38,7 @@
     "react-native-web-webview": "^1.0.2",
     "react-native-webview": "^13.6.4",
     "react-native-youtube-iframe": "^2.3.0",
-    "tailwind-react-native-classnames": "^1.5.1",
-    "expo-localization": "~14.8.4"
+    "tailwind-react-native-classnames": "^1.5.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

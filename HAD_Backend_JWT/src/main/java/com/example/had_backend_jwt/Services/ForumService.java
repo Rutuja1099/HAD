@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.*;
 
 @Service
 @NoArgsConstructor
@@ -172,12 +173,14 @@ public class ForumService {
     public String maskPersonalInfo(int ptRegNo,String question){
         PatientInfo patientInfo=patientInfoRepository.findPatientInfoByPtRegNo(ptRegNo);
         String processedQuery=question;
+        Pattern pattern = Pattern.compile("\\b\\d{10}\\b");
         if(patientInfo!=null){
             processedQuery=processedQuery.toLowerCase()
-                    .replace(patientInfo.getPtFullname().toLowerCase(),"*****")
-                    .replace(patientInfo.getPtPhone(),"*****")
-                    .replace(patientInfo.getPtAddr().toLowerCase(),"*****")
-                    .replace(patientInfo.getPtGender().toLowerCase(),"*****");
+                    .replace(patientInfo.getPtFullname().toLowerCase(),"*****");
+//                    .replace(patientInfo.getPtPhone(),"*****")
+//                    .replace(patientInfo.getPtAddr().toLowerCase(),"*****")
+//                    .replace(patientInfo.getPtGender().toLowerCase(),"*****");
+            processedQuery = pattern.matcher(processedQuery).replaceAll("*****");
         }
         return processedQuery;
     }

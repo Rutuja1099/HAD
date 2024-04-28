@@ -52,33 +52,33 @@ const EditProfile = ({route}) => {
 
     const [name, onChangeName] = useState(patientData.ptFullname);
     const [email, onChangeEmail] = useState(patientData.ptEmail);
-    const [address, onChangeAddress] = useState(patientData.ptAddr);
-    const [phone, onChangePhone] = useState(patientData.ptPhone);
-    const [dob, setDob] = useState(new Date(patientData.ptDOB)); // Date of Birth
-    const [show, setShow] = useState(false);
-    const [mode, setMode] = useState('date');
+    // const [address, onChangeAddress] = useState(patientData.ptAddr);
+    // const [phone, onChangePhone] = useState(patientData.ptPhone);
+    // const [dob, setDob] = useState(new Date(patientData.ptDOB)); // Date of Birth
+    // const [show, setShow] = useState(false);
+    // const [mode, setMode] = useState('date');
 
-    const maxDate = new Date();
-    maxDate.setFullYear(maxDate.getFullYear() - 18);
+    // const maxDate = new Date();
+    // maxDate.setFullYear(maxDate.getFullYear() - 18);
 
-    const onChange = (event, selectedDate) => {
-        setShow(false);
-        if (selectedDate) {
-            setDob(selectedDate);
-        }
-    }
+    // const onChange = (event, selectedDate) => {
+    //     setShow(false);
+    //     if (selectedDate) {
+    //         setDob(selectedDate);
+    //     }
+    // }
 
     const onEdit = () =>{
         setEditable(true);
     }
 
-    const showMode = (modeToShow) => {
-        if(editable)
-        {
-            setShow(true);
-            setMode(modeToShow);
-        }
-    }
+    // const showMode = (modeToShow) => {
+    //     if(editable)
+    //     {
+    //         setShow(true);
+    //         setMode(modeToShow);
+    //     }
+    // }
 
     const navigation=useNavigation();
 
@@ -100,29 +100,26 @@ const EditProfile = ({route}) => {
             alert('Email is Invalid');
             return false;
         }
-        if (!address.trim()) {
-            alert('Please Enter your address');
-            return false;
-        }
-        if (!phone.trim()) {
-            alert('Please Enter Phone Number');
-            return false;
-        }
+        // if (!address.trim()) {
+        //     alert('Please Enter your address');
+        //     return false;
+        // }
+        // if (!phone.trim()) {
+        //     alert('Please Enter Phone Number');
+        //     return false;
+        // }
         
-        const phoneRegex = /^\d{10}$/;
+        // const phoneRegex = /^\d{10}$/;
         
-        if (!phoneRegex.test(phone.trim())) {
-            alert('Phone number should be numeric and should contain 10 digits');
-            return false;
-        }
+        // if (!phoneRegex.test(phone.trim())) {
+        //     alert('Phone number should be numeric and should contain 10 digits');
+        //     return false;
+        // }
         
         const editProfileURL=webServerUrl+"/suhrud/patient/updatePatient"
         const method='PUT';
         const data={
         ptFullname:name,
-        ptPhone:phone,
-        ptAddr: address,
-        ptDOB: dob.toLocaleDateString(),
         ptEmail: email
         }
         const patientData = await AsyncStorage.getItem('patientData')
@@ -139,7 +136,7 @@ const EditProfile = ({route}) => {
             if(response.status===200){
               console.log("Successful");
               alert(response.data);
-              navigation.replace("Profile");
+              navigation.replace("Settings");
             }
             else{
               alert(response.data);
@@ -182,8 +179,8 @@ const EditProfile = ({route}) => {
         
         </View>
         {/**User Information */}{/**Add validations for age and other fields */}
-            <View className="flex-1 relative mt-5 ml-4">
-            <ScrollView>
+            <View className="flex-auto relative ml-4">
+            {/* <ScrollView> */}
             {/**Name */}
                 <View>
                     <Text style={{ fontFamily: 'Pangolin_400Regular', fontSize:20}} className=" text-black ml-5">
@@ -216,7 +213,7 @@ const EditProfile = ({route}) => {
                     </View>
                 </View>
             {/**Address */}
-                <View>
+                {/* <View>
                     <Text style={{ fontFamily: 'Pangolin_400Regular', fontSize:20 }} className=" text-black ml-5">
                         Address
                     </Text>
@@ -229,10 +226,10 @@ const EditProfile = ({route}) => {
                             value={address}                  
                         />
                     </View>
-                </View>
+                </View> */}
 
             {/**Phone number */}
-                <View>
+                {/* <View>
                     <Text style={{ fontFamily: 'Pangolin_400Regular', fontSize:20 }} className=" text-black ml-5">
                         Phone Number
                     </Text>
@@ -246,10 +243,10 @@ const EditProfile = ({route}) => {
                             inputMode="numeric"                
                         />
                     </View>
-                </View>
+                </View> */}
             
             {/**DOB */}
-                <View>
+                {/* <View>
                     <Text style={{ fontFamily: 'Pangolin_400Regular', fontSize:20 }} className=" text-black ml-5">
                         Date of Birth
                     </Text>
@@ -275,17 +272,20 @@ const EditProfile = ({route}) => {
                             )}
                     </View>
                 </View>
-                
-            </ScrollView>
+                 */}
+            {/* </ScrollView> */}
+
+            {/* Save Button */}
+            <View className="w-full mt-10 ml-24">
+                <Pressable onPress={onPressSave} disabled={!editable}>
+                    <View className="w-[150px] h-[41px] items-center justify-center rounded-lg bg-[#116fdf]">
+                    <Text className="text-white font-bold text-xl">Save Changes</Text>
+                    </View>
+                </Pressable> 
             </View>
-        {/**Save Button */}
-        <View className="flex justify-center items-center">
-        <Pressable onPress={onPressSave}>
-            <View className=" mb-20 ml-2 w-[150px] h-[41px] items-center justify-center rounded-lg bg-[#116fdf]">
-                <Text className=" text-white font-bold text-xl">Save Changes</Text>
+           
             </View>
-        </Pressable> 
-        </View>      
+   
         </SafeAreaView>
         </ImageBackground>
     )

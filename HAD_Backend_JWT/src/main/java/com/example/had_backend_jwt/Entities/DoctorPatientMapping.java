@@ -24,12 +24,9 @@ public class DoctorPatientMapping {
     @Column(name="userId")
     private Integer userId;
 
-
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="chatId", unique = true)
     private Integer chatId;
-
-
 
     @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn(name = "drId", referencedColumnName = "drId")

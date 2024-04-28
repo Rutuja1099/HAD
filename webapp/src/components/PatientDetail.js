@@ -29,9 +29,9 @@ function PatientDetail() {
     console.log(patientRegNo);
 
     const [name,setName]=useState('');
-    const [gender, setGender]=useState('');
-    const [contact, setContact] =useState('');
-    const [dob,setDob]=useState('');
+    // const [gender, setGender]=useState('');
+    // const [contact, setContact] =useState('');
+    // const [dob,setDob]=useState('');
     const [severity, setSeverity]=useState([]);
     const [week,setWeek]=useState([]);
 
@@ -71,9 +71,9 @@ function PatientDetail() {
 
     const setData=(patientData)=>{
       setName(patientData.fullname);
-      setContact(patientData.phone);
-      setDob(patientData.dob);
-      setGender(patientData.gender);
+      // setContact(patientData.phone);
+      // setDob(patientData.dob);
+      // setGender(patientData.gender);
       const weeks=patientData.severityWeekWise.map((item, index) => `Week ${item.week}`);
       setWeek(weeks);
       const sev=patientData.severityWeekWise.map(item => item.avgSeverity);
@@ -132,9 +132,9 @@ function PatientDetail() {
                 <div className='flex items-center justify-center h-full w-full p-5 mb-5 ml-5 mr-5'>
                     <div className='flex flex-col  font-bold rounded-xl items-center justify-center bg-white w-full p-5'>
                     <h2 className='pb-1'>{name}</h2>
-                    <h2 className='pb-1'>Gender: {gender}</h2>
+                    {/* <h2 className='pb-1'>Gender: {gender}</h2>
                     <h2 className='pb-1'>Contact: {contact}</h2>
-                    <h2 className='pb-1'>DOB: {dob}</h2>
+                    <h2 className='pb-1'>DOB: {dob}</h2> */}
                     <button 
                         className='h-10 w-40 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded-xl'
                         onClick={chat}  

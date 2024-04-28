@@ -73,24 +73,6 @@ const Profile = () => {
               menuItemLabel="Email"
               menuItemContent={patientData.ptEmail}
             />
-
-          {/*Address */}
-            <ProfileMenuItems 
-              menuItemLabel="Address"
-              menuItemContent={patientData.ptAddr}
-            />
-
-          {/*Date of birth */}
-            <ProfileMenuItems 
-              menuItemLabel="Date of Birth"
-              menuItemContent={patientData.ptDOB}
-            />
-
-          {/*Phone Number*/}
-            <ProfileMenuItems 
-              menuItemLabel="Phone Number"
-              menuItemContent={patientData.ptPhone}
-            />
         </ScrollView>
         </View>
         <Pressable onPress={handleEditProfile} className="absolute bottom-20 right-5">
