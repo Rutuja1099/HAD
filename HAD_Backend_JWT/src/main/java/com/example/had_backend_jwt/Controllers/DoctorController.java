@@ -1,10 +1,18 @@
 package com.example.had_backend_jwt.Controllers;
 
+import com.example.had_backend_jwt.Entities.DoctorInfo;
+import com.example.had_backend_jwt.Entities.DoctorPatientMapping;
+import com.example.had_backend_jwt.Entities.PatientInfo;
 import com.example.had_backend_jwt.Models.DoctorAppointmentsResponse;
+import com.example.had_backend_jwt.Repositories.DoctorInfoRepository;
+import com.example.had_backend_jwt.Repositories.DoctorPatientMappingRepository;
+import com.example.had_backend_jwt.Repositories.PatientProgressRepository;
 import com.example.had_backend_jwt.Services.DoctorService;
+import com.example.had_backend_jwt.Services.Utilities;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +22,10 @@ import com.example.had_backend_jwt.Models.*;
 import com.example.had_backend_jwt.JWT.*;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,6 +36,12 @@ public class DoctorController {
 
     @Autowired
     private final JwtService jwtService;
+    @Autowired
+    private DoctorInfoRepository doctorInfoRepository;
+    @Autowired
+    private DoctorPatientMappingRepository doctorPatientMappingRepository;
+    @Autowired
+    private PatientProgressRepository patientProgressRepository;
 
     @GetMapping("/viewAppointments/current")
     @PreAuthorize("hasAuthority('Doctor')")
@@ -56,9 +73,12 @@ public class DoctorController {
 
     @GetMapping("/viewPatients/fetchPatientProgressInfo/patientDetail")
     @PreAuthorize("hasAuthority('Doctor')")
-    public ResponseEntity<PatientDetailDTO> getPatientDetailById(@RequestParam Integer id)
+    public ResponseEntity<PatientDetailDTO> getPatientDetailById(HttpServletRequest request,@RequestParam Integer id)
     {
-        PatientDetailDTO detail=doctorService.getPatientDetailById(id);
+        PatientDetailDTO detail=doctorService.getPatientDetailById(request,id);
+        if(detail.equals(null)){
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.ok(detail);
     }
 
@@ -84,6 +104,51 @@ public class DoctorController {
         DoctorInformationDTO ans=doctorService.getDoctorInformation(drId);
         if(ans==null)
             return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(ans);
+    }
+
+    @GetMapping("/doctorDashboardGraph")
+    @PreAuthorize("hasAuthority('Doctor')")
+    public ResponseEntity<List<DashBoardGraphDTO>> getDoctorDashboardGraph(HttpServletRequest req){
+        String token= Utilities.resolveToken(req);
+        if(token==null)
+            return ResponseEntity.badRequest().build();
+        int id= jwtService.extractId(req,"doctorId");
+        DoctorInfo doctorInfo=doctorInfoRepository.findDoctorInfoByDrId(id);
+        if(doctorInfo==null)
+            return ResponseEntity.notFound().build();
+        List<DoctorPatientMapping> doctorPatientMappings=doctorPatientMappingRepository.findByDoctorInfo(doctorInfo);
+        Set<PatientInfo> patientInfoSet=new HashSet<>();
+        for(DoctorPatientMapping p:doctorPatientMappings)
+            patientInfoSet.add(p.getPatientInfo());
+
+        int mini=0,mild=0,mod=0,modSev=0,sev=0;
+        List<Object[]> patientInfoBySeverity=patientProgressRepository.findAverageSeverityByPatientInfo();
+
+        for(int i=0;i<patientInfoBySeverity.size();i++)
+        {
+            PatientInfo pInfo=(PatientInfo) patientInfoBySeverity.get(i)[1];
+            if(patientInfoSet.contains(pInfo))
+            {
+                Double avgSeverity=(Double)patientInfoBySeverity.get(i)[0];
+                if(avgSeverity<=4.0)
+                    mini++;
+                else if(avgSeverity<=9.0)
+                    mild++;
+                else if(avgSeverity<=14.0)
+                    mod++;
+                else if(avgSeverity<=19.0)
+                    modSev++;
+                else
+                    sev++;
+            }
+        }
+        List<DashBoardGraphDTO> ans=new ArrayList<>();
+        ans.add(new DashBoardGraphDTO("Minimal Depression",mini));
+        ans.add(new DashBoardGraphDTO("Mild Depression",mild));
+        ans.add(new DashBoardGraphDTO("Moderate Depression",mod));
+        ans.add(new DashBoardGraphDTO("Moderately Severe Depression",modSev));
+        ans.add(new DashBoardGraphDTO("Severe Depression",sev));
         return ResponseEntity.ok(ans);
     }
 

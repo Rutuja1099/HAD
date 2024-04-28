@@ -1,5 +1,6 @@
 package com.example.had_backend_jwt.Entities;
 
+import com.example.had_backend_jwt.Configurations.AttributeEncryptor;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -16,34 +17,15 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 @Entity
-@Data
 @Table(name = "patientInfo")
 public class PatientInfo {
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @Column(name="ptRegNo")
-//    private Integer ptRegNo;
-//    @Column(name="ptFullname",nullable = false)
-//    private String ptFullname;
-//    @Column(name="ptPhone",length = 10)
-//    private String ptPhone;
-//    @Column(name="ptAddr",length = 100)
-//    private String ptAddr;
-//    @Column(name="ptEmail",nullable = false)
-//    private String ptEmail;
-//    @Column(name="ptDOB")
-//    private Date ptDOB;
-//    @Column(name="ptGender")
-//    private String ptGender;
-//
-//    @JsonIgnore
-//    @OneToOne(mappedBy = "ptInfo")
-//    private PatientLogin ptLogin;
-@Id
-@GeneratedValue(strategy = GenerationType.IDENTITY)
-@Column(name = "ptRegNo")
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ptRegNo")
     private Integer ptRegNo;
 
+    @Convert(converter = AttributeEncryptor.class)
     @Column(name = "ptFullname", nullable = false, length = 50)
     private String ptFullname;
 
@@ -61,6 +43,7 @@ public class PatientInfo {
 
     @OneToOne(mappedBy = "ptInfo",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonBackReference
+    @JsonIgnore
     private PatientLogin ptLogin;
 
     @OneToMany(mappedBy = "patientInfo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -87,4 +70,14 @@ public class PatientInfo {
 
     @Column(name="isPatientDeActivated")
     private Boolean isPatientDeActivated;
+
+    @OneToMany(mappedBy = "patientInfo",fetch = FetchType.LAZY)
+    private List<FlagTableQuestionPatient> flagTableQuestionPatientList;
+
+    @OneToMany(mappedBy = "patientInfo",fetch = FetchType.LAZY)
+    private List<FlagTableAnswerPatient> flagTableAnswerPatientList;
+
+    @OneToMany(mappedBy = "patientInfo",fetch = FetchType.LAZY)
+    private List<UpVoteAnswerPatient> upVoteAnswerPatientList;
+
 }

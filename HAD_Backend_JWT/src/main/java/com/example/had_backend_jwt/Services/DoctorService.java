@@ -6,6 +6,7 @@ import com.example.had_backend_jwt.Models.*;
 import com.example.had_backend_jwt.Repositories.*;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Request;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
@@ -91,7 +92,7 @@ public class DoctorService {
         for(DoctorPatientMapping patient:doctorPatientMappings){
             Integer ptRegNo=patient.getPatientInfo().getPtRegNo();
             Optional<PatientProgress> patientProgressOptional=patientProgressRepository.findFirstByPatientInfoPtRegNoOrderByCurrentWeekDescCurrentDayDesc(ptRegNo);
-            if(patientProgressOptional.isPresent()){
+            if(patientProgressOptional.isPresent() && patient.isCurrent()){
                 PatientProgress patientProgress=patientProgressOptional.get();
                 PatientProgressInfo patientProgressInfo=new PatientProgressInfo();
                 patientProgressInfo.setPtRegNo(patient.getPatientInfo().getPtRegNo());
@@ -107,7 +108,8 @@ public class DoctorService {
         return patientProgressInfos;
     }
 
-    public PatientDetailDTO getPatientDetailById(Integer id) {
+    public PatientDetailDTO getPatientDetailById(HttpServletRequest request,Integer id) {
+        Integer drId= jwtService.extractId(request,"doctorId");
         PatientDetailDTO detail=new PatientDetailDTO();
         PatientInfo patientInfo=patientInfoRepository.findPatientInfoByPtRegNo(id);
         if(patientInfo==null)
@@ -117,16 +119,31 @@ public class DoctorService {
 //        detail.setPhone(patientInfo.getPtPhone());
 //        detail.setDob(patientInfo.getPtDOB());
 
-        List<WeekWiseSeverity> patientWeekWiseSeverity=patientProgressRepository.findAverageSeverityByPatientInfoPtRegNoOrderByWeekDesc(id);
-        List<SeverityWeek> ans=new ArrayList<>();
-        for(WeekWiseSeverity p:patientWeekWiseSeverity){
-            SeverityWeek week=new SeverityWeek();
-            week.setWeek(p.getWeek());
-            week.setAvgSeverity(p.getAvgSeverity());
-            ans.add(0,week);
+        DoctorPatientMapping doctorPatientMapping=doctorPatientMappingRepository.findByPatientInfoPtRegNoAndDoctorInfo_DrId(id,drId);
+        if(doctorPatientMapping!=null){
+
+                if(doctorPatientMapping.isCurrent()){
+                    detail.setFullname(patientInfo.getPtFullname());
+//                    detail.setGender(patientInfo.getPtGender());
+//                    detail.setPhone(patientInfo.getPtPhone());
+//                    detail.setDob(patientInfo.getPtDOB());
+
+                    List<WeekWiseSeverity> patientWeekWiseSeverity=patientProgressRepository.findAverageSeverityByPatientInfoPtRegNoOrderByWeekDesc(id);
+                    List<SeverityWeek> ans=new ArrayList<>();
+                    for(WeekWiseSeverity p:patientWeekWiseSeverity){
+                        SeverityWeek week=new SeverityWeek();
+                        week.setWeek(p.getWeek());
+                        week.setAvgSeverity(p.getAvgSeverity());
+                        ans.add(0,week);
+                    }
+                    detail.setSeverityWeekWise(ans);
+                    return detail;
+                }
+                return null;
+
         }
-        detail.setSeverityWeekWise(ans);
-        return detail;
+        return null;
+
     }
 
     public DoctorInformationDTO getDoctorInformation(Integer drId) {

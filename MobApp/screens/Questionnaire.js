@@ -237,7 +237,7 @@ const Questionnaire = ({route}) => {
         <SafeAreaView className = {`flex-1 bg-white p-2 pt-8 relative ${color[count]}`}>
             <SafeAreaView className = "justify-center items-left m-2 border-b border-spacing-8 border-dashed pb-2">
                 <View className="flex-row px-2 space-x-4 mt-2">
-                    <Icon onPress={() => navigateBack()} name="angle-left" size={25}/>
+                    {/* <Icon onPress={() => navigateBack()} name="angle-left" size={25}/> */}
                     <Text className="text-xl font-semibold">
                     hey {userName}
                     </Text>

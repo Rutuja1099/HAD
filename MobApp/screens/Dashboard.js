@@ -7,14 +7,20 @@ import { Feather } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useFonts, Pangolin_400Regular } from '@expo-google-fonts/pangolin';
 import {icon_suhrud, background, therapy} from '../assets';
-
+import {Dimensions} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import webServerUrl from '../configurations/WebServer';
 import HttpService from '../services/HttpService';
+import {
+    LineChart
+  } from "react-native-chart-kit";
 
 const Dashboard = () => {
 
     const [username, setUserName] = useState("");
+    
+    const [severity, setSeverity]=useState([]);
+    const [week,setWeek]=useState([]);
 
     useEffect(()=>{
         const fetchUsername=async()=>{
@@ -23,7 +29,42 @@ const Dashboard = () => {
             setUserName(localData.ptUsername+"!!");
         };
         fetchUsername();
+        
+        graph();
     },[])
+
+    const graph=async()=>{
+        const DashboardUrl = webServerUrl+"/suhrud/patient/dashboardGraph";
+        const method='GET';
+      
+        const sessionData = await AsyncStorage.getItem('patientData')
+        const data=JSON.parse(sessionData);
+        const bearerToken = data.token;
+        console.log("bearer token: ", bearerToken);
+        const headers = {
+            'Authorization': `Bearer ${bearerToken}`, // Include your token here
+            'Content-Type': 'application/json', // Specify the content type if needed
+        };
+        let response;
+        try{
+            response=await HttpService(method,DashboardUrl,null,headers);
+            console.log(response.status)
+            if(response.status===200){
+                const patientGraph=await response.data;
+                console.log(patientGraph);
+                setData(patientGraph);
+                console.log("Hereeeeeeeee", patientGraph);
+            }
+            else{
+                alert(response.data);
+  
+            }
+        }catch(error){
+            alert(error.data);
+            console.log(error);
+        }
+    };
+
     const jokes = new Array();
     jokes[0]='https://www.champak.in/wp-content/uploads/2019/02/c84.jpg';
     jokes[1]='https://www.champak.in/wp-content/uploads/2019/03/c97-633x422.jpg';
@@ -62,6 +103,26 @@ const Dashboard = () => {
     const navigateAppointment = () => {
         navigation.navigate("Appointment");
     };
+
+    const minValue = 0;
+
+    function* yLabel() {
+    yield* [0, 25, 50, 75, 100];
+    }
+
+    const yLabelIterator = yLabel();
+    const setData=(patientGraph)=>{
+        const weeks=patientGraph.map((item, index) => `Week ${item.week}`);
+        setWeek(weeks);
+        const sev=patientGraph.map(item => item.avgSeverity);
+        setSeverity(sev);
+    }
+
+    const sum = severity.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+    const avg=sum/severity.length;
+    console.log(avg);
+    const avgWithTwoDecimals = avg.toFixed(2);
+    console.log(avgWithTwoDecimals);
 
 
     return(
@@ -123,9 +184,6 @@ const Dashboard = () => {
                         
                     </View>
 
-
-
-                    {/* Third Section */}
                     <View className = "flex flex-col p-4 ">
 
                         <View className="mb-4">
@@ -134,11 +192,51 @@ const Dashboard = () => {
 
                         <View className="flex flex-row">
                             <View className = "flex rounded-full h-28 w-28 bg-white opacity-70 items-center justify-center mr-4">
-                                <Text className="text-3xl">25%</Text>
+                                <Text className="text-3xl">{avgWithTwoDecimals*4}%</Text>
                             </View>
 
-                            <View className="bg-white opacity-70 p-2 flex flex-grow overflow-hidden rounded-3xl">
-                                <Text>Graph</Text>
+                            <View className="bg-white opacity-70 p-1 flex flex-grow overflow-hidden rounded-3xl">
+                                <Text className="text-center font-bold">Week Wise Severity Percentage</Text>
+                                <LineChart
+                                    data={{
+                                        labels: week,
+                                        datasets: [
+                                            {
+                                                data: severity,
+                                                color: (opacity = 1) => `rgba(54, 162, 235, ${opacity})`,
+                                                backgroundColor: 'rgba(255, 255, 255, 0.3)',
+                                                borderColor: 'rgba(54, 162, 235)',
+                                                borderWidth: 1,
+                                            }
+                                        ]
+                                        }}
+                                    height={116}
+                                    width={228}
+                                    yAxisInterval={5}
+                                    fromZero="true"
+                                    formatYLabel={ () => yLabelIterator.next().value}                                    withVerticalLabels="true"
+                                    chartConfig={{
+                                    backgroundGradientFrom: "#1DE3DD",
+                                    backgroundGradientTo: "#BFFAF9",
+                                    decimalPlaces: 0,
+                                    // yAxisInterval:{5},
+                                    color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                                    labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                                    style: {
+                                        borderRadius: 16
+                                    },
+                                    propsForDots: {
+                                        r: "6",
+                                        strokeWidth: "2",
+                                        stroke: "#ffa726"
+                                    }
+                                    }}
+                                    bezier
+                                    style={{
+                                    marginVertical: 8,
+                                    borderRadius: 16
+                                    }}
+                                />
                             </View>
                         </View>
 

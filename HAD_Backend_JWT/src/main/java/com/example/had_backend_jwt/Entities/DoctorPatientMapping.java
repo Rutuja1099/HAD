@@ -1,5 +1,6 @@
 package com.example.had_backend_jwt.Entities;
 
+import com.example.had_backend_jwt.Configurations.AttributeEncryptor;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,7 +25,6 @@ public class DoctorPatientMapping {
     @Column(name="userId")
     private Integer userId;
 
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="chatId", unique = true)
     private Integer chatId;
 
@@ -32,8 +32,12 @@ public class DoctorPatientMapping {
     @JoinColumn(name = "drId", referencedColumnName = "drId")
     private DoctorInfo doctorInfo;
 
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ptRegNo", referencedColumnName = "ptRegNo")
     private PatientInfo patientInfo;
+
+    @Column(name="isCurrent")
+    private boolean isCurrent=true;
 
 }

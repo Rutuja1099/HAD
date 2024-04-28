@@ -3,9 +3,9 @@ package com.example.had_backend_jwt.Entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
-@Getter
-@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -37,19 +37,22 @@ public class Answers {
     @Column(name="isEdited")
     private Boolean isEdited;
 
+
+    @OneToMany(mappedBy = "answers", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private List<FlagTableAnswerPatient> flagTableAnswerPatientList;
+
+    @OneToMany(mappedBy = "answers", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private List<FlagTableAnswerDoctor> flagTableAnswerDoctorList;
+
+
+    @OneToMany(mappedBy = "answers", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private List<UpVoteAnswerPatient> upVoteAnswerPatientList;
+
+    @OneToMany(mappedBy = "answers", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private List<UpVoteAnswerDoctor> upVoteAnswerDoctorList;
+
+
     @Column(name="isDeleted")
     private Boolean isDeleted=false;
 
-//    public Answers(Integer answerId, Questions query, String answerContent, DoctorInfo drInfo, Integer upVote, Integer aflagCount, Boolean isEdited) {
-//        this.answerId = answerId;
-//        this.query = query;
-//        this.answerContent = answerContent;
-//        this.drInfo = drInfo;
-//        this.upVote = upVote;
-//        this.aflagCount = aflagCount;
-//        this.isEdited = isEdited;
-//    }
-//
-//    public Answers() {
-//    }
 }

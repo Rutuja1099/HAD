@@ -300,8 +300,9 @@ public class PatientService {
     }
 
     public boolean checkDoctorPatientMapping(Integer ptRegNo, Integer drId){
-        Optional<DoctorPatientMapping> doctorPatientMappingOptional=doctorPatientMappingRepository.findByPatientInfoPtRegNoAndDoctorInfo_DrId(ptRegNo,drId);
-        return doctorPatientMappingOptional.isPresent();
+        DoctorPatientMapping doctorPatientMappingOptional=doctorPatientMappingRepository.findByPatientInfoPtRegNoAndDoctorInfo_DrId(ptRegNo,drId);
+//        DoctorPatientMapping doctorPatientMappingOptional=doctorPatientMappingRepository.findByPatientInfoAndDoctorInfo(patientInfo,doctorInfo);
+        return doctorPatientMappingOptional!=null;
     }
 
 //    public boolean checkAppointment(Integer ptRegNo,Integer drId,Date date,Integer slot){
@@ -313,17 +314,50 @@ public class PatientService {
         Integer ptRegNo= jwtService.extractId(request,"patientId");
         PatientInfo patientInfo=patientInfoRepository.findPatientInfoByPtRegNo(ptRegNo);
         DoctorInfo doctorInfo=doctorService.getDoctorInfo(chooseDoctorRequest.getDrId());
+
+        //Get AllDoctorMapping for patient
+        List<DoctorPatientMapping> doctorPatientMappingList=doctorPatientMappingRepository.findByPatientInfoPtRegNo(ptRegNo);
+        if(!doctorPatientMappingList.isEmpty()) {
+            for (DoctorPatientMapping doctorPatientMapping : doctorPatientMappingList) {
+                //Get All appointments for doctor patient
+                List<Appointments> AllAppointments = appointmentsRepository.findByPatientInfoPtRegNoAndDrInfoDrIdOrderByDateDesc(ptRegNo, doctorPatientMapping.getDoctorInfo().getDrRegNo());
+                LocalDate currentDate = LocalDate.now();
+                if (!AllAppointments.isEmpty()) {
+                    Date currentDateSQL = Date.valueOf(currentDate);
+                    Appointments latestAppointment= AllAppointments.get(0);
+                    if (!(latestAppointment.getDate().after(currentDateSQL) || latestAppointment.getDate().equals(currentDateSQL))) {
+                        doctorPatientMapping.setCurrent(false);
+                    }
+                }
+                else{
+                    doctorPatientMapping.setCurrent(false);
+                }
+                doctorPatientMappingRepository.save(doctorPatientMapping);
+            }
+        }
         //mapping in doctorPatientMapping does not exist
-        if (!checkDoctorPatientMapping(ptRegNo, doctorInfo.getDrId())) {
+        DoctorPatientMapping doctorPatientMappingOptional=doctorPatientMappingRepository.findByPatientInfoPtRegNoAndDoctorInfo_DrId(ptRegNo,doctorInfo.getDrId());
+
+        if (doctorPatientMappingOptional==null) {
             DoctorPatientMapping doctorPatientMapping = DoctorPatientMapping.builder()
                     .doctorInfo(doctorInfo)
                     .patientInfo(patientInfo)
+                    .isCurrent(true)
                     .build();
             doctorPatientMappingRepository.save(doctorPatientMapping);
         }
+        else {
+
+            doctorPatientMappingOptional.setCurrent(true);
+            doctorPatientMappingRepository.save(doctorPatientMappingOptional);
+        }
+
 
     }
-
+//    public List<Appointments> getPatientAppointments(HttpServletRequest request){
+//        Integer ptRegNo= jwtService.extractId(request,"patientId");
+//        PatientInfo patientInfo=patientInfoRepository.findPatientInfoByPtRegNo(ptRegNo);
+//    }
     public Integer bookAppointment(HttpServletRequest request,AppointmentBookingRequest appointmentBookingRequest){
         //fetch all booked days
         boolean bookedSlotStatus=fetchSpecificBookedDay(request,appointmentBookingRequest);
@@ -340,24 +374,27 @@ public class PatientService {
 
             //requested slots
             Integer requestedSlot=appointmentBookingRequest.getRequestedSlots();
-
+            DoctorPatientMapping doctorPatientMappingOptional=doctorPatientMappingRepository.findByPatientInfoPtRegNoAndDoctorInfo_DrId(ptRegNo,doctorInfo.getDrId());
             //mapping in doctorPatientMapping does not exist
-            if (!checkDoctorPatientMapping(ptRegNo, doctorInfo.getDrId())) {
+            if (doctorPatientMappingOptional==null) {
                 DoctorPatientMapping doctorPatientMapping = DoctorPatientMapping.builder()
                         .doctorInfo(doctorInfo)
                         .patientInfo(patientInfo)
+                        .isCurrent(true)
                         .build();
 
                 doctorPatientMappingRepository.save(doctorPatientMapping);
 
-                Optional<DoctorPatientMapping> doctorPatientMapping1 = doctorPatientMappingRepository.findByPatientInfoPtRegNoAndDoctorInfo_DrId(ptRegNo, doctorInfo.getDrId());
+                DoctorPatientMapping doctorPatientMapping1 = doctorPatientMappingRepository.findByPatientInfoPtRegNoAndDoctorInfo_DrId(ptRegNo, doctorInfo.getDrId());
+                doctorPatientMapping1.setChatId(doctorPatientMapping1.getUserId());
 
-                DoctorPatientMapping doctorPatientMapping2 = doctorPatientMapping1.get();
+                doctorPatientMappingRepository.save(doctorPatientMapping1);
 
-                doctorPatientMapping2.setChatId(doctorPatientMapping2.getUserId());
-
-                doctorPatientMappingRepository.save(doctorPatientMapping2);
-
+            }
+            else {
+                doctorPatientMappingOptional.setCurrent(true);
+                doctorPatientMappingOptional.setChatId(doctorPatientMappingOptional.getUserId());
+                doctorPatientMappingRepository.save(doctorPatientMappingOptional);
             }
 
             Appointments appointments = Appointments.builder()

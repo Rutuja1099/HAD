@@ -1,11 +1,16 @@
 package com.example.had_backend_jwt.Controllers;
 
 import com.example.had_backend_jwt.Entities.DoctorInfo;
+import com.example.had_backend_jwt.Entities.PatientInfo;
+import com.example.had_backend_jwt.Entities.PatientProgress;
 import com.example.had_backend_jwt.Entities.Questionnaire;
 import com.example.had_backend_jwt.JWT.JwtService;
 import com.example.had_backend_jwt.Models.*;
+import com.example.had_backend_jwt.Repositories.DoctorInfoRepository;
 import com.example.had_backend_jwt.Repositories.PatientInfoRepository;
+import com.example.had_backend_jwt.Repositories.PatientProgressRepository;
 import com.example.had_backend_jwt.Services.PatientService;
+import com.example.had_backend_jwt.Services.Utilities;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,7 +18,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/suhrud/patient")
@@ -22,6 +29,12 @@ public class PatientController {
     private PatientService patientService;
     @Autowired
     private JwtService jwtService;
+    @Autowired
+    private PatientInfoRepository patientInfoRepository;
+    @Autowired
+    private PatientProgressRepository patientProgressRepository;
+    @Autowired
+    private DoctorInfoRepository doctorInfoRepository;
 
     @DeleteMapping("/deletePatient")
     @PreAuthorize("hasAuthority('Patient')")
@@ -61,6 +74,7 @@ public class PatientController {
         return  ResponseEntity.ok(questions);
     }
 
+
     @PostMapping("/answerquestionnaire")
     @PreAuthorize("hasAuthority('Patient')")
     public ResponseEntity<String> getQuestions(HttpServletRequest req,@RequestBody AnswersDTO answersDTO){
@@ -86,13 +100,6 @@ public class PatientController {
         patientService.chooseDoctor(httpServletRequest,request);
         return ResponseEntity.ok("Doctor has been chosen by patient");
     }
-    // @PostMapping("/fetchBookedDays")
-    // @PreAuthorize("hasAnyAuthority('Patient')")
-    // public ResponseEntity<BookedDaysResponse> fetchBookedDays(HttpServletRequest httpServletRequest,@RequestBody AppointmentBookingRequest request){
-    //    // System.out.println("Request body : "+request);
-    //     BookedDaysResponse bookedDays=patientService.fetchBookedDays(httpServletRequest,request);
-    //     return ResponseEntity.ok(bookedDays);
-    // }
 
     @PostMapping("/bookAppointment")
     @PreAuthorize("hasAuthority('Patient')")
@@ -107,6 +114,43 @@ public class PatientController {
     public ResponseEntity<List<SuggestedDoctorsListResponse>> getSuggestedDoctorsListForAppointment(){
         List<SuggestedDoctorsListResponse> DoctorInfos=patientService.getSuggestedDoctorsList();
         return  ResponseEntity.ok(DoctorInfos);
+    }
+
+    @GetMapping("/viewSeverityWiseSuggestedDoctorsList")
+    @PreAuthorize("hasAuthority('Patient')")
+    public ResponseEntity<List<SuggestedDoctorsListResponse>> getViewSeverityWiseSuggestedDoctorsList(HttpServletRequest req){
+        int id=jwtService.extractId(req,"patientId");
+        PatientInfo patientInfo=patientInfoRepository.findPatientInfoByPtRegNo(id);
+        if (patientInfo == null) {
+            return ResponseEntity.notFound().build();
+        }
+        List<PatientProgress> patientProgressList= patientProgressRepository.findByPatientInfo(patientInfo);
+        if (patientProgressList == null || patientProgressList.isEmpty()) {
+            return ResponseEntity.badRequest().body(null);
+        }
+        int totalSeverity = patientProgressList.stream().mapToInt(PatientProgress::getSeverity).sum();
+        int averageSeverity = totalSeverity / patientProgressList.size();
+
+        if(averageSeverity<=9)
+        {
+            List<SuggestedDoctorsListResponse> DoctorInfos=patientService.getSuggestedDoctorsList();
+            return  ResponseEntity.ok(DoctorInfos);
+        }
+        List<Object[]> queryResult = doctorInfoRepository.SuggestDoctorsListDesc();
+        List<SuggestedDoctorsListResponse> suggestedDoctorsListResponses = new ArrayList<>();
+
+        for (Object[] row : queryResult) {
+            SuggestedDoctorsListResponse response = SuggestedDoctorsListResponse.builder()
+                    .drId((Integer) row[0])
+                    .drFullName((String) row[1])
+                    .drSpecialization((String) row[2])
+                    .drExperience((Integer) row[3])
+                    .drGender((String) row[4])
+                    .build();
+            suggestedDoctorsListResponses.add(response);
+        }
+
+        return ResponseEntity.ok(suggestedDoctorsListResponses);
     }
 
     @GetMapping("/getAllDoctorsInfo")
@@ -141,5 +185,24 @@ public class PatientController {
         Integer ptId= jwtService.extractId(request,"patientId");
         return ResponseEntity.ok(ptId);
     }
+
+    @GetMapping("/dashboardGraph")
+    @PreAuthorize("hasAuthority('Patient')")
+    public ResponseEntity<List<SeverityWeek>> getDashBoardGraph(HttpServletRequest req)
+    {
+        int id=jwtService.extractId(req,"patientId");
+        if(id==-1)
+            return ResponseEntity.notFound().build();
+        List<WeekWiseSeverity> patientWeekWiseSeverity=patientProgressRepository.findAverageSeverityByPatientInfoPtRegNoOrderByWeekDesc(id);
+        List<SeverityWeek> ans=new ArrayList<>();
+        for(WeekWiseSeverity p:patientWeekWiseSeverity){
+            SeverityWeek week=new SeverityWeek();
+            week.setWeek(p.getWeek());
+            week.setAvgSeverity(p.getAvgSeverity());
+            ans.add(0,week);
+        }
+        return ResponseEntity.ok(ans.subList(Math.max(0,ans.size()-4),ans.size()));
+    }
+
 
 }
