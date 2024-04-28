@@ -6,10 +6,13 @@ import webServerUrl from '../configurations/WebServer';
 import HttpService from '../services/HttpService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {profilePhoto} from '../assets';
+import { useTranslation } from 'react-i18next';
 
 
 
 const DoctorAppointmentBox=({item, navigation})=>{
+
+    const { t, i18n } = useTranslation();
 
     // console.log(item);
     const {drId,drFullName, drSpecialization, drExperience,drGender} = item;
@@ -78,20 +81,20 @@ const DoctorAppointmentBox=({item, navigation})=>{
             
             <View className="absolute bottom-0 bg-blue-400 rounded-3xl w-full z-10 h-32" >
             <View className="mt-2 ml-6">
-                <Text className="text-sm">Gender : {drGender}</Text>
+                <Text className="text-sm">{t("appointmentBox.gender")} : {drGender}</Text>
                 <Text className="text-sm">{drSpecialization}</Text>
-                <Text className="text-sm">Experience : {drExperience}</Text>
+                <Text className="text-sm">{t("appointmentBox.experience")} : {drExperience}</Text>
                 
             </View>
             <View className="flex-row space-x-6 mt-4 ml-2"> 
                     <Pressable onPress={()=> openChooseDoctorPopup()}>
                             <Text className="text-white text-base bg-blue-700 w-32 h-10 text-center rounded-3xl pt-1.5">
-                                Choose Doctor
+                                {t("appointmentBox.chooseBtn")}
                             </Text>
                     </Pressable>
                     <Pressable onPress={() => navigateNext()}>
                     <Text className="text-white text-base bg-blue-700 w-40 h-10 text-center rounded-3xl pt-1.5" >
-                        Book Appointment
+                        {t("appointmentBox.bookBtn")}
                     </Text>
                     </Pressable>
                 

@@ -6,8 +6,11 @@ import {image1,image2,image3,image4} from '../assets';
 import NavigationBar from "../components/NavigationBar";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { useFonts, Pangolin_400Regular } from '@expo-google-fonts/pangolin';
+import { useTranslation } from "react-i18next";
 
 const Meditation = (props) => {
+
+  const { t, i18n } = useTranslation();
 
     const navigation = useNavigation();
     const [playing, setPlaying] = useState(false);
@@ -44,16 +47,16 @@ const Meditation = (props) => {
                 <View className = "p-4 flex-row items-center">
                     <Icon name="angle-left" color="white" size={25} onPress={navigateback}/>
                     <Text style={styles.title}>
-                      Your space ! 
+                    {t("meditation.title")}
                     </Text>
                 </View>
                     <View style={styles.container}>
-                        <Text style={styles.subtitle}>What do you wish to do?</Text>
+                        <Text style={styles.subtitle}>{t("meditation.subTitle")}</Text>
                         <View style={styles.innercontainer}>
                             <View style={styles.ImageContainer}>
                                     <Pressable onPress={onPressMeditation}>
                                             <ImageBackground source={image1} resizeMode="cover" style={styles.image}>
-                                            <View style={styles.textContainer}><Text style={styles.dayText}>Meditate</Text></View>
+                                            <View style={styles.textContainer}><Text style={styles.dayText}>{t("meditation.meditate")}</Text></View>
                                             </ImageBackground>
                                     
                                     </Pressable>
@@ -62,7 +65,7 @@ const Meditation = (props) => {
                                     <Pressable onPress={onDeStress}>
                                         
                                             <ImageBackground source={image2} resizeMode="cover" style={styles.image}>
-                                            <View style={styles.textContainer}><Text style={styles.dayText}>De-Stress</Text></View>
+                                            <View style={styles.textContainer}><Text style={styles.dayText}>{t("meditation.deStress")}</Text></View>
                                             </ImageBackground>
                                     
                                     </Pressable>
@@ -72,7 +75,7 @@ const Meditation = (props) => {
                             <View style={styles.ImageContainer}>
                                     <Pressable>
                                             <ImageBackground source={image3} resizeMode="cover" style={styles.image}>
-                                            <View style={styles.textContainer}><Text style={styles.dayText}>Serenity</Text></View>
+                                            <View style={styles.textContainer}><Text style={styles.dayText}>{t("meditation.serenity")}</Text></View>
                                             </ImageBackground>
                                     
                                     </Pressable>
@@ -81,7 +84,7 @@ const Meditation = (props) => {
                                     <Pressable>
                                         
                                             <ImageBackground source={image4} resizeMode="cover" style={styles.image}>
-                                                    <View style={styles.textContainer}><Text style={styles.dayText}>Sleep On</Text></View>
+                                                    <View style={styles.textContainer}><Text style={styles.dayText}>{t("meditation.sleepOn")}</Text></View>
                                             </ImageBackground>
                                     
                                     </Pressable>

@@ -10,9 +10,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import HttpService from '../services/HttpService'
 import { useFonts, Pangolin_400Regular } from '@expo-google-fonts/pangolin';
 import {icon_suhrud, background} from '../assets';
+import { useTranslation } from 'react-i18next';
 
 
 const EditProfile = ({route}) => {
+
+    const { t, i18n } = useTranslation();
 
     let [fontsLoaded] = useFonts({ Pangolin_400Regular,});
     const [editable, setEditable] = useState(false);
@@ -187,7 +190,7 @@ const EditProfile = ({route}) => {
             {/**Name */}
                 <View>
                     <Text style={{ fontFamily: 'Pangolin_400Regular', fontSize:20}} className=" text-black ml-5">
-                        Name
+                        {t("editProfile.name")} 
                     </Text>
                     <View  className="mt-2 ml-5 mb-5 justify-center bg-white opacity-80 w-80 h-[44px] rounded-lg">
                         <TextInput 
@@ -202,7 +205,7 @@ const EditProfile = ({route}) => {
             {/**Email */}
                 <View>
                     <Text style={{ fontFamily: 'Pangolin_400Regular', fontSize:20 }} className=" text-black ml-5">
-                        Email
+                    {t("editProfile.email")} 
                     </Text>
                     <View  className="mt-2 ml-5 mb-5 justify-center  w-80 h-[44px]  bg-white opacity-80 rounded-lg">
                         <TextInput 
@@ -218,7 +221,7 @@ const EditProfile = ({route}) => {
             {/**Address */}
                 <View>
                     <Text style={{ fontFamily: 'Pangolin_400Regular', fontSize:20 }} className=" text-black ml-5">
-                        Address
+                        {t("editProfile.address")} 
                     </Text>
                     <View  className="mt-2 ml-5 mb-5 justify-center  w-80 h-[44px]  bg-white opacity-80 rounded-lg">
                         <TextInput 
@@ -234,7 +237,7 @@ const EditProfile = ({route}) => {
             {/**Phone number */}
                 <View>
                     <Text style={{ fontFamily: 'Pangolin_400Regular', fontSize:20 }} className=" text-black ml-5">
-                        Phone Number
+                        {t("editProfile.phoneNumber")} 
                     </Text>
                     <View  className="mt-2 ml-5 mb-5 justify-center  w-80 h-[44px]  bg-white opacity-80 rounded-lg">
                         <TextInput 
@@ -251,7 +254,7 @@ const EditProfile = ({route}) => {
             {/**DOB */}
                 <View>
                     <Text style={{ fontFamily: 'Pangolin_400Regular', fontSize:20 }} className=" text-black ml-5">
-                        Date of Birth
+                    {t("editProfile.dob")} 
                     </Text>
                     <View className="mt-2 ml-5 justify-center  w-80 h-[44px]  bg-white opacity-80 rounded-lg" >
                         <Pressable onPress={() => showMode("date")}>
@@ -282,7 +285,7 @@ const EditProfile = ({route}) => {
         <View className="flex justify-center items-center">
         <Pressable onPress={onPressSave}>
             <View className=" mb-20 ml-2 w-[150px] h-[41px] items-center justify-center rounded-lg bg-[#116fdf]">
-                <Text className=" text-white font-bold text-xl">Save Changes</Text>
+                <Text className=" text-white font-bold text-xl">{t("editProfile.saveBtn")} </Text>
             </View>
         </Pressable> 
         </View>      

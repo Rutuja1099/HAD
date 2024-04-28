@@ -136,6 +136,8 @@ export default function Login(props) {
                     <Picker.Item label="fr" value="fr" />
                     <Picker.Item label="hi" value="hi" />
                     <Picker.Item label="mr" value="mr" />
+                    <Picker.Item label="kn" value="kn" />
+                    <Picker.Item label="te" value="te" />
                     
                 </Picker>
             </View>

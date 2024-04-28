@@ -168,7 +168,7 @@ const Dashboard = () => {
                             <Feather name="arrow-right" size={24} color="black" onPress={navigateForum}/>
                         </View>
 
-                        <View className="flex flex-row px-4 py-3  bg-white opacity-80 rounded-3xl justify-between">
+                        <View className="flex flex-row px-4 py-3 bg-white opacity-80 rounded-3xl justify-between">
                             <TextInput 
                                 className=" w-72" 
                                 placeholder={t("dashboard.TypeQuestion")}
