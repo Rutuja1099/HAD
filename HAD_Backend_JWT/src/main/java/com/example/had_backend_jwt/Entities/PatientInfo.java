@@ -19,13 +19,10 @@ import java.util.Set;
 @Entity
 @Table(name = "patientInfo")
 public class PatientInfo {
-//<<<<<<< HEAD
-//=======
-//
-//>>>>>>> ecdde9d4edd2249240d5013e5a4932aac57c5e15
-@Id
-@GeneratedValue(strategy = GenerationType.IDENTITY)
-@Column(name = "ptRegNo")
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ptRegNo")
     private Integer ptRegNo;
 
     @Convert(converter = AttributeEncryptor.class)

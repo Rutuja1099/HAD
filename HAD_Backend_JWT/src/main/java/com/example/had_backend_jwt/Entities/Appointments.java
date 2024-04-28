@@ -21,12 +21,11 @@ public class Appointments {
     @Column(name="appointmentId")
     private Integer appointmentId;
 
-    @Convert(converter = AttributeEncryptor.class)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ptRegNo")
     private PatientInfo patientInfo;
 
-    @Convert(converter = AttributeEncryptor.class)
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "drId")
     private DoctorInfo drInfo;

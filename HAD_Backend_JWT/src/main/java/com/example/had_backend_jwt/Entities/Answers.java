@@ -6,8 +6,6 @@ import lombok.*;
 import java.util.List;
 
 @Entity
-//@Getter
-//@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -46,11 +44,6 @@ public class Answers {
     @OneToMany(mappedBy = "answers", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<FlagTableAnswerDoctor> flagTableAnswerDoctorList;
 
-//    @OneToMany(mappedBy = "answers", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-//    private List<FlagTableQuestionDoctor> flagTableQuestionDoctorList;
-//
-//    @OneToMany(mappedBy = "answers", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-//    private List<FlagTableQuestionPatient> flagTableQuestionPatientList;
 
     @OneToMany(mappedBy = "answers", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<UpVoteAnswerPatient> upVoteAnswerPatientList;
@@ -62,16 +55,4 @@ public class Answers {
     @Column(name="isDeleted")
     private Boolean isDeleted=false;
 
-//    public Answers(Integer answerId, Questions query, String answerContent, DoctorInfo drInfo, Integer upVote, Integer aflagCount, Boolean isEdited) {
-//        this.answerId = answerId;
-//        this.query = query;
-//        this.answerContent = answerContent;
-//        this.drInfo = drInfo;
-//        this.upVote = upVote;
-//        this.aflagCount = aflagCount;
-//        this.isEdited = isEdited;
-//    }
-//
-//    public Answers() {
-//    }
 }
