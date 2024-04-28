@@ -50,10 +50,6 @@ public class PatientAuthenticationService {
 
             PatientInfo patientInfo = PatientInfo.builder()
                     .ptFullname(request.getPtFullname())
-                    .ptPhone(request.getPtPhone())
-                    .ptAddr(request.getPtAddr())
-                    .ptDOB(request.getPtDOB())
-                    .ptGender(request.getPtGender())
                     .isPatientDeActivated(false)
                     .build();
 

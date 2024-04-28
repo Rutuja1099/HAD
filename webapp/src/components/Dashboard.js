@@ -1,4 +1,7 @@
-import React,{useState} from 'react';
+import React,{useEffect, useState} from 'react';
+import { useParams } from 'react-router-dom';
+import HttpService from '../services/HttpService';
+import webServerUrl from '../configurations/WebServer';
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -22,19 +25,61 @@ import {
 
 const Dashboard = () => {
 
-    const datas=[3, 1, 9, 10, 8, 11, 7];
+    const[sevType,setSevType] = useEffect([]);
+    const[countSev,setCountSev]=useEffect([]);
+    // /suhrud/doctor/doctorDashboardGraph
+    const DashboardURL=webServerUrl+`/suhrud/doctor/doctorDashboardGraph`;
+
+    useEffect(()=>{
+      dashboardGraph(DashboardURL);
+    },[]);
+
+    const dashboardGraph=async(DashboardURL)=>{
+      const method='GET';
+      const sessionData=JSON.parse(window.localStorage.getItem('Data'));
+      const bearerToken=sessionData.token;
+
+      const headers={
+        'Authorization': `Bearer ${bearerToken}`,
+        'Content-Type': 'application/json',
+      };
+
+      try{
+        const response=await HttpService(method,DashboardURL,null,headers);
+        console.log(response.status);
+        if(response.status==200){
+          const graphData=await response.data;
+          console.log(graphData);
+          setGraphData(graphData);
+        }
+      }catch(error){
+        console.log("error:");
+        console.log(error);
+      }
+    };
+
+    const setGraphData=(graphData)=>{
+      const sevT=graphData.map((item,index)=> `${item.severity}`);
+      setSevType(sevT);
+      const sevc=graphData.map(item => item.count);
+      setCountSev(sevc);
+    }
+
+    // const datas=[3, 1, 9, 10, 8, 11, 7];
+    const datas=countSev;
 
     const sum = datas.reduce((accumulator, currentValue) => {
       return accumulator + currentValue;
     }, 0);
 
-    const labels=Array.from({length:datas.length},(_,index)=>`Week ${index+1}`);
-    
+    // const labels=Array.from({length:datas.length},(_,index)=>`Week ${index+1}`);
+    const labels=sevType;
+
       const data = {
         labels: labels,
         datasets: [
           {
-            label: 'No. of Patients treated per Week',
+            label: 'Severity wise no. of Patients Treated',
             data: datas,
             backgroundColor: 'rgba(54, 162, 235, 0.3)',
             borderColor: 'rgba(54, 162, 235)',

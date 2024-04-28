@@ -116,9 +116,6 @@ public class PatientService {
                 return PatientProfileUpdation.builder()
                         .ptFullname(patientInfo.getPtFullname())
                         .ptEmail(patientLoginOptional.get().getPtEmail())
-                        .ptDOB(patientInfo.getPtDOB())
-                        .ptAddr(patientInfo.getPtAddr())
-                        .ptPhone(patientInfo.getPtPhone())
                         .message("Success")
                         .build();
             return PatientProfileUpdation.builder()
@@ -151,9 +148,6 @@ public class PatientService {
         if(patientInfoOptional.isPresent()){
             PatientInfo patientInfo=patientInfoOptional.get();
             patientInfo.setPtFullname(patientProfileUpdation.getPtFullname());
-            patientInfo.setPtDOB(patientProfileUpdation.getPtDOB());
-            patientInfo.setPtAddr(patientProfileUpdation.getPtAddr());
-            patientInfo.setPtPhone(patientProfileUpdation.getPtPhone());
             patientInfoRepository.save(patientInfo);
 
             Optional<PatientLogin> patientLoginOptional=patientLoginRepository.findById(ptRegNo);

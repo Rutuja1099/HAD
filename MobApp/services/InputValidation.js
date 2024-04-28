@@ -16,7 +16,7 @@ const validateLogin = ({ userName, password }) => {
   return true;
 };
 
-const validateSignup = ({ name, email, address, phoneNo, userName, gender, password,confirmPassword }) => {
+const validateSignup = ({ name, email, userName, password,confirmPassword }) => {
   if (!name.trim()) {
     alert('Please Enter your Name');
     return false;
@@ -29,29 +29,9 @@ const validateSignup = ({ name, email, address, phoneNo, userName, gender, passw
     alert('Email is Invalid');
     return false;
   }
-  if (!address.trim()) {
-    alert('Please Enter your address');
-    return false;
-  }
-  if (!phoneNo.trim()) {
-    alert('Please Enter Phone Number');
-    return false;
-  }
-
-  const phoneRegex = /^\d{10}$/;
-
-  if (!phoneRegex.test(phoneNo.trim())) {
-    alert('Phone number should be numeric and should contain 10 digits');
-    return false;
-  }
 
   if (!userName.trim()) {
     alert('Please Enter Username');
-    return false;
-  }
-
-  if (!gender.trim()) {
-    alert('Please Select Gender');
     return false;
   }
 
@@ -76,7 +56,7 @@ const validateSignup = ({ name, email, address, phoneNo, userName, gender, passw
     return false;
   }
   if(password!==confirmPassword){
-    alert('Password\'s do not match');
+    alert('Passwords do not match');
     return false;
   }
 
@@ -85,7 +65,7 @@ const validateSignup = ({ name, email, address, phoneNo, userName, gender, passw
 
 const LoginInputValidation = ({ userName, password }) => validateLogin({ userName, password });
 
-const SignupInputValidation = ({ name, email, address, phoneNo, userName, gender, password, confirmPassword }) =>
-  validateSignup({ name, email, address, phoneNo, userName, gender, password, confirmPassword });
+const SignupInputValidation = ({ name, email, userName, password, confirmPassword }) =>
+  validateSignup({ name, email, userName, password, confirmPassword });
 
 export { LoginInputValidation, SignupInputValidation };

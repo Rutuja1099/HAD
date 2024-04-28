@@ -40,9 +40,7 @@ public class DoctorService {
             doctorAppointmentsResponse.setSlot(appointment.getSlot());
             doctorAppointmentsResponse.setPtEmail(appointment.getPatientInfo().getPtLogin().getPtEmail());
             doctorAppointmentsResponse.setPtFullName(appointment.getPatientInfo().getPtFullname());
-            doctorAppointmentsResponse.setPtPhone(appointment.getPatientInfo().getPtPhone());
-            doctorAppointmentsResponse.setPtGender(appointment.getPatientInfo().getPtGender());
-            doctorAppointmentsResponse.setPtAddress(appointment.getPatientInfo().getPtAddr());
+            doctorAppointmentsResponse.setPtRegNo(appointment.getPatientInfo().getPtRegNo());
             responses.add(doctorAppointmentsResponse);
         }
         return responses;
@@ -116,6 +114,10 @@ public class DoctorService {
         PatientInfo patientInfo=patientInfoRepository.findPatientInfoByPtRegNo(id);
         if(patientInfo==null)
             return null;
+        detail.setFullname(patientInfo.getPtFullname());
+//        detail.setGender(patientInfo.getPtGender());
+//        detail.setPhone(patientInfo.getPtPhone());
+//        detail.setDob(patientInfo.getPtDOB());
 
         DoctorPatientMapping doctorPatientMapping=doctorPatientMappingRepository.findByPatientInfoPtRegNoAndDoctorInfo_DrId(id,drId);
         if(doctorPatientMapping!=null){

@@ -28,7 +28,6 @@ public class DoctorPatientMapping {
     @Column(name="chatId", unique = true)
     private Integer chatId;
 
-
     @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn(name = "drId", referencedColumnName = "drId")
     private DoctorInfo doctorInfo;

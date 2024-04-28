@@ -29,17 +29,17 @@ public class PatientInfo {
     @Column(name = "ptFullname", nullable = false, length = 50)
     private String ptFullname;
 
-    @Column(name = "ptPhone", nullable = false, length = 10)
-    private String ptPhone;
-
-    @Column(name = "ptAddr", nullable = false, length = 100)
-    private String ptAddr;
-
-    @Column(name = "ptDOB", nullable = false, length = 255)
-    private String ptDOB;
-
-    @Column(name = "ptGender", nullable = false)
-    private String ptGender;
+//    @Column(name = "ptPhone", nullable = false, length = 10)
+//    private String ptPhone;
+//
+//    @Column(name = "ptAddr", nullable = false, length = 100)
+//    private String ptAddr;
+//
+//    @Column(name = "ptDOB", nullable = false, length = 255)
+//    private String ptDOB;
+//
+//    @Column(name = "ptGender", nullable = false)
+//    private String ptGender;
 
     @OneToOne(mappedBy = "ptInfo",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonBackReference

@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, TextInput, ScrollView, View, ImageBackground, Image, Alert, Button, Modal } from 'react-native'
+import { Pressable, StyleSheet, Text, TextInput, ScrollView, View, ImageBackground, Image, Alert, Button, Modal} from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { StatusBar } from 'expo-status-bar'
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -11,6 +11,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFonts, Pangolin_400Regular } from '@expo-google-fonts/pangolin';
 import {icon_suhrud, background} from '../assets';
 import { Linking } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default function SignUp(props) {
 
@@ -21,14 +22,14 @@ export default function SignUp(props) {
   const [modalVisible, setModalVisible] = useState(false);
   const [accept, setAccept] = useState(false);
   const [isSecure, setIsSecure] = useState(true);
+  const [acceptCheckbox, setAcceptCheckbox] = useState(false);
 
   const toggleShowPassword = () => {
       setIsSecure(!isSecure);
   };
 
   const onPressSignUp = async () =>{
-    const isValid=SignupInputValidation({ name, email, address, phoneNo, userName, gender, password, confirmPassword })
-
+    const isValid=SignupInputValidation({ name, email, userName, password, confirmPassword })
     if(!isValid)
       return;
 
@@ -38,11 +39,7 @@ export default function SignUp(props) {
       ptUsername:userName,
       ptPassword:password,
       ptFullname:name,
-      ptPhone:phoneNo,
-      ptAddr: address,
-      ptDOB: date.toLocaleDateString(),
-      ptEmail: email,
-      ptGender:gender
+      ptEmail: email
     }
     
     try{
@@ -73,42 +70,45 @@ export default function SignUp(props) {
       }
   }
 
-  const maxDate = new Date();
-  maxDate.setFullYear(maxDate.getFullYear() - 18);
+  // const maxDate = new Date();
+  // maxDate.setFullYear(maxDate.getFullYear() - 18);
 
   const [email,setEmail]=useState('');
   const [name,setName]=useState('');
-  const [address,setAddress]=useState('');
-  const [phoneNo,setPhoneNo]=useState('');
-  const [date, setDate] = useState(maxDate);
+  // const [address,setAddress]=useState('');
+  // const [phoneNo,setPhoneNo]=useState('');
+  // const [date, setDate] = useState(maxDate);
   const [userName, setUserName]=useState('');
   const [password, setPassword]=useState('');
   const [confirmPassword, setConfirmPassword]=useState('');
-  const[mode,setMode]=useState("date");
-  const[show,setShow] =useState(false);
-  const [gender,setGender] =useState('Male');
+  // const[mode,setMode]=useState("date");
+  // const[show,setShow] =useState(false);
+  // const [gender,setGender] =useState('Male');
   
-  const onChangeDate = (e,selectedDate) => {
-    setDate(selectedDate);
-    setShow(false);
-  }
+  // const onChangeDate = (e,selectedDate) => {
+  //   setDate(selectedDate);
+  //   setShow(false);
+  // }
 
-  const showMode = (modeToShow) => {
-    setShow(true);
-    setMode(modeToShow);
-  }
+  // const showMode = (modeToShow) => {
+  //   setShow(true);
+  //   setMode(modeToShow);
+  // }
 
   const onAccept = () => {
     setAccept(true);
     setModalVisible(!modalVisible);
   }
 
+  const toggleCheckbox = () => {
+    setAcceptCheckbox(!acceptCheckbox);
+  };
 
   return (
     <ImageBackground source={background} style={styles.imagebackground}>
       <Image  style={styles.tinyLogo} source={icon_suhrud}/>
     <ScrollView contentContainerStyle={styles.containerContent} style={styles.container}>
-      <Text style={styles.title}>SIGN UP</Text>
+      <Text style={styles.title} className="p-4">SIGN UP</Text>
       <Text style={{color:'red'}}>Every field is Required*</Text>
       <ScrollView contentContainerStyle={styles.signContent} style={styles.signBox}>
         <View style={styles.inputView}>
@@ -127,35 +127,35 @@ export default function SignUp(props) {
             onChangeText={(text) => setEmail(text)}
           />
         </View>
-        <View style={styles.inputView}>
+        {/* <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
             placeholder='Address'
             placeholderTextColor="#003f5c"
             onChangeText={(text) => setAddress(text)}
           />
-        </View>
-        <View style={styles.inputView}>
+        </View> */}
+        {/* <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
             placeholder='Phone Number'
             placeholderTextColor="#003f5c"
             onChangeText={(text) => setPhoneNo(text)}
           />
-        </View>
-        <View style={styles.inputView}>
-        <Text style={styles.inputText} className="mt-8">
-                DOB: {date.toLocaleDateString()}
-                </Text>
-            <Pressable onPress={() => showMode('date')} style={styles.iconTouchableArea}>
-                <MaterialCommunityIcons
+        </View> */}
+        {/* <View style={styles.inputView}>
+          <Text style={styles.inputText} className="mt-8">
+                  DOB: {date.toLocaleDateString()}
+          </Text>
+          <Pressable onPress={() => showMode('date')} style={styles.iconTouchableArea}>
+            <MaterialCommunityIcons
                 name="calendar-month"
                 size={24}
                 color="black"
                 style={styles.calendarIcon}
-                />
-            </Pressable>
-            {show && (
+            />
+          </Pressable>
+          {show && (
                 <DateTimePicker
                 testID="dateTimePicker"
                 value={date}
@@ -166,9 +166,9 @@ export default function SignUp(props) {
                 maximumDate={maxDate}
                 minimumDate={new Date(1950, 0, 1)}
                 />
-            )}
-            </View>
-        <View style={styles.inputView}>
+          )}
+        </View> */}
+        {/* <View style={styles.inputView}>
           <Picker
             selectedValue={gender}
             onValueChange={(itemValue) => setGender(itemValue)}
@@ -179,7 +179,7 @@ export default function SignUp(props) {
             <Picker.Item label="Female" value="female" />
             <Picker.Item label="Other" value="other" />
           </Picker>
-        </View>
+        </View> */}
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
@@ -238,13 +238,26 @@ export default function SignUp(props) {
           </View>
         </View>
       </Modal>
+      <View style={{ flexDirection: 'row', alignItems: 'center' ,marginBottom:4}}>
+        <Pressable onPress={toggleCheckbox}>
+        {({ pressed }) => (
+          <Icon
+            name={acceptCheckbox ? 'check-square-o' : 'square-o'} // Example icon names
+            size={24}
+            style={{ marginRight:5 }}
+            color='blue'
+          />
+        )}
+        </Pressable>
+        <Text>I accept</Text>
           <Pressable style={{color: 'blue'}}
                 onPress={() => setModalVisible(true)}>
-          <Text style={{color:'blue'}}> Terms and Conditions</Text>
+            <Text style={{color:'blue'}}> Terms and Conditions</Text>
           </Pressable>
+        </View>
         <Pressable
             onPress={onPressSignUp}
-            disabled={!accept}
+            disabled={!accept || !acceptCheckbox}
             style={({pressed, disabled})=>[disabled ? styles.disabledButton : styles.signUpBtn,
                 {
                 transform: [{ scale: pressed ? 0.96 : 1 }],
@@ -252,7 +265,7 @@ export default function SignUp(props) {
             ]
           }
             >
-            <Text style={styles.signUp}>Sign Up</Text>
+            <Text style={styles.signUp} className="p-4">Sign Up</Text>
         </Pressable>
       </ScrollView>
     </ScrollView>
@@ -337,6 +350,8 @@ const styles = StyleSheet.create({
     color:'white',
     marginTop:5,
     fontFamily:'Pangolin_400Regular',
+    fontSize:22,
+    marginBottom:10,
   },
   picker: {
     width:'100%',
@@ -356,6 +371,9 @@ const styles = StyleSheet.create({
     borderRadius:15,
     padding:10, 
     backgroundColor:'#116fdf',
+    paddingTop:25,
+    paddingBottom:20,
+    marginTop:2,
   },
   disabledButton:{
     width:'40%',

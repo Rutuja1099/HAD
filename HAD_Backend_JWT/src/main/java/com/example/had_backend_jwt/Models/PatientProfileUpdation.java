@@ -11,9 +11,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PatientProfileUpdation {
     private String ptFullname;
-    private String ptAddr;
-    private String ptDOB;
-    private String ptPhone;
+//    private String ptAddr;
+//    private String ptDOB;
+//    private String ptPhone;
     private String ptEmail;
     private String message=null;
 }

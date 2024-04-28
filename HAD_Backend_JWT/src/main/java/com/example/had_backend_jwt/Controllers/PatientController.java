@@ -100,13 +100,6 @@ public class PatientController {
         patientService.chooseDoctor(httpServletRequest,request);
         return ResponseEntity.ok("Doctor has been chosen by patient");
     }
-    // @PostMapping("/fetchBookedDays")
-    // @PreAuthorize("hasAnyAuthority('Patient')")
-    // public ResponseEntity<BookedDaysResponse> fetchBookedDays(HttpServletRequest httpServletRequest,@RequestBody AppointmentBookingRequest request){
-    //    // System.out.println("Request body : "+request);
-    //     BookedDaysResponse bookedDays=patientService.fetchBookedDays(httpServletRequest,request);
-    //     return ResponseEntity.ok(bookedDays);
-    // }
 
     @PostMapping("/bookAppointment")
     @PreAuthorize("hasAuthority('Patient')")
@@ -208,17 +201,6 @@ public class PatientController {
             week.setAvgSeverity(p.getAvgSeverity());
             ans.add(0,week);
         }
-//        List<SeverityWeek> patientDashboardGraphData=new ArrayList<>();
-//        }
-//        int j=0;
-//        for(int i=ans.size()-1;i>=0 && j<4;i--,j++)
-//        {
-//            SeverityWeek week=new SeverityWeek();
-//            week.setWeek(ans.get(i).getWeek());
-//            week.setAvgSeverity(ans.get(i).getAvgSeverity());
-//            patientDashboardGraphData.add(0,week);
-//            j++;
-//        }
         return ResponseEntity.ok(ans.subList(Math.max(0,ans.size()-4),ans.size()));
     }
 

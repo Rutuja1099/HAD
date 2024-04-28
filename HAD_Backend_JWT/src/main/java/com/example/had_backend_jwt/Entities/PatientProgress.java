@@ -20,6 +20,7 @@ public class PatientProgress {
     @Column(name="currentDay")
     private int currentDay;
 
+//    @Convert(converter = AttributeEncryptor.class)
     @Column(name="severity")
     private int severity;
 
@@ -31,6 +32,7 @@ public class PatientProgress {
     @JoinColumn(name = "ptRegNo")
     private PatientInfo patientInfo;
 
+//    @Convert(converter = AttributeEncryptor.class)
     @Column(name="totalSeverity")
     private int totalSeverity;
 }

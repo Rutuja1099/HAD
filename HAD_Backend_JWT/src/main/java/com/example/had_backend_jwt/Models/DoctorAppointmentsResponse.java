@@ -13,8 +13,9 @@ public class DoctorAppointmentsResponse {
     private String ptFullName;
     private String Date;
     private Integer slot;
-    private String ptPhone;
-    private String ptGender;
+//    private String ptPhone;
+//    private String ptGender;
     private String ptEmail;
-    private String ptAddress;
+    //private String ptAddress;
+    private Integer ptRegNo;
 }

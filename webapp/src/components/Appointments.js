@@ -6,6 +6,7 @@ import { BsChevronCompactDown } from "react-icons/bs";
 import { BsChevronUp } from "react-icons/bs";
 import webServerUrl from "../configurations/WebServer";
 import HttpService from "../services/HttpService.js";
+import { Link, useNavigate } from "react-router-dom";
 
 const Appointments = () => {
     const [searchText, setSearchText] = useState('');
@@ -112,6 +113,12 @@ const Appointments = () => {
             await fetchAppointments(fetchPreviousAppointmentsURL);
     };
 
+    const navigate = useNavigate();
+
+    const goToPatientDetails = (ptRegNo) => {
+        navigate(`/PatientDetail/${ptRegNo}`);
+    }
+
     const renderAppointments = (appointmentDetails)=>{
         const hasContent=appointmentDetails.length>0;
         return (
@@ -181,15 +188,18 @@ const Appointments = () => {
              <>
              {/* Appointment details */}
              <div className="flex flex-grow justify-between mt-2 p-6 rounded-lg bg-[#D6EEFF]">
-               <div className="font-bold flex-grow text-sm">
+               
+               {/* <div className="font-bold flex-grow text-sm">
                  Gender: <span className='text-gray-600'>{appointment.ptGender}</span>
-               </div>
+               </div> */}
+
                {/* <div className="font-bold flex-grow text-sm">
                  Contact: <span className='text-gray-600'>{appointment.ptPhone}</span>
                </div>
                <div className="font-bold flex-grow text-sm">
                  Address: <span className='text-gray-600'>{appointment.ptAddress}</span>
                </div> */}
+
                <div className="font-bold flex-grow text-sm">
                  Email: <span className='text-gray-600'>{appointment.ptEmail}</span>
                </div>
@@ -200,7 +210,7 @@ const Appointments = () => {
                {/* <button className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-8 rounded-xl ml-10 mb-4 mr-auto text-center">
                 Accept
                </button> */}
-               <button className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-8 rounded-xl mr-10 mb-4 ml-auto">
+               <button className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-8 rounded-xl mr-10 mb-4 ml-auto" onClick={() => goToPatientDetails(appointment.ptRegNo)}>
                 More info
                </button>
              </div>
