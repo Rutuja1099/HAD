@@ -21,6 +21,7 @@ public class DoctorLogin {
     @JoinColumn(name = "drId", referencedColumnName = "drId")
     private DoctorInfo drInfo;
 
+    @Convert(converter = AttributeEncryptor.class)
     @Column(name="drEmail",nullable = false,unique = true)
     private String drEmail;
 

@@ -25,18 +25,15 @@ public class DoctorPatientMapping {
     @Column(name="userId")
     private Integer userId;
 
-
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="chatId", unique = true)
     private Integer chatId;
 
 
-    @Convert(converter = AttributeEncryptor.class)
     @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn(name = "drId", referencedColumnName = "drId")
     private DoctorInfo doctorInfo;
 
-    @Convert(converter = AttributeEncryptor.class)
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ptRegNo", referencedColumnName = "ptRegNo")
     private PatientInfo patientInfo;
