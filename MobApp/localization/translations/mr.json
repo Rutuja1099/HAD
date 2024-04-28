@@ -1,0 +1,23 @@
+{
+    "LOGIN_TITLE":"लॉगिन",
+    "language": "Marathi",
+    "screens": {
+        "intro": {
+            "title": "परिचय स्क्रीन",
+            "introText": "हा इंग्रजीतील परिचय मजकूर आहे",
+            "login": "लॉग इन करा",
+            "signup": "साइन अप करा"
+        },
+        "login": {
+            "title": "लॉग इन करा",
+            "login": "लॉग इन करा",
+            "username": "वापरकर्तानाव",
+            "emailAddress": "ईमेल पत्ता",
+            "password": "संकेतशब्द",
+            "loginbtn": "लॉगिन",
+            "forgotPassword": "संकेतशब्द विसरलात?",
+            "noAccount": "खाते नाहीत का? ",
+            "signup": "साइन अप करा"
+        }
+    }
+}

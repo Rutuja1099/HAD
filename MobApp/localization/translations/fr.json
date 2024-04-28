@@ -1,0 +1,23 @@
+{
+    "LOGIN_TITLE":"Connexion",
+    "language": "French",
+    "screens": {
+        "intro": {
+            "title": "Écran d'introduction",
+            "introText": "Ceci est le texte d'introduction en anglais",
+            "login": "Connexion",
+            "signup": "S'inscrire"
+        },
+        "login": {
+            "title": "Connexion",
+            "login": "Connexion",
+            "username": "Nom d'utilisateur",
+            "emailAddress": "Adresse e-mail",
+            "password": "Mot de passe",
+            "loginbtn": "Connexion",
+            "forgotPassword": "Mot de passe oublié?",
+            "noAccount": "Vous n'avez pas de compte? ",
+            "signup": "S'inscrire"
+        }
+    }
+}

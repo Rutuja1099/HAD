@@ -4,9 +4,13 @@ import NavigationBar from '../components/NavigationBar'
 import { useNavigation } from '@react-navigation/native';
 import {icon_suhrud, background} from '../assets';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { useTranslation } from 'react-i18next';
 
 
 const SecurityPrivacy = () => {
+
+  const { t, i18n } = useTranslation();
+
   const navigation = useNavigation();
   const handleSecurityPrivacy = (screenName) => {
     navigation.navigate(screenName);
@@ -22,17 +26,17 @@ const SecurityPrivacy = () => {
       <View className="flex flex-row mt-12 mx-5 items-center pb-4">
         <Icon name="angle-left" size={30} onPress={navigateback}/>
             
-        <Text className = "font-bold text-lg ml-6 text-center" >Security and Privacy</Text>
+        <Text className = "font-bold text-lg ml-6 text-center" >{t("securityPrivacy.security")}</Text>
       </View>
       <View className="flex-1">
         <Pressable onPress={() => handleSecurityPrivacy('Password Manager')}>
           <View className="mt-10 ml-5 mb-5 justify-center w-[348px] h-[80px] shadow-lg bg-white rounded-3xl">
-                <Text style={{ fontFamily: 'System' }} className="ml-10 text-xl text-black ">Password Manager</Text>
+                <Text style={{ fontFamily: 'System' }} className="ml-10 text-xl text-black ">{t("securityPrivacy.passwordManager")}</Text>
           </View>
         </Pressable>
         <Pressable onPress={() => handleSecurityPrivacy('PrivacyNotice')}>
           <View className="mt-4 ml-5 mb-5 justify-center w-[348px] h-[80px] shadow-lg bg-white rounded-3xl">
-                <Text style={{ fontFamily: 'System' }} className="ml-10 text-xl text-black ">Privacy Notice</Text>
+                <Text style={{ fontFamily: 'System' }} className="ml-10 text-xl text-black ">{t("securityPrivacy.privacyNotice")}</Text>
           </View>
         </Pressable>
       </View>

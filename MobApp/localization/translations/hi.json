@@ -1,0 +1,23 @@
+{
+    "LOGIN_TITLE":"लॉगिन",
+    "language": "Hindi",
+    "screens": {
+        "intro": {
+            "title": "परिचय स्क्रीन",
+            "introText": "यह अंग्रेजी में परिचय पाठ है",
+            "login": "लॉग इन करें",
+            "signup": "साइन अप करें"
+        },
+        "login": {
+            "title": "लॉग इन करें",
+            "login": "लॉग इन करें",
+            "username": "उपयोगकर्ता नाम",
+            "emailAddress": "ईमेल पता",
+            "password": "पासवर्ड",
+            "loginbtn": "लॉगिन",
+            "forgotPassword": "पासवर्ड भूल गए?",
+            "noAccount": "खाता नहीं है? ",
+            "signup": "साइन अप करें"
+        }
+    }
+}

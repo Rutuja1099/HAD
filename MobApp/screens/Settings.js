@@ -8,8 +8,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import HttpService from '../services/HttpService'
 import { useFonts, Pangolin_400Regular } from '@expo-google-fonts/pangolin';
 import {icon_suhrud, background} from '../assets';
+import { useTranslation } from 'react-i18next'
 
 const Settings = () => {
+
+    const { t, i18n } = useTranslation();
 
     let [fontsLoaded] = useFonts({ Pangolin_400Regular,});
     const navigation=useNavigation();

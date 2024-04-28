@@ -1,0 +1,96 @@
+{
+    "LOGIN_TITLE":"Login",
+    "language": "English",
+    "intro": {
+        "title": "Intro Screen",
+        "introText": "This is the intro text in english",
+        "login": "Log In",
+        "signup": "SignUp"
+    
+    },
+    "login": {
+        "title": "Log in",
+        "login": "Log In",
+        "username": "User name",
+        "emailAddress": "Email address",
+        "password": "Password",
+        "loginbtn": "Login",
+        "forgotPassword": "Forgotten password?",
+        "noAccount": "Do not have an Account? ",
+        "signup": "SignUp"
+    },
+    "dashboard": {
+        "hello": "Hello",
+        "welcomeMessage": "Weclome to our safe space",
+        "seekingHelp": "Seeking help?",
+        "bookAppointment": "Book Appointment",
+        "askExperts": "Ask our experts",
+        "TypeQuestion": "Type your question",
+        "patientProgress": "Patient Progress",
+        "jokeText": "Jokes to lighten up your mood..."
+    },
+    "settings": {
+        "hi": "Hi ",
+        "editProfile": "Edit Profile",
+        "securityAndPrivacy": "Security and Privacy",
+        "logOut": "Log out",
+        "deleteAccount": "Delete Account"
+    },
+    "signUp": {
+        "signUp": "SIGN UP",
+        "fieldRequired": "Every field is Required*",
+        "fullName": "Full Name",
+        "emailId": "Email Id",
+        "address": "Address",
+        "phoneNumber": "Phone Number",
+        "dob": "DOB:",
+        "selectGender": "Select your gender",
+        "male": "Male",
+        "female": "Female",
+        "other": "Other",
+        "usernameLength": "Username (min length 4)",
+        "passwordLength": "Password (min length 6)",
+        "confirmPassword": "Confirm Password",
+        "modalClose": "Modal has been closed.",
+        "privacyPolicy": "Our Privacy Policy",
+        "privacyPolicy1": "We will collect your data for Personal details, usage data, and insights into your mental health.",
+        "privacyPolicy2": "To personalize your experience, improve our services, and enhance treatment outcomes.",
+        "privacyPolicy3": "We may share it with service providers or for legal compliance.",
+        "acceptBtn": "I accept",
+        "termsConditions": "Terms and Conditions",
+        "signUpBtn": "Sign Up"
+    },
+
+    "week": {
+        "week1": "Week 1",
+        "week2": "Week 2",
+        "week3": "Week 3",
+        "week4": "Week 4",
+        "week5": "Week 5"
+
+    },
+
+    "day": {
+        "day1": "Day 1",
+        "day2": "Day 2",
+        "day3": "Day 3"
+    },
+
+    "questionnaire": {
+        "hey": "hey",
+        "subTitle": "We are here for you",
+        "continue": "Continue",
+        "next": "Next",
+        "option1": "Not at all",
+        "option2": "Several Days",
+        "option3": "More than half the days",
+        "option4": "Nearly every day"
+
+    },
+
+    "securityPrivacy": {
+        "security": "Security and Privacy",
+        "passwordManager": "Password Manager",
+        "privacyNotice": "Privacy Notice"
+    }
+}

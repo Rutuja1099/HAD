@@ -29,6 +29,8 @@ import MeditationPage from "./screens/MeditationPage";
 import EmergencyContact from "./screens/EmergencyContact";
 import AnswerQnA from "./screens/AnswerQnA";
 import Destress from "./screens/Destress";
+import './localization/i18n';
+
 
 NativeWindStyleSheet.setOutput({
   default: "native",
@@ -38,12 +40,13 @@ const Stack = createNativeStackNavigator();
 
 
 export default function App() {
+
   return (
     
     <NavigationContainer>
 
       {/* <Stack.Navigator>
-      <Stack.Screen name="Dashboard" component={Dashboard} /> */}
+      <Stack.Screen name="SecurityPrivacy" component={SecurityPrivacy} options={{headerShown: false,}}/> */}
 
       <Stack.Navigator initialRouteName="Login" >
       

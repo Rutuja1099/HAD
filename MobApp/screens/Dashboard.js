@@ -12,7 +12,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import webServerUrl from '../configurations/WebServer';
 import HttpService from '../services/HttpService';
 
+import { useTranslation } from "react-i18next";
+
 const Dashboard = () => {
+    
+    const { t, i18n } = useTranslation();
 
     const [username, setUserName] = useState("");
     const [newMessage, setNewMessage] = useState('');
@@ -123,8 +127,8 @@ const Dashboard = () => {
                         <View className='flex flex-row justify-items-start'>
                             <Image  style={styles.tinyLogo} source={icon_suhrud}/>
                             <View className='flex flex-col ml-2'>
-                                <Text style={styles.title}>Hello {username} </Text>
-                                <Text style={styles.inputText}>Weclome to our safe space</Text>
+                                <Text style={styles.title}>{t("dashboard.hello")} {username} </Text>
+                                <Text style={styles.inputText}>{t("dashboard.welcomeMessage")}</Text>
                             </View>
                         </View>
                         <View className="flex flex-row justify-center items-center">
@@ -142,7 +146,7 @@ const Dashboard = () => {
                         
                         <Image source={therapy} style={styles.therapy}/>
                         <View className="flex flex-row px-2 bg-white opacity-80 rounded-3xl items-center justify-between p-2">
-                        <Text className="pl-5" style={styles.pickerText}>Seeking help?</Text>   
+                        <Text className="pl-5" style={styles.pickerText}>{t("dashboard.seekingHelp")}</Text>   
                         <Pressable
                             onPress={navigateAppointment}
                             style={({pressed})=>[styles.signUpBtn,
@@ -152,7 +156,7 @@ const Dashboard = () => {
                                 }
                             ]}
                             >
-                            <Text style={styles.signUp}>Book Appointment</Text>
+                            <Text style={styles.signUp}>{t("dashboard.bookAppointment")}</Text>
                         </Pressable>               
                         </View>
                     </View>
@@ -160,14 +164,14 @@ const Dashboard = () => {
                     <View className = "flex flex-col mt-5">
 
                         <View className = "flex flex-row justify-between mb-2">
-                            <Text style={styles.pickerText}>Ask our experts</Text>
+                            <Text style={styles.pickerText}>{t("dashboard.askExperts")}</Text>
                             <Feather name="arrow-right" size={24} color="black" onPress={navigateForum}/>
                         </View>
 
                         <View className="flex flex-row px-4 py-3  bg-white opacity-80 rounded-3xl justify-between">
                             <TextInput 
                                 className=" w-72" 
-                                placeholder="Type your question"
+                                placeholder={t("dashboard.TypeQuestion")}
                                 value={newMessage}
                                 onChangeText={text => setNewMessage(text)}
                             />
@@ -187,7 +191,7 @@ const Dashboard = () => {
                     <View className = "flex flex-col p-4 ">
 
                         <View className="mb-4">
-                            <Text style={styles.pickerText}>Patient Progress</Text>
+                            <Text style={styles.pickerText}>{t("dashboard.patientProgress")}</Text>
                         </View>
 
                         <View className="flex flex-row">
@@ -207,7 +211,7 @@ const Dashboard = () => {
                     <View className="flex flex-row px-4 py-3 items-center justify-between">
                         
                         <View className="mt-1">
-                            <Text style={styles.pickerText}>Jokes to lighten up your mood...</Text>
+                            <Text style={styles.pickerText}>{t("dashboard.jokeText")}</Text>
                         </View>
 
                     </View>
