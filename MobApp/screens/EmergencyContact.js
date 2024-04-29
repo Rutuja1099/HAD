@@ -5,8 +5,11 @@ import NavigationBar from '../components/NavigationBar';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
 import {icon_suhrud, background} from '../assets';
+import { useTranslation } from 'react-i18next';
 
 const EmergencyContact = () => {
+
+  const { t, i18n } = useTranslation();
 
   const navigation = useNavigation();
   
@@ -20,24 +23,24 @@ const EmergencyContact = () => {
     <View className="flex flex-row mt-12 mx-5 items-center pb-4">
         <Icon name="angle-left" size={30} onPress={navigateback}/>
             
-        <Text className = "font-bold text-lg ml-6 text-center" >Emergency Contacts</Text>
+        <Text className = "font-bold text-lg ml-6 text-center" >{t("emergencyContacts.title")}</Text>
       </View>
       <View className="flex-1 text-black pt-50 p-4 mt-20 ml-5 mr-5 mb-4 shadow-lg rounded-lg justify-center items-center">
         <ScrollView>
           <Text style={{ fontFamily: 'System'}} className="text-lg mt-2">
-            We are here to help you!
+            {t("emergencyContacts.subTitle")}
           </Text>
 
           <View className="flex-col">
             <View className="flex-row gap-4 mt-4 ml-2">
               <Feather name="phone-call" size={24} color="black" />
               <Text style={{ fontFamily: 'System'}} className="text-lg">
-                +91 8026995000  
+                {t("emergencyContacts.number1")}
               </Text>
             </View>
             <View className="flex-row gap-4 ml-2">
             <Text style={{ fontFamily: 'System'}} className=" text-base font-bold">
-                Suhrud Call Center 24x7
+              {t("emergencyContacts.heading1")}
               </Text>
             </View>
           </View>
@@ -47,12 +50,12 @@ const EmergencyContact = () => {
             <View className="flex-row gap-4 mt-4 ml-2">
               <Feather name="phone-call" size={24} color="black" />
               <Text style={{ fontFamily: 'System'}} className="text-lg">
-                +91 8111995000  
+                {t("emergencyContacts.number2")}
               </Text>
             </View>
             <View className="flex-row gap-4 ml-2">
             <Text style={{ fontFamily: 'System'}} className=" text-base font-bold">
-                Your Dost
+              {t("emergencyContacts.heading2")}
               </Text>
             </View>
           </View>
@@ -61,12 +64,12 @@ const EmergencyContact = () => {
             <View className="flex-row gap-4 mt-4 ml-2">
               <Feather name="phone-call" size={24} color="black" />
               <Text style={{ fontFamily: 'System'}} className="text-lg">
-                +91 8666655555 
+                {t("emergencyContacts.number3")} 
               </Text>
             </View>
             <View className="flex-row gap-4 ml-2">
             <Text style={{ fontFamily: 'System'}} className=" text-base font-bold">
-                Benarsen Mental Health Care 24x7
+              {t("emergencyContacts.heading3")}
               </Text>
             </View>
           </View>

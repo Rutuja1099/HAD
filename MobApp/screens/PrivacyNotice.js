@@ -4,9 +4,12 @@ import NavigationBar from '../components/NavigationBar';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
 import {icon_suhrud, background} from '../assets';
+import { useTranslation } from 'react-i18next';
 
 
 const PrivacyNotice = () => {
+
+  const { t, i18n } = useTranslation();
 
   const navigation = useNavigation();
   
@@ -20,42 +23,43 @@ const PrivacyNotice = () => {
       <View className="flex flex-row mt-12 mx-5 items-center pb-4">
         <Icon name="angle-left" size={30} onPress={navigateback}/>
             
-        <Text className = "font-bold text-lg ml-6 text-center" >Privacy Notice</Text>
+        <Text className = "font-bold text-lg ml-6 text-center" >{t("privacyNotice.title")}</Text>
       </View>
 
       <View className="flex-1 text-black pt-2 p-4 mt-4 ml-5 mr-5 mb-4 shadow-lg rounded-lg">
         <ScrollView>
           <Text style={{ fontFamily: 'System'}} className="text-lg">
-            Your privacy matters. Here's a summary of how we handle your data:
+            {t("privacyNotice.subTitle")}
           </Text>
           <Text style={{ fontFamily: 'System'}} className="text-lg font-bold mt-2">
-            What We Collect:
+            {t("privacyNotice.heading1")}
           </Text>
           <Text style={{ fontFamily: 'System'}} className="text-lg">
-            Personal details, usage data, and insights into your mental health.
+            {t("privacyNotice.para1")}
           </Text>
           <Text style={{ fontFamily: 'System'}} className="text-lg font-bold mt-2">
-            How We Use Your Data:
+            {t("privacyNotice.heading2")}
           </Text>
           <Text style={{ fontFamily: 'System'}} className="text-lg">
-            To personalize your experience, improve our services, and enhance treatment outcomes.
+            {t("privacyNotice.para2")}
           </Text>
           <Text style={{ fontFamily: 'System'}} className="text-lg font-bold mt-2">
-              Data Sharing:
+            {t("privacyNotice.heading3")}
           </Text>
           <Text style={{ fontFamily: 'System'}} className="text-lg">
-            We do not sell your data. We may share it with service providers or for legal compliance.      </Text>
-          <Text style={{ fontFamily: 'System'}} className="text-lg font-bold mt-2">
-            Your Rights:
-          </Text>
-          <Text style={{ fontFamily: 'System'}} className="text-lg">
-            Access, modify, or delete your data. By using our app, you consent to our privacy practices.
+            {t("privacyNotice.para3")}
           </Text>
           <Text style={{ fontFamily: 'System'}} className="text-lg font-bold mt-2">
-            Contact Us:
+            {t("privacyNotice.heading4")}
           </Text>
           <Text style={{ fontFamily: 'System'}} className="text-lg">
-            If you have any questions or concerns about your privacy, please reach out to us.
+            {t("privacyNotice.para4")}
+          </Text>
+          <Text style={{ fontFamily: 'System'}} className="text-lg font-bold mt-2">
+            {t("privacyNotice.heading5")}
+          </Text>
+          <Text style={{ fontFamily: 'System'}} className="text-lg">
+          {t("privacyNotice.para5")}
           </Text>
         </ScrollView>
       </View>

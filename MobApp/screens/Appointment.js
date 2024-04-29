@@ -8,9 +8,12 @@ import HttpService from '../services/HttpService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFonts, Pangolin_400Regular } from '@expo-google-fonts/pangolin';
 import {icon_suhrud, background} from '../assets';
+import { useTranslation } from "react-i18next";
 
 const Appointment = ({route}) => {
     
+    const { t, i18n } = useTranslation();
+
     const [searchText, setSearchText] = useState('');
     const [searchResults, setSearchResults] = useState([]);
     let [fontsLoaded] = useFonts({
@@ -125,11 +128,11 @@ const Appointment = ({route}) => {
                 {/* <Icon name="angle-left" size={25}/> */}
          
                 <Text className="flex text-xl font-semibold ml-2">
-                    Suggested Doctors
+                    {t("appointment.suggestDoctor")}
                 </Text>
             </View>
             <SafeAreaView className="mr-0">
-                <Text onPress={() => navigateDashboard()} className="text-center rounded-xl bg-white w-full p-1">Skip</Text>
+                <Text onPress={() => navigateDashboard()} className="text-center rounded-xl bg-white w-full p-1">{t("appointment.skip")}</Text>
             </SafeAreaView>
            
         </SafeAreaView>
@@ -154,7 +157,7 @@ const Appointment = ({route}) => {
 
                 <TextInput
                     className="flex-auto bg-white p-2 rounded-2xl ml-2 mr-2"
-                    placeholder="Search"
+                    placeholder={t("appointment.search")}
                     value={searchText}
                     onChangeText={handleSearch}
                     // onSubmitEditing={showResults}

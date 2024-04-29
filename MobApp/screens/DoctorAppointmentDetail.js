@@ -9,9 +9,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { useFonts, Pangolin_400Regular } from '@expo-google-fonts/pangolin';
 import {icon_suhrud, background} from '../assets';
+import { useTranslation } from "react-i18next";
 
 
 const DoctorAppointmentDetails=({route})=>{
+
+    const { t, i18n } = useTranslation();
 
     let [fontsLoaded] = useFonts({ Pangolin_400Regular,});
    
@@ -383,7 +386,8 @@ const DoctorAppointmentDetails=({route})=>{
                 <View className="self-center mt-4">
                 <Icon name="angle-left"  size={25} onPress={navigateback}/>
                 </View>
-                <Text className = "font-bold text-lg ml-4 mt-4 text-center" >Doctor's Profile</Text>
+                <Text className = "font-bold text-lg ml-4 mt-4 text-center" >{t("appointmentDetails.title")}</Text>
+
             
             </View>
             <View className="flex">
@@ -403,7 +407,7 @@ const DoctorAppointmentDetails=({route})=>{
                     {/* <View className = "flex-grow overflow-scroll"> */}
                     <View className=" bg-white rounded-3xl mt-24">
                      <Text className="flex self-end pr-4 text-lg font-semibold ml-8 mt-4 text-left" size={25}>{currentMonth}</Text>
-                    <Text className=" text-lg font-semibold ml-4 mt-4" size={25}>Date :</Text>
+                    <Text className=" text-lg font-semibold ml-4 mt-4" size={25}>{t("appointmentDetails.date")} :</Text>
                     <View className="flex flex-row flex-wrap ml-3 mb-5">
                         {/* Map over the chunkedDays array to create rows with three elements each */}
                         {/* {Days.map((row, rowIndex) => ( */}
@@ -442,7 +446,7 @@ const DoctorAppointmentDetails=({route})=>{
                             
                             {/* ))} */}
                     </View>
-                    <Text className=" text-lg font-semibold ml-4" size={25}>Time :</Text>
+                    <Text className=" text-lg font-semibold ml-4" size={25}>{t("appointmentDetails.time")} :</Text>
                     <View className="flex flex-row flex-wrap w-1/5 ml-5">
                         {/* Map over the chunkedDays array to create rows with three elements each */}
                         {chunkedSlots.map((row, rowIndex) => (
@@ -475,7 +479,7 @@ const DoctorAppointmentDetails=({route})=>{
                         <View className={`flex-grow relative bottom-0 left-0 right-0 p-4 mt-2 bg-blue-500 px-0 py-4 rounded-3xl w-full ${pressedSlot==null ? 'opacity-50':''}`}> 
                                 {/* <TouchableOpacity onPress={nextQuestion} className={`bg-blue-500 px-0 py-4 rounded-md w-full ${selectedOption === null ? 'opacity-50' : ''}`} disabled={selectedOption === null}> */}
                                     <Text className="text-white text-center font-bold">
-                                        Schedule Appointment
+                                    {t("appointmentDetails.scheduleBtn")}
                                     </Text>
                                 {/* </TouchableOpacity> */}
                         </View>

@@ -8,8 +8,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import HttpService from '../services/HttpService'
 import { useFonts, Pangolin_400Regular } from '@expo-google-fonts/pangolin';
 import {icon_suhrud, background} from '../assets';
+import { useTranslation } from 'react-i18next'
 
 const Settings = () => {
+
+    const { t, i18n } = useTranslation();
 
     let [fontsLoaded] = useFonts({ Pangolin_400Regular,});
     const navigation=useNavigation();
@@ -20,7 +23,7 @@ const Settings = () => {
         const fetchUsername=async()=>{
             const sessionData = await AsyncStorage.getItem('patientData');
             const localData=JSON.parse(sessionData);
-            setUserName("Hi "+localData.ptUsername+"!!");
+            setUserName(`${t("settings.hi")}` +" "+localData.ptUsername+"!!");
         };
         fetchUsername();
 
@@ -128,24 +131,24 @@ const Settings = () => {
     const menuItems = [
         {
             menuItemImage: securityImage,
-            menuItemName: "Security and Privacy",
+            menuItemName: `${t("settings.securityAndPrivacy")}`,
             imageWidth: 25,
             imageHeight: 25,
             navigateTo: "SecurityPrivacy"
         },
         {
             menuItemImage: logoutImage,
-            menuItemName: "Log out",
+            menuItemName: `${t("settings.logOut")}`,
             imageWidth: 23,
             imageHeight: 23,
             navigateTo: "Logout"
         },
         {
             menuItemImage: trashImage,
-            menuItemName: "Delete Account",
+            menuItemName: `${t("settings.deleteAccount")}`,
             imageWidth: 24,
             imageWidth: 24,
-            navigateTo: "Account Deletion"
+            navigateTo: `${t("settings.deleteAccount")}`
         },
     ];
 
@@ -185,7 +188,7 @@ const Settings = () => {
                                     </View>
                                     <View style={styles.textContainer}>
                                         <Text style={styles.text}>
-                                            Edit profile
+                                            {t("settings.editProfile")} 
                                         </Text> 
                                     </View>
                                 </View>

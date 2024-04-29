@@ -1,0 +1,226 @@
+{
+    "LOGIN_TITLE":"Login",
+    "language": "English",
+    "intro": {
+        "title": "Intro Screen",
+        "introText": "This is the intro text in english",
+        "login": "Log In",
+        "signup": "SignUp"
+    
+    },
+    "login": {
+        "title": "Log in",
+        "login": "Log In",
+        "username": "User name",
+        "emailAddress": "Email address",
+        "password": "Password",
+        "loginbtn": "Login",
+        "forgotPassword": "Forgotten password?",
+        "noAccount": "Do not have an Account? ",
+        "signup": "SignUp"
+    },
+    "dashboard": {
+        "hello": "Hello",
+        "welcomeMessage": "Weclome to our safe space",
+        "seekingHelp": "Seeking help?",
+        "bookAppointment": "Book Appointment",
+        "askExperts": "Ask our experts",
+        "TypeQuestion": "Type your question",
+        "patientProgress": "Patient Progress",
+        "jokeText": "Jokes to lighten up your mood..."
+    },
+    "settings": {
+        "hi": "Hi",
+        "editProfile": "Edit Profile",
+        "securityAndPrivacy": "Security and Privacy",
+        "logOut": "Log out",
+        "deleteAccount": "Delete Account"
+    },
+    "signUp": {
+        "signUp": "SIGN UP",
+        "fieldRequired": "Every field is Required*",
+        "fullName": "Full Name",
+        "emailId": "Email Id",
+        "address": "Address",
+        "phoneNumber": "Phone Number",
+        "dob": "DOB:",
+        "selectGender": "Select your gender",
+        "male": "Male",
+        "female": "Female",
+        "other": "Other",
+        "usernameLength": "Username (min length 4)",
+        "passwordLength": "Password (min length 6)",
+        "confirmPassword": "Confirm Password",
+        "modalClose": "Modal has been closed.",
+        "privacyPolicy": "Our Privacy Policy",
+        "privacyPolicy1": "We will collect your data for Personal details, usage data, and insights into your mental health.",
+        "privacyPolicy2": "To personalize your experience, improve our services, and enhance treatment outcomes.",
+        "privacyPolicy3": "We may share it with service providers or for legal compliance.",
+        "acceptBtn": "I accept",
+        "termsConditions": "Terms and Conditions",
+        "signUpBtn": "Sign Up"
+    },
+
+    "week": {
+        "week1": "Week 1",
+        "week2": "Week 2",
+        "week3": "Week 3",
+        "week4": "Week 4",
+        "week5": "Week 5"
+
+    },
+
+    "day": {
+        "day1": "Day 1",
+        "day2": "Day 2",
+        "day3": "Day 3"
+    },
+
+    "questionnaire": {
+        "hey": "hey",
+        "subTitle": "We are here for you",
+        "continue": "Continue",
+        "next": "Next",
+        "option1": "Not at all",
+        "option2": "Several Days",
+        "option3": "More than half the days",
+        "option4": "Nearly every day"
+
+    },
+
+    "securityPrivacy": {
+        "security": "Security and Privacy",
+        "passwordManager": "Password Manager",
+        "privacyNotice": "Privacy Notice"
+    },
+
+    "appointment": {
+        "suggestDoctor": "Suggested Doctors",
+        "skip": "Skip",
+        "search": "Search"
+    },
+
+    "appointmentBox": {
+        "gender": "Gender",
+        "experience": "Experience",
+        "search": "Search",
+        "chooseBtn": "Choose Doctor",
+        "bookBtn": "Book Appointment"
+    },
+
+    "appointmentDetails": {
+        "title": "Doctor's Profile",
+        "date": "Date",
+        "time": "Time",
+        "scheduleBtn": "Schedule Appointment"
+    },
+
+    "changePassword":{
+        "title": "Change Password",
+        "fieldRequired": "Every field is Required*",
+        "username": "Username (sent on mail)",
+        "password": "Password (sent on mail)",
+        "passwordLength": "Password (min length 6)",
+        "confirmPassword": "Confirm Password",
+        "changeBtn": "Change"
+    },
+
+    "passwordManager":{
+        "title": "Change Password",
+        "currentPassword": "Current Password",
+        "newPassword": "New Password",
+        "confirmPassword": "Confirm New Password",
+        "changeBtn": "Change Password"
+    },
+
+    "editProfile": {
+        "name": "Name",
+        "email": "Email",
+        "address": "Address",
+        "phoneNumber": "Phone Number",
+        "dob": "Date of Birth",
+        "saveBtn": "Save Changes"
+    },
+
+    "privacyNotice": {
+        "title": "Privacy Notice",
+         "subTitle": "Your privacy matters. Here's a summary of how we handle your data:",
+         "heading1": "What We Collect:",
+         "heading2": "How We Use Your Data:",
+         "heading3": "Data Sharing:",
+         "heading4": "Your Rights:",
+         "heading5": "Contact Us:",
+         "para1": "Personal details, usage data, and insights into your mental health.",
+         "para2": "To personalize your experience, improve our services, and enhance treatment outcomes.",
+         "para3": "We do not sell your data. We may share it with service providers or for legal compliance.",
+         "para4": "Access, modify, or delete your data. By using our app, you consent to our privacy practices.",
+         "para5": "If you have any questions or concerns about your privacy, please reach out to us."
+
+    },
+
+    "chatList": {
+        "title": "Chats",
+        "search": "Search"
+    },
+
+    "chat": {
+        "type": "Type a message..."
+    },
+
+    "forgotPassword": {
+        "enterEmailError": "Please Enter Email",
+        "emailInvalid": "Email is Invalid",
+        "checkEmail": "Please check Email",
+        "forId": "for id and password",
+        "forgotPassword": "Forgot Password",
+        "emailId": "Email Id",
+        "enterEmail": "Please enter registered email id",
+        "send": "Send"
+    },
+
+    "emergencyContacts":{
+        "title": "Emergency Contacts",
+        "subTitle": "We are here to help you!",
+        "number1": "+91 8026995000",
+        "heading1": "Suhrud Call Center 24x7",
+        "number2": "+91 8111995000",
+        "heading2": "Your Dost",
+        "number3": "+91 8666655555",
+        "heading3": "Benarsen Mental Health Care 24x7"
+    },
+
+    "moodLift": {
+        "title": "Your space ! ",
+        "subTitle": "Sit back, Calm down and let us help you...",
+        "meditation": "Meditation",
+        "seeMore": "See more..",
+        "laughText": "Have a laugh",
+        "motivationText": "Motivation Pump",
+        "relaxation": "Relaxation",
+        "satisfying": "Oddly Satisfying"
+    },
+
+    "meditation": {
+        "title": "Your space ! ",
+        "subTitle": "What do you wish to do?",
+        "meditate": "Meditate",
+        "deStress": "De-Stress",
+        "serenity": "Serenity",
+        "sleepOn": "Sleep On"
+    },
+
+    "meditationPage": {
+        "title": "Relax and Meditate..",
+        "subTitle": "What is Meditation?",
+        "paraLine1": "Meditation can be defined as a set of techniques that are intended to encourage a heightened state of awareness and focused attention.",
+        "paraLine2": "Meditation is also a consciousness-changing technique shown to have many benefits on psychological well-being",
+        "heading1": "Know the steps",
+        "step1": "1. Choose a quite spot.",
+        "step2": "2. Play the video above.",
+        "step3": "3. Pay attention towards your breathing.",
+        "step4": "4. Notice your thoughts.",
+        "step5": "5. You may set a timer."
+    }
+
+
+}

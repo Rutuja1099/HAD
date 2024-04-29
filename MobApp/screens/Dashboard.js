@@ -15,12 +15,18 @@ import {
     LineChart
   } from "react-native-chart-kit";
 
+import { useTranslation } from "react-i18next";
+
 const Dashboard = () => {
+    
+    const { t, i18n } = useTranslation();
 
     const [username, setUserName] = useState("");
     
     const [severity, setSeverity]=useState([]);
     const [week,setWeek]=useState([]);
+    const [newMessage, setNewMessage] = useState('');
+
 
     useEffect(()=>{
         const fetchUsername=async()=>{
@@ -124,6 +130,52 @@ const Dashboard = () => {
     const avgWithTwoDecimals = avg.toFixed(2);
     console.log(avgWithTwoDecimals);
 
+    const postQuestion = async () => {
+
+        const loginURL = webServerUrl+`/suhrud/forum/postQuestion?question=${newMessage}`;
+    
+            const method='POST';
+    
+            const data = newMessage;
+    
+            try{
+    
+              const sessionData = await AsyncStorage.getItem('patientData');
+              const parsedSessionData = JSON.parse(sessionData);
+      
+              const bearerToken = parsedSessionData.token;
+    
+                console.log("bearer token: ", bearerToken);
+    
+                const headers = {
+                    'Authorization': `Bearer ${bearerToken}`, // Include your token here
+                    'Content-Type': 'text/plain', // Specify the content type if needed
+                };
+                const response=await HttpService(method, loginURL, data, headers);
+                console.log(response.status)
+                
+                if(response.status===200){
+                        
+                    console.log("Successful");
+                    console.log(response.data);
+                }
+                
+                else{
+                    alert("response not 200");
+                }
+            }
+            catch(error){
+                alert(error.data);
+                console.log(error);
+            }
+      };
+
+    const handleSend = () => {
+        if (newMessage.trim() === '') return;
+    
+        postQuestion();
+        setNewMessage('');
+    };
 
     return(
         <>
@@ -136,8 +188,8 @@ const Dashboard = () => {
                         <View className='flex flex-row justify-items-start'>
                             <Image  style={styles.tinyLogo} source={icon_suhrud}/>
                             <View className='flex flex-col ml-2'>
-                                <Text style={styles.title}>Hello {username} </Text>
-                                <Text style={styles.inputText}>Weclome to our safe space</Text>
+                                <Text style={styles.title}>{t("dashboard.hello")} {username} </Text>
+                                <Text style={styles.inputText}>{t("dashboard.welcomeMessage")}</Text>
                             </View>
                         </View>
                         <View className="flex flex-row justify-center items-center">
@@ -155,7 +207,7 @@ const Dashboard = () => {
                         
                         <Image source={therapy} style={styles.therapy}/>
                         <View className="flex flex-row px-2 bg-white opacity-80 rounded-3xl items-center justify-between p-2">
-                        <Text className="pl-5" style={styles.pickerText}>Seeking help?</Text>   
+                        <Text className="pl-5" style={styles.pickerText}>{t("dashboard.seekingHelp")}</Text>   
                         <Pressable
                             onPress={navigateAppointment}
                             style={({pressed})=>[styles.signUpBtn,
@@ -165,7 +217,7 @@ const Dashboard = () => {
                                 }
                             ]}
                             >
-                            <Text style={styles.signUp}>Book Appointment</Text>
+                            <Text style={styles.signUp}>{t("dashboard.bookAppointment")}</Text>
                         </Pressable>               
                         </View>
                     </View>
@@ -173,13 +225,23 @@ const Dashboard = () => {
                     <View className = "flex flex-col mt-5">
 
                         <View className = "flex flex-row justify-between mb-2">
-                            <Text style={styles.pickerText}>Ask our experts</Text>
+                            <Text style={styles.pickerText}>{t("dashboard.askExperts")}</Text>
                             <Feather name="arrow-right" size={24} color="black" onPress={navigateForum}/>
                         </View>
 
-                        <View className="flex flex-row px-4 py-3  bg-white opacity-80 rounded-3xl justify-between">
-                            <TextInput className=" w-72" placeholder="Type your question"/>
-                            <MaterialIcons  name="send" size={24} color="black"/>                          
+                        <View className="flex flex-row px-4 py-3 bg-white opacity-80 rounded-3xl justify-between">
+                            <TextInput 
+                                className=" w-72" 
+                                placeholder={t("dashboard.TypeQuestion")}
+                                value={newMessage}
+                                onChangeText={text => setNewMessage(text)}
+                            />
+                            <MaterialIcons  
+                                name="send" 
+                                size={24} 
+                                color="black"
+                                onPress={() => handleSend()}
+                            />                          
                         </View>
                         
                     </View>
@@ -187,7 +249,7 @@ const Dashboard = () => {
                     <View className = "flex flex-col p-4 ">
 
                         <View className="mb-4">
-                            <Text style={styles.pickerText}>Patient Progress</Text>
+                            <Text style={styles.pickerText}>{t("dashboard.patientProgress")}</Text>
                         </View>
 
                         <View className="flex flex-row">
@@ -247,7 +309,7 @@ const Dashboard = () => {
                     <View className="flex flex-row px-4 py-3 items-center justify-between">
                         
                         <View className="mt-1">
-                            <Text style={styles.pickerText}>Jokes to lighten up your mood...</Text>
+                            <Text style={styles.pickerText}>{t("dashboard.jokeText")}</Text>
                         </View>
 
                     </View>

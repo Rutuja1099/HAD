@@ -22,5 +22,9 @@ public interface AnswersRepository extends JpaRepository<Answers, Integer> {
     List<Answers> getAllByOrderByUpVoteDesc();
 
     List<Answers> findAnswersByDrInfo(DoctorInfo doctorInfo);
+
+    @Query(value = "SELECT * FROM answers WHERE isDeleted = false",nativeQuery = true)
+    List<Answers> AnswersList(@Param("qId") Integer qId);
+
 }
 

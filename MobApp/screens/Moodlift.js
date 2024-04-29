@@ -6,11 +6,14 @@ import YoutubePlayer from 'react-native-youtube-iframe';
 import NavigationBar from "../components/NavigationBar";
 import { Icon } from "react-native-vector-icons/FontAwesome";
 import { useFonts, Pangolin_400Regular } from '@expo-google-fonts/pangolin';
+import { useTranslation } from "react-i18next";
 
 
 
 
 const Moodlift = (props) => {
+
+  const { t, i18n } = useTranslation();
 
     const navigation = useNavigation();
     
@@ -33,9 +36,9 @@ const Moodlift = (props) => {
   
     let [videoUrl, setVideoUrl] = useState("inpok4MKVLM");
     const [videod, setVideoId] = useState([
-      {title:"Meditation", item: "inpok4MKVLM" },
-      {title:"Relaxation", item: "4m8RxRMhMSw" },
-      {title:"Oddly Satisfying", item: "TTXcHEMfLb4" },
+      {title:`${t("moodLift.motivationText")}`, item: "inpok4MKVLM" },
+      {title:`${t("moodLift.relaxation")}`, item: "4m8RxRMhMSw" },
+      {title:`${t("moodLift.satisfying")}`, item: "TTXcHEMfLb4" },
     ]);
     const onSelectType = (item) => {
       console.log(item);
@@ -117,11 +120,11 @@ const Moodlift = (props) => {
                 <View className = "p-4 flex-row items-center">
                     {/* <Icon name="angle-left" color="grey" size={25} onPress={()=>navigateback()}/> */}
                     <Text style={styles.title}>
-                      Your space ! 
+                    {t("moodLift.title")} 
                     </Text>
                 </View>
                 <Text style={styles.subtitle}>
-                  Sit back, Calm down and let us help you... 
+                  {t("moodLift.subTitle")} 
                 </Text>
    
                 <View className=" bg-slate-50 bg-opacity-60 max-w-m rounded overflow-hidden shadow-lg text-black pt-2 p-2 mt-10 ml-0 mr-0 mb-0 border-solid border-slate-950">
@@ -149,7 +152,7 @@ const Moodlift = (props) => {
                                   width={320}    key={videoUrl} play={playing} videoId={videoUrl}/>
                   <View className='flex items-end mt-2'>
                       <Pressable onPress={()=> onPressMore()}>
-                          <Text style={styles.linkText}>See more..</Text>
+                          <Text style={styles.linkText}>{t("moodLift.seeMore")}</Text>
                       </Pressable>
                   </View>
                 </View>
@@ -158,10 +161,10 @@ const Moodlift = (props) => {
                 <View className='flex-col mt-10'>
                   <View className='flex flex-row p-3 justify-evenly'>
                     <Pressable style={styles.taskButton}  onPress={()=>getJokes('Jokes')}>
-                      <Text style={styles.text}>Have a laugh</Text>
+                      <Text style={styles.text}>{t("moodLift.laughText")}</Text>
                     </Pressable>
                     <Pressable style={styles.taskButton} onPress={()=>getMotivation('Motivation')} >         
-                      <Text style={styles.text}>Motivation Pump</Text>
+                      <Text style={styles.text}>{t("moodLift.motivationText")}</Text>
                     </Pressable>
                   </View>
                     <View className='bg-white bg-blend-hue flex flex-row justify-center items-center p-5 max-w-md mt-10 h-1/2 border-2 border-dotted border-red-400'> 

@@ -11,9 +11,9 @@ const DeleteModal = ({openDeleteBox, setOpenDeletBox, id, content }) => {
     const handleDeleteConfirm = async (id) => {
 
 
-            const loginURL = webServerUrl+`/suhrud/forum/deleteAnswer/${id}`;
+            const loginURL = webServerUrl+`/suhrud/forum/disableAnswer?answerId=${id}`;
             
-            const method='DELETE';
+            const method='PUT';
             
             // const data = {
             //     doctorID: doctorId

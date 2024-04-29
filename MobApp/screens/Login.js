@@ -9,13 +9,18 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { useFonts, Pangolin_400Regular } from '@expo-google-fonts/pangolin';
 import {icon_suhrud, background} from '../assets';
-
+import { useTranslation } from 'react-i18next';
+import { Picker } from '@react-native-picker/picker'; 
+import STORE_LANGUAGE_KEY from '../configurations/Multilingual';
 
 export default function Login(props) {
     
+    const { t, i18n } = useTranslation();
+
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
     const [isSecure, setIsSecure] = useState(true);
+    const [selectedLanguage, setSelectedLanguage] = useState('en');
 
     const navigation = useNavigation();
     let [fontsLoaded] = useFonts({
@@ -90,17 +95,63 @@ export default function Login(props) {
         props.navigation.navigate("SignUp");
     }
 
+    useEffect(() => {
+        const retrieveLanguage = async () => {
+            try {
+                const lang = await AsyncStorage.getItem(STORE_LANGUAGE_KEY);
+                if (lang) {
+                    i18n.changeLanguage(lang);
+                    setSelectedLanguage(lang);
+                }
+            } catch (error) {
+                console.log("Error retrieving language:", error);
+            }
+        };
+        retrieveLanguage();
+    }, []);
+
+
+    const handleLanguageChange = async (lang) => {
+        try {
+            await AsyncStorage.setItem(STORE_LANGUAGE_KEY, lang);
+            setSelectedLanguage(lang);
+            i18n.changeLanguage(lang);
+        } catch (error) {
+            console.log("Error saving language:", error);
+        }
+    };
+
+
     return (
     <ImageBackground source={background} style={styles.imagebackground}>
+        <View style={styles.languageDropdown}>
+            <View style={styles.dropdownContainer}>
+                <Picker
+                    selectedValue={selectedLanguage}
+                    style={styles.dropdown}
+                    onValueChange={(itemValue) => handleLanguageChange(itemValue)}
+                >
+                    <Picker.Item label="en" value="en" />
+                    <Picker.Item label="fr" value="fr" />
+                    <Picker.Item label="hi" value="hi" />
+                    <Picker.Item label="mr" value="mr" />
+                    <Picker.Item label="kn" value="kn" />
+                    <Picker.Item label="te" value="te" />
+                    
+                </Picker>
+            </View>
+        </View>
     <ScrollView contentContainerStyle={styles.containerContent} style={styles.container}>
     <ScrollView contentContainerStyle={styles.logContent} style={styles.logbox}>    
+
         <Image  style={styles.tinyLogo} source={icon_suhrud}/>
-            <Text style={styles.title}>Log In</Text>
+            <Text style={styles.title}>{t("login.login")}</Text>
       
         <View style={styles.inputView}>
+            
             <TextInput
                 style={styles.inputText}
-                placeholder='User Name'
+                placeholder={t("login.username")}
                 placeholderTextColor="#003f5c"
                 onChangeText={(text) => setUserName(text)}
             />
@@ -109,7 +160,7 @@ export default function Login(props) {
             <TextInput
                 style={styles.inputText}
                 secureTextEntry={isSecure}
-                placeholder='Password'
+                placeholder={t("login.password")}
                 placeholderTextColor="#003f5c"
                 onChangeText={(text) => setPassword(text)}
             />
@@ -132,18 +183,19 @@ export default function Login(props) {
                 // transform: [{ scale: pressed ? 0.96 : 1 }],
                 }
             ]}>
-            <Text style={styles.loginText}>Login</Text>
+            <Text style={styles.loginText}>{t("login.loginbtn")}</Text>
         </Pressable>
         <Pressable onPress={onPressForgotPassword}>
-            <Text style={styles.forgot}>Forgot Password?</Text>
+            <Text style={styles.forgot}>{t("login.forgotPassword")}</Text>
         </Pressable>
         <View className='flex flex-row'>
-        <Text style={styles.inputSignUp}>Do not have an Account?  </Text>
+        <Text style={styles.inputSignUp}>{t("login.noAccount")}</Text>
         <Pressable
             onPress={onPressSignUp}>
-            <Text style={styles.inputSignUp}>SignUp</Text>
+            <Text style={styles.inputSignUp}>{t("login.signup")}</Text>
         </Pressable>
         </View>
+
       </ScrollView>
       
     </ScrollView>
@@ -249,5 +301,22 @@ const styles = StyleSheet.create({
         alignItems:'center',
         justifyContent:'center',
         fontFamily:'Pangolin_400Regular',  
+    },
+    languageDropdown: {
+        position: 'absolute',
+        top: 15,
+        right: 15,
+        zIndex: 1,
+    },
+
+    dropdownContainer: {
+        borderWidth: 1,
+        borderColor: '#fff',
+        borderRadius: 5,
+    },
+    dropdown: {
+        height: 20,
+        width: 40,
+        color: 'black',
     },
 })

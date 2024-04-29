@@ -1,17 +1,21 @@
 import React, { useState, useRef } from 'react';
 import { Pressable, Animated, Text, View, StyleSheet, Image, ScrollView, Dimensions } from 'react-native';
 import {progImage,smileysImage} from '../assets';
+import { useTranslation } from 'react-i18next';
 
 const { width } = Dimensions.get('window').width;
 const height = 320;
 export default function Week(props) {
+    
+    const { t, i18n } = useTranslation();
+  
     let week;
     const [items, setItems] = useState([
-      { item: "Week 1" },
-      { item: "Week 2" },
-      { item: "Week 3" },
-      { item: "Week 4" },
-      { item: "Week 5" },
+      { item: `${t("week.week1")}` },
+      { item: `${t("week.week2")}` },
+      { item: `${t("week.week3")}` },
+      { item: `${t("week.week4")}` },
+      { item: `${t("week.week5")}` },
     ]);
     
     const onPressWeek = (item) => {

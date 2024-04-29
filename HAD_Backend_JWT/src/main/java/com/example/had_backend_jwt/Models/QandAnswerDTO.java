@@ -14,14 +14,24 @@ public class QandAnswerDTO {
     private boolean isFlagged;
     private boolean isUpvoted;
 
+    private boolean isDeleted;
 
-    public QandAnswerDTO(Integer answerId, Integer upVote, String answerContent, String doctorName, boolean isFlagged, boolean isUpvoted) {
+    public QandAnswerDTO(Integer answerId, Integer upVote, String answerContent, String doctorName, boolean isFlagged, boolean isUpvoted, boolean isDeleted) {
         this.answerId = answerId;
         this.upVote = upVote;
         this.answerContent = answerContent;
         this.doctorName = doctorName;
         this.isFlagged = isFlagged;
         this.isUpvoted = isUpvoted;
+        this.isDeleted = isDeleted;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
     }
 
     public boolean isUpvoted() {

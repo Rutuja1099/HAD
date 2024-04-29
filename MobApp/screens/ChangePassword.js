@@ -10,6 +10,9 @@ import { useFonts, Pangolin_400Regular } from '@expo-google-fonts/pangolin';
 import {icon_suhrud, background} from '../assets';
 
 export default function ChangePassword(props) {
+
+    const { t, i18n } = useTranslation();
+
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
     const [generatedPassword,setGeneratedPassword]=useState('');
@@ -73,6 +76,7 @@ export default function ChangePassword(props) {
       }
 
     }
+
     return (
       <ImageBackground source={background} style={styles.imagebackground}>
       <ScrollView contentContainerStyle={styles.containerContent}
@@ -80,14 +84,14 @@ export default function ChangePassword(props) {
           
         <StatusBar style='auto'/>
         <Image  style={styles.tinyLogo} source={icon_suhrud}/>
-        <Text style={styles.title}>Change Password</Text>
-        <Text style={{color:'red'}}>Every field is Required*</Text>
+        <Text style={styles.title}>{t("changePassword.title")}</Text>
+        <Text style={{color:'red'}}>{t("changePassword.fieldRequired")}</Text>
         <ScrollView contentContainerStyle={styles.logContent}
         style={styles.logbox}>
           <View style={styles.inputView}>
                 <TextInput
                     style={styles.inputText}
-                    placeholder='Username (sent on mail)'
+                    placeholder={t("changePassword.username")}
                     placeholderTextColor="#003f5c"
                     onChangeText={(text) => setUserName(text)}
                 />
@@ -96,7 +100,7 @@ export default function ChangePassword(props) {
             <TextInput
                 style={styles.inputText}
                 secureTextEntry
-                placeholder='Password (sent on mail)'
+                placeholder={t("changePassword.password")}
                 placeholderTextColor="#003f5c"
                 onChangeText={(text) => setGeneratedPassword(text)}
             />
@@ -105,7 +109,7 @@ export default function ChangePassword(props) {
             <TextInput
                 style={styles.inputText}
                 secureTextEntry
-                placeholder='Password (min length 6)'
+                placeholder={t("changePassword.passwordLength")}
                 placeholderTextColor="#003f5c"
                 onChangeText={(text) => setPassword(text)}
             />
@@ -114,7 +118,7 @@ export default function ChangePassword(props) {
             <TextInput
                 style={styles.inputText}
                 secureTextEntry={isSecure}
-                placeholder='Confirm Password'
+                placeholder={t("changePassword.confirmPassword")}
                 placeholderTextColor="#003f5c"
                 onChangeText={(text) => setConfirmPassword(text)}
             />
@@ -137,7 +141,7 @@ export default function ChangePassword(props) {
                   }
               ]}
               >
-              <Text style={styles.loginText}>Change</Text>
+              <Text style={styles.loginText}>{t("changePassword.changeBtn")}</Text>
           </Pressable>
         </ScrollView>
         

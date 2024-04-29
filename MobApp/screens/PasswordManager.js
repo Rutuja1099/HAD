@@ -8,10 +8,14 @@ import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import {icon_suhrud, background} from '../assets';
+import { useTranslation } from 'react-i18next';
 
 
 
 const PasswordManager = () => {
+
+    const { t, i18n } = useTranslation();
+
     const [currentPassword, onChangeCurrentPassword] = useState('');
     const [newPassword, onChangeNewPassword] = useState('');
     const [confirmPassword, onChangeConfirmPassword] = useState('');
@@ -139,7 +143,7 @@ const PasswordManager = () => {
       <View className="flex flex-row mt-12 mx-5 items-center pb-4">
         <Icon name="angle-left" size={30} onPress={navigateback}/>
             
-        <Text className = "font-bold text-lg ml-6 text-center" >Change password</Text>
+        <Text className = "font-bold text-lg ml-6 text-center" >{t("passwordManager.title")}</Text>
       </View>
 
         <ScrollView>
@@ -152,7 +156,7 @@ const PasswordManager = () => {
                                 onChangeText={onChangeCurrentPassword}
                                 value={currentPassword}    
                                 secureTextEntry={isSecure1}  
-                                placeholder='Current Password'             
+                                placeholder={t("passwordManager.currentPassword")}             
                             />
 
                             <Pressable 
@@ -178,7 +182,7 @@ const PasswordManager = () => {
                                 onChangeText={onChangeNewPassword}
                                 value={newPassword}    
                                 secureTextEntry={isSecure2}
-                                placeholder='New Password'               
+                                placeholder={t("passwordManager.newPassword")}             
                             />
 
                             <Pressable 
@@ -205,7 +209,7 @@ const PasswordManager = () => {
                                 onChangeText={onChangeConfirmPassword}
                                 value={confirmPassword}    
                                 secureTextEntry={isSecure3}     
-                                placeholder='Confirm New Password'          
+                                placeholder={t("passwordManager.confirmPassword")}          
                             />
                             <Pressable 
                                 onPress={toggleShowNewPasswordConfirm}
@@ -222,7 +226,7 @@ const PasswordManager = () => {
             </View>
             <Pressable onPress={() => onPressChangePassword()}>
                 <View className="mt-4 mb-4 mx-10 h-[41px] items-center justify-center rounded-3xl bg-[#3C3FFF]">
-                    <Text className=" text-white font-bold text-xl">Change Password</Text>
+                    <Text className=" text-white font-bold text-xl">{t("passwordManager.changeBtn")} </Text>
                 </View>
             </Pressable> 
         </ScrollView>    

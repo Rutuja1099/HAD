@@ -1,0 +1,202 @@
+{
+    "LOGIN_TITLE": "Connexion",
+    "language": "français",
+    "intro": {
+        "title": "Écran d'introduction",
+        "introText": "Ceci est le texte d'introduction en anglais",
+        "login": "Se connecter",
+        "signup": "S'inscrire"
+    },
+    "login": {
+        "title": "Connexion",
+        "login": "Se connecter",
+        "username": "Nom d'utilisateur",
+        "emailAddress": "Adresse e-mail",
+        "password": "Mot de passe",
+        "loginbtn": "Se connecter",
+        "forgotPassword": "Mot de passe oublié?",
+        "noAccount": "Pas de compte? ",
+        "signup": "S'inscrire"
+    },
+    "dashboard": {
+        "hello": "Bonjour",
+        "welcomeMessage": "Bienvenue dans notre espace sécurisé",
+        "seekingHelp": "Besoin d'aide?",
+        "bookAppointment": "Prendre un rendez-vous",
+        "askExperts": "Demandez à nos experts",
+        "TypeQuestion": "Tapez votre question",
+        "patientProgress": "Progrès du patient",
+        "jokeText": "Blagues pour vous remonter le moral..."
+    },
+    "settings": {
+        "hi": "Bonjour",
+        "editProfile": "Modifier le profil",
+        "securityAndPrivacy": "Sécurité et confidentialité",
+        "logOut": "Se déconnecter",
+        "deleteAccount": "Supprimer le compte"
+    },
+    "signUp": {
+        "signUp": "S'INSCRIRE",
+        "fieldRequired": "Champ obligatoire*",
+        "fullName": "Nom complet",
+        "emailId": "Identifiant e-mail",
+        "address": "Adresse",
+        "phoneNumber": "Numéro de téléphone",
+        "dob": "Date de naissance:",
+        "selectGender": "Sélectionnez votre sexe",
+        "male": "Homme",
+        "female": "Femme",
+        "other": "Autre",
+        "usernameLength": "Nom d'utilisateur (longueur minimale 4)",
+        "passwordLength": "Mot de passe (longueur minimale 6)",
+        "confirmPassword": "Confirmez le mot de passe",
+        "modalClose": "La fenêtre modale a été fermée.",
+        "privacyPolicy": "Notre politique de confidentialité",
+        "privacyPolicy1": "Nous collecterons vos données pour les détails personnels, les données d'utilisation et les informations sur votre santé mentale.",
+        "privacyPolicy2": "Pour personnaliser votre expérience, améliorer nos services et améliorer les résultats du traitement.",
+        "privacyPolicy3": "Nous pouvons le partager avec des prestataires de services ou pour la conformité légale.",
+        "acceptBtn": "J'accepte",
+        "termsConditions": "Termes et conditions",
+        "signUpBtn": "S'inscrire"
+    },
+    "week": {
+        "week1": "Semaine 1",
+        "week2": "Semaine 2",
+        "week3": "Semaine 3",
+        "week4": "Semaine 4",
+        "week5": "Semaine 5"
+    },
+    "day": {
+        "day1": "Jour 1",
+        "day2": "Jour 2",
+        "day3": "Jour 3"
+    },
+    "questionnaire": {
+        "hey": "Hé",
+        "subTitle": "Nous sommes là pour vous",
+        "continue": "Continuer",
+        "next": "Suivant",
+        "option1": "Pas du tout",
+        "option2": "Plusieurs jours",
+        "option3": "Plus de la moitié des jours",
+        "option4": "Presque tous les jours"
+    },
+    "securityPrivacy": {
+        "security": "Sécurité et confidentialité",
+        "passwordManager": "Gestionnaire de mots de passe",
+        "privacyNotice": "Avis de confidentialité"
+    },
+    "appointment": {
+        "suggestDoctor": "Médecins suggérés",
+        "skip": "Passer",
+        "search": "Chercher"
+    },
+    "appointmentBox": {
+        "gender": "Genre",
+        "experience": "Expérience",
+        "search": "Chercher",
+        "chooseBtn": "Choisir un médecin",
+        "bookBtn": "Prendre rendez-vous"
+    },
+    "appointmentDetails": {
+        "title": "Profil du médecin",
+        "date": "Date",
+        "time": "Heure",
+        "scheduleBtn": "Planifier un rendez-vous"
+    },
+    "changePassword": {
+        "title": "Changer le mot de passe",
+        "fieldRequired": "Champ obligatoire*",
+        "username": "Nom d'utilisateur (envoyé par e-mail)",
+        "password": "Mot de passe (envoyé par e-mail)",
+        "passwordLength": "Mot de passe (longueur minimale 6)",
+        "confirmPassword": "Confirmez le mot de passe",
+        "changeBtn": "Changer"
+    },
+    "passwordManager": {
+        "title": "Changer le mot de passe",
+        "currentPassword": "Mot de passe actuel",
+        "newPassword": "Nouveau mot de passe",
+        "confirmPassword": "Confirmez le nouveau mot de passe",
+        "changeBtn": "Changer le mot de passe"
+    },
+    "editProfile": {
+        "name": "Nom",
+        "email": "E-mail",
+        "address": "Adresse",
+        "phoneNumber": "Numéro de téléphone",
+        "dob": "Date de naissance",
+        "saveBtn": "Enregistrer les modifications"
+    },
+    "privacyNotice": {
+        "title": "Avis de confidentialité",
+        "subTitle": "Votre vie privée compte. Voici un résumé de la manière dont nous traitons vos données :",
+        "heading1": "Ce que nous collectons :",
+        "heading2": "Comment nous utilisons vos données :",
+        "heading3": "Partage de données :",
+        "heading4": "Vos droits :",
+        "heading5": "Contactez-nous :",
+        "para1": "Détails personnels, données d'utilisation et informations sur votre santé mentale.",
+        "para2": "Pour personnaliser votre expérience, améliorer nos services et améliorer les résultats du traitement.",
+        "para3": "Nous ne vendons pas vos données. Nous pouvons les partager avec des prestataires de services ou pour respecter la législation.",
+        "para4": "Accédez, modifiez ou supprimez vos données. En utilisant notre application, vous consentez à nos pratiques en matière de confidentialité.",
+        "para5": "Si vous avez des questions ou des préoccupations concernant votre vie privée, veuillez nous contacter."
+    },
+    "chatList": {
+        "title": "Chats",
+        "search": "Chercher"
+    },
+    "chat": {
+        "type": "Tapez un message..."
+    },
+    "forgotPassword": {
+        "enterEmailError": "Veuillez saisir l'e-mail",
+        "emailInvalid": "L'e-mail est invalide",
+        "checkEmail": "Veuillez vérifier l'e-mail",
+        "forId": "pour l'identifiant et le mot de passe",
+        "forgotPassword": "Mot de passe oublié",
+        "emailId": "Identifiant e-mail",
+        "enterEmail": "Veuillez saisir l'identifiant e-mail enregistré",
+        "send": "Envoyer"
+    },
+    "emergencyContacts": {
+        "title": "Contacts d'urgence",
+        "subTitle": "Nous sommes là pour vous aider!",
+        "number1": "+91 8026995000",
+        "heading1": "Centre d'appels Suhrud 24x7",
+        "number2": "+91 8111995000",
+        "heading2": "Votre Dost",
+        "number3": "+91 8666655555",
+        "heading3": "Benarsen Soins de santé mentale 24x7"
+    },
+    "moodLift": {
+        "title": "Votre espace!",
+        "subTitle": "Asseyez-vous, détendez-vous et laissez-nous vous aider...",
+        "meditation": "Méditation",
+        "seeMore": "Voir plus..",
+        "laughText": "Rire",
+        "motivationText": "Pompe de motivation",
+        "relaxation": "Détente",
+        "satisfying": "Satisfaisant"
+    },
+    "meditation": {
+        "title": "Votre espace!",
+        "subTitle": "Que voulez-vous faire?",
+        "meditate": "Méditer",
+        "deStress": "Déstresser",
+        "serenity": "Sérénité",
+        "sleepOn": "Dormir sur"
+    },
+    "meditationPage": {
+        "title": "Détendez-vous et méditez..",
+        "subTitle": "Qu'est-ce que la méditation?",
+        "paraLine1": "La méditation peut être définie comme un ensemble de techniques destinées à encourager un état de conscience accrue et une attention concentrée.",
+        "paraLine2": "La méditation est également une technique de changement de conscience qui a de nombreux avantages sur le bien-être psychologique.",
+        "heading1": "Connaissez les étapes",
+        "step1": "1. Choisissez un endroit calme.",
+        "step2": "2. Jouez la vidéo ci-dessus.",
+        "step3": "3. Portez attention à votre respiration.",
+        "step4": "4. Remarquez vos pensées.",
+        "step5": "5. Vous pouvez définir une minuterie."
+    }
+}

@@ -9,8 +9,11 @@ import webServerUrl from '../configurations/WebServer';
 import HttpService from '../services/HttpService';
 
 import {image1} from "../assets";
+import { useTranslation } from "react-i18next";
 
 const ChatList = () => {
+
+    const { t, i18n } = useTranslation();
 
     //the text in the search bar
     const [searchText, setSearchText] = useState('');
@@ -182,7 +185,7 @@ const ChatList = () => {
             {/* top view box with all conversations name*/}
             <View className = "justify-center items-center m-2">
                 <Text className="text-2xl">
-                    Chats
+                {t("chatList.title")} 
                 </Text>
             </View>
             
@@ -212,7 +215,8 @@ const ChatList = () => {
                             
                             <TextInput
                                 className="flex-auto bg-gray-100 p-2 rounded-lg"
-                                placeholder="Search"
+                                placeholder={t("chatList.search")} 
+
                                 value={searchText}
                                 onChangeText={handleSearch}
                                 // onSubmitEditing={showResults}

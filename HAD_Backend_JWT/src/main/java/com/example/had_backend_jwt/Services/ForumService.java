@@ -128,6 +128,28 @@ public class ForumService {
 //        }
 //        return answer;
 //    }
+//    public List<QandAnswerDoctorDTO> getAnswerDoctor(Questions question) {
+//        if(question==null)
+//            return Collections.emptyList();
+//        List<Answers> ans=answersRepository.findAnswersByQuery(question);
+//        List<QandAnswerDoctorDTO> answer=new ArrayList<>();
+//        for(int i=0;i<ans.size();i++)
+//        {
+//            QandAnswerDoctorDTO qna=new QandAnswerDoctorDTO();
+//            qna.setAnswerId(ans.get(i).getAnswerId());
+//            qna.setAnswerContent(ans.get(i).getAnswerContent());
+//            qna.setDoctorName(ans.get(i).getDrInfo().getDrFullName());
+//            qna.setUpVote(ans.get(i).getUpVote());
+//            qna.setIsEdited(ans.get(i).getIsEdited());
+//            qna.setIsDeleted(ans.get(i).getIsDeleted());
+//            if(!ans.get(i).getIsDeleted()){
+//                answer.add(qna);
+//            }
+//
+//        }
+//        return answer;
+//    }
+
 
     public List<QandAnswerDoctorDTO> getAnswerDoctorrr(Integer id) {
 //        DoctorLogin doctorLogin=doctorLoginRepository.findDoctorLoginByDrUsername(username).getDrInfo();
