@@ -52,6 +52,14 @@ public class Answers {
     private List<UpVoteAnswerDoctor> upVoteAnswerDoctorList;
 
 
+    public Boolean getDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        isDeleted = deleted;
+    }
+
     @Column(name="isDeleted")
     private Boolean isDeleted=false;
 

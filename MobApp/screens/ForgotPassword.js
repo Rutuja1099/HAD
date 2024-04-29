@@ -5,8 +5,11 @@ import webServerUrl from '../configurations/WebServer';
 import HttpService from '../services/HttpService';
 import { useFonts, Pangolin_400Regular } from '@expo-google-fonts/pangolin';
 import {icon_suhrud, background} from '../assets';
+import { useTranslation } from 'react-i18next';
 
 export default function ForgotPassword(props) {
+
+  const { t, i18n } = useTranslation();
 
   const [email, setEmail] = useState('');
   let [fontsLoaded] = useFonts({ Pangolin_400Regular,});
@@ -14,11 +17,11 @@ export default function ForgotPassword(props) {
   const onPressLogin = async() => {
     console.log(email);
     if(!email.trim()){
-      alert('Please Enter Email');
+      alert(`${t("forgotPassword.enterEmailError")}`);
       return;
     }
     if(!/\S+@\S+\.\S+/.test(email.trim())){
-      alert('Email is Invalid');
+      alert(`${t("forgotPassword.emailInvalid")}`);
       return;
     }
 
@@ -29,7 +32,7 @@ export default function ForgotPassword(props) {
       console.log(response.status)
       if(response.status===200){
         console.log("Successful");
-        alert(`Please check Email ${email} for id and password`);
+        alert(`${t("forgotPassword.checkEmail")} `+` `+ `${email}`+` `+ `${t("forgotPassword.forId")}`);
         props.navigation.navigate("ChangePassword");
       }else{
         alert(response.data);
@@ -48,18 +51,18 @@ export default function ForgotPassword(props) {
       style={styles.container}>
       <StatusBar style='auto'/>
       <Image  style={styles.tinyLogo} source={icon_suhrud}/>
-      <Text style={styles.title}>Forgot Password</Text>
+      <Text style={styles.title}>{t("forgotPassword.forgotPassword")}</Text>
       <ScrollView contentContainerStyle={styles.logContent}
       style={styles.logbox}>
         <View style={styles.inputView}>
           <TextInput
               style={styles.inputText}
-              placeholder='Email Id'
+              placeholder={t("forgotPassword.emailId")}
               placeholderTextColor="#003f5c"
               onChangeText={(text) => setEmail(text)}
           />
         </View>
-        <Text style={styles.inputText}> Please enter registered email id</Text>
+        <Text style={styles.inputText}> {t("forgotPassword.enterEmail")}</Text>
   
         <Pressable
             onPress={onPressLogin}
@@ -70,7 +73,7 @@ export default function ForgotPassword(props) {
                 }
             ]}
             >
-            <Text style={styles.loginText}>Send</Text>
+            <Text style={styles.loginText}>{t("forgotPassword.send")}</Text>
         </Pressable>
       </ScrollView>
     </ScrollView>

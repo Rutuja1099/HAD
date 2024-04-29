@@ -4,6 +4,7 @@ import {progImage,smileysImage} from '../assets';
 import webServerUrl from '../configurations/WebServer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import HttpService from '../services/HttpService';
+import { useTranslation } from 'react-i18next';
 
 const { width } = Dimensions.get('window').width;
 const height = 320;
@@ -13,6 +14,37 @@ export default function Week(props) {
   const[weekAndDay,setWeekAndDay]=useState({ currentWeek: 7, currentDay: 1 });
   // const[weekAndDay,setWeekAndDay]=useState({ currentWeek: null, currentDay: null });
 
+    
+    const { t, i18n } = useTranslation();
+  
+    // let week;
+    // const [items, setItems] = useState([
+    //   { item: `${t("week.week1")}` },
+    //   { item: `${t("week.week2")}` },
+    //   { item: `${t("week.week3")}` },
+    //   { item: `${t("week.week4")}` },
+    //   { item: `${t("week.week5")}` },
+    // ]);
+    
+    // const onPressWeek = (item) => {
+    //   if(item==="Week 1"){
+    //     week = 1;
+    //   }
+    //   else if(item==="Week 2"){
+    //     week = 2; 
+    //   }
+    //   else if(item==="Week 3"){
+    //     week = 3; 
+    //   }
+    //   else if(item==="Week 4"){
+    //     week = 4;
+    //   }
+    //   else {
+    //     week = 5;
+    //   }
+    //   console.log("Week is :", week);
+    //   props.navigation.navigate("Day",{week:week});
+    // };
   
   // useEffect(()=>{
   //   getWeeks();

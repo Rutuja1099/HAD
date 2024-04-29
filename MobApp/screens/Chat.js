@@ -7,9 +7,12 @@ import {addDoc, collection, onSnapshot, orderBy, query, serverTimestamp, where} 
 import { db } from "../configurations/firebase-config";
 import { useFonts, Pangolin_400Regular } from '@expo-google-fonts/pangolin';
 import {icon_suhrud, background} from '../assets';
+import { useTranslation } from "react-i18next";
 
 
 const Chat = ({route}) => {
+
+    const { t, i18n } = useTranslation();
     
     const {doctorName, doctorId, chatId, user} = route.params;
     console.log(doctorName, chatId, user);
@@ -143,7 +146,8 @@ const Chat = ({route}) => {
                     
                     <TextInput
                         className = "flex-1 border border-gray-300 rounded-full px-4 py-2 mr-4"
-                        placeholder="Type a message..."
+                        placeholder={t("chat.type")} 
+
                         value={newMessage}
                         onChangeText={text => setNewMessage(text)}
                         onSubmitEditing={handleSend}

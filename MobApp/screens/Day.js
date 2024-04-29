@@ -5,20 +5,25 @@ import { useNavigation } from '@react-navigation/native'
 import webServerUrl from '../configurations/WebServer';
 import HttpService from '../services/HttpService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useTranslation } from 'react-i18next';
 
 
 const { width } = Dimensions.get('window').width;
 const height = 320;
 
 export default function Day({route}) {
-    const {week,currentDay} = route.params;
+    
+
+  const { t, i18n } = useTranslation();
+
+  const {week,currentDay} = route.params;
     let day;
     const thisDay=currentDay;
     const activeDay=`Day ${thisDay}`;
     const [items, setItems] = useState([
-      { item: "Day 1" },
-      { item: "Day 2" },
-      { item: "Day 3" },
+      { item: `${t("day.day1")}` },
+      { item: `${t("day.day2")}` },
+      { item: `${t("day.day3")}` }
     ]);
 
     const navigation = useNavigation();

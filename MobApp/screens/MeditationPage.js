@@ -9,9 +9,12 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { useFonts, Pangolin_400Regular } from '@expo-google-fonts/pangolin';
 import { useRef } from "react";
 import YouTubeVideos from "../components/YouTubeVideos";
+import { useTranslation } from "react-i18next";
 
 
 const MeditationPage = (props) => {
+
+  const { t, i18n } = useTranslation();
 
     const navigation = useNavigation();
     const [playing, setPlaying] = useState(false);
@@ -45,16 +48,16 @@ const MeditationPage = (props) => {
                 <View className = "p-4 flex-row items-center">
                     <Icon name="angle-left" color="white" size={25} onPress={navigateback}/>
                     <Text style={styles.subtitle}>
-                      Relax and Meditate..
+                    {t("meditationPage.title")}
                     </Text>
                 </View>
                     <View style={styles.container}>
                     <ImageBackground source={image1} resizeMode="cover" style={styles.image}>
                         <View style={styles.ImageContainer}>
-                        <Text style={styles.subtitle}>What is Meditation? </Text>
+                        <Text style={styles.subtitle}>{t("meditationPage.subTitle")} </Text>
                         <Text style={styles.dayText}>
-                                Meditation can be defined as a set of techniques that are intended to encourage a heightened state of awareness and focused attention. 
-                                Meditation is also a consciousness-changing technique shown to have many benefits on psychological well-being
+                          {t("meditationPage.paraLine1")}
+                          {t("meditationPage.paraLine2")}
                                 </Text>
                         {/* <View style={styles.videoContainer}> */}
                                 {/* <YoutubePlayer play={playing} videoId={"W19PdslW7iw"}/> */}
@@ -75,18 +78,18 @@ const MeditationPage = (props) => {
                         <View style={styles.innercontainer}>
                            
                             <Pressable disabled={!visibleState} onPress={()=>setVisibleState(false)}>
-                                <Text style={styles.subtitle}>Know the steps</Text></Pressable>
+                                <Text style={styles.subtitle}>{t("meditationPage.heading1")}</Text></Pressable>
                             <View disabled={visibleState} style={styles.textContainer}>
                             <Text style={styles.dayText}>
-                                1. Choose a quite spot.</Text>
+                                {t("meditationPage.step1")}</Text>
                             <Text style={styles.dayText}>
-                                2. Play the video above. </Text>
+                                {t("meditationPage.step2")} </Text>
                             <Text style={styles.dayText}>
-                                3. Pay attention towards your breathing. </Text>
+                                {t("meditationPage.step3")} </Text>
                             <Text style={styles.dayText}>
-                                4. Notice your thoughts. </Text>
+                                {t("meditationPage.step4")} </Text>
                             <Text style={styles.dayText}>
-                                5. You may set a timer.
+                                {t("meditationPage.step5")}
                                 </Text>
                             </View>
                             

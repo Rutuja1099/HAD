@@ -12,8 +12,11 @@ import { useFonts, Pangolin_400Regular } from '@expo-google-fonts/pangolin';
 import {icon_suhrud, background} from '../assets';
 import { Linking } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { useTranslation } from 'react-i18next';
 
 export default function SignUp(props) {
+
+  const { t, i18n } = useTranslation();
 
   let [fontsLoaded] = useFonts({
     Pangolin_400Regular,
@@ -108,13 +111,14 @@ export default function SignUp(props) {
     <ImageBackground source={background} style={styles.imagebackground}>
       <Image  style={styles.tinyLogo} source={icon_suhrud}/>
     <ScrollView contentContainerStyle={styles.containerContent} style={styles.container}>
-      <Text style={styles.title} className="p-4">SIGN UP</Text>
-      <Text style={{color:'red'}}>Every field is Required*</Text>
+      <Text style={styles.title} className="p-4">{t("signUp.signUp")}</Text>
+      <Text style={{color:'red'}}>{t("signUp.fieldRequired")}</Text>
+
       <ScrollView contentContainerStyle={styles.signContent} style={styles.signBox}>
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
-            placeholder='Full Name'
+            placeholder={t("signUp.fullName")}
             placeholderTextColor="#003f5c"
             onChangeText={(text) => setName(text)}
           />
@@ -122,7 +126,7 @@ export default function SignUp(props) {
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
-            placeholder='Email Id'
+            placeholder={t("signUp.emailId")}
             placeholderTextColor="#003f5c"
             onChangeText={(text) => setEmail(text)}
           />
@@ -130,7 +134,7 @@ export default function SignUp(props) {
         {/* <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
-            placeholder='Address'
+            placeholder={t("signUp.address")}
             placeholderTextColor="#003f5c"
             onChangeText={(text) => setAddress(text)}
           />
@@ -138,17 +142,17 @@ export default function SignUp(props) {
         {/* <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
-            placeholder='Phone Number'
+            placeholder={t("signUp.phoneNumber")}
             placeholderTextColor="#003f5c"
             onChangeText={(text) => setPhoneNo(text)}
           />
-        </View> */}
-        {/* <View style={styles.inputView}>
-          <Text style={styles.inputText} className="mt-8">
-                  DOB: {date.toLocaleDateString()}
-          </Text>
-          <Pressable onPress={() => showMode('date')} style={styles.iconTouchableArea}>
-            <MaterialCommunityIcons
+        </View>
+        <View style={styles.inputView}>
+        <Text style={styles.inputText} className="mt-8">
+            {t("signUp.dob")}: {date.toLocaleDateString()}
+                </Text>
+            <Pressable onPress={() => showMode('date')} style={styles.iconTouchableArea}>
+                <MaterialCommunityIcons
                 name="calendar-month"
                 size={24}
                 color="black"
@@ -174,16 +178,16 @@ export default function SignUp(props) {
             onValueChange={(itemValue) => setGender(itemValue)}
             style={styles.picker}
             itemStyle={styles.pickerText}>
-            <Picker.Item label="Select your gender" value="" />
-            <Picker.Item label="Male" value="male" />
-            <Picker.Item label="Female" value="female" />
-            <Picker.Item label="Other" value="other" />
+            <Picker.Item label={t("signUp.selectGender")} value="" />
+            <Picker.Item label={t("signUp.male")} value="male" />
+            <Picker.Item label={t("signUp.female")} value="female" />
+            <Picker.Item label={t("signUp.other")} value="other" />
           </Picker>
         </View> */}
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
-            placeholder='Username (min length 4)'
+            placeholder={t("signUp.usernameLength")}
             placeholderTextColor="#003f5c"
             onChangeText={(text) => setUserName(text)}
           />
@@ -192,7 +196,7 @@ export default function SignUp(props) {
           <TextInput
             style={styles.inputText}
             secureTextEntry
-            placeholder='Password (min length 6)'
+            placeholder={t("signUp.passwordLength")}
             placeholderTextColor="#003f5c"
             onChangeText={(text) => setPassword(text)}
           />
@@ -201,7 +205,7 @@ export default function SignUp(props) {
           <TextInput
             style={styles.inputText}
             secureTextEntry={isSecure}
-            placeholder='Confirm Password'
+            placeholder={t("signUp.confirmPassword")}
             placeholderTextColor="#003f5c"
             onChangeText={(text) => setConfirmPassword(text)}
           />
@@ -221,19 +225,19 @@ export default function SignUp(props) {
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
+          Alert.alert(`${t("signUp.modalClose")}`);
           setModalVisible(!modalVisible);
         }}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.modalTitle}>Our Privacy Policy</Text>
-            <Text style={styles.modalText}>We will collect your data for Personal details, usage data, and insights into your mental health.</Text>
-            <Text style={styles.modalText}>To personalize your experience, improve our services, and enhance treatment outcomes.</Text>
-            <Text style={styles.modalText}>We may share it with service providers or for legal compliance.</Text>
+            <Text style={styles.modalTitle}>{t("signUp.privacyPolicy")}</Text>
+            <Text style={styles.modalText}>{t("signUp.privacyPolicy1")}</Text>
+            <Text style={styles.modalText}>{t("signUp.privacyPolicy2")}</Text>
+            <Text style={styles.modalText}>placeholder={t("signUp.privacyPolicy3")}</Text>
             <Pressable
               style={[styles.button, styles.buttonClose]}
               onPress={onAccept}>
-              <Text style={styles.textStyle}>I accept</Text>
+              <Text style={styles.textStyle}>{t("signUp.acceptBtn")}</Text>
             </Pressable>
           </View>
         </View>
@@ -252,7 +256,7 @@ export default function SignUp(props) {
         <Text>I accept</Text>
           <Pressable style={{color: 'blue'}}
                 onPress={() => setModalVisible(true)}>
-            <Text style={{color:'blue'}}> Terms and Conditions</Text>
+          <Text style={{color:'blue'}}> {t("signUp.termsConditions")}</Text>
           </Pressable>
         </View>
         <Pressable
@@ -265,7 +269,7 @@ export default function SignUp(props) {
             ]
           }
             >
-            <Text style={styles.signUp} className="p-4">Sign Up</Text>
+            <Text style={styles.signUp} className="p-4">{t("signUp.signUpBtn")}</Text>
         </Pressable>
       </ScrollView>
     </ScrollView>

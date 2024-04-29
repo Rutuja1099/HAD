@@ -18,4 +18,10 @@ public interface QuestionsRepository extends JpaRepository<Questions, Integer> {
 
     Questions findQuestionsByQueryId(Integer queryId);
 
+    @Query(value = "SELECT * FROM questions WHERE isDeleted = false",nativeQuery = true)
+    List<Questions> QuestionList();
+
+    @Query(value = "SELECT * FROM questions WHERE isDeleted = false ORDER BY flagCount DESC LIMIT 10",nativeQuery = true)
+    List<Questions> TrendingQuestionList();
+
 }
