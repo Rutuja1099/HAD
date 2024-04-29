@@ -11,8 +11,10 @@ const { width } = Dimensions.get('window').width;
 const height = 320;
 
 export default function Day({route}) {
-    const {week} = route.params;
+    const {week,currentDay} = route.params;
     let day;
+    const thisDay=currentDay;
+    const activeDay=`Day ${thisDay}`;
     const [items, setItems] = useState([
       { item: "Day 1" },
       { item: "Day 2" },
@@ -45,8 +47,8 @@ export default function Day({route}) {
       console.log("bearer token: ", bearerToken);
 
       const headers = {
-        'Authorization': `Bearer ${bearerToken}`, // Include your token here
-        'Content-Type': 'application/json', // Specify the content type if needed
+        'Authorization': `Bearer ${bearerToken}`,
+        'Content-Type': 'application/json',
       };
 
       let response;
@@ -119,12 +121,14 @@ export default function Day({route}) {
             />
             {items.map((item, index) => (
               <Pressable
+                disabled={item.item!==activeDay}
                 onPress={() => onPressDay(item.item)}
                 style={({pressed})=>[
                   styles.dayBtn, 
                   {
-                    backgroundColor: pressed?'#2A9396' : '#B8FAFF',
-                    transform: [{scale: pressed?0.96:1}]
+                    backgroundColor: item.item===activeDay? pressed?'#2A9396' : '#B8FAFF' :'#A52A2A',
+                    opacity: item.item===activeDay? 1 : 0.5,
+                    transform:[{scale: pressed && item.item===activeDay?0.96:1}]
                   },
                 ]}
                 key={index}

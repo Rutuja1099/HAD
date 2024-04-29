@@ -5,6 +5,7 @@ import com.example.had_backend_jwt.Entities.PatientProgress;
 import com.example.had_backend_jwt.Models.WeekWiseSeverity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,13 +24,11 @@ public interface PatientProgressRepository extends JpaRepository<PatientProgress
             "ORDER BY p.currentWeek DESC LIMIT 7")
     List<WeekWiseSeverity> findAverageSeverityByPatientInfoPtRegNoOrderByWeekDesc(int ptRegNo);
 
-//    @Query("select avg(p.severity) as avgSeverity, p.patientInfo.ptRegNo from PatientProgress p group by p.patientInfo.ptRegNo")
-//    List<Object[]> findAverageSeverityByPatientInfo();
-//    @Query("SELECT AVG(p.severity) as avgSeverity, p.patientInfo.ptRegNo FROM PatientProgress p WHERE p.patientInfo = :patientInfo GROUP BY p.patientInfo.ptRegNo")
-//    Object[] findAverageSeverityByPatientInfo(@Param("patientInfo") PatientInfo patientInfo);
     @Query("SELECT AVG(p.severity) as avgSeverity, p.patientInfo FROM PatientProgress p GROUP BY p.patientInfo.ptRegNo")
     List<Object[]> findAverageSeverityByPatientInfo();
 
+    @Query("SELECT p FROM PatientProgress p WHERE p.patientInfo = :patientInfo ORDER BY p.currentWeek DESC, p.currentDay DESC limit 1")
+    PatientProgress findUsingPatientInfoAndCurrentWeekAndCurrentDay(@Param("patientInfo") PatientInfo patientInfo);
 
 
 }

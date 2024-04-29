@@ -204,5 +204,39 @@ public class PatientController {
         return ResponseEntity.ok(ans.subList(Math.max(0,ans.size()-4),ans.size()));
     }
 
-
+//    /suhrud/patient/currentWeekAndDay
+    @GetMapping("/currentWeekAndDay")
+    @PreAuthorize("hasAuthority('Patient')")
+    public ResponseEntity<CurrentWeekAndDay> getCurrentWeekAndDay(HttpServletRequest req)
+    {
+        int id= jwtService.extractId(req,"patientId");
+        if(id==-1)
+            ResponseEntity.notFound().build();
+        PatientInfo patientInfo=patientInfoRepository.findPatientInfoByPtRegNo(id);
+        if(patientInfo==null)
+            ResponseEntity.notFound().build();
+        PatientProgress patientProgressLatest=patientProgressRepository.findUsingPatientInfoAndCurrentWeekAndCurrentDay(patientInfo);
+        if(patientProgressLatest==null)
+        {
+            CurrentWeekAndDay val=new CurrentWeekAndDay();
+            val.setCurrentDay(1);
+            val.setCurrentWeek(1);
+            return ResponseEntity.ok(val);
+        }
+        else {
+            CurrentWeekAndDay ans = new CurrentWeekAndDay();
+            int currDay = patientProgressLatest.getCurrentDay();
+            int currWeek = patientProgressLatest.getCurrentWeek();
+            if (currDay == 3) {
+                currDay = 1;
+                currWeek = currWeek + 1;
+            }
+            else{
+                currDay=currDay+1;
+            }
+            ans.setCurrentWeek(currWeek);
+            ans.setCurrentDay(currDay);
+            return ResponseEntity.ok(ans);
+        }
+    }
 }

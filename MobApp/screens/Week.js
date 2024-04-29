@@ -1,39 +1,73 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Pressable, Animated, Text, View, StyleSheet, Image, ScrollView, Dimensions } from 'react-native';
 import {progImage,smileysImage} from '../assets';
+import webServerUrl from '../configurations/WebServer';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import HttpService from '../services/HttpService';
 
 const { width } = Dimensions.get('window').width;
 const height = 320;
 export default function Week(props) {
-    let week;
-    const [items, setItems] = useState([
-      { item: "Week 1" },
-      { item: "Week 2" },
-      { item: "Week 3" },
-      { item: "Week 4" },
-      { item: "Week 5" },
-    ]);
-    
-    const onPressWeek = (item) => {
-      if(item==="Week 1"){
-        week = 1;
-      }
-      else if(item==="Week 2"){
-        week = 2; 
-      }
-      else if(item==="Week 3"){
-        week = 3; 
-      }
-      else if(item==="Week 4"){
-        week = 4;
-      }
-      else {
-        week = 5;
-      }
-      console.log("Week is :", week);
-      props.navigation.navigate("Day",{week:week});
-    };
+
+
+  const[weekAndDay,setWeekAndDay]=useState({ currentWeek: 7, currentDay: 1 });
+  // const[weekAndDay,setWeekAndDay]=useState({ currentWeek: null, currentDay: null });
+
   
+  // useEffect(()=>{
+  //   getWeeks();
+  // },[]);
+
+  const getWeeks=async()=>{
+    const WeekUrl=webServerUrl+"/suhrud/patient/currentWeekAndDay";
+    const method='GET';
+    const sessionData=await AsyncStorage.getItem('patientData')
+    const data=JSON.parse(sessionData);
+    const bearerToken=data.token;
+    console.log("bearer Token: ", bearerToken);
+      
+    const headers = {
+      'Authorization': `Bearer ${bearerToken}`,
+      'Content-Type': 'application/json',
+    };
+
+    let response;
+    try{
+      response=await HttpService(method,WeekUrl,null,headers);
+      console.log(response.status);
+      if(response.status===200){
+        console.log("Successful");
+        const thisData=await response.data;
+        console.log(thisData);
+        setWeekAndDay(thisData);
+        console.log("Hello",thisData);
+      }
+      else{
+        console.log(response.status);
+        alert(response.data);
+      }
+    }catch(error){
+      alert(error.data);
+      console.log(error);
+    }
+  };
+
+    let week;
+    const thisWeek=weekAndDay.currentWeek;
+    const activeWeek= `Week ${thisWeek}`;
+    const minWeek=Math.floor(thisWeek/5)*5;
+    console.log(minWeek);
+    const [items, setItems] = useState([
+      { item: `Week ${minWeek+1}` },
+      { item: `Week ${minWeek+2}` },
+      { item: `Week ${minWeek+3}` },
+      { item: `Week ${minWeek+4}` },
+      { item: `Week ${minWeek+5}` },
+    ]);
+    const onPressWeek=(item)=>{
+      console.log("Week is : ",item);
+      props.navigation.navigate("Day",{week:week, currentDay:weekAndDay.currentDay});
+    }
     const scrollY = useRef(new Animated.Value(0)).current;
 
   const imageAnimatedStyle = [
@@ -52,7 +86,7 @@ export default function Week(props) {
       })
     }
   ]
-  
+
     return (
       <View style={styles.container}>
         <Animated.ScrollView
@@ -77,11 +111,13 @@ export default function Week(props) {
             {items.map((item, index) => (
               <Pressable
                 onPress={() => onPressWeek(item.item)}
+                disabled={item.item!==activeWeek}
                 style={({pressed})=>[
                   styles.dayBtn, 
                   {
-                    backgroundColor: pressed?'#2A9396' : '#B8FAFF',
-                    transform: [{scale: pressed?0.96:1}]
+                    backgroundColor: item.item===activeWeek? pressed?'#2A9396' : '#B8FAFF' :'#A52A2A',
+                    opacity: item.item===activeWeek? 1 : 0.5,
+                    transform:[{scale: pressed && item.item===activeWeek?0.96:1}]
                   },
                 ]}
                 key={index}
