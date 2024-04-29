@@ -55,17 +55,6 @@ public class ApplicationConfig implements UserDetailsService{
         return new BCryptPasswordEncoder();
     }
 
-//    @Override
-//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//        PatientLogin patientLogin = patientLoginRepository.findByPtUsername(username)
-//                .orElseThrow(() -> new UsernameNotFoundException("Patient not found with username: " + username));
-//
-//        Set<GrantedAuthority> authorities = new HashSet<>();
-//        // Add the "ROLE_PATIENT" authority to the user
-//        authorities.add(new SimpleGrantedAuthority("Patient"));
-//
-//        return new User(patientLogin.getUsername(), patientLogin.getPassword(), true, true, true, true, authorities);
-//    }
 
     //For Both Doctor and Patient
     @Override
