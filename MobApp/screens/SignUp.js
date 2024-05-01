@@ -73,31 +73,13 @@ export default function SignUp(props) {
       }
   }
 
-  // const maxDate = new Date();
-  // maxDate.setFullYear(maxDate.getFullYear() - 18);
 
   const [email,setEmail]=useState('');
   const [name,setName]=useState('');
-  // const [address,setAddress]=useState('');
-  // const [phoneNo,setPhoneNo]=useState('');
-  // const [date, setDate] = useState(maxDate);
   const [userName, setUserName]=useState('');
   const [password, setPassword]=useState('');
   const [confirmPassword, setConfirmPassword]=useState('');
-  // const[mode,setMode]=useState("date");
-  // const[show,setShow] =useState(false);
-  // const [gender,setGender] =useState('Male');
-  
-  // const onChangeDate = (e,selectedDate) => {
-  //   setDate(selectedDate);
-  //   setShow(false);
-  // }
-
-  // const showMode = (modeToShow) => {
-  //   setShow(true);
-  //   setMode(modeToShow);
-  // }
-
+ 
   const onAccept = () => {
     setAccept(true);
     setModalVisible(!modalVisible);
@@ -131,59 +113,7 @@ export default function SignUp(props) {
             onChangeText={(text) => setEmail(text)}
           />
         </View>
-        {/* <View style={styles.inputView}>
-          <TextInput
-            style={styles.inputText}
-            placeholder={t("signUp.address")}
-            placeholderTextColor="#003f5c"
-            onChangeText={(text) => setAddress(text)}
-          />
-        </View> */}
-        {/* <View style={styles.inputView}>
-          <TextInput
-            style={styles.inputText}
-            placeholder={t("signUp.phoneNumber")}
-            placeholderTextColor="#003f5c"
-            onChangeText={(text) => setPhoneNo(text)}
-          />
-        </View>
-        <View style={styles.inputView}>
-        <Text style={styles.inputText} className="mt-8">
-            {t("signUp.dob")}: {date.toLocaleDateString()}
-                </Text>
-            <Pressable onPress={() => showMode('date')} style={styles.iconTouchableArea}>
-                <MaterialCommunityIcons
-                name="calendar-month"
-                size={24}
-                color="black"
-                style={styles.calendarIcon}
-            />
-          </Pressable>
-          {show && (
-                <DateTimePicker
-                testID="dateTimePicker"
-                value={date}
-                mode={'date'}
-                is24Hour={true}
-                display="spinner"
-                onChange={onChangeDate}
-                maximumDate={maxDate}
-                minimumDate={new Date(1950, 0, 1)}
-                />
-          )}
-        </View> */}
-        {/* <View style={styles.inputView}>
-          <Picker
-            selectedValue={gender}
-            onValueChange={(itemValue) => setGender(itemValue)}
-            style={styles.picker}
-            itemStyle={styles.pickerText}>
-            <Picker.Item label={t("signUp.selectGender")} value="" />
-            <Picker.Item label={t("signUp.male")} value="male" />
-            <Picker.Item label={t("signUp.female")} value="female" />
-            <Picker.Item label={t("signUp.other")} value="other" />
-          </Picker>
-        </View> */}
+
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}

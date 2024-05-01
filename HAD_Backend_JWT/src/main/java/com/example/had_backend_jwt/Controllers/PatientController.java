@@ -13,6 +13,7 @@ import com.example.had_backend_jwt.Services.PatientService;
 import com.example.had_backend_jwt.Services.Utilities;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -136,16 +137,17 @@ public class PatientController {
             List<SuggestedDoctorsListResponse> DoctorInfos=patientService.getSuggestedDoctorsList();
             return  ResponseEntity.ok(DoctorInfos);
         }
-        List<Object[]> queryResult = doctorInfoRepository.SuggestDoctorsListDesc();
+        List<DoctorInfo> queryResult = doctorInfoRepository.findAll(Sort.by(Sort.Direction.DESC, "drExperience"));
         List<SuggestedDoctorsListResponse> suggestedDoctorsListResponses = new ArrayList<>();
 
-        for (Object[] row : queryResult) {
+
+        for (DoctorInfo row : queryResult) {
             SuggestedDoctorsListResponse response = SuggestedDoctorsListResponse.builder()
-                    .drId((Integer) row[0])
-                    .drFullName((String) row[1])
-                    .drSpecialization((String) row[2])
-                    .drExperience((Integer) row[3])
-                    .drGender((String) row[4])
+                    .drId((Integer) row.getDrId())
+                    .drFullName((String) row.getDrFullName())
+                    .drSpecialization((String) row.getDrSpecialization())
+                    .drExperience((Integer) row.getDrExperience())
+                    .drGender((String) row.getDrGender())
                     .build();
             suggestedDoctorsListResponses.add(response);
         }

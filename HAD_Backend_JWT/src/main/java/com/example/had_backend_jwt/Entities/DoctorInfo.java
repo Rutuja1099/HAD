@@ -27,15 +27,15 @@ public class DoctorInfo {
     private String drRegNo;
 
     @Convert(converter = AttributeEncryptor.class)
-    @Column(name="drFullName",nullable = false, length = 50)
+    @Column(name="drFullName",nullable = false, length = 100)
     private String drFullName;
 
     @Convert(converter = AttributeEncryptor.class)
-    @Column(name="drPhone",nullable = false,unique = true,length = 10)
+    @Column(name="drPhone",nullable = false,unique = true,  length = 50)
     private String drPhone;
 
     @Convert(converter = AttributeEncryptor.class)
-    @Column(name = "drAddr",nullable = false, length = 100)
+    @Column(name = "drAddr",nullable = false, length = 500)
     private String drAddr;
 
     @Column(name="drSpecialization",nullable = false)

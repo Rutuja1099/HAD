@@ -25,6 +25,7 @@ public interface DoctorInfoRepository extends JpaRepository<DoctorInfo,Integer> 
 
 //    Optional<DoctorInfo> findByDrRegNo(@Param("drRegNo") Integer drRegNo);
 
+//    List<DoctorInfo>
 
     @Query(value = "SELECT drId,drFullName, drSpecialization, drExperience, drGender FROM doctorInfo;",nativeQuery = true)
     List<Object[]> SuggestDoctorsList();
