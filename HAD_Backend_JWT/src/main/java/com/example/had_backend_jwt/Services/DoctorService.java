@@ -164,4 +164,35 @@ public class DoctorService {
         ans.setDrSpecialization(doctorInfo.getDrSpecialization());
         return ans;
     }
+
+    public boolean editDoctor(HttpServletRequest request, DoctorEditRequest doctorEdit) {
+        Integer drId= jwtService.extractId(request,"doctorId");
+        Optional<DoctorInfo> editDetails=doctorInfoRepository.findByDrId(drId);
+        if(editDetails.isPresent()){
+            DoctorInfo doctorInfo=editDetails.get();
+            doctorInfo.setDrFullName(doctorEdit.getDrFullName());
+            doctorInfo.setDrGender(doctorEdit.getDrGender());
+            doctorInfo.setDrExperience(doctorEdit.getDrExperience());
+            doctorInfo.setDrDegree(doctorEdit.getDrDegree());
+            doctorInfo.setDrAddr(doctorEdit.getDrAddr());
+            doctorInfo.setDrSpecialization(doctorEdit.getDrSpecialization());
+            doctorInfo.setDrPhone(doctorEdit.getDrPhone());
+            doctorInfo.setDrActivePatients(doctorEdit.getDrActivePatients());
+            doctorInfo.setDrPatientLimit(doctorEdit.getDrPatientLimit());
+
+            doctorInfoRepository.save(doctorInfo);
+
+//            Optional<PatientLogin> patientLoginOptional=patientLoginRepository.findById(ptRegNo);
+//            if(patientLoginOptional.isPresent()){
+//                PatientLogin patientLogin=patientLoginOptional.get();
+//                patientLogin.setPtEmail(patientProfileUpdation.getPtEmail());
+//                patientLoginRepository.save(patientLogin);
+//                return true;
+//            }else{
+//                return false;
+//            }
+            return true;
+        }
+        return false;
+    }
 }

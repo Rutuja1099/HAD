@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -82,6 +83,17 @@ public class DoctorController {
         return ResponseEntity.ok(detail);
     }
 
+    @PutMapping("/editDoctor")
+    @PreAuthorize("hasAuthority('Doctor') or hasAuthority('Moderator') ")
+    public ResponseEntity<String> editDoctor(HttpServletRequest request, @RequestBody DoctorEditRequest doctorEdit){
+        boolean status= doctorService.editDoctor(request, doctorEdit);
+        System.out.println("Status: "+status);
+        if(status)
+            return ResponseEntity.ok("Updated Successfully");
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Some error has occurred.");
+    }
+
+
     @PostMapping("/logout")
     @PreAuthorize("hasAuthority('Doctor')")
     public ResponseEntity<?> logoutUser(HttpServletRequest request){
@@ -98,7 +110,7 @@ public class DoctorController {
     }
 
     @GetMapping("/doctorInfo")
-    @PreAuthorize("hasAuthority('Doctor')")
+    @PreAuthorize("hasAuthority('Doctor') or hasAuthority('Moderator')")
     public ResponseEntity<DoctorInformationDTO> getDoctorInformation(HttpServletRequest request) {
         Integer drId=jwtService.extractId(request,"doctorId");
         DoctorInformationDTO ans=doctorService.getDoctorInformation(drId);

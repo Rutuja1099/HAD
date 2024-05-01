@@ -9,12 +9,12 @@ import { useNavigate } from "react-router-dom";
 
 function DoctorProfile() {
     const [RegNo,setRegNo]=useState('');
-    const [FullName, setFullName]=useState('');
-    const [Phone, setPhone] =useState('');
-    const [Degree, setDegree]=useState('');
-    const [Experience, setExperience] =useState();
-    const [Address, setAddress] =useState('');
-    const [gender, setGender] =useState('');
+    const [drFullName, setDrFullName]=useState('');
+    const [drPhone, setDrPhone] =useState('');
+    const [drDegree, setDrDegree]=useState('');
+    const [drExperience, setDrExperience] =useState();
+    const [drAddress, setDrAddress] =useState('');
+    const [drGender, setDrGender] =useState('');
     const [drSpecialization, setDrSpecialization] =useState('');
     const [drPatientLimit, setDrPatientLimit] =useState();
     const [drActivePatients, setDrActivePatients] =useState();
@@ -33,13 +33,13 @@ function DoctorProfile() {
 
       const getIsFormValid = () => { 
         return ( 
-          FullName && gender  && allnumeric(Phone) && Degree && drSpecialization && Experience && Address
+          drFullName && drGender  && allnumeric(drPhone) && drDegree && drSpecialization && drExperience && drAddress
         ); 
       }; 
       function allnumeric(uzip)
         { 
             var numbers = /^[0-9]+$/;
-            if(Phone.match(numbers))
+            if(drPhone.match(numbers))
             {
                 return true;
             }
@@ -56,18 +56,17 @@ function DoctorProfile() {
         
                 const drRegistrationURL= webServerUrl+"/suhrud/doctor/editDoctor";
         
-                const method='POST';
+                const method='PUT';
                 const data={
-                  drRegNo:RegNo,
-                  drFullName:FullName,
-                  drPhone:Phone,
-                  drAddr:Address,
-                  drExperience:Experience,
-                  drPatientLimit:5,
-                  drActivePatients:0,
-                  drGender:gender,
+                  drFullName:drFullName,
+                  drPhone:drPhone,
+                  drAddr:drAddress,
+                  drExperience:drExperience,
+                  drPatientLimit:drPatientLimit,
+                  drActivePatients:drActivePatients,
+                  drGender:drGender,
                   drSpecialization:drSpecialization,
-                  drDegree:Degree
+                  drDegree:drDegree
                 };
         
                 
@@ -75,8 +74,8 @@ function DoctorProfile() {
                 const bearerToken = sessionData.token;
         
                 const headers = {
-                  'Authorization': `Bearer ${bearerToken}`, // Include your token here
-                  'Content-Type': 'application/json', // Specify the content type if needed
+                  'Authorization': `Bearer ${bearerToken}`, 
+                  'Content-Type': 'application/json',
                 };
         
                 try{
@@ -121,7 +120,7 @@ function DoctorProfile() {
             };
     
             try{
-              const response=await HttpService(method,drGetURL,headers);
+              const response=await HttpService(method,drGetURL,null,headers);
               console.log(response.status)
               if(response.status===200){
                 const responseData=await response.data;
@@ -142,15 +141,14 @@ function DoctorProfile() {
 
       const setData=(responseData)=>{
         setRegNo(responseData.drRegNo);
-        setFullName(responseData.drFullname);
-        setPhone(responseData.drPhone);
-        setAddress(responseData.drAddr);
+        setDrFullName(responseData.drFullName);
+        setDrPhone(responseData.drPhone);
+        setDrAddress(responseData.drAddr);
         setDrSpecialization(responseData.drSpecialization);
-        setExperience(responseData.drExperience);
-        setAddress(responseData.drAddr);
-        setDegree(responseData.degree);
-        setExperience(responseData.experience);
-        setGender(responseData.drGender);
+        setDrExperience(responseData.drExperience);
+        setDrDegree(responseData.drDegree);
+        setDrExperience(responseData.drExperience);
+        setDrGender(responseData.drGender);
         setDrPatientLimit(responseData.drPatientLimit);
         setDrActivePatients(responseData.drActivePatients);
       }
@@ -174,11 +172,32 @@ function DoctorProfile() {
                                 <div className='flex items-center justify-center h-full w-full p-5 mb-5 ml-5 mr-5'>
                                     <div className='flex flex-col  font-bold rounded-xl items-center justify-center bg-white w-full p-5'>
                                         <h2 className='pb-1 text-2xl'>Registration number : {RegNo}</h2>
-                                        <div className='flex flex-col  font-bold rounded-xl items-center justify-center bg-slate-200 w-1/2 p-5 m-2'>
-                                        <h2 className='pb-1 text-xl'>Patients Limit: {drPatientLimit}</h2>
+                                        <div className='flex flex-row  font-bold rounded-xl items-center justify-center bg-slate-200 w-2/3 p-5 m-2'>
+            
+                                        <h2 className='pb-1 text-xl'>Active Patients Limit: </h2>
+                                        <input 
+                                            className="rounded-xl w-1/3 h-10 mb-5 bg-slate200 text-black placeholder-black p-5 border-2 border-slate-200 mt-5 ml-2"
+                                            value={drPatientLimit} 
+                                            disabled={!isEdit}
+                                            onChange={(e) => { 
+                                            setDrPatientLimit(e.target.value); 
+                                            }
+                                            } 
+                                            placeholder="Patient Limit" 
+                                        />
                                         </div>
-                                        <div className='flex flex-col  font-bold rounded-xl items-center justify-center bg-slate-200 w-1/2 p-5'>
-                                        <h2 className='pb-1 text-xl'>Active Patients Limit: {drActivePatients}</h2>
+                                        <div className='flex flex-row  font-bold rounded-xl items-center justify-center bg-slate-200 w-2/3 p-5'>
+                                        <h2 className='pb-1 text-xl'>Active Patients Limit:</h2>
+                                        <input 
+                                            className="rounded-xl w-1/3 h-10 mb-5 bg-slate200 text-black placeholder-black p-5 border-2 border-slate-200 mt-5 ml-2"
+                                            value={drActivePatients} 
+                                            disabled={!isEdit}
+                                            onChange={(e) => { 
+                                            setDrActivePatients(e.target.value); 
+                                            }
+                                            } 
+                                            placeholder="Active Patients" 
+                                        />
                                         </div>
                                     </div>
                                 </div>
@@ -197,10 +216,10 @@ function DoctorProfile() {
                                     <div className="flex flex-col w-full justify-items-center pt-10 pl-10 pr-10"> 
                                         <input 
                                             className="rounded-xl w-100 h-12 mb-5 bg-white text-black placeholder-black p-5 border-2 border-slate-200"
-                                            value={FullName} 
+                                            value={drFullName} 
                                             disabled={!isEdit}
                                             onChange={(e) => { 
-                                            setFullName(e.target.value); 
+                                            setDrFullName(e.target.value); 
                                             }
                                             } 
                                             placeholder="Full Name" 
@@ -213,8 +232,8 @@ function DoctorProfile() {
                                     rounded-xl transition ease-in-out m-0 focus:text-black focus:bg-white focus:border-slate-300 focus:outline-none"
                                         aria-label="Default select example"
                                                 disabled={!isEdit}
-                                                value={gender} onChange={(e) => setGender(e.target.value)}  name="gender">
-                                                <option defaultValue={gender}>Choose your gender</option>
+                                                value={drGender} onChange={(e) => setDrGender(e.target.value)}  name="gender">
+                                                <option defaultValue={drGender}>Choose your gender</option>
                                                 <option value="Female">Female</option> 
                                                 <option value="Male">Male</option> 
                                                 <option value="Other">Other</option> 
@@ -226,10 +245,10 @@ function DoctorProfile() {
                                         <div className='w-1/2 pt-5'> 
                                         <input 
                                             className="rounded-xl w-100 h-12  bg-white text-black placeholder-black p-5 border-2 border-slate-200"
-                                            value={Degree} 
+                                            value={drDegree} 
                                             disabled={!isEdit}
                                             onChange={(e) => { 
-                                            setDegree(e.target.value); 
+                                            setDrDegree(e.target.value); 
                                             }
                                             } 
                                             placeholder="Degree" 
@@ -252,10 +271,10 @@ function DoctorProfile() {
                                         <div className='w-1/2 pt-5'> 
                                         <input 
                                             className="rounded-xl w-100 h-12 mb-5 bg-white text-black placeholder-black p-5 border-2 border-slate-200"
-                                            value={Experience} 
+                                            value={drExperience} 
                                             disabled={!isEdit}
                                             onChange={(e) => { 
-                                            setExperience(e.target.value); 
+                                            setDrExperience(e.target.value); 
                                             }
                                             } 
                                             placeholder="Experience" 
@@ -264,10 +283,10 @@ function DoctorProfile() {
                                         
                                         <input 
                                             className="rounded-xl w-100 h-12 mb-5 bg-white text-black placeholder-black p-5 border-2 border-slate-200"
-                                            value={Phone} 
+                                            value={drPhone} 
                                             disabled={!isEdit}
                                             onChange={(e) => { 
-                                            setPhone(e.target.value); 
+                                            setDrPhone(e.target.value); 
                                             }
                                             } 
                                             placeholder="Phone" 
@@ -275,10 +294,10 @@ function DoctorProfile() {
 
                                         <input 
                                             className="rounded-xl w-100 h-15 bg-white text-black placeholder-black p-5 border-2 border-slate-200"
-                                            value={Address} 
+                                            value={drAddress} 
                                             disabled={!isEdit}
                                             onChange={(e) => { 
-                                            setAddress(e.target.value); 
+                                            setDrAddress(e.target.value); 
                                             }
                                             } 
                                             placeholder="Address" 
