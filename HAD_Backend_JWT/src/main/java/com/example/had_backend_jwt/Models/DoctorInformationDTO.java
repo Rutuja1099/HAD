@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class DoctorInformationDTO {
-    private Integer drRegNo;
+    private String drRegNo;
     private String drFullName;
     private String drPhone;
     private String drAddr;

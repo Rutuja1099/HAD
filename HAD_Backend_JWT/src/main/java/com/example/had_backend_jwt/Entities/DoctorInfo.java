@@ -1,5 +1,6 @@
 package com.example.had_backend_jwt.Entities;
 
+import com.example.had_backend_jwt.Configurations.AttributeEncryptor;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -21,15 +22,19 @@ public class DoctorInfo {
     @Column(name="drId")
     private Integer drId;
 
+    @Convert(converter = AttributeEncryptor.class)
     @Column(name = "drRegNo",nullable = false,unique = true)
-    private Integer drRegNo;
+    private String drRegNo;
 
+    @Convert(converter = AttributeEncryptor.class)
     @Column(name="drFullName",nullable = false, length = 50)
     private String drFullName;
 
+    @Convert(converter = AttributeEncryptor.class)
     @Column(name="drPhone",nullable = false,unique = true,length = 10)
     private String drPhone;
 
+    @Convert(converter = AttributeEncryptor.class)
     @Column(name = "drAddr",nullable = false, length = 100)
     private String drAddr;
 

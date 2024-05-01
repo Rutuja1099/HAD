@@ -43,7 +43,7 @@ public class PatientService {
 
         for (DoctorInfo row : doctorInfos) {
             Integer drId = (Integer) row.getDrId();
-            Integer drRegNo = (Integer) row.getDrRegNo();
+            String drRegNo = (String) row.getDrRegNo();
             String drFullName = (String) row.getDrFullName();
             String drPhone = (String) row.getDrPhone();
             String drAddr = (String) row.getDrAddr();
@@ -320,7 +320,7 @@ public class PatientService {
         if(!doctorPatientMappingList.isEmpty()) {
             for (DoctorPatientMapping doctorPatientMapping : doctorPatientMappingList) {
                 //Get All appointments for doctor patient
-                List<Appointments> AllAppointments = appointmentsRepository.findByPatientInfoPtRegNoAndDrInfoDrIdOrderByDateDesc(ptRegNo, doctorPatientMapping.getDoctorInfo().getDrRegNo());
+                List<Appointments> AllAppointments = appointmentsRepository.findByPatientInfoPtRegNoAndDrInfoDrIdOrderByDateDesc(ptRegNo, doctorPatientMapping.getDoctorInfo().getDrId());
                 LocalDate currentDate = LocalDate.now();
                 if (!AllAppointments.isEmpty()) {
                     Date currentDateSQL = Date.valueOf(currentDate);

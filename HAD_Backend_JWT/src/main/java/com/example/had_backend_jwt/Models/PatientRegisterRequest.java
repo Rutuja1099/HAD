@@ -14,11 +14,7 @@ import java.sql.Date;
 @NoArgsConstructor
 public class PatientRegisterRequest {
     private String ptFullname;
-//    private String ptPhone;
-//    private String ptAddr;
     private String ptEmail;
-//    private String ptDOB;
-//    private String ptGender;
     private String ptUsername;
     private String ptPassword;
 }

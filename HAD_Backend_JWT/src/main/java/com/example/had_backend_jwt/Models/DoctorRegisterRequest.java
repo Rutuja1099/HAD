@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DoctorRegisterRequest {
-    private Integer drRegNo;
+    private String drRegNo;
     private String drFullName;
     private String drPhone;
     private String drAddr;

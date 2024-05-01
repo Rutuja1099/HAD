@@ -14,7 +14,7 @@ public class DoctorStatusDTO {
 
     private Integer drId;
 
-    private Integer drRegNo;
+    private String drRegNo;
 
     private String drFullName;
 
