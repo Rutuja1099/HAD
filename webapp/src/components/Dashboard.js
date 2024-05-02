@@ -25,8 +25,8 @@ import {
 
 const Dashboard = () => {
 
-    const[sevType,setSevType] = useEffect([]);
-    const[countSev,setCountSev]=useEffect([]);
+    const[sevType,setSevType] = useState([]);
+    const[countSev,setCountSev]=useState([]);
     // /suhrud/doctor/doctorDashboardGraph
     const DashboardURL=webServerUrl+`/suhrud/doctor/doctorDashboardGraph`;
 
