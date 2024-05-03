@@ -4,7 +4,9 @@ import {progImage,smileysImage} from '../assets';
 import webServerUrl from '../configurations/WebServer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import HttpService from '../services/HttpService';
-import { useTranslation } from 'react-i18next';
+// import { useTranslation } from 'react-i18next';
+import i18n from '../localization/i18n';
+import STORE_LANGUAGE_KEY from '../configurations/Multilingual';
 
 const { width } = Dimensions.get('window').width;
 const height = 320;
@@ -15,15 +17,15 @@ export default function Week(props) {
   // const[weekAndDay,setWeekAndDay]=useState({ currentWeek: null, currentDay: null });
 
     
-    const { t, i18n } = useTranslation();
+    // const { t, i18n } = useTranslation();
   
     // let week;
     // const [items, setItems] = useState([
-    //   { item: `${t("week.week1")}` },
-    //   { item: `${t("week.week2")}` },
-    //   { item: `${t("week.week3")}` },
-    //   { item: `${t("week.week4")}` },
-    //   { item: `${t("week.week5")}` },
+    //   { item: `${i18n.t("week.week1")}` },
+    //   { item: `${i18n.t("week.week2")}` },
+    //   { item: `${i18n.t("week.week3")}` },
+    //   { item: `${i18n.t("week.week4")}` },
+    //   { item: `${i18n.t("week.week5")}` },
     // ]);
     
     // const onPressWeek = (item) => {
@@ -49,6 +51,22 @@ export default function Week(props) {
   // useEffect(()=>{
   //   getWeeks();
   // },[]);
+
+  const retrieveLanguage = async () => {
+    try {
+        const lang = await AsyncStorage.getItem(STORE_LANGUAGE_KEY);
+        if (lang) {
+            // i18n.changeLanguage(lang);
+            i18n.locale = lang;
+        }
+    } catch (error) {
+        console.log("Error retrieving language:", error);
+    }
+  };
+
+  useEffect(() => {
+    retrieveLanguage();
+  },[])
 
   const getWeeks=async()=>{
     const WeekUrl=webServerUrl+"/suhrud/patient/currentWeekAndDay";
@@ -90,11 +108,11 @@ export default function Week(props) {
     const minWeek=Math.floor(thisWeek/5)*5;
     console.log(minWeek);
     const [items, setItems] = useState([
-      { item: `Week ${minWeek+1}` },
-      { item: `Week ${minWeek+2}` },
-      { item: `Week ${minWeek+3}` },
-      { item: `Week ${minWeek+4}` },
-      { item: `Week ${minWeek+5}` },
+      { item: `${i18n.t("week.week")} ${minWeek+1}` },
+      { item: `${i18n.t("week.week")} ${minWeek+2}` },
+      { item: `${i18n.t("week.week")} ${minWeek+3}` },
+      { item: `${i18n.t("week.week")} ${minWeek+4}` },
+      { item: `${i18n.t("week.week")} ${minWeek+5}` },
     ]);
     const onPressWeek=(item)=>{
       console.log("Week is : ",item);

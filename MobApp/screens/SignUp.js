@@ -12,11 +12,15 @@ import { useFonts, Pangolin_400Regular } from '@expo-google-fonts/pangolin';
 import {icon_suhrud, background} from '../assets';
 import { Linking } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { useTranslation } from 'react-i18next';
+// import { useTranslation } from 'react-i18next';
+
+import i18n from '../localization/i18n';
+import STORE_LANGUAGE_KEY from '../configurations/Multilingual';
 
 export default function SignUp(props) {
 
-  const { t, i18n } = useTranslation();
+  // const { t, i18n } = useTranslation();
+
 
   let [fontsLoaded] = useFonts({
     Pangolin_400Regular,
@@ -30,6 +34,22 @@ export default function SignUp(props) {
   const toggleShowPassword = () => {
       setIsSecure(!isSecure);
   };
+
+  const retrieveLanguage = async () => {
+    try {
+        const lang = await AsyncStorage.getItem(STORE_LANGUAGE_KEY);
+        if (lang) {
+            // i18n.changeLanguage(lang);
+            i18n.locale = lang;
+        }
+    } catch (error) {
+        console.log("Error retrieving language:", error);
+    }
+  };
+
+  useEffect(() => {
+    retrieveLanguage();
+  },[])
 
   const onPressSignUp = async () =>{
     const isValid=SignupInputValidation({ name, email, userName, password, confirmPassword })
@@ -111,14 +131,14 @@ export default function SignUp(props) {
     <ImageBackground source={background} style={styles.imagebackground}>
       <Image  style={styles.tinyLogo} source={icon_suhrud}/>
     <ScrollView contentContainerStyle={styles.containerContent} style={styles.container}>
-      <Text style={styles.title} className="p-4">{t("signUp.signUp")}</Text>
-      <Text style={{color:'red'}}>{t("signUp.fieldRequired")}</Text>
+      <Text style={styles.title} className="p-4">{i18n.t("signUp.signUp")}</Text>
+      <Text style={{color:'red'}}>{i18n.t("signUp.fieldRequired")}</Text>
 
       <ScrollView contentContainerStyle={styles.signContent} style={styles.signBox}>
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
-            placeholder={t("signUp.fullName")}
+            placeholder={i18n.t("signUp.fullName")}
             placeholderTextColor="#003f5c"
             onChangeText={(text) => setName(text)}
           />
@@ -126,7 +146,7 @@ export default function SignUp(props) {
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
-            placeholder={t("signUp.emailId")}
+            placeholder={i18n.t("signUp.emailId")}
             placeholderTextColor="#003f5c"
             onChangeText={(text) => setEmail(text)}
           />
@@ -134,7 +154,7 @@ export default function SignUp(props) {
         {/* <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
-            placeholder={t("signUp.address")}
+            placeholder={i18n.t("signUp.address")}
             placeholderTextColor="#003f5c"
             onChangeText={(text) => setAddress(text)}
           />
@@ -142,14 +162,14 @@ export default function SignUp(props) {
         {/* <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
-            placeholder={t("signUp.phoneNumber")}
+            placeholder={i18n.t("signUp.phoneNumber")}
             placeholderTextColor="#003f5c"
             onChangeText={(text) => setPhoneNo(text)}
           />
         </View>
         <View style={styles.inputView}>
         <Text style={styles.inputText} className="mt-8">
-            {t("signUp.dob")}: {date.toLocaleDateString()}
+            {i18n.t("signUp.dob")}: {date.toLocaleDateString()}
                 </Text>
             <Pressable onPress={() => showMode('date')} style={styles.iconTouchableArea}>
                 <MaterialCommunityIcons
@@ -178,16 +198,16 @@ export default function SignUp(props) {
             onValueChange={(itemValue) => setGender(itemValue)}
             style={styles.picker}
             itemStyle={styles.pickerText}>
-            <Picker.Item label={t("signUp.selectGender")} value="" />
-            <Picker.Item label={t("signUp.male")} value="male" />
-            <Picker.Item label={t("signUp.female")} value="female" />
-            <Picker.Item label={t("signUp.other")} value="other" />
+            <Picker.Item label={i18n.t("signUp.selectGender")} value="" />
+            <Picker.Item label={i18n.t("signUp.male")} value="male" />
+            <Picker.Item label={i18n.t("signUp.female")} value="female" />
+            <Picker.Item label={i18n.t("signUp.other")} value="other" />
           </Picker>
         </View> */}
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
-            placeholder={t("signUp.usernameLength")}
+            placeholder={i18n.t("signUp.usernameLength")}
             placeholderTextColor="#003f5c"
             onChangeText={(text) => setUserName(text)}
           />
@@ -196,7 +216,7 @@ export default function SignUp(props) {
           <TextInput
             style={styles.inputText}
             secureTextEntry
-            placeholder={t("signUp.passwordLength")}
+            placeholder={i18n.t("signUp.passwordLength")}
             placeholderTextColor="#003f5c"
             onChangeText={(text) => setPassword(text)}
           />
@@ -205,7 +225,7 @@ export default function SignUp(props) {
           <TextInput
             style={styles.inputText}
             secureTextEntry={isSecure}
-            placeholder={t("signUp.confirmPassword")}
+            placeholder={i18n.t("signUp.confirmPassword")}
             placeholderTextColor="#003f5c"
             onChangeText={(text) => setConfirmPassword(text)}
           />
@@ -225,19 +245,19 @@ export default function SignUp(props) {
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
-          Alert.alert(`${t("signUp.modalClose")}`);
+          Alert.alert(`${i18n.t("signUp.modalClose")}`);
           setModalVisible(!modalVisible);
         }}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.modalTitle}>{t("signUp.privacyPolicy")}</Text>
-            <Text style={styles.modalText}>{t("signUp.privacyPolicy1")}</Text>
-            <Text style={styles.modalText}>{t("signUp.privacyPolicy2")}</Text>
-            <Text style={styles.modalText}>placeholder={t("signUp.privacyPolicy3")}</Text>
+            <Text style={styles.modalTitle}>{i18n.t("signUp.privacyPolicy")}</Text>
+            <Text style={styles.modalText}>{i18n.t("signUp.privacyPolicy1")}</Text>
+            <Text style={styles.modalText}>{i18n.t("signUp.privacyPolicy2")}</Text>
+            <Text style={styles.modalText}>placeholder={i18n.t("signUp.privacyPolicy3")}</Text>
             <Pressable
               style={[styles.button, styles.buttonClose]}
               onPress={onAccept}>
-              <Text style={styles.textStyle}>{t("signUp.acceptBtn")}</Text>
+              <Text style={styles.textStyle}>{i18n.t("signUp.acceptBtn")}</Text>
             </Pressable>
           </View>
         </View>
@@ -256,7 +276,7 @@ export default function SignUp(props) {
         <Text>I accept</Text>
           <Pressable style={{color: 'blue'}}
                 onPress={() => setModalVisible(true)}>
-          <Text style={{color:'blue'}}> {t("signUp.termsConditions")}</Text>
+          <Text style={{color:'blue'}}> {i18n.t("signUp.termsConditions")}</Text>
           </Pressable>
         </View>
         <Pressable
@@ -269,7 +289,7 @@ export default function SignUp(props) {
             ]
           }
             >
-            <Text style={styles.signUp} className="p-4">{t("signUp.signUpBtn")}</Text>
+            <Text style={styles.signUp} className="py-4 px-2">{i18n.t("signUp.signUpBtn")}</Text>
         </Pressable>
       </ScrollView>
     </ScrollView>
