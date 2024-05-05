@@ -1,6 +1,7 @@
 package com.example.had_backend_jwt.Entities;
 
 import com.example.had_backend_jwt.Configurations.AttributeEncryptor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -28,6 +29,7 @@ public class PatientProgress {
     @Column(name = "severityType")
     private String severityType;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ptRegNo")
     private PatientInfo patientInfo;

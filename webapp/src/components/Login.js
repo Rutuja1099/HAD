@@ -88,13 +88,13 @@ const Login = ({setAuthenticated}) => {
             }
             else{
                 console.log("else part error:");
-                alert(response.data.message);
+                alert(response);
                 setPassword("");
                 setUsername("");
             }
         }catch(error){
             console.log("catch block of error");
-            alert(error.data.message);
+            alert(error);
             setPassword("");
             setUsername("");  
             window.location.reload();                  

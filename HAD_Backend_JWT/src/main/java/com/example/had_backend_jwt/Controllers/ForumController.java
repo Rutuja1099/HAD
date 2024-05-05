@@ -258,15 +258,6 @@ public class ForumController {
             for(FlagTableQuestionDoctor f:list)
             {
                 setQ.add(f.getQuestion());
-//=======
-//    public ResponseEntity<List<Questions>> getQuestionss(){
-//
-//        try {
-//            List<Questions> questions = questionsRepository.QuestionList();
-//            System.out.println("Retrieved " + questions.size() + " questions");
-//            for (Questions question : questions) {
-//                System.out.println("Question ID: " + question.getQueryId() + ", Content: " + question.getQueryContent());
-//>>>>>>> multilingual
             }
             for(Questions q:questions)
             {

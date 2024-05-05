@@ -90,16 +90,17 @@ public class PatientService {
 
 
     public List<SuggestedDoctorsListResponse> getSuggestedDoctorsList(){
-        List<Object[]> queryResult = doctorInfoRepository.SuggestDoctorsList();
+
+        List<DoctorInfo> doctorInfoList = doctorInfoRepository.findAll();
         List<SuggestedDoctorsListResponse> suggestedDoctorsListResponses = new ArrayList<>();
 
-        for (Object[] row : queryResult) {
+        for (DoctorInfo row : doctorInfoList) {
             SuggestedDoctorsListResponse response = SuggestedDoctorsListResponse.builder()
-                    .drId((Integer) row[0])
-                    .drFullName((String) row[1])
-                    .drSpecialization((String) row[2])
-                    .drExperience((Integer) row[3])
-                    .drGender((String) row[4])
+                    .drId((Integer) row.getDrId())
+                    .drFullName((String) row.getDrFullName())
+                    .drSpecialization((String) row.getDrSpecialization())
+                    .drExperience((Integer) row.getDrExperience())
+                    .drGender((String) row.getDrGender())
                     .build();
             suggestedDoctorsListResponses.add(response);
         }
@@ -166,18 +167,6 @@ public class PatientService {
     public List<Questionnaire> getQuestions() {
 
         List<Questionnaire> questions=qrepo.findQuestionnaireBySeverity();
-
-//        List<Questionnaire> questions=new ArrayList<>();
-//        Questionnaire q1=qrepo.findQuestionnaireBySeverity(1);
-//        Questionnaire q2=qrepo.findQuestionnaireBySeverity(2);
-//        Questionnaire q3=qrepo.findQuestionnaireBySeverity(3);
-//        Questionnaire q4=qrepo.findQuestionnaireBySeverity(4);
-//        Questionnaire q5=qrepo.findQuestionnaireBySeverity(5);
-//        questions.add(q1);
-//        questions.add(q2);
-//        questions.add(q3);
-//        questions.add(q4);
-//        questions.add(q5);
         return questions;
     }
 

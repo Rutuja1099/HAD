@@ -1,5 +1,6 @@
 package com.example.had_backend_jwt.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,13 +18,15 @@ public class Answers {
     @Column(name="answerId")
     private Integer answerId;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "queryId", referencedColumnName = "queryId")
     private Questions query;
 
     @Column(name="answerContent")
     private String answerContent;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="drId", referencedColumnName = "drId")
     private DoctorInfo drInfo;
@@ -38,16 +41,20 @@ public class Answers {
     private Boolean isEdited;
 
 
+    @JsonIgnore
     @OneToMany(mappedBy = "answers", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<FlagTableAnswerPatient> flagTableAnswerPatientList;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "answers", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<FlagTableAnswerDoctor> flagTableAnswerDoctorList;
 
 
+    @JsonIgnore
     @OneToMany(mappedBy = "answers", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<UpVoteAnswerPatient> upVoteAnswerPatientList;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "answers", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<UpVoteAnswerDoctor> upVoteAnswerDoctorList;
 

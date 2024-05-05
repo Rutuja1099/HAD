@@ -1,6 +1,7 @@
 package com.example.had_backend_jwt.Entities;
 
 import com.example.had_backend_jwt.Configurations.AttributeEncryptor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,11 +29,13 @@ public class DoctorPatientMapping {
     @Column(name="chatId", unique = true)
     private Integer chatId;
 
+    @JsonIgnore
     @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn(name = "drId", referencedColumnName = "drId")
     private DoctorInfo doctorInfo;
 
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ptRegNo", referencedColumnName = "ptRegNo")
     private PatientInfo patientInfo;
