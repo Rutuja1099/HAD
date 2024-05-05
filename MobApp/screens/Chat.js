@@ -7,12 +7,15 @@ import {addDoc, collection, onSnapshot, orderBy, query, serverTimestamp, where} 
 import { db } from "../configurations/firebase-config";
 import { useFonts, Pangolin_400Regular } from '@expo-google-fonts/pangolin';
 import {icon_suhrud, background} from '../assets';
-import { useTranslation } from "react-i18next";
+// import { useTranslation } from "react-i18next";
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import STORE_LANGUAGE_KEY from '../configurations/Multilingual';
+import i18n from '../localization/i18n';
 
 const Chat = ({route}) => {
 
-    const { t, i18n } = useTranslation();
+    // const { t, i18n } = useTranslation();
     
     const {doctorName, doctorId, chatId, user} = route.params;
     console.log(doctorName, chatId, user);
@@ -63,8 +66,21 @@ const Chat = ({route}) => {
         navigation.navigate("ChatList");
     }
 
+    const retrieveLanguage = async () => {
+        try {
+            const lang = await AsyncStorage.getItem(STORE_LANGUAGE_KEY);
+            if (lang) {
+                // i18n.changeLanguage(lang);
+                i18n.locale = lang;
+            }
+        } catch (error) {
+            console.log("Error retrieving language:", error);
+        }
+    };
+
     useEffect(() => {
 
+        retrieveLanguage();
         //applying the query to the firebase database as per need
         const queryMessages = query(
             messageRef, 
@@ -146,7 +162,7 @@ const Chat = ({route}) => {
                     
                     <TextInput
                         className = "flex-1 border border-gray-300 rounded-full px-4 py-2 mr-4"
-                        placeholder={t("chat.type")} 
+                        placeholder={i18n.t("chat.type")} 
 
                         value={newMessage}
                         onChangeText={text => setNewMessage(text)}

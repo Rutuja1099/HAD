@@ -1,12 +1,14 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useDebugValue, useEffect } from 'react';
 import { Pressable, Animated, Text, View, StyleSheet, Image, ScrollView, Dimensions } from 'react-native';
 import {progImage,smileysImage} from '../assets';
 import { useNavigation } from '@react-navigation/native'
 import webServerUrl from '../configurations/WebServer';
 import HttpService from '../services/HttpService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useTranslation } from 'react-i18next';
+// import { useTranslation } from 'react-i18next';
+import STORE_LANGUAGE_KEY from '../configurations/Multilingual';
 
+import i18n from '../localization/i18n';
 
 const { width } = Dimensions.get('window').width;
 const height = 320;
@@ -14,20 +16,35 @@ const height = 320;
 export default function Day({route}) {
     
 
-  const { t, i18n } = useTranslation();
+  // const { t, i18n } = useTranslation();
 
   const {week,currentDay} = route.params;
     let day;
     const thisDay=currentDay;
     const activeDay=`Day ${thisDay}`;
     const [items, setItems] = useState([
-      { item: `${t("day.day1")}` },
-      { item: `${t("day.day2")}` },
-      { item: `${t("day.day3")}` }
+      { item: `${i18n.t("day.day1")}` },
+      { item: `${i18n.t("day.day2")}` },
+      { item: `${i18n.t("day.day3")}` }
     ]);
 
     const navigation = useNavigation();
 
+    const retrieveLanguage = async () => {
+      try {
+          const lang = await AsyncStorage.getItem(STORE_LANGUAGE_KEY);
+          if (lang) {
+              // i18n.changeLanguage(lang);
+              i18n.locale = lang;
+          }
+      } catch (error) {
+          console.log("Error retrieving language:", error);
+      }
+  };
+
+    useEffect(() => {
+      retrieveLanguage();
+    },[])
     console.log("Week", week);
 
     const onPressDay = async (item) => {

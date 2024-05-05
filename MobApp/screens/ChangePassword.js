@@ -1,5 +1,5 @@
 import { Pressable, ScrollView, TextInput, StyleSheet, Text, View, Image, ImageBackground } from 'react-native'
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import { StatusBar } from 'expo-status-bar';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useRoute } from '@react-navigation/native';
@@ -8,10 +8,13 @@ import {LoginInputValidation} from '../services/InputValidation';
 import HttpService from '../services/HttpService';
 import { useFonts, Pangolin_400Regular } from '@expo-google-fonts/pangolin';
 import {icon_suhrud, background} from '../assets';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import STORE_LANGUAGE_KEY from '../configurations/Multilingual';
+import i18n from '../localization/i18n';
 
 export default function ChangePassword(props) {
 
-    const { t, i18n } = useTranslation();
+    // const { t, i18n } = useTranslation();
 
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
@@ -25,6 +28,21 @@ export default function ChangePassword(props) {
       Pangolin_400Regular,
     });
 
+    const retrieveLanguage = async () => {
+      try {
+          const lang = await AsyncStorage.getItem(STORE_LANGUAGE_KEY);
+          if (lang) {
+              // i18n.changeLanguage(lang);
+              i18n.locale = lang;
+          }
+      } catch (error) {
+          console.log("Error retrieving language:", error);
+      }
+  };
+
+    useEffect(() => {
+      retrieveLanguage();
+    },[])  
     const onPressLogin = async() => {
       const isValid=LoginInputValidation({userName,password})
       if(!isValid)
@@ -84,14 +102,14 @@ export default function ChangePassword(props) {
           
         <StatusBar style='auto'/>
         <Image  style={styles.tinyLogo} source={icon_suhrud}/>
-        <Text style={styles.title}>{t("changePassword.title")}</Text>
-        <Text style={{color:'red'}}>{t("changePassword.fieldRequired")}</Text>
+        <Text style={styles.title}>{i18n.t("changePassword.title")}</Text>
+        <Text style={{color:'red'}}>{i18n.t("changePassword.fieldRequired")}</Text>
         <ScrollView contentContainerStyle={styles.logContent}
         style={styles.logbox}>
           <View style={styles.inputView}>
                 <TextInput
                     style={styles.inputText}
-                    placeholder={t("changePassword.username")}
+                    placeholder={i18n.t("changePassword.username")}
                     placeholderTextColor="#003f5c"
                     onChangeText={(text) => setUserName(text)}
                 />
@@ -100,7 +118,7 @@ export default function ChangePassword(props) {
             <TextInput
                 style={styles.inputText}
                 secureTextEntry
-                placeholder={t("changePassword.password")}
+                placeholder={i18n.t("changePassword.password")}
                 placeholderTextColor="#003f5c"
                 onChangeText={(text) => setGeneratedPassword(text)}
             />
@@ -109,7 +127,7 @@ export default function ChangePassword(props) {
             <TextInput
                 style={styles.inputText}
                 secureTextEntry
-                placeholder={t("changePassword.passwordLength")}
+                placeholder={i18n.t("changePassword.passwordLength")}
                 placeholderTextColor="#003f5c"
                 onChangeText={(text) => setPassword(text)}
             />
@@ -118,7 +136,7 @@ export default function ChangePassword(props) {
             <TextInput
                 style={styles.inputText}
                 secureTextEntry={isSecure}
-                placeholder={t("changePassword.confirmPassword")}
+                placeholder={i18n.t("changePassword.confirmPassword")}
                 placeholderTextColor="#003f5c"
                 onChangeText={(text) => setConfirmPassword(text)}
             />
@@ -141,7 +159,7 @@ export default function ChangePassword(props) {
                   }
               ]}
               >
-              <Text style={styles.loginText}>{t("changePassword.changeBtn")}</Text>
+              <Text style={styles.loginText}>{i18n.t("changePassword.changeBtn")}</Text>
           </Pressable>
         </ScrollView>
         

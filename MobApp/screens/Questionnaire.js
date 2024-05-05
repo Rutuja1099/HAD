@@ -5,13 +5,15 @@ import { useNavigation } from '@react-navigation/native'
 import webServerUrl from '../configurations/WebServer';
 import HttpService from '../services/HttpService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useTranslation } from "react-i18next";
+// import { useTranslation } from "react-i18next";
+import i18n from '../localization/i18n';
+import STORE_LANGUAGE_KEY from "../configurations/Multilingual";
 
 const Questionnaire = ({route}) => {
 
     const {week, day}=route.params ?? {week:1, day:1};
 
-    const { t, i18n } = useTranslation();
+    // const { t, i18n } = useTranslation();
     
     const[count,setCount]= useState(0);
     const [color, setColor] = useState({
@@ -28,15 +30,25 @@ const Questionnaire = ({route}) => {
     const [hoveredOption, setHoveredOption] = useState(null);
 
     const [options, setOptions] = useState([
-        {option1: [`${t("questionnaire.option1")}`, 1]},
-        {option2: [`${t("questionnaire.option2")}`, 2]},
-        {option3: [`${t("questionnaire.option3")}`, 3]},
-        {option4: [`${t("questionnaire.option4")}`, 4]},
+        {option1: [`${i18n.t("questionnaire.option1")}`, 1]},
+        {option2: [`${i18n.t("questionnaire.option2")}`, 2]},
+        {option3: [`${i18n.t("questionnaire.option3")}`, 3]},
+        {option4: [`${i18n.t("questionnaire.option4")}`, 4]},
     ])
 
     const [selectedOptions, setSelectedOptions] = useState([]);
 
-
+    const retrieveLanguage = async () => {
+        try {
+            const lang = await AsyncStorage.getItem(STORE_LANGUAGE_KEY);
+            if (lang) {
+                // i18n.changeLanguage(lang);
+                i18n.locale = lang;
+            }
+        } catch (error) {
+            console.log("Error retrieving language:", error);
+        }
+    };
     
     useEffect(() => {
 
@@ -94,8 +106,9 @@ const Questionnaire = ({route}) => {
             setQuestion(response.data[0]);
         }
         
-            getQuestionnaire();
-            getSelectedOptions();
+        retrieveLanguage();
+        getQuestionnaire();
+        getSelectedOptions();
 
     },[]);
 
@@ -238,12 +251,12 @@ const Questionnaire = ({route}) => {
                 <View className="flex-row px-2 space-x-4 mt-2">
                     {/* <Icon onPress={() => navigateBack()} name="angle-left" size={25}/> */}
                     <Text className="text-xl font-semibold">
-                    {t("questionnaire.hey")} {userName}
+                    {i18n.t("questionnaire.hey")} {userName}
                     </Text>
                 </View>
                 
                 <Text className="text-base px-8">
-                    {t("questionnaire.subTitle")}
+                    {i18n.t("questionnaire.subTitle")}
                 </Text>
             </SafeAreaView>
             
@@ -285,7 +298,7 @@ const Questionnaire = ({route}) => {
                     </View>
                     <View className="absolute bottom-56 left-0 right-0 p-4"> 
                         <TouchableOpacity onPress={nextQuestion} className={`bg-blue-500 px-0 py-4 rounded-md w-full ${selectedOption === null ? 'opacity-50' : ''}`} disabled={selectedOption === null}>
-                            <Text className="text-white text-center font-bold">{count === questions.length - 1 ? `${t("questionnaire.next")}` : `${t("questionnaire.continue")}`}
+                            <Text className="text-white text-center font-bold">{count === questions.length - 1 ? `${i18n.t("questionnaire.next")}` : `${i18n.t("questionnaire.continue")}`}
                             </Text>
                         </TouchableOpacity>
                     </View>

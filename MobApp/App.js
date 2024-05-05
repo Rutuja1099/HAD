@@ -45,10 +45,10 @@ export default function App() {
     
     <NavigationContainer>
 
-      {/* <Stack.Navigator>
-      <Stack.Screen name="Dashboard" component={Dashboard} options={{headerShown: false,}}/> */}
+      <Stack.Navigator>
+      <Stack.Screen name="ChatList" component={ChatList} options={{headerShown: false,}}/>
 
-      <Stack.Navigator initialRouteName="Login" >
+      {/* <Stack.Navigator initialRouteName="Login" > */}
       
         <Stack.Screen name="Login" component={Login} options={{headerShown: false,}}/>
         <Stack.Screen name="SignUp" component={SignUp} options={{headerShown: false,}}/>
@@ -56,7 +56,7 @@ export default function App() {
         <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{headerShown: false,}}/>
         <Stack.Screen name="Week" component={Week}/>
         <Stack.Screen name="Day" component={Day}/>
-        <Stack.Screen name="ChatList" component={ChatList} options={{headerShown: false,}}/>
+        {/* <Stack.Screen name="ChatList" component={ChatList} options={{headerShown: false,}}/> */}
         <Stack.Screen name="Meditation" component={Meditation} options={{headerShown: false,}}/>
         <Stack.Screen name="Moodlift" component={Moodlift} options={{headerShown: false,}}/>
         <Stack.Screen name="MeditationPage" component={MeditationPage} options={{headerShown: false,}}/>

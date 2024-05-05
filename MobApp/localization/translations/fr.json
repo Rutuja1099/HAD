@@ -60,11 +60,7 @@
         "signUpBtn": "S'inscrire"
     },
     "week": {
-        "week1": "Semaine 1",
-        "week2": "Semaine 2",
-        "week3": "Semaine 3",
-        "week4": "Semaine 4",
-        "week5": "Semaine 5"
+        "week": "Semaine"
     },
     "day": {
         "day1": "Jour 1",
