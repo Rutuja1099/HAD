@@ -54,9 +54,12 @@ const Login = ({setAuthenticated}) => {
             username:username,
             password:password
         };
+        const headers={
+            'ngrok-skip-browser-warning': 'true'
+        }
             
         try{
-            const response=await HttpService(method,loginURL,data);
+            const response=await HttpService(method,loginURL,data,headers);
             console.log(response.status)
             
             if(response.status===200){
@@ -115,12 +118,7 @@ const Login = ({setAuthenticated}) => {
     return (
         <div className="flex flex-col h-full dark:bg-blue-950">
             
-            {/* Navigation Bar */}
-            <nav className="bg-white text-black p-4 rounded-3xl mb-8">
             
-                <div className="container mx-auto">Navigation Bar</div>
-            
-            </nav>
         
             {/* Main Content */}
             <div className="flex flex-grow justify-center items-center">

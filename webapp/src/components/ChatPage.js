@@ -63,6 +63,7 @@ const ChatPage = () => {
         let headers = {
             'Authorization': `Bearer ${bearerToken}`, // token here
             'Content-Type': 'application/json', // content type
+            'ngrok-skip-browser-warning': 'true',
         };
 
         let drId_response;
@@ -99,6 +100,7 @@ const ChatPage = () => {
         headers = {
             'Authorization': `Bearer ${bearerToken}`, // token here
             'Content-Type': 'application/json', // content type
+            'ngrok-skip-browser-warning': 'true',
         };
 
         try{

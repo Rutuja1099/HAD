@@ -54,6 +54,7 @@ const Settings = () => {
           const headers = {
             'Authorization': `Bearer ${bearerToken}`, // Include your token here
             'Content-Type': 'application/json', // Specify the content type if needed
+            'ngrok-skip-browser-warning': 'true',
           };
           
           try{
@@ -84,6 +85,7 @@ const Settings = () => {
         const headers = {
             'Authorization': `Bearer ${bearerToken}`, // Include your token here
             'Content-Type': 'String', // Specify the content type if needed
+            'ngrok-skip-browser-warning': 'true',
         };
         try{
             const response=await HttpService(method,deleteAccountURL,data=null,headers);
@@ -109,10 +111,11 @@ const Settings = () => {
         const bearerToken = localData.token;
         const headers = {
             'Authorization': `Bearer ${bearerToken}`, // Include your token here
-            'Content-Type': 'String', // Specify the content type if needed
+            'Content-Type': 'String', // Specify the content type if needed,
+            'ngrok-skip-browser-warning': 'true',
         };
         try{
-            const response=await HttpService(method,logoutURL,data=null,headers);
+            const response=await HttpService(method,logoutURL,null,headers);
             console.log(response.status)
             if(response.status===200){
               console.log("Successful");

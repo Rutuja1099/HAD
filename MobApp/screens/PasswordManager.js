@@ -92,6 +92,7 @@ const PasswordManager = () => {
         const headers = {
             'Authorization': `Bearer ${bearerToken}`, // Include your token here
             'Content-Type': 'application/json', // Specify the content type if needed
+            'ngrok-skip-browser-warning': 'true',
         };
         const data={
             username:ptUsername,
@@ -134,9 +135,10 @@ const PasswordManager = () => {
         const headers = {
             'Authorization': `Bearer ${bearerToken}`, // Include your token here
             'Content-Type': 'String', // Specify the content type if needed
+            'ngrok-skip-browser-warning': 'true'
         };
         try{
-            const response=await HttpService(method,logoutURL,data=null,headers);
+            const response=await HttpService(method,logoutURL,null,headers);
             console.log(response.status)
             if(response.status===200){
               console.log("Successful");

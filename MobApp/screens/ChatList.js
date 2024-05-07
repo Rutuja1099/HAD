@@ -82,6 +82,7 @@ const ChatList = () => {
         let headers = {
             'Authorization': `Bearer ${bearerToken}`, // token here
             'Content-Type': 'application/json', // content type
+            'ngrok-skip-browser-warning': 'true',
         };
 
         let ptId_response;
@@ -119,6 +120,7 @@ const ChatList = () => {
         headers = {
             'Authorization': `Bearer ${bearerToken}`, // token here
             'Content-Type': 'application/json', // content type
+            'ngrok-skip-browser-warning': 'true',
         };
 
         try{

@@ -48,8 +48,9 @@ export default function ForgotPassword(props) {
 
     const forgotPasswordURL = webServerUrl+"/auth/email/patient?mail="+email;
     const method='POST';
+    const headers={'ngrok-skip-browser-warning': 'true',}
     try{
-      const response=await HttpService(method,forgotPasswordURL);
+      const response=await HttpService(method,forgotPasswordURL,date=null,headers);
       console.log(response.status)
       if(response.status===200){
         console.log("Successful");

@@ -44,9 +44,11 @@ export default function Login(props) {
             username:userName,
             password:password
         }
-        
+        const headers={
+            'ngrok-skip-browser-warning': 'true',
+        }
         try{
-            const response=await HttpService(method,loginURL,data);
+            const response=await HttpService(method,loginURL,data,headers);
             console.log(response.status)
             if(response.status===200){
                 console.log("Successful");
@@ -80,8 +82,8 @@ export default function Login(props) {
                 setPassword('');
             }
         }catch(error){
-            alert("not 200");
-            // console.log(error);
+            // alert("not 200");
+            console.log(error);
             setUserName('');
             setPassword('');
         }
