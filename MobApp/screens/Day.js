@@ -71,6 +71,7 @@ export default function Day({route}) {
       const headers = {
         'Authorization': `Bearer ${bearerToken}`,
         'Content-Type': 'application/json',
+        'ngrok-skip-browser-warning': 'true',
       };
 
       let response;

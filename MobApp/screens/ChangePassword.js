@@ -71,9 +71,12 @@ export default function ChangePassword(props) {
           currentPassword:generatedPassword,
           newPassword:password
         }
+        const headers={
+          'ngrok-skip-browser-warning': 'true',
+        }
 
         try{
-          const response=await HttpService(method,changePasswordURL,data);
+          const response=await HttpService(method,changePasswordURL,data,headers);
           console.log(response.status)
           if(response.status===200){
             console.log("Successful");

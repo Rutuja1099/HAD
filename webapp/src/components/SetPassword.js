@@ -41,8 +41,11 @@ const SetPassword = () => {
                         currentPassword:pass_wd,
                         newPassword:password1
                     };
+                    const headers={
+                        'ngrok-skip-browser-warning': 'true',
+                    }
                     try{
-                        const response=await HttpService(method,forgotPasswordURL,data);
+                        const response=await HttpService(method,forgotPasswordURL,data,headers);
                         console.log(response.status)
                         if(response.status===200){
                             console.log("Successful");

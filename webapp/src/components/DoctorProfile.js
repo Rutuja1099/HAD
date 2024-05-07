@@ -76,6 +76,7 @@ function DoctorProfile() {
                 const headers = {
                   'Authorization': `Bearer ${bearerToken}`, 
                   'Content-Type': 'application/json',
+                  'ngrok-skip-browser-warning': 'true',
                 };
         
                 try{
@@ -117,6 +118,7 @@ function DoctorProfile() {
             const headers = {
               'Authorization': `Bearer ${bearerToken}`,     
               'Content-Type': 'application/json', // Specify the content type if needed
+              'ngrok-skip-browser-warning': 'true'
             };
     
             try{
