@@ -1,5 +1,5 @@
 import { View, Text, SafeAreaView, Pressable, StyleSheet, ImageBackground } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import NavigationBar from '../components/NavigationBar'
 import { useNavigation } from '@react-navigation/native';
 import {icon_suhrud, background} from '../assets';

@@ -184,7 +184,7 @@ export default function SignUp(props) {
             <Text style={styles.modalTitle}>{i18n.t("signUp.privacyPolicy")}</Text>
             <Text style={styles.modalText}>{i18n.t("signUp.privacyPolicy1")}</Text>
             <Text style={styles.modalText}>{i18n.t("signUp.privacyPolicy2")}</Text>
-            <Text style={styles.modalText}>placeholder={i18n.t("signUp.privacyPolicy3")}</Text>
+            <Text style={styles.modalText}>{i18n.t("signUp.privacyPolicy3")}</Text>
             <Pressable
               style={[styles.button, styles.buttonClose]}
               onPress={onAccept}>
