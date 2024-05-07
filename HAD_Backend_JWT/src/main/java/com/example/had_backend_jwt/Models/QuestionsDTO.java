@@ -25,8 +25,8 @@ public class QuestionsDTO {
 
     private Integer flagCount=0;
 
-    private List<Answers> answers;
-
+//    private List<Answers> answers;
+    private Integer countAns;
     private boolean isFlagged=false;
 
 }

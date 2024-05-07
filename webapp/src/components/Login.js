@@ -97,10 +97,11 @@ const Login = ({setAuthenticated}) => {
             }
         }catch(error){
             console.log("catch block of error");
+
             alert(error);
             setPassword("");
             setUsername("");  
-            window.location.reload();                  
+            // window.location.reload();                  
         }
         
       };
@@ -189,12 +190,14 @@ const Login = ({setAuthenticated}) => {
                                 <div className="mb-5 w-full rounded-3xl overflow-hidden">
                                     <input type="text" placeholder="Username" id="username" name="username" className="w-full p-2 py-3 pl-10 rounded-3xl bg-cyan-200"
                                         onChange={(text)=>{setUsername(text.target.value)}}
+                                        value={username}
                                     />
                                 </div>
                                 
                                 <div className="mb-1 rounded-3xl overflow-hidden">
                                     <input type="password" placeholder="Password" id="password" name="password" className="w-full p-2 py-3 pl-10 rounded-3xl bg-cyan-200" 
                                         onChange={(text)=>{setPassword(text.target.value)}}
+                                        value={password}
                                     />
                                 </div>
 

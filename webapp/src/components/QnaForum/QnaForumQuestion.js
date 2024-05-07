@@ -54,6 +54,9 @@ const QnaForumQuestion = () => {
     const [flagSelectedAnswer, setFlagSelectedAnswer] = useState(false);
     const [upvoteSelected, setUpvoteSelected] = useState(false);
 
+    const [flagAnswerId, setflagAnswerId] = useState();
+    const [upvoteAnswerId, setUpvoteAnswerId] = useState();
+
     const [allAnswers, setAllAnswers] = useState([]);
     const [selectedAnswerId, setSelectedAnswerId] = useState();
     const [selectedAnswer, setSelectedAnswer] = useState("");
@@ -198,6 +201,8 @@ const QnaForumQuestion = () => {
         const method='PUT';
 
         const data=null;
+
+        setflagAnswerId(answerId);
         
         try{
 
@@ -247,6 +252,8 @@ const QnaForumQuestion = () => {
         const method='PUT';
 
         const data=null;
+
+        setUpvoteAnswerId(answerId);
         
         try{
 
@@ -451,7 +458,7 @@ const QnaForumQuestion = () => {
 
                                                 <div className='flex flex-row items-center justify-between'>
 
-                                                    {!upvoteSelected 
+                                                    {upvoteAnswerId !== answer.answerId 
                                             
                                                     ? 
                                                     (
@@ -466,7 +473,7 @@ const QnaForumQuestion = () => {
 
                                                     )}
 
-                                                    {!flagSelectedAnswer
+                                                    {flagAnswerId !== answer.answerId
                                         
                                                     ? 
                                                     (

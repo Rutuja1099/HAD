@@ -241,7 +241,6 @@ public class ForumController {
 //    }
     @GetMapping("/getAllQuestion")
     @PreAuthorize("hasAuthority('Patient') or hasAuthority('Doctor') or hasAuthority('Moderator')")
-
     public ResponseEntity<List<QuestionsDTO>> getQuestions(HttpServletRequest req){
         String token = Utilities.resolveToken(req);
         String role = jwtService.extractRole(token);
@@ -265,7 +264,8 @@ public class ForumController {
                 obj.setQueryId(q.getQueryId());
                 obj.setIsUrgent(q.getIsUrgent());
                 obj.setFlagCount(q.getFlagCount());
-                obj.setAnswers(q.getAnswers());
+//                obj.setAnswers(q.getAnswers().);
+                obj.setCountAns(q.getAnswers().size());
                 obj.setQueryContent(q.getQueryContent());
                 obj.setFlagged(setQ.contains(q));
                 qs.add(obj);
@@ -286,7 +286,8 @@ public class ForumController {
                 obj.setQueryId(q.getQueryId());
                 obj.setIsUrgent(q.getIsUrgent());
                 obj.setFlagCount(q.getFlagCount());
-                obj.setAnswers(q.getAnswers());
+//                obj.setAnswers(q.getAnswers());
+                obj.setCountAns(q.getAnswers().size());
                 obj.setQueryContent(q.getQueryContent());
                 obj.setFlagged(setQ.contains(q));
                 qs.add(obj);
@@ -301,7 +302,8 @@ public class ForumController {
                 obj.setQueryId(q.getQueryId());
                 obj.setIsUrgent(q.getIsUrgent());
                 obj.setFlagCount(q.getFlagCount());
-                obj.setAnswers(q.getAnswers());
+//                obj.setAnswers(q.getAnswers());
+                obj.setCountAns(q.getAnswers().size());
                 obj.setQueryContent(q.getQueryContent());
                 obj.setFlagged(false);
                 qs.add(obj);
@@ -449,7 +451,8 @@ public class ForumController {
             obj.setQueryId(q.getQueryId());
             obj.setIsUrgent(q.getIsUrgent());
             obj.setFlagCount(q.getFlagCount());
-            obj.setAnswers(q.getAnswers());
+//            obj.setAnswers(q.getAnswers());
+            obj.setCountAns(q.getAnswers().size());
             obj.setQueryContent(q.getQueryContent());
             obj.setFlagged(setQ.contains(q));
             qs.add(obj);

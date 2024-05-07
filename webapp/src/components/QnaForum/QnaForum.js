@@ -111,7 +111,7 @@ const QnaForum = () => {
             'ngrok-skip-browser-warning': 'true',
         };
         
-        const response=await HttpService(method,loginURL,data, headers);
+        const response= await HttpService(method,loginURL,data, headers);
         console.log(response.status)
         
         if(response.status===200){
@@ -163,7 +163,7 @@ const QnaForum = () => {
                 
                     {/* Ask & Answer Section */}
                     <div className="flex-1 mr-4 rounded-3xl max-h-[calc(100vh-7.5rem)] overflow-y-auto scrollbar">
-                        {allQuestions.map((question, index) => (
+                        {Array.isArray(allQuestions) && allQuestions.map((question, index) => (
                         
                             // wraps both questions and answers for a single item
                             <div key={index} className="bg-white p-4 border border-gray-300 mb-4 rounded-3xl">
@@ -208,7 +208,7 @@ const QnaForum = () => {
                                         className="cursor-pointer hover:text-blue-600 hover:underline underline-offset-2" 
                                         onClick={() => navigateToQuestion(question.queryId, question.queryContent)}
                                     >
-                                        view answers 
+                                        {question.countAns} replies
                                     </p>
 
                                     {/* <p>**</p>
