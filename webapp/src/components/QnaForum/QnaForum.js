@@ -206,7 +206,7 @@ const QnaForum = () => {
                                         className="cursor-pointer hover:text-blue-600 hover:underline underline-offset-2" 
                                         onClick={() => navigateToQuestion(question.queryId, question.queryContent)}
                                     >
-                                        view answers 
+                                        {question.countAns} replies
                                     </p>
 
                                     {/* <p>**</p>

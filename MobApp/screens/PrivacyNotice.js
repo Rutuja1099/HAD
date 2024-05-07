@@ -1,15 +1,18 @@
 import { View, Text, SafeAreaView, ScrollView, StyleSheet, ImageBackground } from 'react-native';
-import React from 'react';
+import React, { useDebugValue, useEffect } from 'react';
 import NavigationBar from '../components/NavigationBar';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
 import {icon_suhrud, background} from '../assets';
-import { useTranslation } from 'react-i18next';
+// import { useTranslation } from 'react-i18next';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import STORE_LANGUAGE_KEY from '../configurations/Multilingual';
 
+import i18n from '../localization/i18n';
 
 const PrivacyNotice = () => {
 
-  const { t, i18n } = useTranslation();
+  // const { t, i18n } = useTranslation();
 
   const navigation = useNavigation();
   
@@ -17,49 +20,65 @@ const PrivacyNotice = () => {
     navigation.navigate("SecurityPrivacy");
   };
 
+  const retrieveLanguage = async () => {
+    try {
+        const lang = await AsyncStorage.getItem(STORE_LANGUAGE_KEY);
+        if (lang) {
+            // i18n.changeLanguage(lang);
+            i18n.locale = lang;
+        }
+    } catch (error) {
+        console.log("Error retrieving language:", error);
+    }
+};
+
+  useEffect(() => {
+    retrieveLanguage();
+  },[])
+
   return (
     <ImageBackground source={background} style={styles.imagebackground}>
     <SafeAreaView className="flex-1 relative">
       <View className="flex flex-row mt-12 mx-5 items-center pb-4">
         <Icon name="angle-left" size={30} onPress={navigateback}/>
             
-        <Text className = "font-bold text-lg ml-6 text-center" >{t("privacyNotice.title")}</Text>
+        <Text className = "font-bold text-lg ml-6 text-center" >{i18n.t("privacyNotice.title")}</Text>
       </View>
 
       <View className="flex-1 text-black pt-2 p-4 mt-4 ml-5 mr-5 mb-4 shadow-lg rounded-lg">
         <ScrollView>
           <Text style={{ fontFamily: 'System'}} className="text-lg">
-            {t("privacyNotice.subTitle")}
+            {i18n.t("privacyNotice.subTitle")}
           </Text>
           <Text style={{ fontFamily: 'System'}} className="text-lg font-bold mt-2">
-            {t("privacyNotice.heading1")}
+            {i18n.t("privacyNotice.heading1")}
           </Text>
           <Text style={{ fontFamily: 'System'}} className="text-lg">
-            {t("privacyNotice.para1")}
+            {i18n.t("privacyNotice.para1")}
           </Text>
           <Text style={{ fontFamily: 'System'}} className="text-lg font-bold mt-2">
-            {t("privacyNotice.heading2")}
+            {i18n.t("privacyNotice.heading2")}
           </Text>
           <Text style={{ fontFamily: 'System'}} className="text-lg">
-            {t("privacyNotice.para2")}
+            {i18n.t("privacyNotice.para2")}
           </Text>
           <Text style={{ fontFamily: 'System'}} className="text-lg font-bold mt-2">
-            {t("privacyNotice.heading3")}
+            {i18n.t("privacyNotice.heading3")}
           </Text>
           <Text style={{ fontFamily: 'System'}} className="text-lg">
-            {t("privacyNotice.para3")}
+            {i18n.t("privacyNotice.para3")}
           </Text>
           <Text style={{ fontFamily: 'System'}} className="text-lg font-bold mt-2">
-            {t("privacyNotice.heading4")}
+            {i18n.t("privacyNotice.heading4")}
           </Text>
           <Text style={{ fontFamily: 'System'}} className="text-lg">
-            {t("privacyNotice.para4")}
+            {i18n.t("privacyNotice.para4")}
           </Text>
           <Text style={{ fontFamily: 'System'}} className="text-lg font-bold mt-2">
-            {t("privacyNotice.heading5")}
+            {i18n.t("privacyNotice.heading5")}
           </Text>
           <Text style={{ fontFamily: 'System'}} className="text-lg">
-          {t("privacyNotice.para5")}
+          {i18n.t("privacyNotice.para5")}
           </Text>
         </ScrollView>
       </View>

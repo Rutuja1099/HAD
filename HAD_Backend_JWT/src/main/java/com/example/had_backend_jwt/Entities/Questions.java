@@ -27,6 +27,7 @@ public class Questions {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
+    @JsonBackReference
     @JoinColumn(name = "ptRegNo", referencedColumnName = "ptRegNo")
     private PatientInfo patientInfo;
 
@@ -44,9 +45,12 @@ public class Questions {
     @JsonBackReference
     private List<Answers> answers;
 
+
+    @JsonIgnore
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<FlagTableQuestionPatient> flagTableQuestionPatientList;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<FlagTableQuestionDoctor> flagTableQuestionDoctorList;
 

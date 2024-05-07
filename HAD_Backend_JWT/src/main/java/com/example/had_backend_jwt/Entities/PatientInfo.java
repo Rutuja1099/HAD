@@ -59,12 +59,15 @@ public class PatientInfo {
     @Column(name="isPatientDeActivated")
     private Boolean isPatientDeActivated;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "patientInfo",fetch = FetchType.LAZY)
     private List<FlagTableQuestionPatient> flagTableQuestionPatientList;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "patientInfo",fetch = FetchType.LAZY)
     private List<FlagTableAnswerPatient> flagTableAnswerPatientList;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "patientInfo",fetch = FetchType.LAZY)
     private List<UpVoteAnswerPatient> upVoteAnswerPatientList;
 

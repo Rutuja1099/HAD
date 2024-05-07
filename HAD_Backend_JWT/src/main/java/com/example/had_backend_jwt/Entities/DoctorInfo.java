@@ -82,9 +82,11 @@ public class DoctorInfo {
     @JsonBackReference
     List<Appointments> appointments;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "doctorInfo",fetch = FetchType.LAZY)
     private List<FlagTableQuestionDoctor> flagTableQuestionDoctorList;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "doctorInfo",fetch = FetchType.LAZY)
     private List<FlagTableAnswerDoctor> flagTableAnswerDoctorList;
 }

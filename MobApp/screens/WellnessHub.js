@@ -46,7 +46,7 @@ const WellnessHub = () => {
             'Content-Type': 'application/json', // Specify the content type if needed
         };
         
-        const response=await HttpService(method,loginURL,data, headers);
+        const response=await HttpService(method,loginURL,data,headers);
         console.log(response.status)
         
         if(response.status===200){
@@ -97,7 +97,7 @@ const WellnessHub = () => {
             'Content-Type': 'application/json', // Specify the content type if needed
         };
         
-        const response=await HttpService(method,loginURL,data, headers);
+        const response=await HttpService(method,loginURL,data,headers);
         console.log(response.status)
         
         if(response.status===200){

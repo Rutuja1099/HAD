@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback,useLayoutEffect, useState } from "react";
+import React, { useEffect, useCallback,useLayoutEffect, useState, useDebugValue } from "react";
 import { View, Text,SafeAreaView, ImageBackground, ScrollView, Modal,  StyleSheet, Pressable, Dimensions, Animated, useWindowDimensions} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Button, Alert } from "react-native";
@@ -9,12 +9,15 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { useFonts, Pangolin_400Regular } from '@expo-google-fonts/pangolin';
 import { useRef } from "react";
 import YouTubeVideos from "../components/YouTubeVideos";
-import { useTranslation } from "react-i18next";
+// import { useTranslation } from "react-i18next";
+import i18n from '../localization/i18n';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import STORE_LANGUAGE_KEY from '../configurations/Multilingual';
 
 const MeditationPage = (props) => {
 
-  const { t, i18n } = useTranslation();
+  // const { t, i18n } = useTranslation();
 
     const navigation = useNavigation();
     const [playing, setPlaying] = useState(false);
@@ -23,6 +26,22 @@ const MeditationPage = (props) => {
     let [fontsLoaded] = useFonts({
       Pangolin_400Regular,
     });
+
+    const retrieveLanguage = async () => {
+      try {
+          const lang = await AsyncStorage.getItem(STORE_LANGUAGE_KEY);
+          if (lang) {
+              // i18n.changeLanguage(lang);
+              i18n.locale = lang;
+          }
+      } catch (error) {
+          console.log("Error retrieving language:", error);
+      }
+  };
+
+  useEffect(()=> {
+    retrieveLanguage();
+  },[]);
 
     useLayoutEffect(() => {
             navigation.setOptions({
@@ -48,16 +67,16 @@ const MeditationPage = (props) => {
                 <View className = "p-4 flex-row items-center">
                     <Icon name="angle-left" color="white" size={25} onPress={navigateback}/>
                     <Text style={styles.subtitle}>
-                    {t("meditationPage.title")}
+                    {i18n.t("meditationPage.title")}
                     </Text>
                 </View>
                     <View style={styles.container}>
                     <ImageBackground source={image1} resizeMode="cover" style={styles.image}>
                         <View style={styles.ImageContainer}>
-                        <Text style={styles.subtitle}>{t("meditationPage.subTitle")} </Text>
+                        <Text style={styles.subtitle}>{i18n.t("meditationPage.subTitle")} </Text>
                         <Text style={styles.dayText}>
-                          {t("meditationPage.paraLine1")}
-                          {t("meditationPage.paraLine2")}
+                          {i18n.t("meditationPage.paraLine1")}
+                          {i18n.t("meditationPage.paraLine2")}
                                 </Text>
                         {/* <View style={styles.videoContainer}> */}
                                 {/* <YoutubePlayer play={playing} videoId={"W19PdslW7iw"}/> */}
@@ -78,18 +97,18 @@ const MeditationPage = (props) => {
                         <View style={styles.innercontainer}>
                            
                             <Pressable disabled={!visibleState} onPress={()=>setVisibleState(false)}>
-                                <Text style={styles.subtitle}>{t("meditationPage.heading1")}</Text></Pressable>
+                                <Text style={styles.subtitle}>{i18n.t("meditationPage.heading1")}</Text></Pressable>
                             <View disabled={visibleState} style={styles.textContainer}>
                             <Text style={styles.dayText}>
-                                {t("meditationPage.step1")}</Text>
+                                {i18n.t("meditationPage.step1")}</Text>
                             <Text style={styles.dayText}>
-                                {t("meditationPage.step2")} </Text>
+                                {i18n.t("meditationPage.step2")} </Text>
                             <Text style={styles.dayText}>
-                                {t("meditationPage.step3")} </Text>
+                                {i18n.t("meditationPage.step3")} </Text>
                             <Text style={styles.dayText}>
-                                {t("meditationPage.step4")} </Text>
+                                {i18n.t("meditationPage.step4")} </Text>
                             <Text style={styles.dayText}>
-                                {t("meditationPage.step5")}
+                                {i18n.t("meditationPage.step5")}
                                 </Text>
                             </View>
                             

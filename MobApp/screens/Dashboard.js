@@ -15,11 +15,14 @@ import {
     LineChart
   } from "react-native-chart-kit";
 
-import { useTranslation } from "react-i18next";
+// import { useTranslation } from "react-i18next";
+
+import i18n from '../localization/i18n';
+import STORE_LANGUAGE_KEY from "../configurations/Multilingual";
 
 const Dashboard = () => {
     
-    const { t, i18n } = useTranslation();
+    // const { t, i18n } = useTranslation();
 
     const [username, setUserName] = useState("");
     
@@ -27,6 +30,17 @@ const Dashboard = () => {
     const [week,setWeek]=useState([]);
     const [newMessage, setNewMessage] = useState('');
 
+    const retrieveLanguage = async () => {
+        try {
+            const lang = await AsyncStorage.getItem(STORE_LANGUAGE_KEY);
+            if (lang) {
+                // i18n.changeLanguage(lang);
+                i18n.locale = lang;
+            }
+        } catch (error) {
+            console.log("Error retrieving language:", error);
+        }
+    };
 
     useEffect(()=>{
         const fetchUsername=async()=>{
@@ -35,7 +49,7 @@ const Dashboard = () => {
             setUserName(localData.ptUsername+"!!");
         };
         fetchUsername();
-        
+        retrieveLanguage();
         graph();
     },[])
 
@@ -188,8 +202,8 @@ const Dashboard = () => {
                         <View className='flex flex-row justify-items-start'>
                             <Image  style={styles.tinyLogo} source={icon_suhrud}/>
                             <View className='flex flex-col ml-2'>
-                                <Text style={styles.title}>{t("dashboard.hello")} {username} </Text>
-                                <Text style={styles.inputText}>{t("dashboard.welcomeMessage")}</Text>
+                                <Text style={styles.title}>{i18n.t("dashboard.hello")} {username} </Text>
+                                <Text style={styles.inputText}>{i18n.t("dashboard.welcomeMessage")}</Text>
                             </View>
                         </View>
                         <View className="flex flex-row justify-center items-center">
@@ -207,7 +221,7 @@ const Dashboard = () => {
                         
                         <Image source={therapy} style={styles.therapy}/>
                         <View className="flex flex-row px-2 bg-white opacity-80 rounded-3xl items-center justify-between p-2">
-                        <Text className="pl-5" style={styles.pickerText}>{t("dashboard.seekingHelp")}</Text>   
+                        <Text className="pl-5" style={styles.pickerText}>{i18n.t("dashboard.seekingHelp")}</Text>   
                         <Pressable
                             onPress={navigateAppointment}
                             style={({pressed})=>[styles.signUpBtn,
@@ -217,7 +231,7 @@ const Dashboard = () => {
                                 }
                             ]}
                             >
-                            <Text style={styles.signUp}>{t("dashboard.bookAppointment")}</Text>
+                            <Text style={styles.signUp}>{i18n.t("dashboard.bookAppointment")}</Text>
                         </Pressable>               
                         </View>
                     </View>
@@ -225,14 +239,14 @@ const Dashboard = () => {
                     <View className = "flex flex-col mt-5">
 
                         <View className = "flex flex-row justify-between mb-2">
-                            <Text style={styles.pickerText}>{t("dashboard.askExperts")}</Text>
+                            <Text style={styles.pickerText}>{i18n.t("dashboard.askExperts")}</Text>
                             <Feather name="arrow-right" size={24} color="black" onPress={navigateForum}/>
                         </View>
 
                         <View className="flex flex-row px-4 py-3 bg-white opacity-80 rounded-3xl justify-between">
                             <TextInput 
                                 className=" w-72" 
-                                placeholder={t("dashboard.TypeQuestion")}
+                                placeholder={i18n.t("dashboard.TypeQuestion")}
                                 value={newMessage}
                                 onChangeText={text => setNewMessage(text)}
                             />
@@ -249,7 +263,7 @@ const Dashboard = () => {
                     <View className = "flex flex-col p-4 ">
 
                         <View className="mb-4">
-                            <Text style={styles.pickerText}>{t("dashboard.patientProgress")}</Text>
+                            <Text style={styles.pickerText}>{i18n.t("dashboard.patientProgress")}</Text>
                         </View>
 
                         <View className="flex flex-row">
@@ -309,7 +323,7 @@ const Dashboard = () => {
                     <View className="flex flex-row px-4 py-3 items-center justify-between">
                         
                         <View className="mt-1">
-                            <Text style={styles.pickerText}>{t("dashboard.jokeText")}</Text>
+                            <Text style={styles.pickerText}>{i18n.t("dashboard.jokeText")}</Text>
                         </View>
 
                     </View>

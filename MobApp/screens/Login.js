@@ -13,9 +13,11 @@ import { useTranslation } from 'react-i18next';
 import { Picker } from '@react-native-picker/picker'; 
 import STORE_LANGUAGE_KEY from '../configurations/Multilingual';
 
+import i18n from '../localization/i18n';
+
 export default function Login(props) {
     
-    const { t, i18n } = useTranslation();
+    // const { t, i18n } = useTranslation();
 
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
@@ -78,8 +80,8 @@ export default function Login(props) {
                 setPassword('');
             }
         }catch(error){
-            alert(error.data.message);
-            console.log(error);
+            alert("not 200");
+            // console.log(error);
             setUserName('');
             setPassword('');
         }
@@ -95,27 +97,31 @@ export default function Login(props) {
         props.navigation.navigate("SignUp");
     }
 
-    useEffect(() => {
-        const retrieveLanguage = async () => {
-            try {
-                const lang = await AsyncStorage.getItem(STORE_LANGUAGE_KEY);
-                if (lang) {
-                    i18n.changeLanguage(lang);
-                    setSelectedLanguage(lang);
-                }
-            } catch (error) {
-                console.log("Error retrieving language:", error);
+    const retrieveLanguage = async () => {
+        try {
+            const lang = await AsyncStorage.getItem(STORE_LANGUAGE_KEY);
+            if (lang) {
+                // i18n.changeLanguage(lang);
+                i18n.locale = lang;
+                setSelectedLanguage(lang);
+                console.log("hihihi",i18n.locale);
             }
-        };
-        retrieveLanguage();
-    }, []);
+        } catch (error) {
+            console.log("Error retrieving language:", error);
+        }
+    };
 
+    useEffect(() => {
+        retrieveLanguage();
+    }, [selectedLanguage]);
 
     const handleLanguageChange = async (lang) => {
         try {
-            await AsyncStorage.setItem(STORE_LANGUAGE_KEY, lang);
             setSelectedLanguage(lang);
-            i18n.changeLanguage(lang);
+            i18n.locale = lang;
+            console.log("hehehe", i18n.locale);
+            await AsyncStorage.setItem(STORE_LANGUAGE_KEY, lang);
+            // i18n.changeLanguage(lang);
         } catch (error) {
             console.log("Error saving language:", error);
         }
@@ -145,13 +151,13 @@ export default function Login(props) {
     <ScrollView contentContainerStyle={styles.logContent} style={styles.logbox}>    
 
         <Image  style={styles.tinyLogo} source={icon_suhrud}/>
-            <Text style={styles.title}>{t("login.login")}</Text>
+            <Text style={styles.title}>{i18n.t("login.login")}</Text>
       
         <View style={styles.inputView}>
             
             <TextInput
                 style={styles.inputText}
-                placeholder={t("login.username")}
+                placeholder={i18n.t("login.username")}
                 placeholderTextColor="#003f5c"
                 onChangeText={(text) => setUserName(text)}
             />
@@ -160,7 +166,7 @@ export default function Login(props) {
             <TextInput
                 style={styles.inputText}
                 secureTextEntry={isSecure}
-                placeholder={t("login.password")}
+                placeholder={i18n.t("login.password")}
                 placeholderTextColor="#003f5c"
                 onChangeText={(text) => setPassword(text)}
             />
@@ -183,16 +189,16 @@ export default function Login(props) {
                 // transform: [{ scale: pressed ? 0.96 : 1 }],
                 }
             ]}>
-            <Text style={styles.loginText}>{t("login.loginbtn")}</Text>
+            <Text style={styles.loginText}>{i18n.t("login.loginbtn")}</Text>
         </Pressable>
         <Pressable onPress={onPressForgotPassword}>
-            <Text style={styles.forgot}>{t("login.forgotPassword")}</Text>
+            <Text style={styles.forgot}>{i18n.t("login.forgotPassword")}</Text>
         </Pressable>
         <View className='flex flex-row'>
-        <Text style={styles.inputSignUp}>{t("login.noAccount")}</Text>
+        <Text style={styles.inputSignUp}>{i18n.t("login.noAccount")}</Text>
         <Pressable
             onPress={onPressSignUp}>
-            <Text style={styles.inputSignUp}>{t("login.signup")}</Text>
+            <Text style={styles.inputSignUp}>{i18n.t("login.signup")}</Text>
         </Pressable>
         </View>
 
@@ -304,7 +310,7 @@ const styles = StyleSheet.create({
     },
     languageDropdown: {
         position: 'absolute',
-        top: 15,
+        top: 40,
         right: 15,
         zIndex: 1,
     },

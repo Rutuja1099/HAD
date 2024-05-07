@@ -14,6 +14,9 @@ import java.util.Optional;
 public interface QuestionsRepository extends JpaRepository<Questions, Integer> {
     Optional<Questions> findByQueryId(Integer queryId);
 
+//    @Query(value = "Select ")
+//    List<Questions> findAllWithAnswerCounts();
+
     List<Questions> findQuestionsByPatientInfo(PatientInfo pInfo);
 
     Questions findQuestionsByQueryId(Integer queryId);

@@ -1,5 +1,6 @@
 package com.example.had_backend_jwt.Entities;
 import com.example.had_backend_jwt.Configurations.AttributeEncryptor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -30,6 +31,7 @@ public class PatientLogin {
     @Column(name="ptFirstTimeLogin",nullable = false)
     private Boolean ptFirstTimeLogin;
 
+    @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ptRegNo", referencedColumnName = "ptRegNo")
 //    @JsonIgnore

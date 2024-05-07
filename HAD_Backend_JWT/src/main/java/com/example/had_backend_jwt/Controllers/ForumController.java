@@ -257,15 +257,6 @@ public class ForumController {
             for(FlagTableQuestionDoctor f:list)
             {
                 setQ.add(f.getQuestion());
-//=======
-//    public ResponseEntity<List<Questions>> getQuestionss(){
-//
-//        try {
-//            List<Questions> questions = questionsRepository.QuestionList();
-//            System.out.println("Retrieved " + questions.size() + " questions");
-//            for (Questions question : questions) {
-//                System.out.println("Question ID: " + question.getQueryId() + ", Content: " + question.getQueryContent());
-//>>>>>>> multilingual
             }
             for(Questions q:questions)
             {
@@ -273,7 +264,8 @@ public class ForumController {
                 obj.setQueryId(q.getQueryId());
                 obj.setIsUrgent(q.getIsUrgent());
                 obj.setFlagCount(q.getFlagCount());
-                obj.setAnswers(q.getAnswers());
+//                obj.setAnswers(q.getAnswers().);
+                obj.setCountAns(q.getAnswers().size());
                 obj.setQueryContent(q.getQueryContent());
                 obj.setFlagged(setQ.contains(q));
                 qs.add(obj);
@@ -294,7 +286,8 @@ public class ForumController {
                 obj.setQueryId(q.getQueryId());
                 obj.setIsUrgent(q.getIsUrgent());
                 obj.setFlagCount(q.getFlagCount());
-                obj.setAnswers(q.getAnswers());
+//                obj.setAnswers(q.getAnswers());
+                obj.setCountAns(q.getAnswers().size());
                 obj.setQueryContent(q.getQueryContent());
                 obj.setFlagged(setQ.contains(q));
                 qs.add(obj);
@@ -309,7 +302,8 @@ public class ForumController {
                 obj.setQueryId(q.getQueryId());
                 obj.setIsUrgent(q.getIsUrgent());
                 obj.setFlagCount(q.getFlagCount());
-                obj.setAnswers(q.getAnswers());
+//                obj.setAnswers(q.getAnswers());
+                obj.setCountAns(q.getAnswers().size());
                 obj.setQueryContent(q.getQueryContent());
                 obj.setFlagged(false);
                 qs.add(obj);
@@ -457,7 +451,8 @@ public class ForumController {
             obj.setQueryId(q.getQueryId());
             obj.setIsUrgent(q.getIsUrgent());
             obj.setFlagCount(q.getFlagCount());
-            obj.setAnswers(q.getAnswers());
+//            obj.setAnswers(q.getAnswers());
+            obj.setCountAns(q.getAnswers().size());
             obj.setQueryContent(q.getQueryContent());
             obj.setFlagged(setQ.contains(q));
             qs.add(obj);
