@@ -241,7 +241,6 @@ public class ForumController {
 //    }
     @GetMapping("/getAllQuestion")
     @PreAuthorize("hasAuthority('Patient') or hasAuthority('Doctor') or hasAuthority('Moderator')")
-
     public ResponseEntity<List<QuestionsDTO>> getQuestions(HttpServletRequest req){
         String token = Utilities.resolveToken(req);
         String role = jwtService.extractRole(token);
