@@ -13,7 +13,7 @@ const height = 320;
 export default function Week(props) {
 
 
-  const[weekAndDay,setWeekAndDay]=useState({ currentWeek: 7, currentDay: 1 });
+  const[weekAndDay,setWeekAndDay]=useState({ currentWeek: 1, currentDay: 1 });
   // const[weekAndDay,setWeekAndDay]=useState({ currentWeek: null, currentDay: null });
 
     
@@ -66,6 +66,7 @@ export default function Week(props) {
 
   useEffect(() => {
     retrieveLanguage();
+    getWeeks();
   },[])
 
   const getWeeks=async()=>{
@@ -89,7 +90,7 @@ export default function Week(props) {
       if(response.status===200){
         console.log("Successful");
         const thisData=await response.data;
-        console.log(thisData);
+        console.log("Data we get=>",thisData);
         setWeekAndDay(thisData);
         console.log("Hello",thisData);
       }
@@ -117,7 +118,7 @@ export default function Week(props) {
     ]);
     const onPressWeek=(item)=>{
       console.log("Week is : ",item);
-      props.navigation.navigate("Day",{week:week, currentDay:weekAndDay.currentDay});
+      props.navigation.navigate("Day",{week:weekAndDay.currentWeek, currentDay:weekAndDay.currentDay});
     }
     const scrollY = useRef(new Animated.Value(0)).current;
 
