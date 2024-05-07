@@ -333,7 +333,11 @@ public class PatientService {
                     .patientInfo(patientInfo)
                     .isCurrent(true)
                     .build();
+
             doctorPatientMappingRepository.save(doctorPatientMapping);
+            DoctorPatientMapping doctorPatientMapping1 = doctorPatientMappingRepository.findByPatientInfoPtRegNoAndDoctorInfo_DrId(ptRegNo, doctorInfo.getDrId());
+            doctorPatientMapping1.setChatId(doctorPatientMapping.getUserId());
+            doctorPatientMappingRepository.save(doctorPatientMapping1);
         }
         else {
 
@@ -382,7 +386,7 @@ public class PatientService {
             }
             else {
                 doctorPatientMappingOptional.setCurrent(true);
-                doctorPatientMappingOptional.setChatId(doctorPatientMappingOptional.getUserId());
+
                 doctorPatientMappingRepository.save(doctorPatientMappingOptional);
             }
 
