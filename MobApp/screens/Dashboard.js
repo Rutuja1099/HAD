@@ -262,7 +262,7 @@ const Dashboard = () => {
                         
                     </View>
 
-                    <View className = "flex flex-col p-4 ">
+                    {/* <View className = "flex flex-col p-4 ">
 
                         <View className="mb-4">
                             <Text style={styles.pickerText}>{i18n.t("dashboard.patientProgress")}</Text>
@@ -316,9 +316,9 @@ const Dashboard = () => {
                                     }}
                                 />
                             </View>
-                        </View>
+                        </View> */}
 
-                    </View>
+                    {/* </View> */}
 
 
                     {/* Fifth Section */}
