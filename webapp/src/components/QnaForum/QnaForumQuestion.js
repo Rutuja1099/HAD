@@ -54,6 +54,9 @@ const QnaForumQuestion = () => {
     const [flagSelectedAnswer, setFlagSelectedAnswer] = useState(false);
     const [upvoteSelected, setUpvoteSelected] = useState(false);
 
+    const [flagAnswerId, setflagAnswerId] = useState();
+    const [upvoteAnswerId, setUpvoteAnswerId] = useState();
+
     const [allAnswers, setAllAnswers] = useState([]);
     const [selectedAnswerId, setSelectedAnswerId] = useState();
     const [selectedAnswer, setSelectedAnswer] = useState("");
@@ -112,6 +115,7 @@ const QnaForumQuestion = () => {
         const headers = {
             'Authorization': `Bearer ${bearerToken}`, // Include your token here
             'Content-Type': 'application/json', // Specify the content type if needed
+            'ngrok-skip-browser-warning': 'true'
         };
         
         const response=await HttpService(method,loginURL,data, headers);
@@ -161,6 +165,7 @@ const QnaForumQuestion = () => {
         const headers = {
             'Authorization': `Bearer ${bearerToken}`, // Include your token here
             'Content-Type': 'application/json', // Specify the content type if needed
+            'ngrok-skip-browser-warning': 'true',
         };
         
         const response=await HttpService(method,loginURL,data, headers);
@@ -198,6 +203,8 @@ const QnaForumQuestion = () => {
         const method='PUT';
 
         const data=null;
+
+        setflagAnswerId(answerId);
         
         try{
 
@@ -209,6 +216,7 @@ const QnaForumQuestion = () => {
         const headers = {
             'Authorization': `Bearer ${bearerToken}`, // Include your token here
             'Content-Type': 'application/json', // Specify the content type if needed
+            'ngrok-skip-browser-warning': 'true',
         };
         
         const response=await HttpService(method,loginURL,data, headers);
@@ -246,6 +254,8 @@ const QnaForumQuestion = () => {
         const method='PUT';
 
         const data=null;
+
+        setUpvoteAnswerId(answerId);
         
         try{
 
@@ -257,6 +267,7 @@ const QnaForumQuestion = () => {
         const headers = {
             'Authorization': `Bearer ${bearerToken}`, // Include your token here
             'Content-Type': 'application/json', // Specify the content type if needed
+            'ngrok-skip-browser-warning': 'true',
         };
         
         const response=await HttpService(method,loginURL,data, headers);
@@ -305,6 +316,7 @@ const QnaForumQuestion = () => {
         const headers = {
             'Authorization': `Bearer ${bearerToken}`, // Include your token here
             'Content-Type': 'application/json', // Specify the content type if needed
+            'ngrok-skip-browser-warning': 'true',
         };
         
         const response=await HttpService(method,loginURL,data, headers);
@@ -448,7 +460,7 @@ const QnaForumQuestion = () => {
 
                                                 <div className='flex flex-row items-center justify-between'>
 
-                                                    {!upvoteSelected 
+                                                    {upvoteAnswerId !== answer.answerId 
                                             
                                                     ? 
                                                     (
@@ -463,7 +475,7 @@ const QnaForumQuestion = () => {
 
                                                     )}
 
-                                                    {!flagSelectedAnswer
+                                                    {flagAnswerId !== answer.answerId
                                         
                                                     ? 
                                                     (

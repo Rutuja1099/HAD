@@ -46,7 +46,7 @@ export default function App() {
     <NavigationContainer>
 
       {/* <Stack.Navigator>
-      <Stack.Screen name="Dashboard" component={Dashboard} options={{headerShown: false,}}/> */}
+      <Stack.Screen name="ChatList" component={ChatList} options={{headerShown: false,}}/> */}
 
       <Stack.Navigator initialRouteName="Login" >
       

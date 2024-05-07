@@ -54,9 +54,12 @@ const Login = ({setAuthenticated}) => {
             username:username,
             password:password
         };
+        const headers={
+            'ngrok-skip-browser-warning': 'true'
+        }
             
         try{
-            const response=await HttpService(method,loginURL,data);
+            const response=await HttpService(method,loginURL,data,headers);
             console.log(response.status)
             
             if(response.status===200){
@@ -94,10 +97,11 @@ const Login = ({setAuthenticated}) => {
             }
         }catch(error){
             console.log("catch block of error");
+
             alert(error);
             setPassword("");
             setUsername("");  
-            window.location.reload();                  
+            // window.location.reload();                  
         }
         
       };
@@ -115,12 +119,7 @@ const Login = ({setAuthenticated}) => {
     return (
         <div className="flex flex-col h-full dark:bg-blue-950">
             
-            {/* Navigation Bar */}
-            <nav className="bg-white text-black p-4 rounded-3xl mb-8">
             
-                <div className="container mx-auto">Navigation Bar</div>
-            
-            </nav>
         
             {/* Main Content */}
             <div className="flex flex-grow justify-center items-center">
@@ -191,12 +190,14 @@ const Login = ({setAuthenticated}) => {
                                 <div className="mb-5 w-full rounded-3xl overflow-hidden">
                                     <input type="text" placeholder="Username" id="username" name="username" className="w-full p-2 py-3 pl-10 rounded-3xl bg-cyan-200"
                                         onChange={(text)=>{setUsername(text.target.value)}}
+                                        value={username}
                                     />
                                 </div>
                                 
                                 <div className="mb-1 rounded-3xl overflow-hidden">
                                     <input type="password" placeholder="Password" id="password" name="password" className="w-full p-2 py-3 pl-10 rounded-3xl bg-cyan-200" 
                                         onChange={(text)=>{setPassword(text.target.value)}}
+                                        value={password}
                                     />
                                 </div>
 

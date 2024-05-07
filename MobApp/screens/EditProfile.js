@@ -10,12 +10,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import HttpService from '../services/HttpService'
 import { useFonts, Pangolin_400Regular } from '@expo-google-fonts/pangolin';
 import {icon_suhrud, background} from '../assets';
-import { useTranslation } from 'react-i18next';
+// import { useTranslation } from 'react-i18next';
+import STORE_LANGUAGE_KEY from '../configurations/Multilingual';
 
+import i18n from '../localization/i18n';
 
 const EditProfile = ({route}) => {
 
-    const { t, i18n } = useTranslation();
+    // const { t, i18n } = useTranslation();
 
     let [fontsLoaded] = useFonts({ Pangolin_400Regular,});
     const [editable, setEditable] = useState(false);
@@ -38,6 +40,22 @@ const EditProfile = ({route}) => {
     //         setDob(selectedDate);
     //     }
     // }
+
+    const retrieveLanguage = async () => {
+        try {
+            const lang = await AsyncStorage.getItem(STORE_LANGUAGE_KEY);
+            if (lang) {
+                // i18n.changeLanguage(lang);
+                i18n.locale = lang;
+            }
+        } catch (error) {
+            console.log("Error retrieving language:", error);
+        }
+    };
+
+    useEffect(() => {
+        retrieveLanguage();
+    },[])
 
     const onEdit = () =>{
         setEditable(true);
@@ -100,6 +118,7 @@ const EditProfile = ({route}) => {
       const headers = {
         'Authorization': `Bearer ${bearerToken}`, // Include your token here
         'Content-Type': 'application/json', // Specify the content type if needed
+        'ngrok-skip-browser-warning': 'true',
       };
         try{
             const response=await HttpService(method,editProfileURL,data,headers);
@@ -155,7 +174,7 @@ const EditProfile = ({route}) => {
             {/**Name */}
                 <View>
                     <Text style={{ fontFamily: 'Pangolin_400Regular', fontSize:20}} className=" text-black ml-5">
-                        {t("editProfile.name")} 
+                        {i18n.t("editProfile.name")} 
                     </Text>
                     <View  className="mt-2 ml-5 mb-5 justify-center bg-white opacity-80 w-80 h-[44px] rounded-lg">
                         <TextInput 
@@ -170,7 +189,7 @@ const EditProfile = ({route}) => {
             {/**Email */}
                 <View>
                     <Text style={{ fontFamily: 'Pangolin_400Regular', fontSize:20 }} className=" text-black ml-5">
-                    {t("editProfile.email")} 
+                    {i18n.t("editProfile.email")} 
                     </Text>
                     <View  className="mt-2 ml-5 mb-5 justify-center  w-80 h-[44px]  bg-white opacity-80 rounded-lg">
                         <TextInput 
@@ -186,7 +205,7 @@ const EditProfile = ({route}) => {
             {/**Address */}
                 {/* <View>
                     <Text style={{ fontFamily: 'Pangolin_400Regular', fontSize:20 }} className=" text-black ml-5">
-                        {t("editProfile.address")} 
+                        {i18n.t("editProfile.address")} 
                     </Text>
                     <View  className="mt-2 ml-5 mb-5 justify-center  w-80 h-[44px]  bg-white opacity-80 rounded-lg">
                         <TextInput 
@@ -202,7 +221,7 @@ const EditProfile = ({route}) => {
             {/**Phone number */}
                 {/* <View>
                     <Text style={{ fontFamily: 'Pangolin_400Regular', fontSize:20 }} className=" text-black ml-5">
-                        {t("editProfile.phoneNumber")} 
+                        {i18n.t("editProfile.phoneNumber")} 
                     </Text>
                     <View  className="mt-2 ml-5 mb-5 justify-center  w-80 h-[44px]  bg-white opacity-80 rounded-lg">
                         <TextInput 
@@ -219,7 +238,7 @@ const EditProfile = ({route}) => {
             {/**DOB */}
                 {/* <View>
                     <Text style={{ fontFamily: 'Pangolin_400Regular', fontSize:20 }} className=" text-black ml-5">
-                    {t("editProfile.dob")} 
+                    {i18n.t("editProfile.dob")} 
                     </Text>
                     <View className="mt-2 ml-5 justify-center  w-80 h-[44px]  bg-white opacity-80 rounded-lg" >
                         <Pressable onPress={() => showMode("date")}>
@@ -250,7 +269,7 @@ const EditProfile = ({route}) => {
             <View className="w-full mt-10 ml-24">
                 <Pressable onPress={onPressSave} disabled={!editable}>
                     <View className="w-[150px] h-[41px] items-center justify-center rounded-lg bg-[#116fdf]">
-                    <Text className="text-white font-bold text-xl">{t("editProfile.saveBtn")}</Text>
+                    <Text className="text-white font-bold text-xl">{i18n.t("editProfile.saveBtn")}</Text>
                     </View>
                 </Pressable> 
             </View>

@@ -1,5 +1,5 @@
 import { View, Text, SafeAreaView, TextInput, Pressable, ScrollView, StyleSheet, ImageBackground } from 'react-native'
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import NavigationBar from '../components/NavigationBar'
 import webServerUrl from '../configurations/WebServer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -8,13 +8,15 @@ import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import {icon_suhrud, background} from '../assets';
-import { useTranslation } from 'react-i18next';
+// import { useTranslation } from 'react-i18next';
 
+import i18n from '../localization/i18n';
 
+import STORE_LANGUAGE_KEY from '../configurations/Multilingual';
 
 const PasswordManager = () => {
 
-    const { t, i18n } = useTranslation();
+    // const { t, i18n } = useTranslation();
 
     const [currentPassword, onChangeCurrentPassword] = useState('');
     const [newPassword, onChangeNewPassword] = useState('');
@@ -43,6 +45,21 @@ const PasswordManager = () => {
 
 
     const navigation = useNavigation();
+    const retrieveLanguage = async () => {
+        try {
+            const lang = await AsyncStorage.getItem(STORE_LANGUAGE_KEY);
+            if (lang) {
+                // i18n.changeLanguage(lang);
+                i18n.locale = lang;
+            }
+        } catch (error) {
+            console.log("Error retrieving language:", error);
+        }
+    };
+
+    useEffect(() => {
+        retrieveLanguage();
+    },[])
 
     const onPressChangePassword=async()=>{
         if (!newPassword.trim()) {
@@ -75,6 +92,7 @@ const PasswordManager = () => {
         const headers = {
             'Authorization': `Bearer ${bearerToken}`, // Include your token here
             'Content-Type': 'application/json', // Specify the content type if needed
+            'ngrok-skip-browser-warning': 'true',
         };
         const data={
             username:ptUsername,
@@ -117,9 +135,10 @@ const PasswordManager = () => {
         const headers = {
             'Authorization': `Bearer ${bearerToken}`, // Include your token here
             'Content-Type': 'String', // Specify the content type if needed
+            'ngrok-skip-browser-warning': 'true'
         };
         try{
-            const response=await HttpService(method,logoutURL,data=null,headers);
+            const response=await HttpService(method,logoutURL,null,headers);
             console.log(response.status)
             if(response.status===200){
               console.log("Successful");
@@ -143,7 +162,7 @@ const PasswordManager = () => {
       <View className="flex flex-row mt-12 mx-5 items-center pb-4">
         <Icon name="angle-left" size={30} onPress={navigateback}/>
             
-        <Text className = "font-bold text-lg ml-6 text-center" >{t("passwordManager.title")}</Text>
+        <Text className = "font-bold text-lg ml-6 text-center" >{i18n.t("passwordManager.title")}</Text>
       </View>
 
         <ScrollView>
@@ -156,7 +175,7 @@ const PasswordManager = () => {
                                 onChangeText={onChangeCurrentPassword}
                                 value={currentPassword}    
                                 secureTextEntry={isSecure1}  
-                                placeholder={t("passwordManager.currentPassword")}             
+                                placeholder={i18n.t("passwordManager.currentPassword")}             
                             />
 
                             <Pressable 
@@ -182,7 +201,7 @@ const PasswordManager = () => {
                                 onChangeText={onChangeNewPassword}
                                 value={newPassword}    
                                 secureTextEntry={isSecure2}
-                                placeholder={t("passwordManager.newPassword")}             
+                                placeholder={i18n.t("passwordManager.newPassword")}             
                             />
 
                             <Pressable 
@@ -209,7 +228,7 @@ const PasswordManager = () => {
                                 onChangeText={onChangeConfirmPassword}
                                 value={confirmPassword}    
                                 secureTextEntry={isSecure3}     
-                                placeholder={t("passwordManager.confirmPassword")}          
+                                placeholder={i18n.t("passwordManager.confirmPassword")}          
                             />
                             <Pressable 
                                 onPress={toggleShowNewPasswordConfirm}
@@ -226,7 +245,7 @@ const PasswordManager = () => {
             </View>
             <Pressable onPress={() => onPressChangePassword()}>
                 <View className="mt-4 mb-4 mx-10 h-[41px] items-center justify-center rounded-3xl bg-[#3C3FFF]">
-                    <Text className=" text-white font-bold text-xl">{t("passwordManager.changeBtn")} </Text>
+                    <Text className=" text-white font-bold text-xl">{i18n.t("passwordManager.changeBtn")} </Text>
                 </View>
             </Pressable> 
         </ScrollView>    

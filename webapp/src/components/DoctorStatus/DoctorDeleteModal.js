@@ -31,6 +31,7 @@ const DoctorDeleteModal = ({showDeleteConfirm, selectedDoctor, setShowDeleteConf
                 const headers = {
                     'Authorization': `Bearer ${bearerToken}`, // Include your token here
                     'Content-Type': 'application/json', // Specify the content type if needed
+                    'ngrok-skip-browser-warning': 'true',
                 };
                 
                 const response=await HttpService(method,loginURL,data, headers);

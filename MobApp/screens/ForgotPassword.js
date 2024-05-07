@@ -1,38 +1,60 @@
 import { Pressable, ScrollView, TextInput, StyleSheet, Text, View , Image, ImageBackground} from 'react-native'
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import { StatusBar } from 'expo-status-bar';
 import webServerUrl from '../configurations/WebServer';
 import HttpService from '../services/HttpService';
 import { useFonts, Pangolin_400Regular } from '@expo-google-fonts/pangolin';
 import {icon_suhrud, background} from '../assets';
-import { useTranslation } from 'react-i18next';
+// import { useTranslation } from 'react-i18next';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import STORE_LANGUAGE_KEY from '../configurations/Multilingual';
+
+import i18n from '../localization/i18n';
 
 export default function ForgotPassword(props) {
 
-  const { t, i18n } = useTranslation();
+  // const { t, i18n } = useTranslation();
 
   const [email, setEmail] = useState('');
   let [fontsLoaded] = useFonts({ Pangolin_400Regular,});
 
+  const retrieveLanguage = async () => {
+    try {
+        const lang = await AsyncStorage.getItem(STORE_LANGUAGE_KEY);
+        if (lang) {
+            // i18n.changeLanguage(lang);
+            i18n.locale = lang;
+        }
+    } catch (error) {
+        console.log("Error retrieving language:", error);
+    }
+};
+
+  useEffect(()=> {
+    retrieveLanguage();
+  },[])
+
+
   const onPressLogin = async() => {
     console.log(email);
     if(!email.trim()){
-      alert(`${t("forgotPassword.enterEmailError")}`);
+      alert(`${i18n.t("forgotPassword.enterEmailError")}`);
       return;
     }
     if(!/\S+@\S+\.\S+/.test(email.trim())){
-      alert(`${t("forgotPassword.emailInvalid")}`);
+      alert(`${i18n.t("forgotPassword.emailInvalid")}`);
       return;
     }
 
     const forgotPasswordURL = webServerUrl+"/auth/email/patient?mail="+email;
     const method='POST';
+    const headers={'ngrok-skip-browser-warning': 'true',}
     try{
-      const response=await HttpService(method,forgotPasswordURL);
+      const response=await HttpService(method,forgotPasswordURL,date=null,headers);
       console.log(response.status)
       if(response.status===200){
         console.log("Successful");
-        alert(`${t("forgotPassword.checkEmail")} `+` `+ `${email}`+` `+ `${t("forgotPassword.forId")}`);
+        alert(`${i18n.t("forgotPassword.checkEmail")} `+` `+ `${email}`+` `+ `${i18n.t("forgotPassword.forId")}`);
         props.navigation.navigate("ChangePassword");
       }else{
         alert(response.data);
@@ -51,18 +73,18 @@ export default function ForgotPassword(props) {
       style={styles.container}>
       <StatusBar style='auto'/>
       <Image  style={styles.tinyLogo} source={icon_suhrud}/>
-      <Text style={styles.title}>{t("forgotPassword.forgotPassword")}</Text>
+      <Text style={styles.title}>{i18n.t("forgotPassword.forgotPassword")}</Text>
       <ScrollView contentContainerStyle={styles.logContent}
       style={styles.logbox}>
         <View style={styles.inputView}>
           <TextInput
               style={styles.inputText}
-              placeholder={t("forgotPassword.emailId")}
+              placeholder={i18n.t("forgotPassword.emailId")}
               placeholderTextColor="#003f5c"
               onChangeText={(text) => setEmail(text)}
           />
         </View>
-        <Text style={styles.inputText}> {t("forgotPassword.enterEmail")}</Text>
+        <Text style={styles.inputText}> {i18n.t("forgotPassword.enterEmail")}</Text>
   
         <Pressable
             onPress={onPressLogin}
@@ -73,7 +95,7 @@ export default function ForgotPassword(props) {
                 }
             ]}
             >
-            <Text style={styles.loginText}>{t("forgotPassword.send")}</Text>
+            <Text style={styles.loginText}>{i18n.t("forgotPassword.send")}</Text>
         </Pressable>
       </ScrollView>
     </ScrollView>

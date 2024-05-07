@@ -49,6 +49,7 @@ function PatientDetail() {
       const headers = {
         'Authorization': `Bearer ${bearerToken}`,
         'Content-Type': 'application/json',
+        'ngrok-skip-browser-warning': 'true',
       };
 
       try{
@@ -126,23 +127,23 @@ function PatientDetail() {
         <div className=' bg-blue-300 flex justify-center h-full rounded-3xl mb-4'>
             <div className='flex flex-row bg-blue-300 w-full rounded-3xl mb-4'>
                 <div className='flex flex-col w-96 items-center'>
-                <div className='flex h-80'>
-                    <img className='w-64 m-5 rounded-3xl' src="https://cdn5.vectorstock.com/i/1000x1000/78/14/tiny-cute-cartoon-patient-man-character-broken-vector-26027814.jpg" alt='Patient'/>
-                </div>
-                <div className='flex items-center justify-center h-full w-full p-5 mb-5 ml-5 mr-5'>
-                    <div className='flex flex-col  font-bold rounded-xl items-center justify-center bg-white w-full p-5'>
-                    <h2 className='pb-1'>{name}</h2>
-                    {/* <h2 className='pb-1'>Gender: {gender}</h2>
-                    <h2 className='pb-1'>Contact: {contact}</h2>
-                    <h2 className='pb-1'>DOB: {dob}</h2> */}
-                    <button 
-                        className='h-10 w-40 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded-xl'
-                        onClick={chat}  
-                    >
-                        Chat with Patient
-                    </button>
-                    </div>
-                </div>
+                  <div className='flex h-80 mt-20'>
+                      <img className='w-80 h-96 m-5 rounded-3xl' src="https://cdn5.vectorstock.com/i/1000x1000/78/14/tiny-cute-cartoon-patient-man-character-broken-vector-26027814.jpg" alt='Patient'/>
+                  </div>
+                  <div className='flex items-center justify-center h-full w-full p-5 mb-5 ml-5 mr-5'>
+                      <div className='flex flex-col  font-bold rounded-xl items-center justify-center bg-white w-full p-5 mt-5'>
+                        <h2 className='pb-1 text-2xl mb-3'>{name}</h2>
+                        {/* <h2 className='pb-1'>Gender: {gender}</h2>
+                        <h2 className='pb-1'>Contact: {contact}</h2>
+                        <h2 className='pb-1'>DOB: {dob}</h2> */}
+                        <button 
+                            className='h-10 w-40 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded-xl'
+                            onClick={chat}  
+                        >
+                            Chat with Patient
+                        </button>
+                      </div>
+                  </div>
                 </div>
                 <div className='flex flex-col flex-grow m-5'>
                 <div className='flex h-15 p-5 items-center justify-center bg-white rounded-2xl'>

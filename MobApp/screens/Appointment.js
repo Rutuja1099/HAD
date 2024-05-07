@@ -8,11 +8,14 @@ import HttpService from '../services/HttpService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFonts, Pangolin_400Regular } from '@expo-google-fonts/pangolin';
 import {icon_suhrud, background} from '../assets';
-import { useTranslation } from "react-i18next";
+import STORE_LANGUAGE_KEY from '../configurations/Multilingual';
+// import { useTranslation } from "react-i18next";
+
+import i18n from '../localization/i18n';
 
 const Appointment = ({route}) => {
     
-    const { t, i18n } = useTranslation();
+    // const { t, i18n } = useTranslation();
 
     const [searchText, setSearchText] = useState('');
     const [searchResults, setSearchResults] = useState([]);
@@ -21,6 +24,18 @@ const Appointment = ({route}) => {
     });
 
     const [allDoctorInfo, setAllDoctorInfo] = useState([]);
+
+    const retrieveLanguage = async () => {
+        try {
+            const lang = await AsyncStorage.getItem(STORE_LANGUAGE_KEY);
+            if (lang) {
+                // i18n.changeLanguage(lang);
+                i18n.locale = lang;
+            }
+        } catch (error) {
+            console.log("Error retrieving language:", error);
+        }
+    };
 
     useEffect(() => {
 
@@ -38,6 +53,7 @@ const Appointment = ({route}) => {
             const headers = {
               'Authorization': `Bearer ${bearerToken}`, // Include your token here
               'Content-Type': 'application/json', // Specify the content type if needed
+              'ngrok-skip-browser-warning': 'true',
             };
       
             let response;
@@ -77,6 +93,7 @@ const Appointment = ({route}) => {
             console.log()
             getDoctorsList();
             // getSelectedOptions();
+            retrieveLanguage();
 
     },[]);
 
@@ -128,11 +145,11 @@ const Appointment = ({route}) => {
                 {/* <Icon name="angle-left" size={25}/> */}
          
                 <Text className="flex text-xl font-semibold ml-2">
-                    {t("appointment.suggestDoctor")}
+                    {i18n.t("appointment.suggestDoctor")}
                 </Text>
             </View>
             <SafeAreaView className="mr-0">
-                <Text onPress={() => navigateDashboard()} className="text-center rounded-xl bg-white w-full p-1">{t("appointment.skip")}</Text>
+                <Text onPress={() => navigateDashboard()} className="text-center rounded-xl bg-white w-full p-1">{i18n.t("appointment.skip")}</Text>
             </SafeAreaView>
            
         </SafeAreaView>
@@ -157,7 +174,7 @@ const Appointment = ({route}) => {
 
                 <TextInput
                     className="flex-auto bg-white p-2 rounded-2xl ml-2 mr-2"
-                    placeholder={t("appointment.search")}
+                    placeholder={i18n.t("appointment.search")}
                     value={searchText}
                     onChangeText={handleSearch}
                     // onSubmitEditing={showResults}

@@ -8,22 +8,37 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import HttpService from '../services/HttpService'
 import { useFonts, Pangolin_400Regular } from '@expo-google-fonts/pangolin';
 import {icon_suhrud, background} from '../assets';
-import { useTranslation } from 'react-i18next'
+// import { useTranslation } from 'react-i18next'
+
+import i18n from '../localization/i18n';
 
 const Settings = () => {
 
-    const { t, i18n } = useTranslation();
+    // const { t, i18n } = useTranslation();
 
     let [fontsLoaded] = useFonts({ Pangolin_400Regular,});
     const navigation=useNavigation();
     const [username, setUserName] = useState("");
     const [patientData,setPatientData]=useState(null);
 
+
+    const retrieveLanguage = async () => {
+        try {
+            const lang = await AsyncStorage.getItem(STORE_LANGUAGE_KEY);
+            if (lang) {
+                // i18n.changeLanguage(lang);
+                i18n.locale = lang;
+            }
+        } catch (error) {
+            console.log("Error retrieving language:", error);
+        }
+    };
+    
     useEffect(()=>{
         const fetchUsername=async()=>{
             const sessionData = await AsyncStorage.getItem('patientData');
             const localData=JSON.parse(sessionData);
-            setUserName(`${t("settings.hi")}` +" "+localData.ptUsername+"!!");
+            setUserName(`${i18n.t("settings.hi")}` +" "+localData.ptUsername+"!!");
         };
         fetchUsername();
 
@@ -39,6 +54,7 @@ const Settings = () => {
           const headers = {
             'Authorization': `Bearer ${bearerToken}`, // Include your token here
             'Content-Type': 'application/json', // Specify the content type if needed
+            'ngrok-skip-browser-warning': 'true',
           };
           
           try{
@@ -56,6 +72,7 @@ const Settings = () => {
           }
         };
         fetchDetails();
+        retrieveLanguage();
       },[])  
     
 
@@ -68,6 +85,7 @@ const Settings = () => {
         const headers = {
             'Authorization': `Bearer ${bearerToken}`, // Include your token here
             'Content-Type': 'String', // Specify the content type if needed
+            'ngrok-skip-browser-warning': 'true',
         };
         try{
             const response=await HttpService(method,deleteAccountURL,data=null,headers);
@@ -93,10 +111,11 @@ const Settings = () => {
         const bearerToken = localData.token;
         const headers = {
             'Authorization': `Bearer ${bearerToken}`, // Include your token here
-            'Content-Type': 'String', // Specify the content type if needed
+            'Content-Type': 'String', // Specify the content type if needed,
+            'ngrok-skip-browser-warning': 'true',
         };
         try{
-            const response=await HttpService(method,logoutURL,data=null,headers);
+            const response=await HttpService(method,logoutURL,null,headers);
             console.log(response.status)
             if(response.status===200){
               console.log("Successful");
@@ -131,24 +150,24 @@ const Settings = () => {
     const menuItems = [
         {
             menuItemImage: securityImage,
-            menuItemName: `${t("settings.securityAndPrivacy")}`,
+            menuItemName: `${i18n.t("settings.securityAndPrivacy")}`,
             imageWidth: 25,
             imageHeight: 25,
             navigateTo: "SecurityPrivacy"
         },
         {
             menuItemImage: logoutImage,
-            menuItemName: `${t("settings.logOut")}`,
+            menuItemName: `${i18n.t("settings.logOut")}`,
             imageWidth: 23,
             imageHeight: 23,
             navigateTo: "Logout"
         },
         {
             menuItemImage: trashImage,
-            menuItemName: `${t("settings.deleteAccount")}`,
+            menuItemName: `${i18n.t("settings.deleteAccount")}`,
             imageWidth: 24,
             imageWidth: 24,
-            navigateTo: `${t("settings.deleteAccount")}`
+            navigateTo: `${i18n.t("settings.deleteAccount")}`
         },
     ];
 
@@ -188,7 +207,7 @@ const Settings = () => {
                                     </View>
                                     <View style={styles.textContainer}>
                                         <Text style={styles.text}>
-                                            {t("settings.editProfile")} 
+                                            {i18n.t("settings.editProfile")} 
                                         </Text> 
                                     </View>
                                 </View>

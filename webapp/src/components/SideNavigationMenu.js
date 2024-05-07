@@ -51,6 +51,7 @@ const SideNavigationMenu = ({ open, setOpen }) => {
         const headers = {
             'Authorization': `Bearer ${bearerToken}`, // Include your token here
             'Content-Type': 'String', // Specify the content type if needed
+            'ngrok-skip-browser-warning': 'true',
         };
         try{
             const response=await HttpService(method,logoutURL,null,headers);

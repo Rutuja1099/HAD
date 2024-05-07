@@ -7,13 +7,16 @@ import { Icon } from "react-native-vector-icons/FontAwesome";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import webServerUrl from '../configurations/WebServer';
 import HttpService from '../services/HttpService';
+import STORE_LANGUAGE_KEY from '../configurations/Multilingual';
 
 import {image1} from "../assets";
-import { useTranslation } from "react-i18next";
+// import { useTranslation } from "react-i18next";
+
+import i18n from '../localization/i18n';
 
 const ChatList = () => {
 
-    const { t, i18n } = useTranslation();
+    // const { t, i18n } = useTranslation();
 
     //the text in the search bar
     const [searchText, setSearchText] = useState('');
@@ -79,6 +82,7 @@ const ChatList = () => {
         let headers = {
             'Authorization': `Bearer ${bearerToken}`, // token here
             'Content-Type': 'application/json', // content type
+            'ngrok-skip-browser-warning': 'true',
         };
 
         let ptId_response;
@@ -116,6 +120,7 @@ const ChatList = () => {
         headers = {
             'Authorization': `Bearer ${bearerToken}`, // token here
             'Content-Type': 'application/json', // content type
+            'ngrok-skip-browser-warning': 'true',
         };
 
         try{
@@ -172,10 +177,23 @@ const ChatList = () => {
         setSearchText("");
     }
 
+    const retrieveLanguage = async () => {
+        try {
+            const lang = await AsyncStorage.getItem(STORE_LANGUAGE_KEY);
+            if (lang) {
+                // i18n.changeLanguage(lang);
+                i18n.locale = lang;
+            }
+        } catch (error) {
+            console.log("Error retrieving language:", error);
+        }
+    };
 
     useEffect(() => {
         // getPtId();
+        retrieveLanguage();
         getAllDoctors();
+        
     },[]);
 
 
@@ -185,7 +203,7 @@ const ChatList = () => {
             {/* top view box with all conversations name*/}
             <View className = "justify-center items-center m-2">
                 <Text className="text-2xl">
-                {t("chatList.title")} 
+                {i18n.t("chatList.title")} 
                 </Text>
             </View>
             
@@ -215,7 +233,7 @@ const ChatList = () => {
                             
                             <TextInput
                                 className="flex-auto bg-gray-100 p-2 rounded-lg"
-                                placeholder={t("chatList.search")} 
+                                placeholder={i18n.t("chatList.search")} 
 
                                 value={searchText}
                                 onChangeText={handleSearch}

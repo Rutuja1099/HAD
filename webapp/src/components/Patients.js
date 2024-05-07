@@ -25,6 +25,7 @@ const Patients = () => {
     const headers = {
         'Authorization': `Bearer ${bearerToken}`, // token here
         'Content-Type': 'application/json', // content type
+        'ngrok-skip-browser-warning': 'true',
     };
 
     try{

@@ -76,6 +76,7 @@ function DoctorProfile() {
                 const headers = {
                   'Authorization': `Bearer ${bearerToken}`, 
                   'Content-Type': 'application/json',
+                  'ngrok-skip-browser-warning': 'true',
                 };
         
                 try{
@@ -117,6 +118,7 @@ function DoctorProfile() {
             const headers = {
               'Authorization': `Bearer ${bearerToken}`,     
               'Content-Type': 'application/json', // Specify the content type if needed
+              'ngrok-skip-browser-warning': 'true'
             };
     
             try{
@@ -174,7 +176,7 @@ function DoctorProfile() {
                                         <h2 className='pb-1 text-2xl'>Registration number : {RegNo}</h2>
                                         <div className='flex flex-row  font-bold rounded-xl items-center justify-center bg-slate-200 w-2/3 p-5 m-2'>
             
-                                        <h2 className='pb-1 text-xl'>Active Patients Limit: </h2>
+                                        <h2 className='pb-1 text-xl'>Patient Limit: </h2>
                                         <input 
                                             className="rounded-xl w-1/3 h-10 mb-5 bg-slate200 text-black placeholder-black p-5 border-2 border-slate-200 mt-5 ml-2"
                                             value={drPatientLimit} 
@@ -187,7 +189,7 @@ function DoctorProfile() {
                                         />
                                         </div>
                                         <div className='flex flex-row  font-bold rounded-xl items-center justify-center bg-slate-200 w-2/3 p-5'>
-                                        <h2 className='pb-1 text-xl'>Active Patients Limit:</h2>
+                                        <h2 className='pb-1 text-xl'>Active Patients:</h2>
                                         <input 
                                             className="rounded-xl w-1/3 h-10 mb-5 bg-slate200 text-black placeholder-black p-5 border-2 border-slate-200 mt-5 ml-2"
                                             value={drActivePatients} 

@@ -32,8 +32,9 @@ const ForgotPasswordMail = () => {
             e.preventDefault(); 
             const forgotPasswordURL = webServerUrl+"/auth/email/doctor?mail="+email;
             const method='POST';
+            const headers={'ngrok-skip-browser-warning': 'true',}
             try{
-            const response=await HttpService(method,forgotPasswordURL);
+            const response=await HttpService(method,forgotPasswordURL,null,headers);
             console.log(response.status)
             if(response.status===200){
                 console.log("Successful");
