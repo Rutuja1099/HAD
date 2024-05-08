@@ -25,10 +25,16 @@ const Dashboard = () => {
     // const { t, i18n } = useTranslation();
 
     const [username, setUserName] = useState("");
+    const [avgWithTwoDecimals,setAvgWithTwoDecimal]=useState(0);
     
     const [severity, setSeverity]=useState([]);
     const [week,setWeek]=useState([]);
     const [newMessage, setNewMessage] = useState('');
+    // const [datan, setDataN]=useState({});
+    const [datan, setDatan] = useState({
+        labels: [1],
+        datasets: [{data:[1]}]
+      });
 
     const retrieveLanguage = async () => {
         try {
@@ -42,6 +48,11 @@ const Dashboard = () => {
         }
     };
 
+    
+
+    const graphSeverity=new Array();
+    const weeks=new Array();
+
     useEffect(()=>{
         const fetchUsername=async()=>{
             const sessionData = await AsyncStorage.getItem('patientData');
@@ -49,9 +60,11 @@ const Dashboard = () => {
             setUserName(localData.ptUsername+"!!");
         };
         fetchUsername();
-        retrieveLanguage();
         graph();
+        retrieveLanguage();
     },[])
+
+  
 
     const graph=async()=>{
         const DashboardUrl = webServerUrl+"/suhrud/patient/dashboardGraph";
@@ -71,15 +84,44 @@ const Dashboard = () => {
             response=await HttpService(method,DashboardUrl,null,headers);
             console.log(response.status)
             if(response.status===200){
-                const patientGraph=await response.data;
+                const patientGraph=await response.data;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
                 console.log(patientGraph);
-                setData(patientGraph);
+                // setData(patientGraph);
                 console.log("Hereeeeeeeee", patientGraph);
+                patientGraph.forEach(function(item) {
+                    // console.log("Severity: ",item.avgSeverity);
+                    graphSeverity.push(item.avgSeverity);
+                    weeks.push(item.week);
+                 }); 
+                 
+                 console.log("Graph severity", graphSeverity);
+                 console.log("Week", weeks);
+
+                const sum = graphSeverity.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+                const avg=sum/graphSeverity.length;
+                console.log(avg);
+                setAvgWithTwoDecimal(avg.toFixed(2));
+                console.log("average=> ",avgWithTwoDecimals);
+                
+
+                const dn = {
+                    labels: weeks,
+                    datasets: [
+                        {
+                            // data: [20, 45, 28, 80, 99, 43],
+                        data: graphSeverity,
+    
+                        }
+                    ],
+                    };
+                console.log("datan => ",dn);
+                setDatan(dn);
+
             }
             else{
                 alert(response.data);
-  
-            }
+                        
+            }                                                                                                                                                       
         }catch(error){
             alert(error.data);
             console.log(error);
@@ -110,13 +152,7 @@ const Dashboard = () => {
     })
     },[])
 
-    const callHelpline = () => {
 
-    };
-
-    const navigateMoodlift=()=>{
-        navigation.navigate('Moodlift');
-    }
     const navigateForum = () => {
         navigation.navigate("Wellness Hub");
     };
@@ -125,25 +161,14 @@ const Dashboard = () => {
         navigation.navigate("Appointment");
     };
 
+   
     const minValue = 0;
 
     function* yLabel() {
-    yield* [0, 25, 50, 75, 100];
+    yield* [0, 5, 10, 15, 20, 25];
     }
 
     const yLabelIterator = yLabel();
-    const setData=(patientGraph)=>{
-        const weeks=patientGraph.map((item, index) => `Week ${item.week}`);
-        setWeek(weeks);
-        const sev=patientGraph.map(item => item.avgSeverity);
-        setSeverity(sev);
-    }
-
-    const sum = severity.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
-    const avg=sum/severity.length;
-    console.log(avg);
-    const avgWithTwoDecimals = avg.toFixed(2);
-    console.log(avgWithTwoDecimals);
 
     const postQuestion = async () => {
 
@@ -184,6 +209,17 @@ const Dashboard = () => {
                 alert(error.data);
                 console.log(error);
             }
+      };
+      const chartConfig = {
+        backgroundGradientFrom: "#0082f5",
+        backgroundGradientFromOpacity: 1,
+        backgroundGradientTo: "#1500f5",
+        backgroundGradientToOpacity: 0.9,
+        color: (opacity = 1) => `rgba(242,251,255, ${opacity})`,
+        strokeWidth: 2, // optional, default 3
+        barPercentage: 0.5,
+        useShadowColorFromDataset: false ,// optional
+        borderRadius:5,
       };
 
     const handleSend = () => {
@@ -275,46 +311,18 @@ const Dashboard = () => {
 
                             <View className="bg-white opacity-70 p-1 flex flex-grow overflow-hidden rounded-3xl">
                                 <Text className="text-center font-bold">Week Wise Severity Percentage</Text>
+                                
+
                                 <LineChart
-                                    data={{
-                                        labels: week,
-                                        datasets: [
-                                            {
-                                                data: severity,
-                                                color: (opacity = 1) => `rgba(54, 162, 235, ${opacity})`,
-                                                backgroundColor: 'rgba(255, 255, 255, 0.3)',
-                                                borderColor: 'rgba(54, 162, 235)',
-                                                borderWidth: 1,
-                                            }
-                                        ]
-                                        }}
-                                    height={116}
-                                    width={228}
-                                    yAxisInterval={5}
-                                    fromZero="true"
-                                    formatYLabel={ () => yLabelIterator.next().value}                                    withVerticalLabels="true"
-                                    chartConfig={{
-                                    backgroundGradientFrom: "#1DE3DD",
-                                    backgroundGradientTo: "#BFFAF9",
-                                    decimalPlaces: 0,
-                                    // yAxisInterval:{5},
-                                    color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                                    labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                                    style: {
-                                        borderRadius: 16
-                                    },
-                                    propsForDots: {
-                                        r: "6",
-                                        strokeWidth: "2",
-                                        stroke: "#ffa726"
-                                    }
-                                    }}
-                                    bezier
-                                    style={{
-                                    marginVertical: 8,
-                                    borderRadius: 16
-                                    }}
+                                data={datan}
+                                width={228}
+                                height={100}
+                                chartConfig={chartConfig}
+                                // formatYLabel={ () => yLabelIterator.next().value} 
+                                fromZero="true"
+                                yLabelsOffset={5}
                                 />
+
                             </View>
                         </View> 
 

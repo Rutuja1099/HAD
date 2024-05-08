@@ -495,7 +495,7 @@ public class ForumController {
             obj.setAnswerId(ans.getAnswerId());
             obj.setUpVote(ans.getUpVote());
             obj.setDoctorName(ans.getDrInfo().getDrFullName());
-            obj.setAnswerContent(obj.getAnswerContent());
+            obj.setAnswerContent(ans.getAnswerContent());
             obj.setFlagged(flaggedAnswer.contains(ans));
             obj.setUpvoted(upVoted.contains(ans));
             obj.setDeleted(ans.getDeleted());
