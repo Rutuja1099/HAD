@@ -17,7 +17,7 @@ const WellnessHub = () => {
   const [allFilterContent, setAllFilterContent] = useState([]);
   const [myQueriesContent, setMyQueriesContent] = useState([]);
 
-
+  const [queId, setQueId]=useState();
   const scrollViewRef = useRef(null);
 
   const navigation = useNavigation();
@@ -172,7 +172,8 @@ const WellnessHub = () => {
 
 
   const openQuestion = (item) => {
-    navigation.navigate("AnswerQnA", {item});
+    console.log("hihhihihill", item);
+    navigation.navigate("AnswerQnA", {queId: item});
   };
 
   useEffect(() => {
@@ -207,7 +208,7 @@ const WellnessHub = () => {
 
     return filteredContent.map((item, index) =>(
         // Enter <Pressable> element here=> provide the navigate to function for next page
-        <Pressable onPress={(item) => openQuestion(item)}>
+        <Pressable onPress={() => openQuestion(item)} key={index}>
           <View key={index} className='flex-row border-opacity-5 h-auto mb-5 pb-3 bg-[#EDEFFF] p-2 rounded-3xl'>
             <Icon
               name='user-circle'
@@ -217,9 +218,9 @@ const WellnessHub = () => {
             <View className='flex-col ml-4' style={{ marginLeft: 10, maxWidth: '70%'}}>
               <Text className="mt-2 mb-2 justify-center text-sm font-semibold text-black self-start">{item.queryContent}</Text>
               <View className='flex-row mb-2 mt-1'>
+                  <Text className="ml-1 mr-2">{item.countAns}</Text>
                   <Icon name='envelope-o' color='gray' size={20} />
-                  <Text className="ml-1">{item.answers}</Text>
-                  <Text className="ml-3 mt-1 mr-1 text-xs text-gray-500">{calculateTimeDifference(item.questionTimestamp)}</Text>
+                  {/* <Text className="ml-3 mt-1 mr-1 text-xs text-gray-500">{calculateTimeDifference(item.questionTimestamp)}</Text> */}
                   {item.isDeleted === true && <Text className="ml-3 mt-1 mr-1 text-xs text-gray-500">Deleted by Moderator</Text>}
               </View>
             </View>
