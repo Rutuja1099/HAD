@@ -1,5 +1,5 @@
 import React,{useEffect, useState} from 'react';
-import { useParams } from 'react-router-dom';
+import { Navigate, useParams, useNavigate } from 'react-router-dom';
 import HttpService from '../services/HttpService';
 import {
 Chart as ChartJS,
@@ -27,6 +27,7 @@ function PatientDetail() {
 
     const { patientRegNo } = useParams();
     console.log(patientRegNo);
+    const navigate = useNavigate();
 
     const [name,setName]=useState('');
     // const [gender, setGender]=useState('');
@@ -83,12 +84,13 @@ function PatientDetail() {
 
     const chat = () => {
         console.log("Chat");
-        alert("Chat with patient");
+        // alert("Chat with patient");
+        navigate("/chatpage")
       }
     
       const addContent=()=>{
         console.log("Add Content");
-        alert("Add Content for Patients");
+        navigate("/chatpage")
       }
     
       const data = {

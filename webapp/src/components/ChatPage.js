@@ -191,6 +191,7 @@ const ChatPage = () => {
                     (
                         
                         allPatientsInfo.map((item, index) => (
+                        
                             <div
                                 key={index}
                                 className={`p-3 flex item-centered hover:bg-slate-100 rounded-3xl cursor-pointer ${item.ptName === selectedPatientName ? 'bg-slate-100' : ''}`} 

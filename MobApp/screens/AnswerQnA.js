@@ -252,30 +252,31 @@ const AnswerQnA = ({route}) => {
         return answers.map((item, index) =>(
             // Enter <Pressable> element here=> provide the navigate to function for next page
             <Pressable key={index}>
-              <View key={index} className='flex-row border-opacity-5 h-auto mb-5 pb-3 bg-[#EDEFFF] p-2 rounded-3xl items-center'>
+              <View key={index} className='flex-row  justify-between border-opacity-5 h-auto mb-5 pb-3 bg-[#EDEFFF] p-2 rounded-3xl items-center'>
                 {/* <Icon
                   name='check'
                   size={50}
                   color='#4DD8CF'
                 /> */}
-
+                <View className="flex flex-row items-center">
                 <Icon name='envelope-o' color='gray' size={20} />
 
-                <View className='flex-col ml-4' style={{ marginLeft: 10, maxWidth: '70%'}}>
+                <View className='flex-col ml-4' style={{ marginLeft: 10, maxWidth: '80%'}}>
                   <Text className="mt-2 mb-2 justify-center text-sm font-semibold text-black self-start">{item.answerContent}</Text>
                 </View>
+                </View>
 
-                <View className = "w-full">
+                <View className = "flex flex-row mr-0 space-x-1">
                 
                   {
                     upvoteAnswerId!== item.answerId
                     ?
                     (
-                      <AntDesign name="upcircleo" size={24} color="black" onPress={ () => upvoteCountChange(item.answerId) } />
+                      <AntDesign name="upcircleo" size={15} color="black" onPress={ () => upvoteCountChange(item.answerId) } />
                     )
                     :
                     (
-                      <AntDesign name="upcircle" size={24} color="black"/>
+                      <AntDesign name="upcircle" size={15} color="black"/>
                     )
                   }
 
@@ -283,11 +284,11 @@ const AnswerQnA = ({route}) => {
                     flagAnswerId!==item.answerId
                     ?
                     (
-                      <Ionicons name="flag-outline" size={24} color="black" onPress={()=>flagCountChange(item.answerId)}/>
+                      <Ionicons name="flag-outline" size={15} color="black" onPress={()=>flagCountChange(item.answerId)}/>
                     )
                     :
                     (
-                      <Ionicons name="flag" size={24} color="black"/>
+                      <Ionicons name="flag" size={15} color="black"/>
                     )
                   }
                   
@@ -326,7 +327,7 @@ const AnswerQnA = ({route}) => {
       >
         <View className="flex-1">
         <Pressable>
-              <View className='flex-row border-opacity-5 h-auto bg-[#EDEFFF] p-2 rounded-3xl mb-5'>
+              <View className='flex-row border-opacity-5 justify-between h-auto bg-[#EDEFFF] p-2 rounded-3xl mb-5'>
                 {/* <Icon
                   name='tick'
                   size={50}
@@ -340,11 +341,11 @@ const AnswerQnA = ({route}) => {
                     !flagQuestion
                     ?
                     (
-                      <Ionicons name="flag-outline" size={24} color="black" onPress={()=>flagQuestionCount(queId.queryId)}/>
+                      <Ionicons name="flag-outline" size={15} color="black" onPress={()=>flagQuestionCount(queId.queryId)}/>
                     )
                     :
                     (
-                      <Ionicons name="flag" size={24} color="black"/>
+                      <Ionicons name="flag" size={15} color="black"/>
                     )
                   }
 

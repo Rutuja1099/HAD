@@ -215,6 +215,19 @@
         "step3": "3. Pay attention towards your breathing.",
         "step4": "4. Notice your thoughts.",
         "step5": "5. You may set a timer."
+    },
+
+    "sleepPage": {
+        "title": "We will help you sleep",
+        "subTitle": "Why is sleep necessary?",
+        "paraLine1": "Sleep is our body's mechanism to rejuvenate, shoo away tiredness and make us healthy, happy and fresh.",
+        "paraLine2": "A good sleep, leaves you with a fresh mind to take up the new and challenging tasks of the day",
+        "heading1": "Know the steps",
+        "step1": "1. Wear comfortable clothes",
+        "step2": "2. Play the video above.",
+        "step3": "3. Massage your head and foot",
+        "step4": "4. Switch of all the lights or keep it minimal",
+        "step5": "5. Sleep in comfortable position"
     }
 
 

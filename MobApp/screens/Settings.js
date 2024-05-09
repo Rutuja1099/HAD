@@ -167,7 +167,7 @@ const Settings = () => {
             menuItemName: `${i18n.t("settings.deleteAccount")}`,
             imageWidth: 24,
             imageWidth: 24,
-            navigateTo: `${i18n.t("settings.deleteAccount")}`
+            navigateTo: "Account Deletion"
         },
     ];
 

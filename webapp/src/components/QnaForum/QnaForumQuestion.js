@@ -141,7 +141,8 @@ const QnaForumQuestion = () => {
 
         }
         }catch(error){
-            alert(error.data);
+            // alert(error.data);
+            window.location.reload();
             console.log(error);
         }
 
@@ -293,7 +294,8 @@ const QnaForumQuestion = () => {
 
         }
         }catch(error){
-            alert(error.data);
+            //alert(error.data);
+            window.location.reload();
             console.log(error);
         }
     }
@@ -343,7 +345,8 @@ const QnaForumQuestion = () => {
 
         }
         }catch(error){
-            alert(error.data);
+            //alert(error.data);
+            window.location.reload();
             console.log(error);
         }
 
@@ -460,22 +463,30 @@ const QnaForumQuestion = () => {
 
                                                 <div className='flex flex-row items-center justify-between'>
 
-                                                    {upvoteAnswerId !== answer.answerId 
+                                                    {upvoteAnswerId !== answer.answerId  && !answer.upvoted
                                             
                                                     ? 
                                                     (
+                                                        <div className="flex flex-row items-center">
+                                                            <p>{answer.upVote}</p>
                                                         <BiUpvote 
                                                         className='mr-4 cursor-pointer'
                                                         onClick={() => upvoteCountChange(answer.answerId)}    
                                                         />
+                                                        
+                                                        </div>
                                                     ) 
                                                     :
                                                     (
+                                                        <div className="flex flex-row items-center"> 
+                                                        <p>{answer.upVote}</p>
                                                         <BiSolidUpvote className='mr-4'/>
+                                                        
+                                                        </div>
 
                                                     )}
 
-                                                    {flagAnswerId !== answer.answerId
+                                                    {flagAnswerId !== answer.answerId  && !answer.isFlagged
                                         
                                                     ? 
                                                     (

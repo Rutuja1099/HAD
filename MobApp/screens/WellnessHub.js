@@ -72,6 +72,7 @@ const WellnessHub = () => {
         }
         }catch(error){
             alert(error.data);
+            //window.location.reload();
             console.log(error);
         }
   };
@@ -123,7 +124,8 @@ const WellnessHub = () => {
 
         }
         }catch(error){
-            alert(error.data);
+           alert(error.data);
+           //window.location.reload();
             console.log(error);
         }
 

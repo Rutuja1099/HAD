@@ -126,7 +126,7 @@ const Chat = ({route}) => {
                 </View>
 
                 <ScrollView 
-                    className = "flex-1 p-4 pb-20"
+                    className = "flex-1 p-4 pb-40"
                     ref={scrollViewRef}
                     contentOffset={{ y: 1000000 }}
                     onContentSizeChange={() => scrollViewRef.current.scrollToEnd({ animated: false })}
